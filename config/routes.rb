@@ -2,9 +2,12 @@ Rails.application.routes.draw do
   root 'home#index'
   get '/about' => 'home#about', :as => 'about'
   get '/help' => 'home#help', :as => 'help'
-  
-  devise_for :users, :path => 'u',:controllers => { :sessions => "sessions", :omniauth_callbacks => "omniauth_callbacks" }
-  
+
+  devise_for :users,
+             :path => 'u',
+             :skip => [ :registerable, :confirmable ],
+             :controllers => { :sessions => "sessions" } #, :omniauth_callbacks => "omniauth_callbacks" }
+
   resources :users do
     member do
       put 'enable'
@@ -18,9 +21,9 @@ Rails.application.routes.draw do
     resource :user_account
     resources :roles
   end
-  
+
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
-  
+
   resources :maps  do
     member do
       post 'map_type'
@@ -54,23 +57,23 @@ Rails.application.routes.draw do
     end
     resources :layers
   end
-  
+
   get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
-  
+
   get '/gcps/' => 'gcp#index', :as => "gcps"
   get '/gcps/:id' => 'gcps#show', :as => "gcp"
   delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
   post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
   put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
   put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
-  
+
 
   get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
   get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
-  
+
   get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
   get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
-  
+
   resources :layers do
     member do
       get 'comments'
@@ -88,21 +91,21 @@ Rails.application.routes.draw do
       get 'trace'
       get 'idland'
     end
-    collection do 
+    collection do
       get 'geosearch'
     end
   end
-  
+
   put '/layers/:id/remove_map/:map_id' => 'layers#remove_map', :as => 'remove_layer_map'
   put '/layers/:id/merge' => 'layers#merge', :as => 'do_merge_layer'
-  
+
   get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
   post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'
   post '/users/:user_id/maps/destroy/:map_id' => 'my_maps#destroy', :as => 'destroy_my_map'
 
   get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'
-  
-  
+
+
   get '/maps/acitvity.:format' => 'audits#for_map_model', :as => "formatted_maps_activity"
   get '/maps/:id/activity' => 'audits#for_map', :as => "map_activity"
   get '/maps/:id/activity.:format' => 'audits#for_map', :as => "formatted_map_activity"
@@ -111,12 +114,12 @@ Rails.application.routes.draw do
   get '/activity/:id' => 'audits#show', :as => "activity_details"
   get '/activity.:format' => 'audits#index', :as => "formatted_activity"
 
-  
+
   resources :comments
 
-  
-  resources :groups 
-  
+
+  resources :groups
+
   get '/groups/:group_id/users/new' => 'memberships#new', :as => 'new_group_user'
   delete '/groups/:group_id/users/destroy/:id' => 'memberships#destroy', :as => 'destroy_group_user'
   get '/groups/:group_id/users' => 'users#index_for_group', :as => 'group_users'
@@ -129,8 +132,8 @@ Rails.application.routes.draw do
       get 'status'
     end
   end
-   
-  
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
