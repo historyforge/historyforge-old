@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Use sqlite3 as the database for Active Record
@@ -54,7 +53,7 @@ gem 'spawnling', '~>2.1'
 gem 'ruby_mapscript'
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
-gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'  
+gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
 
 gem 'gdal'
 gem 'georuby'
@@ -62,6 +61,7 @@ gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 group :development do
+  gem 'dotenv'
    gem 'web-console', '~> 2.0'
    gem 'spring'
    gem 'thin'
