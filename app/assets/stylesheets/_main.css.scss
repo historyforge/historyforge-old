@@ -1,54 +1,3 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/ /*added by karen*/
-
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/* end reset */
-
 tr.import-maps textarea{
     margin-left:4.5em;
 }
@@ -341,42 +290,6 @@ ul.list {
   color: #00FF00;
 }
 
-body
-{
-  	background: #fff;
-	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif;
-	line-height:1.5;
-	font-size:100%;
-	color: #666;
-	font-size:16px;
-}
-
-h1 {
-font-size: 28px;
-}
-
-h2 {
-font-size: 26px;
-}
-
-h3 {
-font-size: 24px;
-}
-
-h1,h2,h3,h4,h5,h6 {
-	color: #222;
-	margin:10px 0;
-}
-
-a/*, a:link */{
-	color: #222;
-	text-decoration: none;
-}
-
-a:hover {
-	color:#447a05;
-}
-
 .ui-widget-content a.unauthorized {
   background: #191970;
   color:#e3e3d4;
@@ -395,16 +308,6 @@ a:hover {
 color:#447a05;
 }
 
-
-h1 {
-	// background: asset_url('header_logo.png') 0 50% scroll no-repeat;
-  padding: 10px;
-}
-
-h1 a, h1 a:link, h1 a:visited {
-	color: #000;
-}
-
 .paraMargin {
 	margin-bottom: 20px;
 }
@@ -413,8 +316,6 @@ h1 a, h1 a:link, h1 a:visited {
 	margin-bottom: 10px;
 }
 
-p {
-}
 .nypl_link {
 	background: #5e564b;
 	font-size: small;
@@ -425,7 +326,7 @@ p {
 	color: #fff;
 }
 
-.buttonWarper, input[type="submit"], .headerDiv .user_status a  {
+.buttonWarper, .headerDiv .user_status a  {
 	background: #191970;
  	color:#e3e3d4;
 	font-weight: 600;
@@ -460,23 +361,7 @@ p {
 	background: #E3E3D4;
 }
 
-input[type="text"], input[type="password"], select {
-	border-radius:4px;
-	padding:4px 3px;
-}
-
-input[type="submit"], .submitStyle  {
-	padding:6px 3px 5px 3px;
-	background:#888;
-	color:#fff;
-	cursor:pointer;
-}
-
-select {
-	border:1px solid #ccc;
-}
-
-.buttonWarper:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
+.buttonWarper:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
     box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
 	background:rgba(255,255,255,0.7);
@@ -534,12 +419,6 @@ font-weight: strong;
 	position: relative;
 	background: #e2dedb asset_url('header_bg.jpg') 0 -30px scroll;
 	padding: 2px 10px 0 10px;
-}
-
-h1 span {
-	color: #5e564b;
-	vertical-align:super;
-	font-size:45%;
 }
 
 .headerDiv .user_status {
@@ -1437,28 +1316,6 @@ fieldset#control_panel_fieldset a:hover {
 
 fieldset#control_panel_fieldset a {
   color:#222;
-}
-
-.omniauth_links a {
-	background: #191970;
- 	color:#e3e3d4;
-	font-weight: 600;
-	padding: 6px 6px 3px 6px;
-	border-radius:4px;
-	display:inline-block;
-	margin-left:4px;
-	border:none;
-}
-
-.omniauth_links a:hover {
-  box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
-	background: #e3e3d4;
-	background:rgba(255,255,255,0.7);
-	color:#191970;
-	-moz-transition:all 0.42 ease-in-out;
-	-webkit-transition:all 0.2s ease-in-out;
-	transition:all 0.2s ease-in-out;
-
 }
 
 /* Rules for the iD editor */

@@ -2,7 +2,7 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, # :confirmable, :registerable,
-    :recoverable, :rememberable, :trackable, :validatable, :encryptable #,
+    :recoverable, :rememberable, :trackable, :validatable #, :encryptable #,
     # :omniauthable, :omniauth_providers => [ :osm, :mediawiki, :github]
   has_many :permissions
   has_many :roles, :through => :permissions
@@ -18,8 +18,11 @@ class User < ActiveRecord::Base
   validates_length_of      :login,    :within => 3..40
   validates_uniqueness_of  :login, :scope => :email, :case_sensitive => false
 
-
   after_destroy :delete_maps
+
+  def name
+    login
+  end
 
   def has_role?(name)
     self.roles.find_by_name(name) ? true : false
