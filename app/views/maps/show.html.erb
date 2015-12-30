@@ -13,7 +13,9 @@
 <% if @mapstatus != "unloaded"  %>
   <% @onload="uinit();" %>
 <% end %>
-  
+
+<div class="col-sm-6">
+
 <% if @mapstatus != "unloaded" %>
 
   <div id="unmap">
@@ -44,20 +46,20 @@
       jQuery(document).ready(function() {
         updateInterval = setInterval(updateStatus, 5000);
         myJsProgressBarHandler = new jQuery.JS_BRAMUS.JsProgressBar("#prog", 0, {animate: true, width: 240, height: 24});
-        
+
       });
-  
+
       function updateStatus() {
         var status = jQuery("#map_status").html();
-       
+
         if (status == "available" || status == "warped") {
           clearInterval(updateInterval);
         } else {
           jQuery("#map_status").load("<%= url_for status_map_path(@map) %>",  function( response, status, xhr ) {updateProgress(response)});
         }
-  
+
       }
-  
+
       function updateProgress(respText) {
         updateBar(respText);
         var status = jQuery("#map_status").html();
@@ -71,9 +73,9 @@
               jQuery("#loaded").show();
               timedRefresh(2500);
             }
-  
+
         }
-  
+
        function updateBar(status) {
          //console.log(status)
         if (status == 'loading') {
@@ -83,27 +85,112 @@
           var newPercentage = prev + increment;
           //console.log("newPercentage", newPercentage)
           myJsProgressBarHandler.setPercentage( newPercentage, false);
-  
+
         }
         if (status == 'available') {
           myJsProgressBarHandler.setPercentage('100');
         }
         if (status == 'unloaded') {
           myJsProgressBarHandler.setPercentage( '10');
-  
+
         }
       }
-  
+
       function timedRefresh(timeoutPeriod) {
         setTimeout("location.reload(true);", timeoutPeriod);
       }
-  
-  
-  
-  
-  
+
+
+
+
+
     </script>
 
 
 <%end%>
+</div>
 
+<div class="col-sm-6">
+<!-- Metadata goes here -->
+<!-- <p>
+  <b>Title</b><br />
+  <%= h @map.title %>
+</p> -->
+
+    <% if @map.description.present? %>
+    <p>
+      <b>Description </b><br />
+      <%= h @map.description %>
+    </p>
+    <% end %>
+    <% if @map.date_depicted.present? %>
+    <p>
+      <b>Year Depicted </b><br />
+      <%= h @map.date_depicted %>
+    </p>
+    <% end %>
+
+    <% if @map.tags.count > 0 -%>
+    <p>
+      <b>Tags:</b><br>
+      <% @map.tags.each do | tag | -%>
+        <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
+      <% end %>
+    </p>
+    <% end -%>
+    <!-- <p>
+      <%= @map.map_type.to_s %>
+
+    </p> -->
+    <% if @map.source_uri.present? %>
+    <p>
+      <b>Source/ Bibliographic Ref URL</b><br />
+      <%= @map.source_uri %>
+    </p>
+    <% end %>
+
+    <% if @map.publisher.present? %>
+    <p>
+      <b>Publisher</b><br />
+      <%= @map.publisher %>
+    </p>
+    <% end %>
+
+    <% if @map.publication_place.present? %>
+    <p>
+      <b>Place of Publication</b><br />
+      <%= @map.publication_place %>
+    </p>
+    <% end %>
+
+    <% if @map.authors.present? %>
+    <p>
+      <b>Author(s)</b><br />
+      <%= @map.authors %>
+    </p>
+    <% end %>
+
+    <% if @map.scale.present? %>
+    <p>
+      <b>Scale</b><br />
+      <%= @map.scale %>
+    </p>
+    <% end %>
+
+    <% if @map.published_date.present? %>
+    <p>
+      <b>Published Date</b><br />
+      <%= @map.published_date %>
+    </p>
+    <% end %>
+
+    <% if @map.reprint_date.present? %>
+    <p>
+      <b>Reprint Date<br />
+        <%= @map.reprint_date %>
+    </p>
+    <% end %>
+
+</div>
+
+<div class="clear"></div>

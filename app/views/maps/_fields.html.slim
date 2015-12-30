@@ -6,20 +6,20 @@
   .form-actions
     = form.submit 'Save', class: 'btn btn-lg btn-primary'
 .col-sm-6
-  = form.input :subject_area, hint: '(optional)'
-  = form.input :unique_id, label: 'Metadata Unique ID', hint: '(optional)'
-  = form.input :source_uri, label: 'Source / Bibliographic Ref URL', hint: '(optional)'
-  = form.input :call_number, hint: '(optional)'
-  = form.input :publisher, hint: '(optional)'
-  = form.input :publication_place, label: 'Place of Publication', hint: '(optional)'
-  = form.input :authors, label: 'Author(s)', hint: '(optional)'
-  = form.input :date_depicted, hint: '(year, optional)'
-  = form.input :published_date, as: :date, label: 'Publication Date', hint: '(optional)', input_html: { :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year}
-  = form.input :reprint_date, as: :date, hint: '(optional)', input_html: { :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year}
-  = form.input :scale, hint: '(optional)'
-  = form.input :metadata_projection, hint: '(optional)'
-  = form.input :metadata_lat, hint: '(optional)', label: 'Metadata Latitude'
-  = form.input :metadata_lon, hint: '(optional)', label: 'Metadata Longitude'
+  = form.input :subject_area
+  = form.input :unique_id, label: 'Metadata Unique ID'
+  = form.input :source_uri, label: 'Source / Bibliographic Ref URL'
+  = form.input :call_number
+  = form.input :publisher
+  = form.input :publication_place, label: 'Place of Publication'
+  = form.input :authors, label: 'Author(s)'
+  = form.input :date_depicted, label: 'Year Depicted'
+  = form.input :published_date, as: :date, label: 'Publication Date', :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year
+  = form.input :reprint_date, as: :date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year
+  = form.input :scale
+  = form.input :metadata_projection
+  = form.input :metadata_lat, label: 'Metadata Latitude'
+  = form.input :metadata_lon, label: 'Metadata Longitude'
   - if defined?(page)  && (page =~ /edit/ && user_signed_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ )
     p
       |  Map visibility. Maps are by default visible to all users.
