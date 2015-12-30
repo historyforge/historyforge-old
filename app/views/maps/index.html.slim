@@ -1,19 +1,18 @@
-#search-form
+.well
   = render :partial => 'shared/search'
 .browse
   h2
-    | Browse Maps 
+    | Browse Maps
     - if @query && @query.length > 0
       | — Searched for "
       =@query
-      | " 
-      - end
+      | "
   #search-sort
     = render :partial => 'shared/sort'
   .warper_pagination
     #search-pagination-top
       = will_paginate @maps
-  table#map_table[cellpadding="3"]
+  table.table.table-striped.table-condensed
     thead
       tr
         th
@@ -33,4 +32,4 @@
         = page_entries_info @maps
         | . 
         = select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};"
-        |  per page. 
+        |  per page.

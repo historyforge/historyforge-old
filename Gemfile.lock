@@ -64,6 +64,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
     builder (3.2.2)
+    cancancan (1.13.1)
     capistrano (3.2.1)
       i18n
       rake (>= 10.0.0)
@@ -257,6 +258,7 @@ DEPENDENCIES
   autoprefixer-rails
   bcrypt
   bootstrap-sass
+  cancancan
   capistrano (~> 3.2.1)
   capistrano-bundler
   capistrano-rails

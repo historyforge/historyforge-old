@@ -27,7 +27,7 @@
       |
       <% if !admin_authorized? && map.published? %>
         <strong title ="This map has been published by an admin and no further editing is possible">Published</strong>
-      <%  else %>
+      <%  elsif can?(:rectify, map) %>
         <%= link_to("Rectify Map", map_path(:id=> map.id,:anchor=>"Rectify_tab")) -%>
       <% end %>
       <% if user_signed_in? -%>
@@ -54,7 +54,7 @@
       <% end -%>
     </div>
     <div class="map_links">
-      <% if map.source_uri %>
+      <% if map.source_uri.present? %>
         Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
       <% end %>
     </div>

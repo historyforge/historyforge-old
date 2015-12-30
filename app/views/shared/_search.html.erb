@@ -1,15 +1,15 @@
 <%= form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
-  Search  
+  Search
   <select id="field" name="field">
-    <%= options_for_select([ ["Title", "title"], 
-        ["Description", "description"], 
+    <%= options_for_select([ ["Title", "title"],
+        ["Description", "description"],
         ["Publisher", "publisher"],
         ["Author", "authors"],
         ["Tags", "tags"]], @field)-%>
   </select>
-  for 
+  for
   <%= text_field_tag 'query', @query -%>
-  <input type="submit" value=" Go ">
+  <input type="submit" value=" Go " class="btn btn-sm btn-primary">
   <% if @show_warped == "1" -%>
     <% check_all = false -%>
     <% check_rectified = true -%>
@@ -25,4 +25,4 @@
 
 <% end -%>
   <br />
-  New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %>
+  <!-- New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %> -->

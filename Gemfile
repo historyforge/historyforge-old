@@ -30,6 +30,7 @@ gem 'slim'
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
+gem 'cancancan'
 
 # Use unicorn as the app server
 # gem 'unicorn'

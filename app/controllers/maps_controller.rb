@@ -165,6 +165,8 @@ class MapsController < ApplicationController
         @maps = Map.are_public.where(where_options).order(order_options).paginate(paginate_params)
       end
 
+      @maps = @maps.published unless user_signed_in?
+
       @html_title = "Browse Maps"
       if request.xhr?
         render :action => 'index.rjs'
