@@ -43,13 +43,15 @@ function init() {
   OpenLayers.Util.onImageLoadErrorColor = "transparent";
 
   to_layer_switcher = new OpenLayers.Control.LayerSwitcher();
+  var to_bounds = new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34);
+  // console.log(to_bounds);
   var options = {
     projection: new OpenLayers.Projection("EPSG:900913"),
     displayProjection: new OpenLayers.Projection("EPSG:4326"),
     units: "m",
     numZoomLevels: 20,
     maxResolution: 156543.0339,
-    maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+    maxExtent: to_bounds,
     controls: [new OpenLayers.Control.Attribution(), to_layer_switcher, new OpenLayers.Control.PanZoomBar()]
   };
 
@@ -89,7 +91,11 @@ function init() {
 
   } else {
     //set to the world
-    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 10);
+    to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(-76.5033944, 42.4422824)), 14);
+    // var proj = new OpenLayers.Projection("EPSG:4326");
+    // var point = new OpenLayers.LonLat(-71, 42);
+    // to_map.setCenter(point.transform(proj, to_map.getProjectionObject()));
+
   }
 
   //style for the active, temporary vector marker, the one the user actually adds themselves,
@@ -313,7 +319,7 @@ function update_gcp_field(gcp_id, elem) {
   var request = jQuery.ajax({
     type: "PUT",
     url: url,
-    data: {authenticity_token: encodeURIComponent(window._token), attribute: attrib, value: value}}
+    data: {authenticity_token: get_csrf_token(), attribute: attrib, value: value}}
   ).success(function() {
     gcp_notice("Control Point updated!");
     move_map_markers(gcp_id, elem);
@@ -323,6 +329,10 @@ function update_gcp_field(gcp_id, elem) {
     gcp_notice("Had trouble updating that point with the server. Try again?");
     elem.value = value;
   });
+}
+
+function get_csrf_token() {
+  return jQuery('meta[name="csrf-token"]:last').attr('content');
 }
 
 function update_gcp(gcp_id, listele) {
@@ -351,11 +361,11 @@ function update_gcp(gcp_id, listele) {
   }
   gcp_notice('Updating...');
   jQuery('#spinner').show();
-  
+
   var request = jQuery.ajax({
     type: "PUT",
     url: url,
-    data: {authenticity_token: encodeURIComponent(window._token), x: x, y: y, lon: lon, lat: lat}}
+    data: {authenticity_token: get_csrf_token(), x: x, y: y, lon: lon, lat: lat}}
   ).success(function() {
     gcp_notice("Control Point updated!");
   }).done(function() {
@@ -472,18 +482,18 @@ function save_new_gcp(x, y, lon, lat) {
   url = gcp_add_url;
   gcp_notice("Adding...");
   jQuery('#spinner').show();
-  
+
   var request = jQuery.ajax({
     type: "POST",
     url: url,
-    data: {authenticity_token: encodeURIComponent(window._token), x: x, y: y, lat: lat, lon: lon}}
+    data: {authenticity_token: get_csrf_token(), x: x, y: y, lat: lat, lon: lon}}
   ).done(function() {
     update_row_numbers();
     jQuery('#spinner').hide();
   }).fail(function() {
     gcp_notice("Had trouble saving that point to the server. Try again?");
   });
-  
+
 }
 
 

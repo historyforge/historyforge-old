@@ -50,11 +50,11 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    acts-as-taggable-on (3.3.0)
-      activerecord (>= 3, < 5)
+    acts-as-taggable-on (3.5.0)
+      activerecord (>= 3.2, < 5)
     acts_as_commentable (4.0.2)
     arel (6.0.3)
-    autoprefixer-rails (6.2.2)
+    autoprefixer-rails (6.2.3)
       execjs
       json
     bcrypt (3.1.10)
@@ -113,8 +113,8 @@ GEM
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     i18n (0.7.0)
-    jbuilder (2.3.2)
-      activesupport (>= 3.0.0, < 5)
+    jbuilder (2.4.0)
+      activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
     jquery-rails (4.0.5)
       rails-dom-testing (~> 1.0)
@@ -251,7 +251,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgis-adapter (= 3.0.0.beta2)
-  acts-as-taggable-on (~> 3.3.0)
+  acts-as-taggable-on (~> 3.4)
   acts_as_commentable
   audited-activerecord!
   autoprefixer-rails
@@ -268,7 +268,7 @@ DEPENDENCIES
   geoplanet
   georuby
   jbuilder (~> 2.0)
-  jquery-rails
+  jquery-rails (>= 4.0.5)
   jquery-ui-rails (= 3.0.1)
   paperclip (~> 4.2.0)
   pg

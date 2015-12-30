@@ -1,0 +1,32 @@
+h2
+  | Upload a new map
+= error_messages_for @map
+p
+  |  By uploading images to the website, you agree that you have permission to do so, and accept that anyone else can potentially view and use them, including changing control points.
+
+= simple_form_for(@map) do |form|
+  = form.input :title
+  br
+  .col-sm-6
+    label[for="upload"]
+      b
+        | Upload An Image File:
+      - if @max_size
+        |  Max size:
+        =  number_to_human_size @max_size
+        | .
+      = @upload_file_message
+    br
+    = form.file_field :upload
+  .col-sm-1
+    |  OR
+  .col-sm-5
+    label[for="upload_url"]
+      b
+        | Upload from a URL:
+    = form.text_field :upload_url
+  .clear
+  br
+  .form-actions
+    = form.submit 'Submit', class: 'btn btn-lg btn-primary'
+    =< link_to 'Cancel', maps_path, class: 'btn btn-lg btn-default'

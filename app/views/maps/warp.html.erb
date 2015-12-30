@@ -102,7 +102,7 @@
   </div>
   <a href="#" id="controlPointLink">Control Points</a>
   <div id = "div_gcp_form">
-    <%= form_for(:gcp, {:html => {:id => 'gcp_form'} ,  :url =>rectify_map_path(@map), :remote => true }) do |f| %>
+    <%= form_for(:gcp, {:html => {:id => 'gcp_form'} ,  :url =>rectify_map_path(@map), data: { remote: true } }) do |f| %>
       <div id="gcp_table_div" >
         <table id="gcp_table" class="gcpTabClass">
 
@@ -139,7 +139,7 @@
         </select>
       </div>
       <p>
-        
+
    <script type="text/javascript">
     jQuery(document).ready(function() {
       jQuery("form#gcp_form").bind("ajax:before", function(event, data, status, xhr) {
@@ -147,7 +147,7 @@
           bigModalDialog('Rectifying.....');
         }
       }).bind("ajax:error", function(){
-        gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');  
+        gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...');
       });
     });
   </script>

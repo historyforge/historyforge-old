@@ -1,18 +1,13 @@
 <title>Map Warper- <%= h(@html_title) || ''-%> </title>
 
 <%= yield :head %>
-<%= csrf_meta_tags %>
 <%= javascript_tag @onload -%>
-</head> 
+</head>
 <script type="text/javascript">
   var xhrFlag = "<%=@xhr_flag%>";
-</script> 
+</script>
 
 <%= flash_messages %>
 
-<%= yield %> 
-<%= render :partial => 'shared/analyticsbottom',
-  :locals => {
-  :map => @map,
-  :current_tab => @current_tab
-} %>	
+<%= yield %>
+<div class="clear"></div>

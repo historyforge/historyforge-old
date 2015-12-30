@@ -1,0 +1,12 @@
+script[type="text/javascript"]
+  |  <ruby code=" form_id = "map_type_form#{@map.id}""></ruby> jQuery(document).ready(function () { jQuery('form#<ruby code="=form_id"></ruby>').bind("ajax:complete", function (event, data, status, xhr) { alert(data.responseText); }); }); 
+- if @layer
+  - # need to change the map list for layer views
+  = form_tag(map_type_map_url(@map.id), :remote => true, :id=>form_id, :class=>"map-type-form") do
+    = select("map", :map_type, Map.map_type_hash, {}, :onchange => "jQuery('form##{form_id}').submit();")
+    |  <input type="hidden" name="layerid" value="
+    =@layer.id
+    | " /> 
+- else
+  = form_tag(map_type_map_url(@map.id), :remote => true, :id=>form_id,  :class=>"map-type-form") do
+    = select("map", :map_type, Map.map_type_hash, {},:onchange => "jQuery('form##{form_id }').submit();")

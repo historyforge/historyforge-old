@@ -1,0 +1,32 @@
+.col-sm-6
+  = form.input :title
+  = form.input :description, input_html: { cols: 30, rows: 12 }
+  = form.input :tag_list, label: 'Tags', hint: '(comma separated)'
+  = form.input :map_type, as: :boolean, collection: Map.map_type_hash, as: :select
+  .form-actions
+    = form.submit 'Save', class: 'btn btn-lg btn-primary'
+.col-sm-6
+  = form.input :subject_area, hint: '(optional)'
+  = form.input :unique_id, label: 'Metadata Unique ID', hint: '(optional)'
+  = form.input :source_uri, label: 'Source / Bibliographic Ref URL', hint: '(optional)'
+  = form.input :call_number, hint: '(optional)'
+  = form.input :publisher, hint: '(optional)'
+  = form.input :publication_place, label: 'Place of Publication', hint: '(optional)'
+  = form.input :authors, label: 'Author(s)', hint: '(optional)'
+  = form.input :date_depicted, hint: '(year, optional)'
+  = form.input :published_date, as: :date, label: 'Publication Date', hint: '(optional)', input_html: { :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year}
+  = form.input :reprint_date, as: :date, hint: '(optional)', input_html: { :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year}
+  = form.input :scale, hint: '(optional)'
+  = form.input :metadata_projection, hint: '(optional)'
+  = form.input :metadata_lat, hint: '(optional)', label: 'Metadata Latitude'
+  = form.input :metadata_lon, hint: '(optional)', label: 'Metadata Longitude'
+  - if defined?(page)  && (page =~ /edit/ && user_signed_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ )
+    p
+      |  Map visibility. Maps are by default visible to all users.
+      br
+      - unless @map.public?
+        = form.radio_button :public, "true"
+        label[for="map_public_true"]
+          | Make Public
+  .form-actions
+    = form.submit 'Save', class: 'btn btn-lg btn-primary'

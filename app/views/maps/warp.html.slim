@@ -1,0 +1,119 @@
+- content_for :head do
+  /= javascript_tag "window._token = '#{form_authenticity_token}'"
+  script[type="text/javascript" charset="utf-8"]
+    |  var icon_imgPath = '/assets/icons/'; var gcp_add_url = "<ruby code="= url_for add_gcp_path :mapid=> @map"></ruby>"; var gcp_update_url = "/gcps/update"; var gcp_update_field_url = "/gcps/update_field"; var from_map; var to_map; var gcp_markers = new Array(); // an array var map_id = '<ruby code="=h @map.id"></ruby>'; var title = '<ruby code="=u @map.title"></ruby>'; var image_width = <ruby code="= @map.width"></ruby>; var image_height = <ruby code="= @map.height"></ruby>; var wms_url = '<ruby code="= url_for :controller => 'maps', :action => 'wms', :id => @map"></ruby>'; var empty_wms_url = '<ruby code="= url_for :controller => 'maps', :action => 'wms'"></ruby>'; var map_has_bounds = false; var layer_baseurl = '/layers/wms'; var layers_array = [<ruby code="=@other_layers.join(",")"></ruby>]; var map_bounds = new OpenLayers.Bounds(); <ruby code=" if @map.gcps.hard.size > 0 "> map_bounds = new OpenLayers.Bounds(<ruby code="=@map.bounds"></ruby>); map_has_bounds = true; map_center = map_bounds.getCenterLonLat(); </ruby> //set up jquery for the hidden tables jQuery(document).ready(function() { jQuery('#popoverNotice').hide(); jQuery('#gcp_table_div').hide(); jQuery('#advanced_form_options').hide(); jQuery('#controlPointLink').click(function() { jQuery('#gcp_table_div').toggle('slow'); return false; }); jQuery('#advancedLink').click(function() { jQuery('#advanced_form_options').toggle('slow'); return false; }); jQuery('#to_map_notify_close>a').click(function() { jQuery('#to_map_notification').hide('slow'); return false; }); });
+  = javascript_include_tag "warp"
+  script[type="text/javascript"]
+    |  function popul() { <ruby code=" @gcps.each do |gcp| "> populate_gcps(<ruby code="=gcp.id"></ruby>, <ruby code="= gcp.x"></ruby>, <ruby code="= gcp.y"></ruby>, <ruby code="= gcp.lon"></ruby>, <ruby code="= gcp.lat"></ruby>, <ruby code="=gcp.error"></ruby>); </ruby> update_row_numbers(); <ruby code=" if @bestguess_places "> var bestGuessResult = <ruby code="= @bestguess_places.to_json.html_safe"></ruby>; bestGuess(bestGuessResult); </ruby> }
+- @onload="init();popul();"
+#from_map_block
+  #from_map.map-off
+  span.tie_button
+#link-map-button.link-map-button-off[onclick="toggleJoinLinks();" title="Pan/zoom lock"]
+#to_map_block
+  #to_map_notification.hidden
+    #to_map_notify_close
+      a[href="#" title="Close popup"]
+        | X
+    #to_map_notification_inner
+  #to_map.map-off
+  #warped-slider
+    .ui-slider-handle
+#popoverNotice.hidden-at-start
+  = image_tag "spinner.gif"
+  span#noticeMessage
+#gcp
+  em
+    | Double-click on both maps, then click
+  #addPointDiv.addPoint
+    input#GcpButton.gcp_button[type="button" value="Add Control Point" onclick="set_gcp();"]
+  | .
+  em
+    |  Do this for at least three points.
+fieldset#control_panel_fieldset
+  legend
+    | Control Panel
+  #rectifyNotice
+    span#spinner[style="display:none;"]
+      = image_tag 'spinner.gif'
+    span#gcp_notice
+  a#controlPointLink[href="#"]
+    | Control Points
+  #div_gcp_form
+    = form_for(:gcp, {:html => {:id => 'gcp_form'} ,  :url =>rectify_map_path(@map), :remote => true }) do |f|
+      #gcp_table_div
+        table#gcp_table.gcpTabClass
+          thead
+            tr
+              th
+                | Point
+              th
+                | Image X
+              th
+                | Image Y
+              th
+                | Lon
+              th
+                | Lat
+              th#errortitle
+                | Error(
+                =sprintf("%.2f",@map.error)
+                | )
+              th
+          tbody#gcp_list
+            = render(:partial => "gcps/gcp", :collection => @gcps)
+        input[type="button" value="Add Control Point Manually" onclick="save_new_gcp(0, 0, 0, 0);"]
+      |  <input type="hidden" name="map" value ="
+      = @map.id
+      | " />
+      a#advancedLink[href="#"]
+        | Advanced options
+      #advanced_form_options
+        |  Rectify Method:
+        select[name="transform_options"]
+          option[value="auto" selected="selected"]
+            | Auto - based on number of control points (default)
+          option[value="p1"]
+            | 1st Order Polynomial (min 3 points)
+          option[value="p2"]
+            | 2nd Order Polynomial (min 6 points)
+          option[value="p3"]
+            | 3rd Order Polynomial (min 10 points)
+          option[value="tps"]
+            | Thin Plate Spline (many points widely spread)
+        br
+        |  Resampling Method:
+        select[name="resample_options"]
+          option[value="near" selected="selected"]
+            | Nearest Neighbour, fastest (default)
+          option[value="bilinear"]
+            | Bilinear
+          option[value="cubic"]
+            | Cubic
+          option[value="cubicspline"]
+            | Cubic Spline , slower but best quality
+      p
+        script[type="text/javascript"]
+          |  jQuery(document).ready(function() { jQuery("form#gcp_form").bind("ajax:before", function(event, data, status, xhr) { if (event.target.id == "gcp_form"){ bigModalDialog('Rectifying.....'); } }).bind("ajax:error", function(){ gcp_notice('Sorry, there appears to be an error sending the request to the server, try again?...'); }); });
+        = f.submit 'Warp Image! →'.html_safe, {:class  => "warp_button", :id=>"warp_button"}
+      #clipping_mask_buttons
+        - if @map.mask_status.nil? || @map.mask_status == :unmasked
+          |  This map either is not currently masked. Do you want to
+          = link_to "add or edit a mask now", map_path(:id =>@map, :anchor=>"Crop_tab")
+          | ?
+          br
+        |  Apply
+        = link_to "clipping mask", map_path(:id =>@map, :anchor=>"Crop_tab")
+        |  when rectifying?
+        label[for="use_mask1"]
+          |  <input
+          - if @map.mask_status == :masked
+            | checked
+            - end
+            |  id="use_mask1" type="radio" name="use_mask" value="true" />Yes
+        label[for="use_mask2"]
+          |  <input
+          - if @map.mask_status == :unmasked
+            | checked
+            - end
+            |  name="use_mask" id="use_mask2" type="radio" value="false" />No

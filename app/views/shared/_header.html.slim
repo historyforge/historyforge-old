@@ -9,10 +9,51 @@ nav.navbar.navbar-default.navbar-static.top role="navigation"
       .navbar-left
         = link_to 'HistoryForge', root_path, class: 'navbar-brand'
         ul.nav.navbar-nav.navbar-right
-          li= link_to("Maps", maps_url)
-          li= link_to("Map Layers",  layers_path)
+          - if user_signed_in?
+            - if current_user.has_role?("administrator") || current_user.has_role?("super user")
+              li.dropdown
+                a.dropdown-toggle data-toggle='dropdown' href="#"
+                  | Admin
+                  = ' '
+                  span.caret
+                ul.dropdown-menu
+                  li= link_to "All Maps", maps_path
+                  li= link_to "All Mosaics", layers_path
+                  li= link_to "All Activity", activity_path
+                  li= link_to "All Comments", comments_path
+                  li= link_to "Groups", groups_path
+                  li= link_to "Imports", imports_path
+                  li= link_to "User Stats", stats_users_path
+                  li= link_to "Administer Users", users_path
+
+            li.dropdown
+              a.dropdown-toggle data-toggle='dropdown' href="#"
+                | Maps
+                = ' '
+                span.caret
+              ul.dropdown-menu
+                li= link_to "All Maps", maps_path
+                li= link_to "Add New Map", new_map_path
+                li= link_to "My Maps", my_maps_path(current_user)
+                li= link_to "My Activity", user_activity_path(current_user)
+
+            li.dropdown
+              a.dropdown-toggle data-toggle='dropdown' href="#"
+                | Map Layers
+                = ' '
+                span.caret
+              ul.dropdown-menu
+                li= link_to "All Map Layers", layers_path
+                li= link_to "Add New Map Layer", new_layer_path
+
+          - else
+            li= link_to("Maps", maps_url)
+            li= link_to("Map Layers",  layers_path)
+
           li= link_to("About", about_path)
           li= link_to("Help", help_path)
+
+
 
     .collapse.navbar-collapse#navbar
       ul.nav.navbar-nav.navbar-right
@@ -24,8 +65,6 @@ nav.navbar.navbar-default.navbar-static.top role="navigation"
               span.caret
             ul.dropdown-menu
               li= link_to h(current_user.login.capitalize), user_path(current_user)
-              li= link_to "My Maps", my_maps_path(current_user)
-              li= link_to "My Activity", user_activity_path(current_user)
               /li= link_to "Settings", edit_user_registration_path
               li= link_to "Log Out", destroy_user_session_path, :method => :delete
 

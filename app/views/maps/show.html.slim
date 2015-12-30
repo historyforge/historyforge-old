@@ -1,0 +1,26 @@
+- content_for :head do
+  script[type="text/javascript"]
+    |  var map_id = '<ruby code="=h @map.id"></ruby>'; var title = 'unwarped map'; var unwarped_image_width = <ruby code="= @map.width"></ruby>; var unwarped_image_height = <ruby code="= @map.height"></ruby>; var wms_url = '<ruby code="= wms_map_path(@map)"></ruby>'; 
+- if @mapstatus != "unloaded"
+  - @onload="uinit();"
+- if @mapstatus != "unloaded"
+  #unmap
+
+- else
+  #loading
+    |  Loading map... 
+    span#spinner
+      = image_tag 'spinner.gif'
+  span#prog.progressBar
+    | 20%
+  span#map_status.mapstatus
+    | requesting
+  #loaded[style="display:none;"]
+    |  Map has successfully loaded, page will automatically refresh in a couple of seconds. 
+    a[href="javascript:history.go(0)"]
+      | Click here
+    |  if you don't want to wait. 
+  #unloaded[style="display:none;"]
+    |  The map did not load properly, please refresh the page and try again. If it does not load properly a second time, please choose another map, and try again another day. 
+  script[type="text/javascript"]
+    |  var updateInterval; var myJsProgressBarHandler ; jQuery(document).ready(function() { updateInterval = setInterval(updateStatus, 5000); myJsProgressBarHandler = new jQuery.JS_BRAMUS.JsProgressBar("#prog", 0, {animate: true, width: 240, height: 24}); }); function updateStatus() { var status = jQuery("#map_status").html(); if (status == "available" || status == "warped") { clearInterval(updateInterval); } else { jQuery("#map_status").load("<ruby code="= url_for status_map_path(@map)"></ruby>", function( response, status, xhr ) {updateProgress(response)}); } } function updateProgress(respText) { updateBar(respText); var status = jQuery("#map_status").html(); if (status == "unloaded") { clearInterval(updateInterval); jQuery("#loading").hide(); jQuery("#unloaded").show(); } else if (status == "available" || status == "warping"){ clearInterval(updateInterval); jQuery("#loading").hide(); jQuery("#loaded").show(); timedRefresh(2500); } } function updateBar(status) { //console.log(status) if (status == 'loading') { var prev = myJsProgressBarHandler.getPercentage('prog'); //console.log("prev", prev) var increment = Math.round(((100 - prev) / 100) * 20); var newPercentage = prev + increment; //console.log("newPercentage", newPercentage) myJsProgressBarHandler.setPercentage( newPercentage, false); } if (status == 'available') { myJsProgressBarHandler.setPercentage('100'); } if (status == 'unloaded') { myJsProgressBarHandler.setPercentage( '10'); } } function timedRefresh(timeoutPeriod) { setTimeout("location.reload(true);", timeoutPeriod); } 

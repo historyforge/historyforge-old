@@ -1,0 +1,4 @@
+script[type="text/javascript"]
+  |  jQuery(document).ready(function() { jQuery("form.edit_map").bind("ajax:success", function(event, data, status, xhr) { jQuery("#Edit").html(data); }); });
+= simple_form_for(@map, :remote=>true, :html => {:multipart => true}) do |form|
+  = render 'fields', form: form

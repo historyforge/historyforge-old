@@ -2,21 +2,21 @@ require "open3"
 require "error_calculator"
 include ErrorCalculator
 class Map < ActiveRecord::Base
-  
+
   has_many :gcps,  :dependent => :destroy
   has_many :layers_maps,  :dependent => :destroy
   has_many :layers, :through => :layers_maps # ,:after_add, :after_remove
   has_many :my_maps, :dependent => :destroy
   has_many :users, :through => :my_maps
   belongs_to :owner, :class_name => "User"
-  
+
   has_attached_file :upload, :styles => {:thumb => ["100x100>", :png]} ,
     :url => '/:attachment/:id/:style/:basename.:extension',
     :default_url => "/assets/missing.png"
   validates_attachment_size(:upload, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
   #attr_protected :upload_file_name, :upload_content_type, :upload_size
   validates_attachment_content_type :upload, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/tiff"]
-  
+
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
@@ -28,15 +28,15 @@ class Map < ActiveRecord::Base
   acts_as_enum :mask_status, [:unmasked, :masking, :masked]
   acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
   audited :allow_mass_assignment => true
-  
+
   scope :warped,    -> { where({ :status => [Map.status(:warped), Map.status(:published)], :map_type => Map.map_type(:is_map)  }) }
   scope :published, -> { where({:status => Map.status(:published), :map_type => Map.map_type(:is_map)})}
   scope :are_public, -> { where(public: true) }
   scope :real_maps, -> { where({:map_type => Map.map_type(:is_map)})}
-  
+
   attr_accessor :error
   attr_accessor :upload_url
-  
+
   after_initialize :default_values
   before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
@@ -44,22 +44,22 @@ class Map < ActiveRecord::Base
   after_destroy :delete_images
   after_destroy :delete_map, :update_counter_cache, :update_layers
   after_save :update_counter_cache
-  
+
   ##################
   # CALLBACKS
   ###################
-  
+
   def default_values
-    self.status  ||= :unloaded  
-    self.mask_status  ||= :unmasked  
-    self.map_type  ||= :is_map  
-    self.rough_state ||= :step_1  
+    self.status  ||= :unloaded
+    self.mask_status  ||= :unmasked
+    self.map_type  ||= :is_map
+    self.rough_state ||= :step_1
   end
-  
+
   def upload_url_provided?
     !self.upload_url.blank?
   end
-  
+
   def download_remote_image
     img_upload = do_download_remote_image
     unless img_upload
@@ -68,14 +68,14 @@ class Map < ActiveRecord::Base
     end
     self.upload = img_upload
     self.source_uri = upload_url
-    
+
     if Map.find_by_upload_file_name(upload.original_filename)
       errors.add(:filename, "is already being used")
       return false
     end
-    
+
   end
-  
+
   def do_download_remote_image
     begin
       io = open(URI.parse(upload_url))
@@ -87,9 +87,9 @@ class Map < ActiveRecord::Base
       return false
     end
   end
-   
+
   def save_dimensions
-    if ["image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)      
+    if ["image/jpeg", "image/tiff", "image/png", "image/gif", "image/bmp"].include?(upload.content_type.to_s)
       tempfile = upload.queued_for_write[:original]
       unless tempfile.nil?
         geometry = Paperclip::Geometry.from_file(tempfile)
@@ -99,7 +99,7 @@ class Map < ActiveRecord::Base
     end
     self.status = :available
   end
-  
+
   #this gets the upload, detects what it is, and converts to a tif, if necessary.
   #Although an uploaded tif with existing geo fields may confuse things
   def setup_image
@@ -107,7 +107,7 @@ class Map < ActiveRecord::Base
     self.filename = upload.original_filename
     save!
     if self.upload?
-      
+
       if  defined?(MAX_DIMENSION) && (width > MAX_DIMENSION || height > MAX_DIMENSION)
         logger.info "Image is too big, so going to resize "
         if width > height
@@ -124,45 +124,45 @@ class Map < ActiveRecord::Base
       else
         outsize = ""
       end
-      
+
       orig_ext = File.extname(self.upload_file_name).to_s.downcase
-      
+
       tiffed_filename = (orig_ext == ".tif" || orig_ext == ".tiff")? self.upload_file_name : self.upload_file_name + ".tif"
       tiffed_file_path = File.join(maps_dir , tiffed_filename)
-      
+
       logger.info "We convert to tiff"
       command  = "#{GDAL_PATH}gdal_translate #{self.upload.path} #{outsize} -co COMPRESS=DEFLATE  -co PHOTOMETRIC=RGB -co PROFILE=BASELINE #{tiffed_file_path}"
       logger.info command
       ti_stdin, ti_stdout, ti_stderr =  Open3::popen3( command )
       logger.info ti_stdout.readlines.to_s
       logger.info ti_stderr.readlines.to_s
-      
+
       command = "#{GDAL_PATH}gdaladdo -r average #{tiffed_file_path} 2 4 8 16 32 64"
       o_stdin, o_stdout, o_stderr = Open3::popen3(command)
       logger.info command
-      
+
       o_out = o_stdout.readlines.to_s
       o_err = o_stderr.readlines.to_s
       if o_stderr.readlines.empty? && o_err.size > 0
         logger.error "Error gdal overview script" + o_err.inspect
         logger.error "output = "+o_out
       end
-      
+
       self.filename = tiffed_filename
-      
+
       #now delete the original
       logger.debug "Deleting uploaded file, now it's a usable tif"
       if File.exists?(self.upload.path)
         logger.debug "deleted uploaded file"
         File.delete(self.upload.path)
       end
-      
+
     end
     self.map_type = :is_map
     self.rough_state = :step_1
     save!
   end
-  
+
   #paperclip plugin deletes the images when model is destroyed
   def delete_images
     logger.info "Deleting map images"
@@ -183,17 +183,17 @@ class Map < ActiveRecord::Base
       File.delete unwarped_filename
     end
   end
-  
+
   def delete_map
     logger.info "Deleting mapfile"
   end
-  
+
   def update_layer
     self.layers.each do |layer|
       layer.update_layer
     end unless self.layers.empty?
   end
-  
+
   def update_layers
     logger.info "updating (visible) layers"
     unless self.layers.visible.empty?
@@ -202,7 +202,7 @@ class Map < ActiveRecord::Base
       end
     end
   end
-  
+
   def update_counter_cache
     logger.info "update_counter_cache"
     unless self.layers.empty?
@@ -211,42 +211,42 @@ class Map < ActiveRecord::Base
       end
     end
   end
-  
+
   def update_gcp_touched_at
     self.touch(:gcp_touched_at)
   end
-  
+
   #method to publish the map
   #sets status to published
   def publish
     self.status = :published
     self.save
   end
-  
+
   #unpublishes a map, sets it's status to warped
   def unpublish
     self.status = :warped
     self.save
   end
-  
+
   #############################################
   #CLASS METHODS
   #############################################
 
   def self.map_type_hash
-    values = Map::MAP_TYPE
+    values = Map::MAP_TYPE.map &:to_s
     keys = ["Index/Overview", "Is a map", "Not a map"]
-    Hash[*keys.zip(values).flatten]
+    keys.zip(values)
   end
-  
+
   def self.max_attachment_size
     max_attachment_size =  defined?(MAX_ATTACHMENT_SIZE)? MAX_ATTACHMENT_SIZE : nil
   end
-  
+
   def self.max_dimension
     max_dimension = defined?(MAX_DIMENSION)? MAX_DIMENSION : nil
   end
-  
+
   #############################################
   #ACCESSOR METHODS
   #############################################
@@ -266,7 +266,7 @@ class Map < ActiveRecord::Base
 
   def unwarped_filename
     if self.filename
-      File.join(maps_dir, self.filename) 
+      File.join(maps_dir, self.filename)
     else
       ""
     end
@@ -286,7 +286,7 @@ class Map < ActiveRecord::Base
     end
     warped_png_filename
   end
-  
+
   def warped_png_filename
     filename = File.join(warped_png_dir, id.to_s) + ".png"
   end
@@ -298,7 +298,7 @@ class Map < ActiveRecord::Base
   def public_warped_tif_url
     "mapimages/dst/"+id.to_s + ".tif"
   end
-  
+
   def public_warped_png_url
     public_warped_tif_url + ".png"
   end
@@ -324,21 +324,21 @@ class Map < ActiveRecord::Base
   def masked_src_filename
     self.unwarped_filename + "_masked";
   end
-  
-  
+
+
   #############################################
   #INSTANCE METHODS
   #############################################
-  
-  
+
+
   def depicts_year
     self.layers.with_year.collect(&:depicts_year).compact.first
   end
-  
+
   def warped?
     status == :warped
   end
-  
+
   def available?
     return [:available,:warping, :warped, :published].include?(status)
   end
@@ -350,14 +350,14 @@ class Map < ActiveRecord::Base
   def warped_or_published?
     return [:warped, :published].include?(status)
   end
-  
+
   def update_map_type(map_type)
     if Map::MAP_TYPE.include? map_type.to_sym
       self.update_attributes(:map_type => map_type.to_sym)
       self.update_layers
     end
   end
-  
+
   def last_changed
     if self.gcps.size > 0
       self.gcps.last.created_at
@@ -369,12 +369,12 @@ class Map < ActiveRecord::Base
       Time.now
     end
   end
-  
+
   def save_rough_centroid(lon,lat)
     self.rough_centroid =  Point.from_lon_lat(lon,lat)
     self.save
   end
-  
+
   def save_bbox
     stdin, stdout, stderr = Open3::popen3("#{GDAL_PATH}gdalinfo #{warped_filename}")
     unless stderr.readlines.to_s.size > 0
@@ -386,7 +386,7 @@ class Map < ActiveRecord::Base
       logger.debug "Save bbox error "+ stderr.readlines.to_s
     end
   end
-  
+
   def bounds
     if bbox.nil?
       x_array = []
@@ -402,14 +402,14 @@ class Map < ActiveRecord::Base
       bbox
     end
   end
-  
-  
+
+
   #returns a GeoRuby polygon object representing the bounds
   def bounds_polygon
     bounds_float  = bounds.split(',').collect {|i| i.to_f}
     Polygon.from_coordinates([ [bounds_float[0..1]] , [bounds_float[2..3]] ], -1)
   end
-  
+
   def converted_bbox
     bnds = self.bounds.split(",")
     cbounds = []
@@ -423,7 +423,7 @@ class Map < ActiveRecord::Base
     string,cbounds[2], cbounds[3] = info.match(/([-.\d]+)\s*([-.\d]+).*/).to_a
     cbounds.join(",")
   end
-  
+
   #attempts to align based on the extent and offset of the
   #reference map's warped image
   #results it nicer gcps to edit with later
@@ -494,7 +494,7 @@ class Map < ActiveRecord::Base
 
     newgcps = self.gcps.hard
   end
-  
+
   # map gets error attibute set and gcps get error attribute set
   def gcps_with_error(soft=nil)
     unless soft == 'true'
@@ -510,11 +510,11 @@ class Map < ActiveRecord::Base
 
   def mask!
     require 'fileutils'
-    
+
     self.mask_status = :masking
     save!
     format = self.mask_file_format
-    
+
     if format == "gml"
       return "no masking file found, have you created a clipping mask and saved it?"  if !File.exists?(masking_file_gml)
       masking_file = self.masking_file_gml
@@ -522,7 +522,7 @@ class Map < ActiveRecord::Base
     else
       return "no masking file matching specified format found."
     end
-    
+
     masked_src_filename = self.masked_src_filename
     if File.exists?(masked_src_filename)
       #deleting old masked image
@@ -530,15 +530,15 @@ class Map < ActiveRecord::Base
     end
     #copy over orig to a new unmasked file
     FileUtils.copy(unwarped_filename, masked_src_filename)
-    
-    
+
+
     command = "#{GDAL_PATH}gdal_rasterize -i  -burn 17 -b 1 -b 2 -b 3 #{masking_file} -l #{layer} #{masked_src_filename}"
     r_stdout, r_stderr = Open3.capture3( command )
     logger.info command
-    
+
     r_out  = r_stdout
     r_err = r_stderr
-    
+
     #if there is an error, and it's not a warning about SRS
     if !r_err.blank? #&& r_err.split[0] != "Warning"
       #error, need to fail nicely
@@ -548,14 +548,14 @@ class Map < ActiveRecord::Base
     else
       r_out = "Success! Map was cropped!"
     end
-    
+
     self.mask_status = :masked
     save!
     r_out
   end
-  
-  
-  
+
+
+
   # FIXME -clear up this method - don't return the text, just raise execption if necessary
   #
   # gdal_rasterize -i -burn 17 -b 1 -b 2 -b 3 SSS.json -l OGRGeoJson orig.tif
@@ -566,15 +566,15 @@ class Map < ActiveRecord::Base
     prior_status = self.status
     #self.status = :warping
     save!
-    
+
     gcp_array = self.gcps.hard
-    
+
     gcp_string = ""
-    
+
     gcp_array.each do |gcp|
       gcp_string = gcp_string + gcp.gdal_string
     end
-    
+
     mask_options = ""
     if use_mask == "true" && self.mask_status == :masked
       src_filename = self.masked_src_filename
@@ -582,26 +582,26 @@ class Map < ActiveRecord::Base
     else
       src_filename = self.unwarped_filename
     end
-    
+
     dest_filename = self.warped_filename
     temp_filename = self.temp_filename
-    
+
     #delete existing temp images @map.delete_images
     if File.exists?(dest_filename)
       #logger.info "deleted warped file ahead of making new one"
       File.delete(dest_filename)
     end
-    
+
     logger.info "gdal translate"
-  
+
     command = "#{GDAL_PATH}gdal_translate -a_srs '+init=epsg:4326' -of VRT #{src_filename} #{temp_filename}.vrt #{gcp_string}"
     t_stdout, t_stderr = Open3.capture3( command )
-    
+
     logger.info command
-    
+
     t_out  = t_stdout
     t_err = t_stderr
-    
+
     if !t_err.blank?
       logger.error "ERROR gdal translate script: "+ t_err
       logger.error "Output = " +t_out
@@ -610,14 +610,14 @@ class Map < ActiveRecord::Base
       t_out = "Okay, translate command ran fine! <div id = 'scriptout'>" + t_out + "</div>"
     end
     trans_output = t_out
-    
+
     memory_limit =  (defined?(GDAL_MEMORY_LIMIT)) ? "-wm "+GDAL_MEMORY_LIMIT.to_s :  ""
-    
+
     #check for colorinterop=pal ? -disnodata 255 or -dstalpha
     command = "#{GDAL_PATH}gdalwarp #{memory_limit}  #{transform_option}  #{resample_option} -dstalpha #{mask_options} -s_srs 'EPSG:4326' #{temp_filename}.vrt #{dest_filename} -co TILED=YES -co COMPRESS=LZW"
     w_stdout, w_stderr = Open3.capture3( command )
     logger.info command
-    
+
     w_out = w_stdout
     w_err = w_stderr
     if !w_err.blank?
@@ -628,15 +628,15 @@ class Map < ActiveRecord::Base
       w_out = "Okay, warp command ran fine! <div id='scriptout'>" + w_out +"</div>"
     end
     warp_output = w_out
-    
+
     # gdaladdo
     command = "#{GDAL_PATH}gdaladdo -r average #{dest_filename} 2 4 8 16 32 64"
     o_stdout, o_stderr = Open3.capture3( command )
     logger.info command
-    
+
     o_out = o_stdout
     o_err = o_stderr
-    if !o_err.blank? 
+    if !o_err.blank?
       logger.error "Error gdal overview script" + o_err
       logger.error "output = "+o_out
       o_out = "error with gdal overview: "+ o_err +"<br /> try it again?<br />"+ o_out
@@ -644,12 +644,12 @@ class Map < ActiveRecord::Base
       o_out = "Okay, overview command ran fine! <div id='scriptout'>" + o_out +"</div>"
     end
     overview_output = o_out
-    
+
     if File.exists?(temp_filename + '.vrt')
       logger.info "deleted temp vrt file"
       File.delete(temp_filename + '.vrt')
     end
-    
+
     # don't care too much if overviews threw a random warning
     if w_err.size <= 0 and t_err.size <= 0
       if prior_status == :published
@@ -670,9 +670,9 @@ class Map < ActiveRecord::Base
     output = "Step 1: Translate: "+ trans_output + "<br />Step 2: Warp: " + warp_output + \
       "Step 3: Add overviews:" + overview_output
   end
-  
+
   def update_bbox
-    
+
     if File.exists? self.warped_filename
       logger.info "updating bbox..."
       begin
@@ -695,7 +695,7 @@ class Map < ActiveRecord::Base
       end
     end
   end
-  
+
   def delete_mask
     logger.info "delete mask"
     if File.exists?(self.masking_file_gml)
@@ -707,13 +707,13 @@ class Map < ActiveRecord::Base
     if File.exists?(self.masking_file_gfs)
       File.delete(self.masking_file_gfs)
     end
-    
+
     self.mask_status = :unmasked
     save!
     "mask deleted"
   end
-  
-  
+
+
   def save_mask(vector_features)
     if self.mask_file_format == "gml"
       msg = save_mask_gml(vector_features)
@@ -722,8 +722,8 @@ class Map < ActiveRecord::Base
     end
     msg
   end
-  
-  
+
+
   #parses geometry from openlayers, and saves it to file.
   #GML format
   def save_mask_gml(features)
@@ -740,7 +740,7 @@ class Map < ActiveRecord::Base
     origfile = File.new(self.masking_file_gml+".ol", "w+")
     origfile.puts(features)
     origfile.close
-    
+
     doc = REXML::Document.new features
     REXML::XPath.each( doc, "//gml:coordinates") { | element|
       # blimey element.text.split(' ').map {|i| i.split(',')}.map{ |i| i[0] => i[1]}.inject({}){|i,j| i.merge(j)}
@@ -753,19 +753,19 @@ class Map < ActiveRecord::Base
         new_coords_array << newcoord
       end
       element.text = new_coords_array.join(' ')
-      
+
     } #element
     gmlfile = File.new(self.masking_file_gml, "w+")
     doc.write(gmlfile)
     gmlfile.close
     message = "Map clipping mask saved (gml)"
   end
-  
- 
+
+
   ############
   #PRIVATE
   ############
-  
+
   def convert_to_png
     logger.info "start convert to png ->  #{warped_png_filename}"
     ext_command = "#{GDAL_PATH}gdal_translate -of png #{warped_filename} #{warped_png_filename}"
@@ -833,10 +833,10 @@ class Map < ActiveRecord::Base
       logger.error "Socket error in find bestguess places" + e.to_s
       placemaker_result = {:status => "fail", :code => "socketError"}
     end
-    
+
     placemaker_result
   end
 
-  
-  
+
+
 end

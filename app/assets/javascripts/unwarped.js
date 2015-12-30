@@ -2,7 +2,7 @@ var un_bounds;
 function uinit() {
   delete umap;
   delete unwarped_image;
-  un_bounds = new OpenLayers.Bounds(0, 0, unwarped_image_width, unwarped_image_height);
+  un_bounds = new OpenLayers.Bounds(42.4422824, 76.5333944, unwarped_image_width, unwarped_image_height);
 
   unwarped_init();
 }

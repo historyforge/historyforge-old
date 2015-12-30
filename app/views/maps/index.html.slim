@@ -1,0 +1,36 @@
+#search-form
+  = render :partial => 'shared/search'
+.browse
+  h2
+    | Browse Maps 
+    - if @query && @query.length > 0
+      | — Searched for "
+      =@query
+      | " 
+      - end
+  #search-sort
+    = render :partial => 'shared/sort'
+  .warper_pagination
+    #search-pagination-top
+      = will_paginate @maps
+  table#map_table[cellpadding="3"]
+    thead
+      tr
+        th
+          | Map
+        th
+          | Title
+        th
+          | Last modified
+        th
+          | Status
+    tbody#results
+      = render :partial => 'map', :collection => @maps unless @maps.nil?
+  .warper_pagination
+    #search-pagination-bottom
+      = will_paginate @maps
+      .per_page_select
+        = page_entries_info @maps
+        | . 
+        = select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};"
+        |  per page. 

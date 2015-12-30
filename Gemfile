@@ -14,7 +14,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+gem 'jquery-rails', '>=4.0.5'
 gem "jquery-ui-rails", '3.0.1'  #loads jquery ui v 1.9.2
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
@@ -49,7 +49,7 @@ gem 'pg'
 #gem 'activerecord-postgis-adapter'
 gem 'activerecord-postgis-adapter', '3.0.0.beta2'
 
-gem 'acts-as-taggable-on', '~> 3.3.0'
+gem 'acts-as-taggable-on', '~> 3.4'
 gem 'paperclip', '~> 4.2.0'
 gem 'acts_as_commentable'
 gem 'will_paginate', '~> 3.0'

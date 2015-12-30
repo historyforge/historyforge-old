@@ -1,13 +1,13 @@
 class MapsController < ApplicationController
 
   layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
-  
+
   before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
-  
+
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
- 
+
   before_filter :check_administrator_role, :only => [:publish]
- 
+
   before_filter :find_map_if_available,
     :except => [:show, :index, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
 
@@ -15,18 +15,18 @@ class MapsController < ApplicationController
   before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
   #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
-  
+
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   helper :sort
   include SortHelper
-  
+
   ###############
   #
   # CRUD
   #
   ###############
-  
+
   def new
     @map = Map.new
     @html_title = "Upload a new map to "
@@ -42,7 +42,7 @@ class MapsController < ApplicationController
       format.xml  { render :xml => @map }
     end
   end
-  
+
   def create
     @map = Map.new(map_params)
 
@@ -62,7 +62,7 @@ class MapsController < ApplicationController
       end
     end
   end
-  
+
   def edit
     @current_tab = :edit
     @selected_tab = 1
@@ -73,15 +73,14 @@ class MapsController < ApplicationController
       format.xml  { render :xml => @map }
     end
   end
-  
+
   def update
-   
     if @map.update_attributes(map_params)
       flash.now[:notice] = 'Map was successfully updated.'
     else
-      flash.now[:error] = 'There was an error updating the map' 
+      flash.now[:error] = 'There was an error updating the map'
     end
-    
+
     if request.xhr?
       @xhr_flag = "xhr"
       render :action => "edit", :layout => "tab_container"
@@ -91,15 +90,15 @@ class MapsController < ApplicationController
         format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
       end
     end
-    
+
   end
-  
+
   def delete
     respond_to do |format|
       format.html {render :layout => 'application'}
     end
   end
-  
+
   #only editors or owners of maps
   def destroy
     if @map.destroy
@@ -112,36 +111,36 @@ class MapsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   ###############
   #
-  # Collection actions 
+  # Collection actions
   #
   ###############
   def index
     sort_init('updated_at', {:default_order => "desc"})
-    
+
     sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
-    
+
     set_session_link_back url_for(:controller=> 'maps', :action => 'index',:skip_relative_url_root => false, :only_path => false )+ qstring
-    
+
     @query = params[:query]
-    
+
     @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
-    
+
     unless @field == "tags"
-      
+
       @field = "title" if @field.nil?
-      
+
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
       if @query && @query.strip.length > 0 && @field
         conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
       else
         conditions = nil
       end
-      
+
       if params[:sort_order] && params[:sort_order] == "desc"
         sort_nulls = " NULLS LAST"
       else
@@ -165,7 +164,7 @@ class MapsController < ApplicationController
       else
         @maps = Map.are_public.where(where_options).order(order_options).paginate(paginate_params)
       end
-      
+
       @html_title = "Browse Maps"
       if request.xhr?
         render :action => 'index.rjs'
@@ -177,7 +176,7 @@ class MapsController < ApplicationController
               xml.tag!'total-entries', @maps.total_entries
               xml.tag!'per-page', @maps.per_page
               xml.tag!'current-page',@maps.current_page} }
-          
+
           format.json { render :json => {:stat => "ok",
               :current_page => @maps.current_page,
               :per_page => @maps.per_page,
@@ -191,8 +190,8 @@ class MapsController < ApplicationController
       redirect_to :action => 'tag', :id => @query
     end
   end
-  
-    
+
+
   def tag
     sort_init('updated_at', {:default_order => "desc"})
     sort_update
@@ -207,8 +206,8 @@ class MapsController < ApplicationController
       format.rss  { render  :layout => false }
     end
   end
-  
-    
+
+
   def geosearch
     require 'geoplanet'
     sort_init 'updated_at'
@@ -220,9 +219,9 @@ class MapsController < ApplicationController
     if params[:place] && !params[:place].blank?
       place_query = params[:place]
       GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
-      
+
       geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
-      
+
       if geoplanet_result[0]
         g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
         extents = g_bbox[1] + g_bbox[0]
@@ -288,7 +287,7 @@ class MapsController < ApplicationController
     @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
     respond_to do |format|
       format.html{ render :layout =>'application' }
-      
+
       format.json { render :json => {:stat => "ok",
         :current_page => @maps.current_page,
         :per_page => @maps.per_page,
@@ -297,14 +296,14 @@ class MapsController < ApplicationController
         :items => @maps.to_a}.to_json(:methods => :depicts_year) , :callback => params[:callback]}
     end
   end
-  
-  
+
+
   ###############
   #
-  # Tab actions 
+  # Tab actions
   #
   ###############
-  
+
   def show
 
     @current_tab = "show"
@@ -324,28 +323,28 @@ class MapsController < ApplicationController
     #
     if !user_signed_in?
       @disabled_tabs = ["warp", "edit", "clip", "align", "activity"]
-      
+
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
-      
+
       flash.now[:notice] = "You may need to %s to start editing the map"
       flash.now[:notice_item] = ["log in", :new_user_session]
       session[:user_return_to] = request.url
-      
+
       if request.xhr?
         @xhr_flag = "xhr"
         render :layout => "tab_container"
       else
         respond_to do |format|
-          format.html 
+          format.html
           format.kml {render :action => "show_kml", :layout => false}
           #format.rss {render :action=> 'show'}
           # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) }
           format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
         end
       end
-      
+
       return #stop doing anything more
     end
 
@@ -362,7 +361,7 @@ class MapsController < ApplicationController
       end
     end
 
-    
+
     choose_layout_if_ajax
 
     respond_to do |format|
@@ -371,10 +370,10 @@ class MapsController < ApplicationController
       # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
         format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
     end
-    
-    
+
+
   end
-  
+
 
   def comments
     @html_title = "comments"
@@ -386,7 +385,7 @@ class MapsController < ApplicationController
       format.html {}
     end
   end
-  
+
   def export
     @current_tab = "export"
     @selected_tab = 6
@@ -402,7 +401,7 @@ class MapsController < ApplicationController
       format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (Rails.env != "development") }
     end
   end
-  
+
   def clip
     #TODO delete current_tab
     @current_tab = "clip"
@@ -414,8 +413,8 @@ class MapsController < ApplicationController
     end
     choose_layout_if_ajax
   end
-  
-  
+
+
   def warped
     @current_tab = "warped"
     @selected_tab = 5
@@ -431,7 +430,7 @@ class MapsController < ApplicationController
     end
     choose_layout_if_ajax
   end
-  
+
   def align
     @html_title = "Align Maps "
     @current_tab = "align"
@@ -446,49 +445,49 @@ class MapsController < ApplicationController
     @html_title = "Rectifying Map "+ @map.id.to_s
     @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
     @other_layers = Array.new
-    @map.layers.visible.each do |layer| 
+    @map.layers.visible.each do |layer|
       @other_layers.push(layer.id)
     end
 
-    @gcps = @map.gcps_with_error 
+    @gcps = @map.gcps_with_error
 
-    choose_layout_if_ajax 
+    choose_layout_if_ajax
   end
-  
+
   def metadata
     choose_layout_if_ajax
   end
-  
-  
+
+
   def trace
     redirect_to map_path unless @map.published?
     @overlay = @map
   end
-  
+
   def id
     redirect_to map_path unless @map.published?
     @overlay = @map
     render "id", :layout => false
   end
-  
+
   # called by id JS oauth
   def idland
     render "idland", :layout => false
   end
-  
+
   ###############
   #
-  # Other / API actions 
+  # Other / API actions
   #
   ###############
-  
+
   def thumb
     map = Map.find(params[:id])
     thumb = map.upload.url(:thumb)
     redirect_to thumb
   end
-  
-  
+
+
   def map_type
     @map = Map.find(params[:id])
     map_type = params[:map][:map_type]
@@ -499,7 +498,7 @@ class MapsController < ApplicationController
       @layer = Layer.find(params[:layerid].to_i)
       @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
     end
-    
+
     render :text => "Map has changed. Map type: "+@map.map_type.to_s
   end
 
@@ -513,16 +512,16 @@ class MapsController < ApplicationController
       format.xml { render :xml => gcps.to_xml(:methods => :error)}
     end
   end
-  
-  
-  
+
+
+
   def get_rough_centroid
     map = Map.find(params[:id])
     respond_to do |format|
       format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback]  }
     end
   end
-  
+
   def set_rough_centroid
     map = Map.find(params[:id])
     lon = params[:lon]
@@ -561,7 +560,7 @@ class MapsController < ApplicationController
     end
   end
 
-  
+
   def status
     map = Map.find(params[:id])
     if map.status.nil?
@@ -571,7 +570,7 @@ class MapsController < ApplicationController
     end
     render :text =>  sta
   end
-  
+
   #should check for admin only
   def publish
     if params[:to] == "publish" && @map.status == :warped
@@ -617,7 +616,7 @@ class MapsController < ApplicationController
       end
     end
   end
-  
+
   def save_mask_and_warp
     logger.debug "save mask and warp"
     @map.save_mask(params[:output])
@@ -647,7 +646,7 @@ class MapsController < ApplicationController
 
   #just works with NSEW directions at the moment.
   def warp_aligned
-    
+
     align = params[:align]
     append = params[:append]
     destmap = Map.find(params[:destmap])
@@ -677,7 +676,7 @@ class MapsController < ApplicationController
 
     respond_to do |format|
       unless @too_few || @fail
-        format.js 
+        format.js
         format.html { render :text => @notice_text }
         format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
       else
@@ -686,31 +685,31 @@ class MapsController < ApplicationController
         format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
       end
     end
-     
+
   end
 
   require 'mapscript'
   include Mapscript
 
   def wms
-    
+
     @map = Map.find(params[:id])
     #status is additional query param to show the unwarped wms
     status = params["STATUS"].to_s.downcase || "unwarped"
     ows = Mapscript::OWSRequest.new
-    
+
     ok_params = Hash.new
     # params.each {|k,v| k.upcase! } frozen string error
     params.each {|k,v| ok_params[k.upcase] = v }
     [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
       ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
     end
-    
+
     ows.setParameter("VeRsIoN","1.1.1")
     ows.setParameter("STYLES", "")
     ows.setParameter("LAYERS", "image")
     ows.setParameter("COVERAGE", "image")
-    
+
     mapsv = Mapscript::MapObj.new(File.join(Rails.root, '/lib/mapserver/wms.map'))
     projfile = File.join(Rails.root, '/lib/proj')
     mapsv.setConfigOption("PROJ_LIB", projfile)
@@ -719,7 +718,7 @@ class MapsController < ApplicationController
     rel_url_root =  (ActionController::Base.relative_url_root.blank?)? '' : ActionController::Base.relative_url_root
     mapsv.setMetaData("wms_onlineresource",
       "http://" + request.host_with_port + rel_url_root + "/maps/wms/#{@map.id}")
-    
+
     raster = Mapscript::LayerObj.new(mapsv)
     raster.name = "image"
     raster.type = Mapscript::MS_LAYER_RASTER
@@ -727,11 +726,11 @@ class MapsController < ApplicationController
 
     if status == "unwarped"
       raster.data = @map.unwarped_filename
-      
+
     else #show the warped map
       raster.data = @map.warped_filename
     end
-    
+
     raster.status = Mapscript::MS_ON
     raster.dump = Mapscript::MS_TRUE
     raster.metadata.set('wcs_formats', 'GEOTIFF')
@@ -739,18 +738,18 @@ class MapsController < ApplicationController
     raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:3857 EPSG:4269 EPSG:900913')
     #raster.debug = Mapscript::MS_TRUE
     raster.setProcessingKey("CLOSE_CONNECTION", "ALWAYS")
-    
+
     Mapscript::msIO_installStdoutToBuffer
     result = mapsv.OWSDispatch(ows)
     content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
     result_data = Mapscript::msIO_getStdoutBufferBytes
-    
+
     send_data result_data, :type => content_type, :disposition => "inline"
     Mapscript::msIO_resetHandlers
-    
-    
+
+
   end
-  
+
   def tile
     x = params[:x].to_i
     y = params[:y].to_i
@@ -770,12 +769,12 @@ class MapsController < ApplicationController
     params[:height] = "256"
     #call the wms thing
     wms
-    
+
   end
-  
-  
+
+
   private
-  
+
   def rectify_main
     resample_param = params[:resample_options]
     transform_param = params[:transform_options]
@@ -835,8 +834,8 @@ class MapsController < ApplicationController
       @notice_text = "Map rectified."
     end
   end
-  
-  
+
+
   # tile utility methods. calculates the bounding box for a given TMS tile.
   # Based on http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
   # GDAL2Tiles, Google Summer of Code 2007 & 2008
@@ -853,7 +852,7 @@ class MapsController < ApplicationController
     merc_y = (y * resolution - 2 * Math::PI  * 6378137 / 2.0)
     return merc_x, merc_y
   end
-  
+
 
   def set_session_link_back link_url
     session[:link_back] = link_url
@@ -864,7 +863,7 @@ class MapsController < ApplicationController
     if @link_back.nil?
       @link_back = url_for(:action => 'index')
     end
-  
+
     session[:link_back] = @link_back
   end
 
@@ -905,7 +904,7 @@ class MapsController < ApplicationController
 
     @map = Map.find(params[:id])
 
-    if @map.status.nil? or @map.status == :unloaded or @map.status == :loading 
+    if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
       redirect_to map_path
     elsif  (!@map.public? and !user_signed_in?) or((!@map.public? and user_signed_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
       redirect_to maps_path
@@ -913,22 +912,22 @@ class MapsController < ApplicationController
   end
 
   def map_params
-    params.require(:map).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id, 
+    params.require(:map).permit(:title, :description, :tag_list, :map_type, :subject_area, :unique_id,
       :source_uri, :call_number, :publisher, :publication_place, :authors, :date_depicted, :scale,
       :metadata_projection, :metadata_lat, :metadata_lon, :public,
-      "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)", 
-      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload ) 
+      "published_date(3i)", "published_date(2i)", "published_date(1i)", "reprint_date(3i)",
+      "reprint_date(2i)", "reprint_date(1i)", :upload_url, :upload )
   end
-  
+
   def choose_layout_if_ajax
     if request.xhr?
       @xhr_flag = "xhr"
       render :layout => "tab_container"
     end
   end
-  
 
-   
+
+
   def store_location
     case request.parameters[:action]
     when "warp"
@@ -952,8 +951,8 @@ class MapsController < ApplicationController
     else
       session[:user_return_to] = request.url
     end
-    
+
   end
-  
-  
+
+
 end

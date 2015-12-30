@@ -1,0 +1,9 @@
+h2
+  | Editing Map Attributes
+= error_messages_for @map
+- if (current_user = @map.owner || admin_authorized?)
+  p
+    | — 
+    =  link_to 'Delete this map.', delete_map_path(@map)
+    |  — 
+= render :partial => "form_remote", :locals => {:page => "edit"}

@@ -1,0 +1,19 @@
+- unless @map.warped_or_published? && @map.gcps.hard.size > 2
+  |  Sorry, you'll have to rectify a map before you can view it. 
+- else
+  - content_for :head do
+    = javascript_include_tag "warped"
+    style[type="text/css"]
+      |  #slider { bottom:50px; margin-left:auto; margin-right:auto; width:25em; z-index:1500; } #opacity-info { margin-left:auto; margin-right:auto; width:10em; } 
+    script[type="text/javascript"]
+      |  var map_id = '<ruby code="=h @map.id"></ruby>'; var title = '<ruby code="=u @map.title"></ruby>'; var warped_image_width = <ruby code="= @map.width"></ruby> var warped_image_height = <ruby code="= @map.height"></ruby> var warpedwms_url = '<ruby code="= url_for :controller => 'maps', :action => 'wms', :id => @map"></ruby>'; var warped_bounds = new OpenLayers.Bounds(<ruby code="=@map.bounds"></ruby>); var layer_baseurl = '/layers/wms'; var layers_array = [<ruby code="=@other_layers.join(",")"></ruby>]; 
+  - @onload =  "warpedinit();"
+  #map-container
+    #warpedmap
+
+    #slider
+      .ui-slider-handle
+
+  #opacity-info
+    |  Transparency: 
+    input#opacity[type="text" value="70" size="3" disabled="true"]
