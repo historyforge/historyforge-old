@@ -31,7 +31,7 @@
             (Not Visible)
           <%end-%>
         </span>
-        
+
       <script type="text/javascript">
         jQuery(document).ready(function() {
           jQuery("a#toggle-visibility").bind("ajax:success", function(event, data, status, xhr) {
@@ -39,12 +39,12 @@
           });
         });
       </script>
-       
+
         <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility", :remote => true)%>
         <%# link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
       <% end  %>
       <% if user_signed_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
-        <%= link_to "Edit Mosaic", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
+        <%= link_to "Edit Map Layer", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
       <% end -%>
       <% if admin_authorized? -%>
         <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |

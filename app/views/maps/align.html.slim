@@ -1,12 +1,12 @@
 - content_for :head do
   = javascript_tag "window._token = '#{form_authenticity_token}'"
   script[type="text/javascript" charset="utf-8"]
-    |  var map_id = '<ruby code="=h @map.id"></ruby>'; 
+    |  var map_id = '<ruby code="=h @map.id"></ruby>';
   = javascript_include_tag "align"
 span#gcp_notice
-|  If this map belongs to a mosaic with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.
+|  If this map belongs to a layers with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.
 br
-|  Click + and choose a map, then drag and drop to choose the alignment. 
+|  Click + and choose a map, then drag and drop to choose the alignment.
 #mapgrid
   ul#sortable
     li#place_1.ui-state-default
@@ -30,14 +30,14 @@ br
     input#srcmap[type="hidden" name="srcmap" value=""]
     |  <input type="hidden" id="destmap" name="destmap" value="
     =@map.id
-    | " /> 
+    | " />
     input#align[type="hidden" name="align" value=""]
-    |  Overwrite any existing control points? 
+    |  Overwrite any existing control points?
     br
     label[for="append_yes"]
       | Yes:
     input#append_yes[type="radio" name="append" value="false" checked]
-    |    
+    |   
     label[for="append_no"]
       | No:
     input#append_no[type="radio" name="append" value="true"]
@@ -57,7 +57,7 @@ br
     = f.submit "align map!"
 - counter = 0
 #dialog[title="Add Reference Map"]
-  |  Choose a rectified map to copy the control points from the same mosaics: 
+  |  Choose a rectified map to copy the control points from the same layers:
   #align-accordian
     - @map.layers.visible.each do |layer|
       - unless layer.maps.warped.count == 0 || (layer.maps.warped.count ==1 && layer.maps.warped.first.id == @map.id)
@@ -66,12 +66,12 @@ br
             = layer.name
         |  <table id="layer-
         =layer.id
-        | "> 
+        | ">
         - layer.maps.warped.each do | map |
           - unless map.id == @map.id
             |  <tr id="map-
             = map.id
-            | "> 
+            | ">
             td.align-map-thumb
               =  image_tag(map.upload.url(:thumb))
             td.align-map-title
@@ -83,11 +83,11 @@ br
         - counter+=1
   - if counter == 0
     em
-      |  Sorry, but there are no mosaics containing rectifed maps to choose from. 
+      |  Sorry, but there are no layers containing rectifed maps to choose from.
   br
   form
     fieldset
-      |  Add map number manually: 
+      |  Add map number manually:
       br
       label[for="mapid"]
         | Map

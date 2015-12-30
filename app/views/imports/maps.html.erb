@@ -3,9 +3,9 @@
 <p>From: <%= @import.path %> Found <%= @import.file_count.to_s %> files in directory. Imported <%= @import.imported_count %> Maps.
 </p>
 <% if @layer %>
-  <p>Mosaic: <%=link_to(@layer.name, layer_path(@layer))%></p>
+  <p>Map Layer: <%=link_to(@layer.name, layer_path(@layer))%></p>
 <% else %>
-  Maps not added to a Mosaic
+  Maps not added to a map layer
 <% end %>
 <p>Assigned user to own the maps: <%= link_to(@upload_user.login, user_path(@upload_user)) -%></p>
 <h3>Maps</h3>
@@ -46,4 +46,3 @@
   </table>
   <%= submit_tag %>
 <% end %>
-
