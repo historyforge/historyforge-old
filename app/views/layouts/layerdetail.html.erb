@@ -3,18 +3,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <%= favicon_link_tag 'favicon.ico' %>
-    <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
+    <title>History Forge: <%= h(snippet(@html_title, 40)) || ''-%> </title>
     <%= stylesheet_link_tag "application" %>
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
     <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
     <%= javascript_include_tag "application" %>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
     <%= javascript_tag "jQuery.noConflict();" -%>
 
 
     <script type="text/javascript">
-      var addthis_share = {templates: {twitter: '{{url}} (from @<%=APP_CONFIG['addthis_twitter_user']%>)'}};
-      var addthis_config = {ui_click: true};
-
       jQuery(function() {
 
         jQuery("#year-dialog").dialog({
@@ -44,11 +41,6 @@
           } //select
         });
 
-        jQuery("#wooTabs").bind("tabsselect", function(event, ui) {
-          if (typeof (pageTracker) !== 'undefined') {
-            pageTracker._trackEvent("Layer", ui.tab.title, '<%=@layer.id%>');
-          }
-        });
         jQuery("#wooTabs").bind("tabsshow", function(event, ui) {
           jQuery(".hidden-at-start").hide();
         });
@@ -99,7 +91,7 @@
 
         // set onlick event for buttons
         jQuery("a[rel='history']").click(function() {
-  
+
           var hash = this.title + tabSuffix;
           jQuery.historyLoad(hash);
         });
@@ -113,23 +105,17 @@
     <%else-%>
     <body>
     <%end%>
-    <div id="headerDiv" class="headerDiv">
-      <h1><%= link_to "Map Warper", root_path %></h1>
-      <%= render :partial => 'shared/header' %>
-      <%= render :partial => 'shared/nav' %>
-    </div>
-    <span class="breadcrumbs"><%= breadcrumbs %></span>
+    <%= render :partial => 'shared/header' %>
 
-
-    <table id="map_table">
+    <table id="map_table" class="table table-condensed" style="width:100%;">
       <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>
     </table>
 
     <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>layer_path(:id => @layer)},
       {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_layer_path(:id => @layer)},
       {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_layer_path(:id => @layer)},
-      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)},
-      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
+      {:name=>"metadata", :divname=>"Metadata", :label=>"Metadata", :path => metadata_layer_path(:id => @layer)} #,
+      #{:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@layer.comments.size.to_s, :path=>comments_layer_path(:id => @layer)}
       ]  %>
     <div id="wooTabs">
       <ul>
@@ -178,13 +164,12 @@
         <%= form_for(@layer, {:html => {:id =>"year-form"} , :url =>update_year_layer_path(@layer.id), :remote => true }) do |f| %>
           <%= f.text_field :depicts_year, :size =>10 %>
           <%= submit_tag "Save" %>
-        <% end %>          
+        <% end %>
 
       </div>
     <% end %>
     <div id="footer">
       <%= render :partial => 'shared/footer' %>
     </div>
-    <%= render :partial => 'shared/analytics' %>
   </body>
 </html>
