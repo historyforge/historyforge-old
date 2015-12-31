@@ -24,6 +24,7 @@
           <%= render :partial => 'maps/map', :collection => @my_maps  unless @my_maps.nil? %>
         </table>
         <%= link_to "See all of My Maps", my_maps_path(:user_id => current_user), :class => "btn btn-default" -%>
+        <%= link_to("Upload a new map", new_map_path, :class => "btn btn-default") if can?(:create, Map)%>
       <%end -%>
 
       <br/>
@@ -45,7 +46,7 @@
       </table>
 
       <%= link_to 'See all Maps', maps_path, :class => "btn btn-default" %>
-
+      <%= link_to("Upload a new map", new_map_path, :class => "btn btn-default") if can?(:create, Map)%>
       <% end %>
     </div>
 
@@ -65,8 +66,8 @@
         </thead>
         <%= render :partial => 'layers/layer', :collection => @layers unless @layers.nil? %>
       </table>
-      <%= link_to "View all map layers", layers_path, :class => "btn btn-default" %><br />
-      <%= link_to "Create a new map layer", new_layer_path, :class => "btn btn-default" if can?(:create, Layer)%>
+      <%= link_to "View all map layers", layers_path, :class => "btn btn-default" %>
+      <%= link_to("Create a new map layer", new_layer_path, :class => "btn btn-default") if can?(:create, Layer)%>
     </div>
     <% end %>
 

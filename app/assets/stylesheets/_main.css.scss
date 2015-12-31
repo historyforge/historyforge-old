@@ -866,64 +866,64 @@ font-weight: bold;
 	vertical-align:top;
 }
 
-#map_table, #layer_table {
-	border: 1px solid #ccc;
-	margin-bottom:10px;
-    clear: right;
-	width: auto;
-}
-
-#map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
-	background: #EEEEE0;
-}
-
-#map_table tr:nth-of-type(even), #layer_table tr:nth-of-type(even) {
-	background: #e5e5d5;
-}
-
-#map_table td, #map_table th, #layer_table td, #layer_table th {
-	border-top: 1px solid #ddd;
-	padding: 8px 15px;
-	vertical-align: top;
-	text-align: left;
-}
-
-#map_table th, #layer_table th {
-	font-weight:600;
-	font-size:90%;
-	text-transform:uppercase;
-}
-
- #layer_table_detail td, #layer_table_detail th {
-	border-top: 1px solid #ccc;
-        background: #ccffcc;
-	padding: 5px 15px;
-	vertical-align: top;
-	text-align: left;
-}
-
-
-
-#map_table th, #layer_table th {
-	background: #999;
-	color: #fff;
-}
-
-#map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
-	background: #888;
-}
-
-#map_table a img, #layer_table a img, #results a img {
-	border: 1px solid #fff;
-	max-width: 102px;
-	max-height: 102px;
-}
-
-#map_table a:hover img, #layer_table a:hover img, #results a:hover img {
-	border: 1px solid #bbb;
-	position: relative;
-}
-
+// #map_table, #layer_table {
+// 	border: 1px solid #ccc;
+// 	margin-bottom:10px;
+//     clear: right;
+// 	width: auto;
+// }
+//
+// #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
+// 	background: #EEEEE0;
+// }
+//
+// #map_table tr:nth-of-type(even), #layer_table tr:nth-of-type(even) {
+// 	background: #e5e5d5;
+// }
+//
+// #map_table td, #map_table th, #layer_table td, #layer_table th {
+// 	border-top: 1px solid #ddd;
+// 	padding: 8px 15px;
+// 	vertical-align: top;
+// 	text-align: left;
+// }
+//
+// #map_table th, #layer_table th {
+// 	font-weight:600;
+// 	font-size:90%;
+// 	text-transform:uppercase;
+// }
+//
+//  #layer_table_detail td, #layer_table_detail th {
+// 	border-top: 1px solid #ccc;
+//         background: #ccffcc;
+// 	padding: 5px 15px;
+// 	vertical-align: top;
+// 	text-align: left;
+// }
+//
+//
+//
+// #map_table th, #layer_table th {
+// 	background: #999;
+// 	color: #fff;
+// }
+//
+// #map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
+// 	background: #888;
+// }
+//
+// #map_table a img, #layer_table a img, #results a img {
+// 	border: 1px solid #fff;
+// 	max-width: 102px;
+// 	max-height: 102px;
+// }
+//
+// #map_table a:hover img, #layer_table a:hover img, #results a:hover img {
+// 	border: 1px solid #bbb;
+// 	position: relative;
+// }
+//
 
 .layer_mapcount {
 /*  font-size:1.1em;

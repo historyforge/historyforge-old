@@ -14,7 +14,6 @@
     <span class="layer_year">
       <span id="depicts-year-span-top">
         <%if layer.depicts_year%>Depicts : <%= layer.depicts_year %><%end-%></span>
-      <%if admin_authorized? %>&nbsp;<a href="#" id="edit-year-link-top">Add/Edit Year</a><%end-%>
     </span>
     <span class="layer_summary">
       <%- if layer.source_uri -%>
@@ -58,5 +57,12 @@
       <div style="clear:both;"></div>
 
     </span>
+  </td>
+  <td>
+    <% if params[:action] == 'show' && can?(:update, layer) %>
+    <%= link_to 'Edit Map Layer', edit_layer_path(layer), class: 'btn btn-default pull-right' %>
+    <% elsif params[:action] == 'edit' %>
+    <%= link_to 'View Map Layer', layer_path(layer), class: 'btn btn-default pull-right' %>
+    <% end %>
   </td>
 </tr>

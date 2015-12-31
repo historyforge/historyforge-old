@@ -113,9 +113,10 @@
     <body>
     <%end%>
     <%= render 'shared/header' %>
-    </div>
 
-    <table class="table table-condensed">
+    <div class="container-fluid">
+
+    <table style="margin:16px 0; width:100%;">
       <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
     </table>
 
@@ -150,6 +151,7 @@
       </div>
 
     </div>
+  </div>
 
     <div id="panel-under-tabs">
 

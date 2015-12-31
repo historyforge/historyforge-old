@@ -1,11 +1,10 @@
 <% map = @map %>
 
 <tr>
-  <% cl = cycle('table0', 'table1') %>
-  <td class="<%= cl %>" style="width:120px;">
+  <td style="width:120px;">
     <%=  image_tag(map.upload.url(:thumb)) %>
   </td>
-  <td class="<%= cl %>">
+  <td>
     <span class="maplist_title">
       <%=strip_brackets(h(map.title)) %>
     </span>
