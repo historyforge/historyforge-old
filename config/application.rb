@@ -25,6 +25,7 @@ module Rails4Mapwarper
     config.filter_parameters += [:password, :password_confirmation]
 
     config.quiet_assets = true
+    config.logger = Logger.new(STDOUT)
 
   end
 end
