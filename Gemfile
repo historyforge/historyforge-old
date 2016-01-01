@@ -76,3 +76,10 @@ group :development do
    gem 'capistrano-bundler',  :require => false
    gem 'rvm1-capistrano3',    :require => false
 end
+
+group :production do
+  gem 'puma'
+  gem 'airbrake'
+  gem 'rails_12factor'
+  gem 'foreman'
+end
