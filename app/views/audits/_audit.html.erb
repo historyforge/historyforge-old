@@ -1,7 +1,5 @@
 <tr>
-  <% cl = cycle('table0', 'table1') %>
-
-  <td class="<%= cl %>">
+  <td>
     <%= audit.created_at.to_s(:uk) %>
 
   </td>
@@ -14,7 +12,7 @@
     controller_name = "gcp"
     end %>
 
-  <td class="<%= cl %>">
+  <td>
     <% user = audit.user
       if user -%>
       <%= link_to user.login, :controller=>"users",:action=>"show", :id=>user.id-%>
@@ -23,19 +21,19 @@
     <%end%>
   </td>
 
-  <td class="<%= cl %>">
+  <td>
     <%= link_to typename + ' ' + audit.auditable_id.to_s, activity_details_path(audit.auditable_id) -%>
   </td>
 
-  <td class="<%= cl %>">
+  <td>
     <%= formatted_action(audit.action) %> &mdash; <%= summary(audit) %>
   </td>
 
-  <td class="<%= cl %>">
+  <td>
     <%=audit.version.to_s %>
   </td>
 
-  <td class="<%=cl %>">
+  <td>
 
     <%-unless defined?(page) && page =~ /detail/ -%>
       <%= link_to "Further details", activity_details_url(:id => audit) %>

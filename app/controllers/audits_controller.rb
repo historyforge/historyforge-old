@@ -26,14 +26,14 @@ class AuditsController < ApplicationController
       @html_title = "Activity for not found user #{params[:id]}"
       @title = "Recent Activity for not found user #{params[:id]}"
     end
-    
-    
-    
+
+
+
     order_options = "created_at DESC"
     where_options = ['user_id = ?', user_id ]
     @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page],
       :per_page => 20)
-      
+
     render :action => 'index'
   end
 
@@ -42,7 +42,7 @@ class AuditsController < ApplicationController
     @current_tab = "activity"
     @map = Map.find(params[:id])
     @html_title = "Activity for Map " + @map.id.to_s
-    
+
     order_options = "created_at DESC"
     where_options = ['auditable_type = ? AND auditable_id = ?', 'Map', @map.id]
     @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page], :per_page => 20)
