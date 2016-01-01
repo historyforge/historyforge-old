@@ -1,12 +1,12 @@
 class UsersController < ApplicationController
   layout 'application'
-  
+
   before_filter :authenticate_user!, :only => [:show, :edit, :update]
 
-  before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
+  before_filter :check_super_user_role, :only => [:index, :new, :create, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
-  
+
   helper :sort
   include SortHelper
 
@@ -51,23 +51,6 @@ class UsersController < ApplicationController
 
   end
 
-  def index_for_group
-    @group = Group.find(params[:group_id])
-    @html_title = "Users in Group " + @group.id.to_s
-    sort_init 'email'
-    sort_update
-    @query = params[:query]
-    @field = %w(login email provider).detect{|f| f == (params[:field])}
-    if @query && @query.strip.length > 0 && @field
-      conditions = ["#{@field}  ~* ?", '(:punct:|^|)'+@query+'([^A-z]|$)']
-    else
-      conditions = nil
-    end
-    @users = @group.users.where(conditions).order(sort_clause).paginate(:page=> params[:page],
-:per_page => 30)
-    render :action => 'index'
-  end
-
   def show
     @user = User.find(params[:id]) || current_user
     @html_title = "Showing User "+ @user.login.capitalize
@@ -81,19 +64,40 @@ class UsersController < ApplicationController
 
   end
 
+  def new
+    @html_title = 'Add New User'
+    @user = User.new
+    authorize! :create, @user
+  end
 
+  def create
+    @html_title = 'Add New User'
+    @user = User.new user_params
+    authorize! :create, @user
+    if @user.save
+      flash[:notice] = 'User created'
+      redirect_to user_path(@user)
+    else
+      flash[:errors] = 'Could not create user'
+      render action: :new
+    end
+  end
 
   def edit
-    @html_title = "Edit User Setttings"
-    @user = current_user
+    @html_title = "Edit User Settings"
+    @user = params[:id] ? User.find(params[:id]) : current_user
+    authorize! :update, @user
   end
 
   def update
     @user = User.find(current_user)
-    if @user.update_attributes(params[:user])
+    @user = params[:id] ? User.find(params[:id]) : current_user
+    authorize! :update, @user
+    if @user.update_attributes(user_params)
       flash[:notice] = "User updated"
-      redirect_to :action => 'show', :id => current_user
+      redirect_to user_path(@user)
     else
+      @html_title = "Edit User Settings"
       render :action => 'edit'
     end
   end
@@ -122,7 +126,7 @@ class UsersController < ApplicationController
       generated_password = Devise.friendly_token.first(8)
       @user.password=generated_password
       @user.password_confirmation=generated_password
-      
+
       if @user.save
         UserMailer.disabled_change_password(@user).deliver_now
         @user.send_reset_password_instructions
@@ -130,11 +134,11 @@ class UsersController < ApplicationController
       else
         flash[:error] = "Sorry, there was a problem changingin this user"
       end
-      
+
     else
       flash[:error] = "Admins cannot be disabled and reset, sorry"
     end
-    
+
     redirect_to :action => 'show'
   end
 
@@ -157,23 +161,6 @@ class UsersController < ApplicationController
     end
     redirect_to :action => 'index'
   end
-  
-  def force_confirm
-    @user = User.find(params[:id])
-    if !@user.confirmed?
-      @user.force_confirm!
-      if @user.confirmed? 
-        flash[:notice] = "User confirmed"
-      else
-        flash[:error] = "There was a problem confirming this user."
-      end
-    else
-      flash[:notice] = "User already confirmed"
-    end
-    redirect_to :action => 'index'
-  end
-  
-  
 
   def bad_record
     respond_to do | format |
@@ -185,5 +172,18 @@ class UsersController < ApplicationController
     end
   end
 
+  def mask
+    @user = User.find(params[:id])
+    authorize! :mask, @user
+    session[:mask] = current_user.id
+    sign_in @user
+    redirect_to root_path
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:login, :email, :password, :password_confirmation)
+  end
 
 end

@@ -2,15 +2,8 @@
   <div class="user-admin">
     Email : <%= @user.email -%>  <br />
     Enabled? : <%= @user.enabled ? 'Yes' : 'No' -%> <br />
-    Confirmed? <%= @user.confirmed? ? 'Yes' : 'No' -%> <br />
-    <br />
     <%= link_to('Delete User', user_path(@user.id), :method => :delete, :data => {:confirm => 'Are you sure'} ) -%> This cannot be undone. Removes all their data.<br />
-     
-  
-    <% if !@user.confirmed? -%>
-      <%= link_to('Mnually confirm', force_confirm_user_path(@user.id), :method => :put) -%> Force confirmation of user, cannot be changed. <br />
-    <% end  %>
-    
+
     <% if @user.enabled -%>
       <%= link_to('Disable', disable_user_path(@user.id), :method => :put) -%>
     <% else -%>
@@ -24,5 +17,3 @@
     <%= link_to 'Edit roles', user_roles_path(@user) -%> Change roles / groups that the user belongs to
   </div>
 <% end -%>
-
-

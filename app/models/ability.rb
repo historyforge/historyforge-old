@@ -14,6 +14,8 @@ class Ability
     else
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
+      else
+        can :update, User, id: user.id
       end
     end
 

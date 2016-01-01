@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       put 'enable'
       put 'disable'
       put 'disable_and_reset'
-      put 'force_confirm'
+      get 'mask'
     end
     collection do
       get 'stats'
@@ -117,13 +117,6 @@ Rails.application.routes.draw do
 
   resources :comments
 
-
-  resources :groups
-
-  get '/groups/:group_id/users/new' => 'memberships#new', :as => 'new_group_user'
-  delete '/groups/:group_id/users/destroy/:id' => 'memberships#destroy', :as => 'destroy_group_user'
-  get '/groups/:group_id/users' => 'users#index_for_group', :as => 'group_users'
-  get '/groups/:group_id/map' => 'maps#index_for_map', :as => 'group_maps'
 
   resources :imports do
     member do

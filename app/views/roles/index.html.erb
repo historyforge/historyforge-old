@@ -1,3 +1,7 @@
+<div class="pull-right">
+  <%= link_to 'Edit User', edit_user_path(@user), class: 'btn btn-sm btn-default' %>
+  <%= link_to 'View User', user_path(@user), class: 'btn btn-sm btn-default' %>
+</div>
 <h2>Roles for <%=h @user.login.capitalize %></h2>
 
 <h3>Roles assigned:</h3>

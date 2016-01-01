@@ -1,9 +1,10 @@
-<%= link_to "&lt; Browse Maps".html_safe, maps_path %>
-
+<% if can?(:update, @user) %>
+<div class="pull-right">
+  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-sm btn-default' %>
+  <%= link_to 'Impersonate', mask_user_path(@user), class: 'btn btn-sm btn-default' %>
+</div>
+<% end %>
 <h2>User: <%=h @user.login %></h2>
-<%- if @user.provider %>
-<p>A <%= image_tag(@user.provider+'_logo.png', width: '17', height: '17') %> <%=@user.provider_name.titlecase %> User </p>
-<%- end %>
 <p>Joined on: <%= @user.created_at.to_s(:long) %></p>
 <h3>Profile Description:</h3>
 <p><%= (h @user.description).gsub("\n","<br/>") %></p>
@@ -13,7 +14,7 @@
 
 <div id = "usermaps">
   <%=will_paginate @mymaps %>
-  <table id="map_table" cellpadding="3">
+  <table id="map_table" class="table table-striped">
     <thead>
       <tr>
         <th>Map</th>
