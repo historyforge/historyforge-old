@@ -53,9 +53,9 @@ GEM
     acts-as-taggable-on (3.5.0)
       activerecord (>= 3.2, < 5)
     acts_as_commentable (4.0.2)
-    airbrake (5.0.1)
-      airbrake-ruby (~> 1.0)
-    airbrake-ruby (1.0.1)
+    airbrake (4.3.4)
+      builder
+      multi_json
     arel (6.0.3)
     autoprefixer-rails (6.2.3)
       execjs
@@ -267,7 +267,7 @@ DEPENDENCIES
   activerecord-postgis-adapter (= 3.0.0.beta2)
   acts-as-taggable-on (~> 3.4)
   acts_as_commentable
-  airbrake
+  airbrake (~> 4.3.4)
   audited-activerecord!
   autoprefixer-rails
   bcrypt

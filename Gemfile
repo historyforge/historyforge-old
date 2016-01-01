@@ -81,7 +81,7 @@ end
 
 group :production do
   gem 'puma'
-  gem 'airbrake'
+  gem 'airbrake', '~> 4.3.4'
   gem 'rails_12factor'
   gem 'foreman'
 end
