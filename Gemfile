@@ -67,9 +67,9 @@ gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 gem 'quiet_assets'
+gem 'dotenv'
 
 group :development do
-  gem 'dotenv'
    gem 'web-console', '~> 2.0'
    gem 'spring'
    gem 'thin'
