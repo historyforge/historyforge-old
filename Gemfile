@@ -80,7 +80,8 @@ group :development do
 end
 
 group :production do
-  gem 'puma'
+  gem 'thin'
+  # gem 'puma'
   gem 'airbrake', '~> 4.3.4'
   gem 'rails_12factor'
   gem 'foreman'

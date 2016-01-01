@@ -151,7 +151,6 @@ GEM
       cocaine (~> 0.5.5)
       mime-types
     pg (0.18.4)
-    puma (2.15.3)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.4)
@@ -289,7 +288,6 @@ DEPENDENCIES
   jquery-ui-rails (= 3.0.1)
   paperclip (~> 4.2.0)
   pg
-  puma
   quiet_assets
   rails (= 4.2.4)
   rails_12factor
