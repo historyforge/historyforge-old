@@ -9,11 +9,12 @@
 <% end %>
 
 <span id="gcp_notice"></span>
-If this map belongs to a layer with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br />
-Click + and choose a map, then drag and drop to choose the alignment.
+
+<p>If this map belongs to a layer with other maps, you can copy the control points from an adjacent map that has already been rectified to this one.<br />
+Click + and choose a map, then drag and drop to choose the alignment.<br><p>
 
 
-<div id = "mapgrid">
+<div id = "mapgrid" class="col-xs-4">
   <ul id="sortable">
     <li class="ui-state-default" id="place_1"><a href="#" class="add_map" title="Click to add map here">+</a></li>
     <li class="ui-state-default" id="place_2"><a href="#" class="add_map" title="Click to add map here">+</a></li>
@@ -22,7 +23,7 @@ Click + and choose a map, then drag and drop to choose the alignment.
   </ul>
 </div>
 
-<div id="align_form_div">
+<div id="align_form_div" class="col-xs-8">
   <fieldset id="control_panel_fieldset">
     <%= form_for(:maps, :html => {:id => 'align_form', :onsubmit =>'return serialiseStuff();' },
       :url => {:controller => 'maps', :action => 'warp_aligned', :id=>@map.id }) do | f | %>
@@ -46,7 +47,7 @@ Click + and choose a map, then drag and drop to choose the alignment.
       <input type="radio" id="align_warped" name="align_type" value="warped" />
       <br />
       <br />
-      <%= f.submit "align map!" %>
+      <%= f.submit "Align map!", class: 'btn btn-lg btn-primary' %>
     <% end %>
   </fieldset>
 
