@@ -23,6 +23,7 @@ function init() {
     maxResolution: 'auto',
     numZoomLevels: 20
   });
+
   //  from_map.addControl(new OpenLayers.Control.MousePosition());
 
   var image = new OpenLayers.Layer.WMS(title,

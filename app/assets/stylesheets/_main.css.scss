@@ -1195,11 +1195,19 @@ div.olControlMousePosition
     border:1px solid gray;
 }
 
-.olControlEditingToolbar2 div {
+.olControlEditingToolbar2 div, .olControlDrawFeaturePointItemInactive {
   float:right;
   width:  24px;
   height: 24px;
   margin: 5px;
+}
+
+.olControlDrawFeaturePointItemInactive {
+  float:none;
+  width:  24px;
+  height: 24px;
+  margin: 5px;
+  vertical-align: middle;
 }
 
 .olControlEditingToolbar .olControlDrawFeaturePointItemActive {
@@ -1207,7 +1215,7 @@ div.olControlMousePosition
   background-repeat: no-repeat;
   background-position: -128px -23px;
 }
-.olControlEditingToolbar .olControlDrawFeaturePointItemInactive {
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive, .olControlDrawFeaturePointItemInactive {
   background-image: asset_url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
   background-position: -128px -0px;
@@ -1293,27 +1301,6 @@ div.olControlMousePosition
 
 .breadCrumb a:last-of-type {
 	color: #191970;
-}
-
-fieldset#control_panel_fieldset {
-  border:1px solid green;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
-}
-fieldset#control_panel_fieldset legend {
-  padding: 0.2em 0.5em;
-  border:1px solid green;
-  color:green;
-  font-size:90%;
-  margin-left: 1em;
-}
-
-fieldset#control_panel_fieldset a:hover {
-  color:#447a05;
-}
-
-fieldset#control_panel_fieldset a {
-  color:#222;
 }
 
 /* Rules for the iD editor */

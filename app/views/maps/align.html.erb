@@ -24,7 +24,6 @@ Click + and choose a map, then drag and drop to choose the alignment.
 
 <div id="align_form_div">
   <fieldset id="control_panel_fieldset">
-    <legend>Control Panel</legend>
     <%= form_for(:maps, :html => {:id => 'align_form', :onsubmit =>'return serialiseStuff();' },
       :url => {:controller => 'maps', :action => 'warp_aligned', :id=>@map.id }) do | f | %>
       <input type="hidden" id="srcmap" name="srcmap" value="" />
