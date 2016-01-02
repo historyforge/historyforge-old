@@ -72,7 +72,7 @@ gem 'dotenv'
 group :development do
    gem 'web-console', '~> 2.0'
    gem 'spring'
-   gem 'thin'
+  #  gem 'thin'
    gem 'capistrano', '~> 3.2.1'
    gem 'capistrano-rails',    :require => false
    gem 'capistrano-bundler',  :require => false
