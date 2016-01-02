@@ -1005,27 +1005,6 @@ font-style:italic;
 	text-align:center;
 }
 
-#gcp input.gcp_button
-{
-	font-size:84%;
-	font-weight:bold;
-	margin-top:5px;
-	padding:2px;
-        /* cursor: pointer; */
-
-}
-
-#gcp input.gcp_button_highlighted
-{
-	font-size:84%;
-	font-weight:bold;
-	margin-top:5px;
-	padding:2px;
-        cursor: pointer;
-        border: 2px solid #00F2AB;
-
-}
-
 .map {
   cursor: crosshair;
 }
@@ -1068,22 +1047,6 @@ font-style:italic;
 	width:5em;
 
 }
-#div_gcp_form input.warp_button
-{
-	font-size:110%;
-	font-weight:700;
-	overflow:visible;
-	padding-bottom:0.2em;
-	padding-left:1em;
-	padding-right:1em;
-}
-
-#div_gcp_form input.button[warp_button]
-{
-	font-size:110%;
-	width:auto;
-}
-
 #gcp_table_div {
 margin-bottom: 1em;
 }

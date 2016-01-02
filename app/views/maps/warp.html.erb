@@ -91,7 +91,7 @@
 -->
 <div id="gcp" style="padding-top:16px;">
 
-  <div id="addPointDiv" style="text-align:center" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button" /></div>
+  <div id="addPointDiv" style="text-align:center" class="addPoint"><input type="button" id="GcpButton" value="Add Control Point" onclick="set_gcp();" class="gcp_button btn btn-lg btn-primary" /></div>
 </div>
 
 <fieldset id="control_panel_fieldset">
@@ -153,7 +153,7 @@
       });
     });
   </script>
-        <%= f.submit 'Warp Image! &rarr;'.html_safe, {:class  => "warp_button", :id=>"warp_button"}%>
+        <%= f.submit 'Warp Image! &rarr;'.html_safe, {:class  => "warp_button btn btn-lg btn-primary", :id=>"warp_button"}%>
       </p>
       <div id ="clipping_mask_buttons">
 
