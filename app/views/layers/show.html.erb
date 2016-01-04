@@ -25,6 +25,10 @@
         <%= link_to("WMS link suitable for JOSM OpenStreetMap Editor", josm_url) %> <br />
       </li>
       <li>
+        <% tile_url = url_for(tile_layer_url(:x => "{X}",:y => "{y}", :x => "{x}", :z => "{z}", :format =>"png")) %>
+          Tiles (Google/OSM scheme): <%= URI.unescape(tile_url) %>
+      </li>
+      <li>
         <%= link_to("Download KML", layer_url(:id => @layer, :format=>:kml)) %>
       </li>
     </ul>
