@@ -1,8 +1,15 @@
 nav.navbar.navbar-default.navbar-static.top role="navigation"
   .container-fluid
     .navbar-header
-      .navbar-left
-        = link_to 'HistoryForge', root_path, class: 'navbar-brand'
+      button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar-nav" aria-expanded="false"
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+
+      = link_to 'HistoryForge', root_path, class: 'navbar-brand'
+
+    .collapse.navbar-collapse#navbar-nav
       ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           - if current_user.has_role?("administrator") || current_user.has_role?("super user")
