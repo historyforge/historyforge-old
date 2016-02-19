@@ -2,10 +2,10 @@ module ApplicationHelper
 
   def prepare_alerts_base
     js = []
-    js << ['success', flash[:notice]] unless flash[:notice].blank?
-    js << ['error', flash[:errors]] unless flash[:errors].blank?
-    js << ['log', flash[:alert]] unless flash[:alert].blank?
-    js << ['log', flash[:warning]] unless flash[:warning].blank?
+    js << ['success', message_for_item(flash[:notice], :notice_item)] unless flash[:notice].blank?
+    js << ['error', message_for_item(flash[:errors], :errors_itme)] unless flash[:errors].blank?
+    js << ['log', message_for_item(flash[:alert], :alert_item)] unless flash[:alert].blank?
+    js << ['log', message_for_item(flash[:warning], :warning_item)] unless flash[:warning].blank?
     js
   end
 
