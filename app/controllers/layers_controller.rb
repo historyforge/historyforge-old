@@ -327,12 +327,8 @@ class LayersController < ApplicationController
   end
 
   def destroy
-    if user_signed_in? and (current_user.own_this_layer?(params[:id])  or current_user.has_role?("editor"))
-      @layer = Layer.find(params[:id])
-    else
-      flash[:notice] = "Sorry, you cannot delete other people's map layers!"
-      redirect_to layers_path
-    end
+    @layer = Layer.find(params[:id])
+    authorize! :destroy, @layer
 
     if @layer.destroy
       flash[:notice] = "Map layer deleted!"
@@ -624,12 +620,8 @@ class LayersController < ApplicationController
   private
 
   def check_if_layer_is_editable
-    if user_signed_in? and (current_user.own_this_layer?(params[:id])  or current_user.has_role?("editor"))
-      @layer = Layer.find(params[:id])
-    else
-      flash[:notice] = "Sorry, you cannot edit another person's map layer"
-      redirect_to layer_path
-    end
+    @layer = Layer.find(params[:id])
+    authorize! :update, @layer
   end
 
 

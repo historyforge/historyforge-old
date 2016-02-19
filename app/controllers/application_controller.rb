@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  rescue_from CanCan::AccessDenied, with: :permission_denied
+
   def check_super_user_role
     check_role('super user')
   end
@@ -36,11 +38,9 @@ class ApplicationController < ActionController::Base
   end
 
   def permission_denied
-    flash[:error] = "Sorry you do not have permission to view that."
+    flash[:error] = "Sorry you do not have permission to do that."
     redirect_to root_path
   end
 
 
 end
-
-

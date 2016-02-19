@@ -32,7 +32,7 @@
     <% end %>
   </div>
   <div class="column span-24">
-    <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update" )%>
+    <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update", class: 'btn btn-primary btn-lg' )%>
 
   <%end%>
 </div>

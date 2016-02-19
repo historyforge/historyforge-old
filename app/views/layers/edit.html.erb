@@ -1,6 +1,6 @@
 <h2>Edit Map Layer</h2>
 <%= error_messages_for @layer %>
-<%- if (current_user = @layer.user || admin_authorized?) -%>
+<%- if can?(:destroy, @layer) -%>
   <p>&mdash; <%=  link_to 'Delete this map layer.',
   delete_layer_path(:id => @layer) %> &mdash; </p>
 
