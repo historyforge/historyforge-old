@@ -27,5 +27,13 @@ module Rails4Mapwarper
     config.quiet_assets = true
     config.logger = Logger.new(STDOUT)
 
+    config.action_mailer.default_url_options = { host: ENV['BASE_URL'] }
+    config.action_mailer.smtp_settings = {
+        address:        ENV['SMTP_HOST'],
+        port:           ENV['SMTP_PORT'],
+        user_name:      ENV['SMTP_USERNAME'],
+        password:       ENV['SMTP_PASSWORD']
+    }
+
   end
 end
