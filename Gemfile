@@ -31,6 +31,7 @@ gem 'autoprefixer-rails'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'cancancan'
+gem 'andand'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -47,8 +48,8 @@ gem 'devise-encryptable'
 # gem "omniauth-mediawiki"
 
 gem 'pg'
-#gem 'activerecord-postgis-adapter'
-gem 'activerecord-postgis-adapter', '3.0.0.beta2'
+gem 'activerecord-postgis-adapter'
+# gem 'activerecord-postgis-adapter', '3.0.0.beta2'
 
 gem 'acts-as-taggable-on', '~> 3.4'
 gem 'paperclip', '~> 4.2.0'
@@ -68,6 +69,8 @@ gem 'yql', '0.0.2'
 
 gem 'quiet_assets'
 gem 'dotenv'
+
+gem 'rubyXL', require: false
 
 group :development do
    gem 'web-console', '~> 2.0'

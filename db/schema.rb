@@ -11,11 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150424134733) do
+ActiveRecord::Schema.define(version: 20160224131809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "architects", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "architects_buildings", id: false, force: :cascade do |t|
+    t.integer "architect_id", null: false
+    t.integer "building_id",  null: false
+  end
+
+  add_index "architects_buildings", ["architect_id", "building_id"], name: "architects_buildings_index", unique: true, using: :btree
 
   create_table "audits", force: :cascade do |t|
     t.integer  "auditable_id"
@@ -36,6 +49,30 @@ ActiveRecord::Schema.define(version: 20150424134733) do
   add_index "audits", ["auditable_id", "auditable_type"], name: "auditable_index", using: :btree
   add_index "audits", ["created_at"], name: "index_audits_on_created_at", using: :btree
   add_index "audits", ["user_id", "user_type"], name: "user_index", using: :btree
+
+  create_table "building_types", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "buildings", force: :cascade do |t|
+    t.string   "name",                                                          null: false
+    t.string   "address",                                                       null: false
+    t.string   "city",                                       default: "Ithaca", null: false
+    t.string   "state",                                      default: "NY",     null: false
+    t.string   "postal_code",                                default: "14850",  null: false
+    t.integer  "year_earliest"
+    t.integer  "year_latest"
+    t.integer  "building_type_id"
+    t.text     "description"
+    t.decimal  "lat",              precision: 15, scale: 10
+    t.decimal  "lon",              precision: 15, scale: 10
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
+  end
+
+  add_index "buildings", ["building_type_id"], name: "index_buildings_on_building_type_id", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
     t.string   "name"
@@ -295,4 +332,5 @@ ActiveRecord::Schema.define(version: 20150424134733) do
     t.string   "uid"
   end
 
+  add_foreign_key "buildings", "building_types"
 end
