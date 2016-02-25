@@ -1,0 +1,15 @@
+.pull-right
+  - if can?(:create, Building)
+    = link_to 'Add New', new_building_path, class: 'btn btn-default'
+h1.page-title Buildings
+
+.warper_pagination
+  #search-pagination-top
+    = will_paginate @buildings
+
+ul#buildings
+  = render @buildings
+
+.warper_pagination
+  #search-pagination-botton
+    = will_paginate @buildings

@@ -1,0 +1,22 @@
+.pull-right
+  - if can?(:update, @building)
+    = link_to 'Edit', [:edit, @building], class: 'btn btn-default'
+  = link_to 'View All', buildings_path, class: 'btn btn-default'
+
+h1.page-title= @building.name
+dl
+  dt Years
+  dd
+    = "Built in #{@building.year_earliest}."
+    - if @building.year_latest?
+      = " Torn down in #{@building.year_latest}."
+    - else
+      = " Still standing."
+  dt Architect
+  dd= @building.architects.map(&:name).to_sentence
+  dt Building Type
+  dd= @building.building_type.name.titleize
+  dt Address
+  dd= @building.address_parts.join("<br>").html_safe
+  dt Description
+  dd= simple_format @building.description

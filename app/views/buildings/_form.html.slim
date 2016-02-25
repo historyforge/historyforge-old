@@ -1,0 +1,20 @@
+= simple_form_for @building do |form|
+  = form.input :name
+  = form.input :building_type_id, collection: BuildingType.order(:name)
+  = form.input :year_earliest
+  = form.input :year_latest
+  = form.input :address
+  = form.input :city
+  = form.input :state
+  = form.input :postal_code
+  = form.input :lat
+  = form.input :lon
+  = form.input :architects_list
+  = form.input :description
+
+  / Architects?
+  / Photos?
+  / Lat/Lng
+
+  .form-actions
+    = form.submit 'Save', class: 'btn btn-primary btn-lg'

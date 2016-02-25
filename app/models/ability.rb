@@ -10,7 +10,8 @@ class Ability
       can :read, Map do |map|
         map.status == :published
       end
-
+      can :read, Building
+      can :read, Architect
     else
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all

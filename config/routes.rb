@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     resources :roles
   end
 
+  resources :buildings
+
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
 
   resources :maps  do

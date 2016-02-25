@@ -20,4 +20,20 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  simple_form:
+    labels:
+      building:
+        address: 'Street address'
+        architects_list: 'Architects'
+        year_earliest: 'Earliest Year'
+        year_latest: 'Latest Year'
+        lat: 'Latitude'
+        lon: 'Longitude'
+        name: 'Building Name'
+
+    hints:
+      building:
+        address: 'TBD - address when built. Ability to add multiple addresses?'
+        architects_list: 'comma-separated list of names'
+        year_earliest: 'Year built or first mentioned.'
+        year_latest: 'Year in which the building was demolished.'
