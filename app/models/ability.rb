@@ -17,7 +17,9 @@ class Ability
       elsif user.has_role?("editor")
         can :manage, Layer
         can :manage, Map
-        can :manager, Gcp
+        can :manage, Gcp
+        can :manage, Building
+        can :manage, Architect
       end
 
       can :manage, Layer, user_id: user.id
