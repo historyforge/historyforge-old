@@ -1,13 +1,25 @@
 class BuildingsController < ApplicationController
 
+  respond_to :json, only: :index
+  respond_to :html
+
   def index
     authorize! :read, Building
-    @per_page = params[:per_page] || 10
-    paginate_params = {
-      :page => params[:page],
-      :per_page => @per_page
-    }
-    @buildings = Building.includes(:architects, :building_type).paginate(paginate_params)
+    unless params[:q].andand[:s]
+      params[:q] ||= {}
+      params[:q][:s] = 'name asc'
+    end
+    @search = Building.includes(:architects, :building_type).ransack(params[:q])
+    @buildings = @search.result
+    unless request.format.json?
+      @per_page = params[:per_page] || 25
+      paginate_params = {
+        :page => params[:page],
+        :per_page => @per_page
+      }
+      @buildings = @buildings.paginate(paginate_params)
+    end
+    respond_with @buildings
   end
 
   def new

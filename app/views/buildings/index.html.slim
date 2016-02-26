@@ -1,14 +1,46 @@
 .pull-right
+  span.warper_pagination
+    span#search-pagination-top
+      = will_paginate @buildings
   - if can?(:create, Building)
     = link_to 'Add New', new_building_path, class: 'btn btn-default'
 h1.page-title Buildings
 
-.warper_pagination
-  #search-pagination-top
-    = will_paginate @buildings
+.row
+  .col-xs-10
 
-ul#buildings
-  = render @buildings
+    table.table.table-condensed.table-striped
+      thead
+        tr
+          th= sort_link(@search, :name, 'Building')
+          th Type
+          th= sort_link(@search, :year_earliest, 'Year')
+          th Address
+          th City
+          th
+      tbody
+        - @buildings.each do |row|
+          tr
+            td= row.name
+            td= row.building_type.andand.name.andand.capitalize || 'Unspecified'
+            td= row.year_earliest
+            td= row.address
+            td= row.city
+            td style="text-align:right"
+              = link_to 'View', row, class: 'btn btn-xs btn-default'
+              - if can? :update, row
+                = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
+  .col-xs-2
+    .panel.panel-default
+      .panel-heading
+        h3 Filters
+      .panel-body
+        = search_form_for @search, builder: SimpleForm::FormBuilder do |form|
+          = form.input :name_cont, label: 'Name'
+          = form.input :year_earliest_eq, label: 'Year'
+          .form-actions
+            = form.submit 'Search', class: 'btn btn-primary'
+            =< link_to 'Reset', buildings_path, class: 'btn btn-default'
 
 .warper_pagination
   #search-pagination-botton

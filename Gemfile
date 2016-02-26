@@ -32,6 +32,8 @@ gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'cancancan'
 gem 'andand'
+gem 'active_model_serializers'
+gem 'ransack'
 
 # Use unicorn as the app server
 # gem 'unicorn'
