@@ -7,8 +7,8 @@ class UsersController < ApplicationController
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
-  helper :sort
-  include SortHelper
+  # helper :sort
+  # include SortHelper
 
   def stats
     # sort_init "total_count"
