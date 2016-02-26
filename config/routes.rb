@@ -77,7 +77,6 @@ Rails.application.routes.draw do
 
   resources :layers do
     member do
-      get 'comments'
       get 'merge'
       get 'publish'
       get 'toggle_visibility'
@@ -114,10 +113,6 @@ Rails.application.routes.draw do
   get '/activity' => 'audits#index', :as => "activity"
   get '/activity/:id' => 'audits#show', :as => "activity_details"
   get '/activity.:format' => 'audits#index', :as => "formatted_activity"
-
-
-  resources :comments
-
 
   resources :imports do
     member do

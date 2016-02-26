@@ -1,8 +1,8 @@
 class MapsController < ApplicationController
 
-  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
+  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
 
-  before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit, :comments ]
+  before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit ]
 
   before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
 
@@ -17,9 +17,6 @@ class MapsController < ApplicationController
   #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
-
-  helper :sort
-  include SortHelper
 
   ###############
   #
@@ -376,17 +373,6 @@ class MapsController < ApplicationController
 
   end
 
-
-  def comments
-    @html_title = "comments"
-    @selected_tab = 9
-    @current_tab = "comments"
-    @comments = @map.comments
-    choose_layout_if_ajax
-    respond_to do | format |
-      format.html {}
-    end
-  end
 
   def export
     @current_tab = "export"
@@ -940,8 +926,6 @@ class MapsController < ApplicationController
       anchor = "Align_tab"
     when "export"
       anchor = "Export_tab"
-    when "comments"
-      anchor = "Comments_tab"
     else
       anchor = ""
     end

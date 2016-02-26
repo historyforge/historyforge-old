@@ -2,29 +2,27 @@ class Layer < ActiveRecord::Base
   has_many :layers_maps, :dependent => :destroy
   has_many :maps,:through => :layers_maps
   belongs_to :user
-  
-  acts_as_commentable  
-  
+
   validates_presence_of :name
   validates_length_of :depicts_year, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}
-  
+
   scope :with_year, -> { where(:depicts_year =>  'is not null').order(:maps_count) }
   scope :visible, -> {where(:is_visible => true).order(:id)}
   scope :with_maps, -> {where('rectified_maps_count >= 1').order(:rectified_maps_count)}
-  
+
 
   after_create :update_layer
   after_destroy :delete_tileindex
 
   def tileindex_filename;   self.id.to_s + '.shp' ; end
-  
+
   def tileindex_dir
     defined?(TILEINDEX_DIR) ? TILEINDEX_DIR : File.join(Rails.root, '/db/maptileindex')
   end
 
   def tileindex_path;  File.join(tileindex_dir, tileindex_filename) ;  end
-  
+
   def thumb
     if self.maps.first.nil?
       'missing.png'
@@ -34,7 +32,7 @@ class Layer < ActiveRecord::Base
       self.maps.first.upload.url(:thumb)
     end
   end
-  
+
   def update_layer
     create_tileindex
     set_bounds
@@ -91,7 +89,7 @@ class Layer < ActiveRecord::Base
     unless self.maps.warped.empty?
       delete_tileindex(tileindex)
       map_list = ""
-      #only make a tileindex if the maps are warped. 
+      #only make a tileindex if the maps are warped.
       self.maps.warped.each {|map| map_list += (map.warped_filename + " ")}
       command = "gdaltindex -write_absolute_path #{tileindex} #{map_list}"
       logger.info(command)
@@ -109,7 +107,7 @@ class Layer < ActiveRecord::Base
     else
       result= false
     end
-    
+
     result
   end
 
@@ -135,7 +133,7 @@ class Layer < ActiveRecord::Base
       stdout, stderr = Open3.capture3( command )
       sout = stdout
       serr = stderr
-      if !serr.blank? 
+      if !serr.blank?
         logger.error "Error set bounds with layer get extent "+ serr
       else
         extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
@@ -188,6 +186,6 @@ class Layer < ActiveRecord::Base
 
     result
   end
-  
+
 
 end
