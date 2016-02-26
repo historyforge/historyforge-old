@@ -32,7 +32,7 @@ dl
       = 'not specified'
   dt Address
   dd= @building.address_parts.join("<br>").html_safe
-  - if @building.annotations
+  - if @building.annotations.present?
     dt Annotations
     dd= @building.annotations
   dt Description
