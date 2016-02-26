@@ -11,8 +11,8 @@ class UsersController < ApplicationController
   include SortHelper
 
   def stats
-    sort_init "total_count"
-    sort_update
+    # sort_init "total_count"
+    # sort_update
 
     @html_title = "Users Stats"
 

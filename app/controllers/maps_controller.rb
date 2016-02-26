@@ -115,9 +115,9 @@ class MapsController < ApplicationController
   #
   ###############
   def index
-    sort_init('updated_at', {:default_order => "desc"})
+    # sort_init('updated_at', {:default_order => "desc"})
 
-    sort_update
+    # sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
 
@@ -192,8 +192,8 @@ class MapsController < ApplicationController
 
 
   def tag
-    sort_init('updated_at', {:default_order => "desc"})
-    sort_update
+    # sort_init('updated_at', {:default_order => "desc"})
+    # sort_update
     @tags = params[:id] || @query
     @html_title = "Maps tagged with #{@tags} on "
     @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
@@ -209,8 +209,8 @@ class MapsController < ApplicationController
 
   def geosearch
     require 'geoplanet'
-    sort_init 'updated_at'
-    sort_update
+    # sort_init 'updated_at'
+    # sort_update
 
     extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
 

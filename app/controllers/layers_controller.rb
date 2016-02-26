@@ -7,8 +7,6 @@ class LayersController < ApplicationController
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
-  helper :sort
-  include SortHelper
 
   def thumb
     redirect_to @layer.thumb
@@ -17,8 +15,8 @@ class LayersController < ApplicationController
 
   def geosearch
     require 'geoplanet'
-    sort_init 'updated_at'
-    sort_update
+    # sort_init 'updated_at'
+    # sort_update
 
     extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
 
@@ -105,9 +103,9 @@ class LayersController < ApplicationController
 
 
   def index
-    sort_init('created_at', {:default_order => "desc"})
+    # sort_init('created_at', {:default_order => "desc"})
     session[@sort_name] = nil  #remove the session sort as we have percent
-    sort_update
+    # sort_update
     @query = params[:query]
     @field = %w(name description).detect{|f| f== (params[:field])}
     @field = "name" if @field.nil?
