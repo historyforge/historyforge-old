@@ -24,7 +24,7 @@ h1.page-title Buildings
             td= row.name
             td= row.building_type.andand.name.andand.capitalize || 'Unspecified'
             td= row.year_earliest
-            td= row.address
+            td= row.street_address
             td= row.city
             td style="text-align:right"
               = link_to 'View', row, class: 'btn btn-xs btn-default'

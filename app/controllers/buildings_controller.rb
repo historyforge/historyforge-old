@@ -76,7 +76,13 @@ class BuildingsController < ApplicationController
   private
 
   def building_params
-    params.require(:building).permit(:name, :year_earliest, :year_latest, :description, :address, :city, :state, :postal_code, :building_type_id, :lat, :lon, :architects_list)
+    params.require(:building).permit(:name, :description, :annotations, :stories,
+                                     :year_earliest, :year_latest, :year_latest_circa, :year_earliest_circa,
+                                     :address, :city, :state, :postal_code,
+                                     :address_house_number, :address_street_prefix,
+                                     :address_street_name, :address_street_suffix,
+                                     :building_type_id, :lining_type_id, :frame_type_id,
+                                     :lat, :lon, :architects_list)
   end
 
 end

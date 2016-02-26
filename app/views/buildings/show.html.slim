@@ -20,7 +20,20 @@ dl
   dd= @building.architects.present? ? @building.architects.map(&:name).to_sentence : 'None'
   dt Building Type
   dd= @building.building_type.name.titleize
+  dt Construction
+  dd
+    - if @building.stories
+      => "#{@building.stories}-story"
+    - if @building.frame_type_id
+      = "#{@building.frame_type.name} structure"
+    - if @building.lining_type_id
+      = " with #{@building.lining_type.name} lining."
+    - if !@building.stories && !@building.frame_type_id && !@building.lining_type_id
+      = 'not specified'
   dt Address
   dd= @building.address_parts.join("<br>").html_safe
+  - if @building.annotations
+    dt Annotations
+    dd= @building.annotations
   dt Description
   dd= simple_format @building.description

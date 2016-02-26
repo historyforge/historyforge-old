@@ -2,7 +2,13 @@
   = form.input :name
   = form.input :building_type_id, collection: BuildingType.order(:name)
   = form.input :year_earliest
+  = form.input :year_earliest_circa, inline_label: 'Circa: Exact building year unknown.'
   = form.input :year_latest
+  = form.input :year_latest_circa, inline_label: 'Circa: Exact demolition year unknown.'
+  = form.input :address_house_number
+  = form.input :address_street_prefix, collection: %w{N S E W}
+  = form.input :address_street_name
+  = form.input :address_street_suffix, collection: %w{Street Road Avenue Boulevard Place Terrace Court Pike Trace}.sort
   = form.input :address
   = form.input :city
   = form.input :state
@@ -10,6 +16,10 @@
   = form.input :lat
   = form.input :lon
   = form.input :architects_list
+  = form.input :stories
+  = form.input :frame_type_id,  collection: ConstructionMaterial.order(:name)
+  = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
+  = form.input :annotations
   = form.input :description
 
   / Architects?

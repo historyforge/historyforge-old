@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224131809) do
+ActiveRecord::Schema.define(version: 20160226152459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,22 +57,34 @@ ActiveRecord::Schema.define(version: 20160224131809) do
   end
 
   create_table "buildings", force: :cascade do |t|
-    t.string   "name",                                                          null: false
-    t.string   "address",                                                       null: false
-    t.string   "city",                                       default: "Ithaca", null: false
-    t.string   "state",                                      default: "NY",     null: false
-    t.string   "postal_code",                                default: "14850",  null: false
+    t.string   "name",                                                               null: false
+    t.string   "address",                                                            null: false
+    t.string   "city",                                            default: "Ithaca", null: false
+    t.string   "state",                                           default: "NY",     null: false
+    t.string   "postal_code",                                     default: "14850",  null: false
     t.integer  "year_earliest"
     t.integer  "year_latest"
     t.integer  "building_type_id"
     t.text     "description"
-    t.decimal  "lat",              precision: 15, scale: 10
-    t.decimal  "lon",              precision: 15, scale: 10
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.decimal  "lat",                   precision: 15, scale: 10
+    t.decimal  "lon",                   precision: 15, scale: 10
+    t.datetime "created_at",                                                         null: false
+    t.datetime "updated_at",                                                         null: false
+    t.boolean  "year_earliest_circa",                             default: false
+    t.boolean  "year_latest_circa",                               default: false
+    t.string   "address_house_number"
+    t.string   "address_street_prefix"
+    t.string   "address_street_name"
+    t.string   "address_street_suffix"
+    t.integer  "stories"
+    t.text     "annotations"
+    t.integer  "lining_type_id"
+    t.integer  "frame_type_id"
   end
 
   add_index "buildings", ["building_type_id"], name: "index_buildings_on_building_type_id", using: :btree
+  add_index "buildings", ["frame_type_id"], name: "index_buildings_on_frame_type_id", using: :btree
+  add_index "buildings", ["lining_type_id"], name: "index_buildings_on_lining_type_id", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
     t.string   "name"
@@ -101,6 +113,13 @@ ActiveRecord::Schema.define(version: 20160224131809) do
   add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
   add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "construction_materials", force: :cascade do |t|
+    t.string   "name"
+    t.string   "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "gcps", force: :cascade do |t|
     t.integer  "map_id"

@@ -25,8 +25,8 @@ en:
       building:
         address: 'Street address'
         architects_list: 'Architects'
-        year_earliest: 'Earliest Year'
-        year_latest: 'Latest Year'
+        year_earliest: 'Year Built'
+        year_latest: 'Year Demolished'
         lat: 'Latitude'
         lon: 'Longitude'
         name: 'Building Name'
