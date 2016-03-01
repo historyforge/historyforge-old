@@ -28,4 +28,8 @@ class Building < ActiveRecord::Base
     [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
   end
 
+  def building_type_name
+    building_type.andand.name.titleize || 'Unspecified'
+  end
+
 end

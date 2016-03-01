@@ -22,7 +22,7 @@ h1.page-title Buildings
         - @buildings.each do |row|
           tr
             td= row.name
-            td= row.building_type.andand.name.andand.capitalize || 'Unspecified'
+            td= row.building_type_name
             td= row.year_earliest
             td= row.street_address
             td= row.city
