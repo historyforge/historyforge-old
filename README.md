@@ -1,5 +1,20 @@
 # Map Warper
 
+This is a fork of MapWarper.
+* Updates styles to Bootstrap 3
+* Remove ability for public to upload maps
+* Renames "mosaics" to map layers
+* Uses cancan for authorization (WIP)
+* Uses simple_form (WIP)
+* Uses ransack for search (WIP)
+* Adds buildings as a content type
+
+It will eventually:
+* Add census records as a content type
+* Connect census records via people records
+* Connect people to buildings
+* Present a searchable interface integrating map layers, buildings, and people.
+
 Mapwarper is an open source map geo-rectification, warping and georeferencing application.
 It enables a user to upload an image, a scanned map or aerial photo for example, and by placing control points on a reference map and the image, to warp it, to stretch it to fit.
 
