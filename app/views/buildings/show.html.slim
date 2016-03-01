@@ -37,3 +37,12 @@ dl
     dd= @building.annotations
   dt Description
   dd= simple_format @building.description
+
+  - if @building.photos.present?
+    dt Photos
+    dd
+      .row
+        - @building.photos.each do |photo|
+          .building-photo.col-xs-4
+            = picture_tag photo: photo, style: 'quarter', img_class: 'img-thumbnail'
+            = simple_format photo.full_caption

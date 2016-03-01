@@ -89,3 +89,12 @@ div.date {
     display:inline-block;
   }
 }
+
+.photo {
+  border-bottom: 1px solid #cccccc;
+  margin-bottom:0.5em;
+  &:last-child {
+    border-bottom: none;
+    margin-bottom:0;
+  }
+}

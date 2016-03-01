@@ -54,7 +54,8 @@ GEM
       tzinfo (~> 1.1)
     acts-as-taggable-on (3.5.0)
       activerecord (>= 3.2, < 5)
-    acts_as_commentable (4.0.2)
+    acts_as_list (0.7.2)
+      activerecord (>= 3.0)
     airbrake (4.3.4)
       builder
       multi_json
@@ -138,6 +139,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.99)
+    mini_magick (4.4.0)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
@@ -281,7 +283,7 @@ DEPENDENCIES
   active_model_serializers
   activerecord-postgis-adapter
   acts-as-taggable-on (~> 3.4)
-  acts_as_commentable
+  acts_as_list
   airbrake (~> 4.3.4)
   andand
   audited-activerecord!
@@ -303,6 +305,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails (>= 4.0.5)
   jquery-ui-rails (= 3.0.1)
+  mini_magick
   paperclip (~> 4.2.0)
   pg
   quiet_assets

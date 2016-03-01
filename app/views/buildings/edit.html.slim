@@ -2,6 +2,6 @@
   = link_to 'View', @building, class: 'btn btn-default'
   = link_to 'View All', buildings_path, class: 'btn btn-default'
   - if can?(:destroy, @building)
-    = link_to 'Delete', @building, data: { method: :delete, confirm: 'Are you sure? There is no undo.' }
+    = link_to 'Delete', @building, class: 'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? There is no undo.' }
 h1.page-title= @building.name
 = render 'form'

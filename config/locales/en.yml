@@ -30,6 +30,10 @@ en:
         lat: 'Latitude'
         lon: 'Longitude'
         name: 'Building Name'
+        address_house_number: 'House Number'
+        address_street_prefix: 'Prefix'
+        address_street_name: 'Street Name'
+        address_street_suffix: 'Suffix'
 
     hints:
       building:
@@ -37,3 +41,4 @@ en:
         architects_list: 'comma-separated list of names'
         year_earliest: 'Year built or first mentioned.'
         year_latest: 'Year in which the building was demolished.'
+        annotations: 'Such as words written about the building on a Sanborn map. Eventually this will be more complicated.'

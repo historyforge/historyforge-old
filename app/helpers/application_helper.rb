@@ -98,4 +98,8 @@ module ApplicationHelper
     assets
   end
 
+  def picture_tag(photo: nil, style: 'quarter', img_class: 'img-thumb')
+    render 'shared/picture', id: photo.id, style: style, alt_text: photo.caption, img_class: img_class
+  end
+
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160226152459) do
+ActiveRecord::Schema.define(version: 20160301134243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -299,6 +299,22 @@ ActiveRecord::Schema.define(version: 20160226152459) do
     t.datetime "updated_at"
   end
 
+  create_table "photos", force: :cascade do |t|
+    t.integer  "building_id"
+    t.integer  "position"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_size"
+    t.integer  "width"
+    t.integer  "height"
+    t.text     "caption"
+    t.integer  "year_taken"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "photos", ["building_id"], name: "index_photos_on_building_id", using: :btree
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.integer  "updated_by"
@@ -352,4 +368,5 @@ ActiveRecord::Schema.define(version: 20160226152459) do
   end
 
   add_foreign_key "buildings", "building_types"
+  add_foreign_key "photos", "buildings"
 end

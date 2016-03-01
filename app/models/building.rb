@@ -5,7 +5,10 @@ class Building < ActiveRecord::Base
   belongs_to :frame_type, class_name: 'ConstructionMaterial'
   belongs_to :lining_type, class_name: 'ConstructionMaterial'
 
-  validates :name, :address, :city, :state, presence: true, length: { maximum: 255 }
+  has_many :photos, -> { order(:position) }, dependent: :destroy
+  accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
+
+  validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
 
   def address_parts

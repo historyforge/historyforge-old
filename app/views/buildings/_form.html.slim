@@ -1,30 +1,75 @@
 = simple_form_for @building do |form|
-  = form.input :name
-  = form.input :building_type_id, collection: BuildingType.order(:name)
-  = form.input :year_earliest
-  = form.input :year_earliest_circa, inline_label: 'Circa: Exact building year unknown.'
-  = form.input :year_latest
-  = form.input :year_latest_circa, inline_label: 'Circa: Exact demolition year unknown.'
-  = form.input :address_house_number
-  = form.input :address_street_prefix, collection: %w{N S E W}
-  = form.input :address_street_name
-  = form.input :address_street_suffix, collection: %w{Street Road Avenue Boulevard Place Terrace Court Pike Trace}.sort
-  = form.input :address
-  = form.input :city
-  = form.input :state
-  = form.input :postal_code
-  = form.input :lat
-  = form.input :lon
-  = form.input :architects_list
-  = form.input :stories
-  = form.input :frame_type_id,  collection: ConstructionMaterial.order(:name)
-  = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
-  = form.input :annotations
-  = form.input :description
 
-  / Architects?
-  / Photos?
-  / Lat/Lng
+  .panel.panel-default
+    .panel-heading
+      h3 Name and Use
+    .panel-body
+      = form.input :name
+      = form.input :building_type_id, collection: BuildingType.order(:name)
+      .row
+        .col-xs-6
+          = form.input :year_earliest
+          = form.input :year_earliest_circa, inline_label: 'Circa: Exact building year unknown.'
+        .col-xs-6
+          = form.input :year_latest
+          = form.input :year_latest_circa, inline_label: 'Circa: Exact demolition year unknown.'
+
+  .panel.panel-default
+    .panel-heading
+      h3 Construction Details
+    .panel-body
+      = form.input :architects_list
+      = form.input :stories
+      .row
+        .col-xs-6
+          = form.input :frame_type_id,  collection: ConstructionMaterial.order(:name)
+        .col-xs-6
+          = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
+      = form.input :annotations
+
+  .panel.panel-default
+    .panel-heading
+      h3 Building Location
+    .panel-body
+      .row
+        .col-xs-2
+          = form.input :address_house_number
+        .col-xs-2
+          = form.input :address_street_prefix, collection: %w{N S E W}
+        .col-xs-6
+          = form.input :address_street_name
+        .col-xs-2
+          = form.input :address_street_suffix, collection: %w{Street Road Avenue Boulevard Place Terrace Court Pike Trace}.sort
+      = form.input :address, hint: 'FYI only - going away soon!'
+      = form.input :city
+      = form.input :state
+      = form.input :postal_code
+      = form.input :lat, hint: 'Will eventually be replaced by map with draggable marker.'
+      = form.input :lon, hint: 'Will eventually be replaced by map with draggable marker.'
+
+  .panel.panel-default
+    .panel-heading
+      h3 Narrative
+    .panel-body
+      = form.input :description, input_html: { rows: 12 }
+
+  - if @building.photos.present?
+    .panel.panel-default
+      .panel-heading
+        h3 Photos
+      .panel-body
+        = form.fields_for :photos do |photo_form|
+          .photo.row
+            .col-xs-3
+              - if photo_form.object.new_record?
+                = photo_form.input :photo, as: :file
+              - else
+                = picture_tag photo: photo_form.object, style: 'quarter', img_class: 'img-thumbnail'
+            .col-xs-9
+              = photo_form.input :year_taken
+              = photo_form.input :caption
+              - if photo_form.object.persisted?
+                = photo_form.input :_destroy, inline_label: 'Delete photo on SAVE.', as: :boolean
 
   .form-actions
     = form.submit 'Save', class: 'btn btn-primary btn-lg'

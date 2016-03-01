@@ -46,6 +46,7 @@ class BuildingsController < ApplicationController
 
   def edit
     @building = Building.find params[:id]
+    @building.photos.build
     authorize! :update, @building
   end
 
@@ -73,6 +74,48 @@ class BuildingsController < ApplicationController
     end
   end
 
+  def photo
+    @photo = Photo.find params[:id]
+    image = ::MiniMagick::Image.open @photo.photo.path
+
+    # from style, how wide should it be? as % of 1278px
+    width = case params[:device]
+      when 'tablet'  then 1024
+      when 'phone'   then 740
+      else 1278
+    end
+
+    if params[:style] != 'full'
+      case params[:style]
+      when 'half'
+        width = (width.to_f * 0.50).ceil
+      when 'third'
+        width = (width.to_f * 0.33).ceil
+      when 'quarter'
+        width = (width.to_f * 0.25).ceil
+      else
+        width = (width.to_f * params[:style].to_f).ceil
+      end
+    end
+
+    image.auto_orient
+    image.resize width
+
+    path = File.join Rails.root, 'public', 'photos', params[:id], params[:style]
+    FileUtils.mkdir_p path
+    filename = "#{path}/#{params[:device]}.jpg"
+    image.write filename
+
+    self.content_type = 'image/jpeg'
+    self.status = 200
+    self.response_body = File.open(filename).read
+
+  rescue ::MiniMagick::Error, ::MiniMagick::Invalid => e
+    default = I18n.translate(:"errors.messages.mini_magick_processing_error", :e => e, :locale => :en)
+    message = I18n.translate(:"errors.messages.mini_magick_processing_error", :e => e, :default => default)
+    raise CarrierWave::ProcessingError, message
+  end
+
   private
 
   def building_params
@@ -82,7 +125,8 @@ class BuildingsController < ApplicationController
                                      :address_house_number, :address_street_prefix,
                                      :address_street_name, :address_street_suffix,
                                      :building_type_id, :lining_type_id, :frame_type_id,
-                                     :lat, :lon, :architects_list)
+                                     :lat, :lon, :architects_list,
+                                     { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] })
   end
 
 end

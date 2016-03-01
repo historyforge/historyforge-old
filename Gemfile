@@ -34,6 +34,8 @@ gem 'cancancan'
 gem 'andand'
 gem 'active_model_serializers'
 gem 'ransack'
+gem 'acts_as_list'
+gem 'mini_magick'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -55,7 +57,7 @@ gem 'activerecord-postgis-adapter'
 
 gem 'acts-as-taggable-on', '~> 3.4'
 gem 'paperclip', '~> 4.2.0'
-gem 'acts_as_commentable'
+# gem 'acts_as_commentable'
 gem 'will_paginate', '~> 3.0'
 gem 'spawnling', '~>2.1'
 
