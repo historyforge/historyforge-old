@@ -14,8 +14,12 @@ It will eventually:
 * Connect census records via people records
 * Connect people to buildings
 * Present a searchable interface integrating map layers, buildings, and people.
+* Run on a supported version of Ruby (not 2.0.0) - waiting for ruby-mapscript to work with Ruby 2.2.x.
 
 The intended use is for a local historical society to create a combination map library, building, resident, and photo database.
+
+
+Now the original README:
 
 Mapwarper is an open source map geo-rectification, warping and georeferencing application.
 It enables a user to upload an image, a scanned map or aerial photo for example, and by placing control points on a reference map and the image, to warp it, to stretch it to fit.
