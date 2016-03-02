@@ -63,7 +63,7 @@ xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
       xval =Array.new
       yval =Array.new
       xval[0] = west
-      xval[1] = west - (west - east) / 2 
+      xval[1] = west - (west - east) / 2
       xval[2] = east
 
       yval[0] = south

@@ -35,5 +35,7 @@ module Rails4Mapwarper
         password:       ENV['SMTP_PASSWORD']
     }
 
+    config.assets.precompile += %w{forge.js}
+
   end
 end

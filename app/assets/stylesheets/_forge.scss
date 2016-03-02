@@ -1,0 +1,25 @@
+ng-map {
+  width: 100%;
+  height: 100% !important;
+}
+
+.map-wrap {
+  // height: 100%;
+  position: absolute;
+  left:0px;
+  top:50px;
+  right:25%;
+  bottom:0px;
+  .agency-map & {
+    top: 0px;
+  }
+}
+
+#forge-right-col {
+  position:absolute;
+  top:50px;
+  left:75%;
+  right:0px;
+  bottom:0px;
+  background-color:white;
+}

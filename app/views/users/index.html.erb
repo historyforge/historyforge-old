@@ -19,10 +19,10 @@
 <table class="table table-striped table-condensed">
   <thead>
     <tr>
-      <%= sort_header_tag('login', :title => "Username") %>
+      <th>Username</th>
       <% if admin_authorized? %>
-        <%= sort_header_tag('email', :title => "Email") %>
-        <%= sort_header_tag('enabled', :title => "Enabled?") %>
+        <th>Email</th>
+        <th>Enabled?</th>
         <th>Roles</th>
       <% end -%>
     </tr>

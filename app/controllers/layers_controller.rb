@@ -84,7 +84,7 @@ class LayersController < ApplicationController
       :page => params[:page],
       :per_page => 20
     }
-    order_params = sort_geo + sort_clause + sort_nulls
+    # order_params = sort_geo + sort_clause + sort_nulls
     @layers = Layer.select("bbox, name, updated_at, id, maps_count, rectified_maps_count,
                        depicts_year").visible.with_maps.where(conditions).paginate(paginate_params)
 
@@ -133,7 +133,7 @@ class LayersController < ApplicationController
       :per_page => @per_page
     }
 
-    order_options =  sort_clause  + sort_nulls
+    # order_options =  sort_clause  + sort_nulls
 
     map = params[:map_id]
     if !map.nil?
@@ -143,7 +143,7 @@ class LayersController < ApplicationController
       @html_title = "Map Layer List for Map #{@map.id}"
       @page = "for_map"
     else
-      @layers = Layer.select(select).where(conditions).order(sort_clause + sort_nulls).paginate(paginate_params)
+      @layers = Layer.select(select).where(conditions).paginate(paginate_params)
       @html_title = "Browse Map Layers"
     end
 

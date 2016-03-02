@@ -1,0 +1,44 @@
+<div id="forge" ng-app="forge">
+
+  <div ng-controller="ForgeCtrl">
+
+    <div class="map-wrap" ng-controller="ForgeMapCtrl">
+      <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
+        <!-- <kml-layer ng-if="layer.id" url="http://historyforge.dev/layers/{{ layer.id }}.kml"></kml-layer> -->
+        <marker ng-repeat="building in buildings track by $index"
+                position="{{building.latitude}}, {{building.longitude}}"
+                on-click="showBuilding(event, building)"
+                ng-if="building.latitude"></marker>
+      </ng-map>
+    </div>
+
+    <div id="forge-right-col">
+      <div id="layer-selector" ng-controller="LayersCtrl">
+        <div class="col-xs-12">
+          <label for="layer-select" class="control-label">Select map layer: </label>
+          <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
+        </div>
+      </div>
+
+      <div id="building-details" ng-controller="BuildingCtrl">
+        <div class="col-xs-12">
+          <h4>Building Details</h4>
+          <p class="caption" ng-if="!building">Click a marker to see the building details here.</p>
+          <div ng-if="building">
+            <h3>{{ building.name }}</h3>
+            <p>{{ building.street_address }}<br>{{ building.city }}, {{ building.state }}</p>
+
+            <p><a href="/buildings/{{ building.id }}" target="_blank">Open in new tab</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?libraries="></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+<%= javascript_include_tag 'forge' %>
