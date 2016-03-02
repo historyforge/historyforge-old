@@ -1,8 +1,8 @@
 #= require 'ng-map.min'
 
-angular.module 'forge', ['ngMap']
+forge = {}
 
-.controller 'ForgeCtrl', ($scope, $http) ->
+forge.ForgeController = ($scope, $http) ->
   $scope.buildings = []
   $scope.building  = null
   $scope.layers = []
@@ -12,31 +12,23 @@ angular.module 'forge', ['ngMap']
   $http.get('/buildings.json').then (response) ->
     $scope.buildings = response.data?.buildings or []
   return
+forge.ForgeController.$inject = ['$scope', '$http']
 
-.controller 'LayersCtrl', ($scope) ->
+
+forge.LayersController = ($scope) ->
   $scope.selectLayer = ->
     console.log "Layer selected: ", $scope.layer.name
     $scope.$parent.layer = $scope.layer
     return
   return
+forge.LayersController.$inject = ['$scope']
 
-.controller 'ForgeMapCtrl', ($scope, NgMap) ->
+forge.MapController = ($scope, NgMap) ->
   kmlLayer = null
   $scope.showBuilding = (event, building) ->
     console.log building
     $scope.$parent.building = building
     return
-  # $scope.$watch 'layer', (newValue, oldValue) ->
-  #   kmlLayer?.setMap(null)
-  #   if newValue
-  #     NgMap.getMap().then (map) ->
-  #       kml_url = "http://historyforge.dev/layers/#{newValue.id}.kml"
-  #       kml_options =
-  #         suppressInfoWindows: yes
-  #         preserveViewport: no
-  #         map: map
-  #       kmlLayer = new google.maps.KmlLayer kml_url, kml_options
-  #       return
   $scope.$watch 'buildings', (newValue, oldValue) ->
     return unless newValue
     if newValue.length is 1
@@ -57,5 +49,16 @@ angular.module 'forge', ['ngMap']
     return
 
   return
+forge.MapController.$inject = ['$scope', 'NgMap']
 
-.controller 'BuildingCtrl', ($scope) ->
+forge.BuildingController = ($scope) -> return
+forge.BuildingController.$inject = ['$scope']
+
+
+
+angular
+  .module('forge', ['ngMap'])
+  .controller('ForgeCtrl', forge.ForgeController)
+  .controller('LayersCtrl', forge.LayersController)
+  .controller('ForgeMapCtrl', forge.MapController)
+  .controller('BuildingCtrl', forge.BuildingController)
