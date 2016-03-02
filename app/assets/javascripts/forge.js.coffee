@@ -26,16 +26,17 @@ angular.module 'forge', ['ngMap']
     console.log building
     $scope.$parent.building = building
     return
-  $scope.$watch 'layer', (newValue, oldValue) ->
-    kmlLayer?.setMap(null)
-    if newValue
-      NgMap.getMap().then (map) ->
-        kml_url = "http://historyforge.dev/layers/#{newValue.id}.kml"
-        kml_options =
-          suppressInfoWindows: yes
-          preserveViewport: no
-          map: map
-        kmlLayer = new google.maps.KmlLayer kml_url, kml_options
+  # $scope.$watch 'layer', (newValue, oldValue) ->
+  #   kmlLayer?.setMap(null)
+  #   if newValue
+  #     NgMap.getMap().then (map) ->
+  #       kml_url = "http://historyforge.dev/layers/#{newValue.id}.kml"
+  #       kml_options =
+  #         suppressInfoWindows: yes
+  #         preserveViewport: no
+  #         map: map
+  #       kmlLayer = new google.maps.KmlLayer kml_url, kml_options
+  #       return
   $scope.$watch 'buildings', (newValue, oldValue) ->
     return unless newValue
     if newValue.length is 1

@@ -4,7 +4,7 @@
 
     <div class="map-wrap" ng-controller="ForgeMapCtrl">
       <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
-        <!-- <kml-layer ng-if="layer.id" url="http://historyforge.dev/layers/{{ layer.id }}.kml"></kml-layer> -->
+        <kml-layer ng-if="layer.id" url="http://historyforge.dev/layers/{{ layer.id }}.kml"></kml-layer>
         <marker ng-repeat="building in buildings track by $index"
                 position="{{building.latitude}}, {{building.longitude}}"
                 on-click="showBuilding(event, building)"
