@@ -90,7 +90,7 @@ xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
             }
             }
             xml.Link{
-              #xml.viewRefreshMode("onRequest")
+              xml.viewRefreshMode("onRequest")
               xml.href{
                 xml.cdata!(this_baseurl+'?DBOX='+xval[x].to_s+','+yval[y].to_s+','+xval[x+1].to_s+','+yval[y+1].to_s+','+drawOrder.to_s)
               }
@@ -129,7 +129,7 @@ xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
           }
         }
         xml.Link{
-          #xml.viewRefreshMode("onRequest")
+          xml.viewRefreshMode("onRequest")
           xml.href(this_baseurl+'?DBOX='+west.to_s+','+south.to_s+','+east.to_s+','+north.to_s+',1')
         }
       }
