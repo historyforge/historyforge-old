@@ -12,6 +12,7 @@ class Ability
       end
       can :read, Building
       can :read, Architect
+      can :read, CensusRecord
     else
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
@@ -21,6 +22,7 @@ class Ability
         can :manage, Gcp
         can :manage, Building
         can :manage, Architect
+        can :manage, CensusRecord
       end
 
       can :manage, Layer, user_id: user.id

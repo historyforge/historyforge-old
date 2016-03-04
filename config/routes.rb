@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
 
   resources :buildings
+  resources :census_records
 
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
 

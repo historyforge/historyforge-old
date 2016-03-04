@@ -36,6 +36,7 @@ gem 'active_model_serializers'
 gem 'ransack'
 gem 'acts_as_list'
 gem 'mini_magick'
+gem 'ar_doc_store'
 
 # Use unicorn as the app server
 # gem 'unicorn'

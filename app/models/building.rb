@@ -11,6 +11,8 @@ class Building < ActiveRecord::Base
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
 
+  delegate :name, to: :building_type, prefix: true, allow_nil: true
+
   def address_parts
     parts = [street_address].compact
     parts << [[city, state].join(", "), postal_code].join(' ')
@@ -26,10 +28,6 @@ class Building < ActiveRecord::Base
 
   def street_address
     [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
-  end
-
-  def building_type_name
-    building_type.andand.name.titleize || 'Unspecified'
   end
 
 end

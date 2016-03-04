@@ -1,0 +1,76 @@
+= simple_form_for @record do |form|
+
+  .panel.panel-default
+    .panel-heading
+      h4.panel-title Census Scope
+    .panel-body
+      .row
+        .col-xs-2= form.input :page_number
+        .col-xs-2= form.input :line_number, as: :integer
+        .col-xs-2= form.input :county
+        .col-xs-2= form.input :city
+        .col-xs-2= form.input :ward
+        .col-xs-2= form.input :enum_dist
+
+      .row
+        .col-xs-2
+          = form.input :street_house_number
+        .col-xs-2
+          = form.input :street_prefix, collection: %w{N S E W}
+        .col-xs-6
+          = form.input :street_name
+        .col-xs-2
+          = form.input :street_suffix, collection: %w{Street Road Avenue Boulevard Place Terrace Court Pike Trace}.sort
+      .row
+        .col-xs-6= form.input :dwelling_number
+        .col-xs-6= form.input :family_id
+
+  .panel.panel-default
+    .panel-heading
+      h4.panel-title Personal Details
+    .panel-body
+      .row
+        .col-xs-4= form.input :last_name
+        .col-xs-4= form.input :first_name
+        .col-xs-4= form.input :relation_to_head
+
+      .row
+        .col-xs-4= form.input :sex
+        .col-xs-4= form.input :race
+        .col-xs-4= form.input :age
+
+      .row
+        .col-xs-3= form.input :marital_status
+        .col-xs-3= form.input :years_married, as: :integer
+        .col-xs-3= form.input :num_children_born, as: :integer
+        .col-xs-3= form.input :num_children_alive, as: :integer
+
+      .row
+        .col-xs-4= form.input :pob
+        .col-xs-4= form.input :pob_father
+        .col-xs-4= form.input :pob_mother
+
+      .row
+        .col-xs-4= form.input :year_immigrated, as: :integer
+        .col-xs-4= form.input :naturalized_alien
+        .col-xs-4= form.input :language_spoken
+
+      = form.input :profession
+      = form.input :industry
+      = form.input :employment
+      = form.input :unemployed, as: :boolean, inline_label: 'Without work?'
+      = form.input :unemployed_weeks_1909
+      = form.input :can_read, as: :boolean, inline_label: 'Can Read?'
+      = form.input :can_write, as: :boolean, inline_label: 'Can Write?'
+      = form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
+      = form.input :owned_or_rented
+      = form.input :mortgage
+      = form.input :farm_or_house
+      = form.input :num_farm_sched, as: :integer
+      = form.input :civil_war_vet, as: :boolean, inline_label: 'Civil War Vet?'
+      = form.input :blind, as: :boolean, inline_label: 'Blind?'
+      = form.input :deaf_dumb, as: :boolean, inline_label: 'Deaf and Dump?'
+
+
+  .form-actions
+    = form.submit 'Save', class: 'btn btn-primary btn-lg'

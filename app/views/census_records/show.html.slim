@@ -1,0 +1,7 @@
+.pull-right
+  - if can?(:update, @record)
+    = link_to 'Edit', [:edit, @record], class: 'btn btn-default'
+  = link_to 'View All', census_records_path, class: 'btn btn-default'
+
+h1.page-title= @record.name
+p All this is coming soon. Use the edit form for now.

@@ -34,6 +34,14 @@ en:
         address_street_prefix: 'Prefix'
         address_street_name: 'Street Name'
         address_street_suffix: 'Suffix'
+      census_record:
+        street_house_number: 'House Number'
+        street_prefix: 'Prefix'
+        street_name: 'Street Name'
+        street_suffix: 'Suffix'
+        pob: 'Place of Birth'
+        pob_father: 'Place of Birth - Father'
+        pob_mother: 'Place of Birth - Mother'
 
     hints:
       building:
