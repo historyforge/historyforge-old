@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
       COUNT(case when action='destroy' and auditable_type='Gcp' then 1 end) as gcp_destroy_count
 
-      from audits group by user_id, username ORDER BY #{sort_clause}"
+      from audits group by user_id, username ORDER BY last_name ASC, first_name ASC"
 
 
     @users_activity = Audited::Adapters::ActiveRecord::Audit.paginate_by_sql(the_sql,
@@ -38,8 +38,8 @@ class UsersController < ApplicationController
 
   def index
     @html_title = "Users"
-    sort_init 'email'
-    sort_update
+    # sort_init 'email'
+    # sort_update
     @query = params[:query]
     @field = %w(login email provider).detect{|f| f == (params[:field])}
     if @query && @query.strip.length > 0 && @field
@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     else
       conditions = nil
     end
-    @users = User.where(conditions).order(sort_clause).paginate(:page=> params[:page], :per_page => 30)
+    @users = User.where(conditions).order('last_name asc, first_name asc').paginate(:page=> params[:page], :per_page => 30)
 
   end
 

@@ -42,7 +42,7 @@ class CensusRecordsController < ApplicationController
   end
 
   def show
-    @record = Census1910Record.includes(:architects, :building_type).find params[:id]
+    @record = Census1910Record.find params[:id]
     authorize! :read, @record
   end
 

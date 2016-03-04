@@ -148,7 +148,7 @@ class MapsController < ApplicationController
         :page => params[:page],
         :per_page => @per_page
       }
-      order_options = sort_clause + sort_nulls
+      order_options = "title asc #{sort_nulls}"
       where_options = conditions
       #order('name').where('name LIKE ?', "%#{search}%").paginate(page: page, per_page: 10)
 
@@ -196,7 +196,7 @@ class MapsController < ApplicationController
     # sort_update
     @tags = params[:id] || @query
     @html_title = "Maps tagged with #{@tags} on "
-    @maps = Map.are_public.order(sort_clause).tagged_with(@tags).paginate(
+    @maps = Map.are_public.order('title asc').tagged_with(@tags).paginate(
       :page => params[:page],
       :per_page => 20)
     respond_to do |format|
@@ -281,7 +281,7 @@ class MapsController < ApplicationController
       :page => params[:page],
       :per_page => 20
     }
-    order_params = sort_geo + sort_clause + sort_nulls
+    order_params = "#{sort_geo} title ASC #{sort_nulls}"
     @maps = Map.select("bbox, title, description, updated_at, id, date_depicted").warped.where(conditions).order(order_params).paginate(paginate_params)
     @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
     respond_to do |format|
