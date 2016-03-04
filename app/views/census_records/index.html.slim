@@ -3,7 +3,7 @@
     span#search-pagination-top
       = will_paginate @records
   - if can?(:create, CensusRecord)
-    = link_to 'Add New', new_building_path, class: 'btn btn-default'
+    = link_to 'Add New', new_census_record_path, class: 'btn btn-default'
 h1.page-title Census Records
 
 .row
