@@ -25,8 +25,10 @@ forge.LayersController = ($scope) ->
   return
 forge.LayersController.$inject = ['$scope']
 
-forge.MapController = ($scope, NgMap) ->
+forge.MapController = ($scope, NgMap, $http, $timeout) ->
   wmslayer = null
+  $http.defaults.headers.common.Accept = 'application/json'
+
   $scope.markerIcon =
     path: google.maps.SymbolPath.CIRCLE,
     fillColor: 'red',
@@ -37,6 +39,22 @@ forge.MapController = ($scope, NgMap) ->
 
   $scope.showBuilding = (event, building) ->
     $scope.$parent.building = building
+    return
+
+  dragTimeout = null
+  $scope.moveBuilding = (event, building) ->
+    point = event.latLng
+    building.lat = point.lat()
+    building.lon = point.lng()
+    saveBuilding = ->
+      token = $('meta[name=csrf-token]').attr('content')
+      $http.patch "/buildings/#{building.id}",
+        authenticity_token: token
+        building:
+          lat: building.lat
+          lon: building.lon
+    $timeout.cancel(dragTimeout) if dragTimeout
+    dragTimeout = $timeout saveBuilding, 1000
     return
 
   jQuery("#layer-slider").slider
@@ -85,7 +103,7 @@ forge.MapController = ($scope, NgMap) ->
   #   return
 
   return
-forge.MapController.$inject = ['$scope', 'NgMap']
+forge.MapController.$inject = ['$scope', 'NgMap', '$http', '$timeout']
 
 forge.BuildingController = ($scope) -> return
 forge.BuildingController.$inject = ['$scope']

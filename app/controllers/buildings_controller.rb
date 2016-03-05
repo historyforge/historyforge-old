@@ -55,7 +55,11 @@ class BuildingsController < ApplicationController
     authorize! :update, @building
     if @building.update_attributes(building_params)
       flash[:notice] = 'Building updated.'
-      redirect_to action: :show
+      if request.format.json?
+        render json: BuildingSerializer.new(@building)
+      else
+        redirect_to action: :show
+      end
     else
       flash[:errors] = 'Building not saved.'
       render action: :edit

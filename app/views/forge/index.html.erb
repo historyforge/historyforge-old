@@ -8,6 +8,10 @@
                 position="{{building.latitude}}, {{building.longitude}}"
                 icon="{{ markerIcon }}"
                 on-click="showBuilding(event, building)"
+                <%- if can?(:update, Building) -%>
+                draggable="true"
+                on-dragend="moveBuilding(event, building)"
+                <%- end %>
                 ng-if="building.latitude"></marker>
       </ng-map>
     </div>
