@@ -32,7 +32,7 @@ class BuildingsController < ApplicationController
     authorize! :create, @building
     if @building.save
       flash[:notice] = 'Building created.'
-      redirect_to action: :show
+      redirect_to @building
     else
       flash[:errors] = 'Building not saved.'
       render action: :new
