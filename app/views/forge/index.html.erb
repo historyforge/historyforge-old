@@ -6,9 +6,11 @@
       <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
         <marker ng-repeat="building in buildings track by $index"
                 position="{{building.latitude}}, {{building.longitude}}"
-                icon="{{ markerIcon }}"
-                on-click="showBuilding(event, building)"
-                <%- if can?(:update, Building) -%>
+                z-index="{{ zIndexFor(building) }}"
+                icon="{{ markerIcon(building) }}"
+                on-mouseover="highlightBuilding(building)"
+                on-click="showBuilding(building)"
+                 <%- if can?(:update, Building) -%>
                 draggable="true"
                 on-dragend="moveBuilding(event, building)"
                 <%- end %>
@@ -26,11 +28,11 @@
         </div>
       </div>
       <hr>
-      <!-- <div id="building-list" class="col-xs-12">
-        <div ng-repeat="building in buildings">
+      <div id="building-list" class="col-xs-12">
+        <div ng-repeat="building in buildings" ng-class="buildingClassFor(building)" ng-mouseenter="highlightBuilding(building)" ng-mouseleave="unhighlightBuilding(building)">
           <h5>{{ building.name }}</h5>
         </div>
-      </div> -->
+      </div>
       <div id="building-details" ng-controller="BuildingCtrl">
         <div class="col-xs-12">
           <h4>Building Details</h4>

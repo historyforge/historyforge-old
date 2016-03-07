@@ -8,7 +8,8 @@ ng-map {
   position: absolute;
   left:0px;
   top:50px;
-  right:25%;
+  // right:30%;
+  width:70%;
   bottom:0px;
   .agency-map & {
     top: 0px;
@@ -18,8 +19,15 @@ ng-map {
 #forge-right-col {
   position:absolute;
   top:50px;
-  left:75%;
+  width:30%;
   right:0px;
   bottom:0px;
   background-color:white;
+
+  .highlighted {
+    color: white;
+    background: #333;
+    border:none;
+  }
+
 }

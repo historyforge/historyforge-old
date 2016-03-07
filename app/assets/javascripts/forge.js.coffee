@@ -6,13 +6,23 @@ forge = {}
 forge.ForgeController = ($scope, $http) ->
   $scope.buildings = []
   $scope.building  = null
+  $scope.highlightedBuilding = null
   $scope.layers = []
   $scope.layer = null
   $http.get('/layers.json').then (response) ->
     $scope.layers = response.data?.items or []
     $scope.layer = $scope.layers[0] if $scope.layers.length is 1
-  $http.get('/buildings.json').then (response) ->
+  $http.get('/buildings.json?q[as_of_year]=1910&q[lat_not_null]=1').then (response) ->
     $scope.buildings = response.data?.buildings or []
+
+  $scope.highlightBuilding = (building) ->
+    $scope.highlightedBuilding = building
+  $scope.unhighlightBuilding = (building) ->
+    $scope.highlightedBuilding = null if $scope.highlightedBuilding?.id is building.id
+
+  $scope.buildingClassFor = (building) ->
+    return if $scope.highlightedBuilding?.id is building.id then 'highlighted' else ''
+
   return
 forge.ForgeController.$inject = ['$scope', '$http']
 
@@ -29,17 +39,29 @@ forge.MapController = ($scope, NgMap, $http, $timeout) ->
   wmslayer = null
   $http.defaults.headers.common.Accept = 'application/json'
 
-  $scope.markerIcon =
-    path: google.maps.SymbolPath.CIRCLE,
-    fillColor: 'red',
-    fillOpacity: .9,
-    scale: 6,
-    strokeColor: '#333',
-    strokeWeight: 1
+  $scope.markerIcon = (building) ->
+    highlighted = $scope.highlightedBuilding?.id is building.id
+    return {
+      path: google.maps.SymbolPath.CIRCLE
+      fillColor: if highlighted then 'blue' else 'red'
+      fillOpacity: .9
+      scale: 6
+      strokeColor: '#333'
+      strokeWeight: 1
+    }
+
+  $scope.zIndexFor = (building) ->
+    highlighted = $scope.highlightedBuilding?.id is building.id
+    return if highlighted then 100 else 10
 
   $scope.showBuilding = (event, building) ->
     $scope.$parent.building = building
     return
+
+  $scope.highlightBuilding = (event, building) ->
+    $scope.$parent.highlightedBuilding = building
+  $scope.unhighlightBuilding = (event, building) ->
+    $scope.$parent.highlightedBuilding = null if $scope.highlightedBuilding?.id is building.id
 
   dragTimeout = null
   $scope.moveBuilding = (event, building) ->
