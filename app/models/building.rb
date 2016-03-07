@@ -13,6 +13,12 @@ class Building < ActiveRecord::Base
 
   delegate :name, to: :building_type, prefix: true, allow_nil: true
 
+  scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest>=:year and (year_latest is null or year_latest<=:year)) or (year_earliest is null and (year_latest<=:year)", year: year)}
+
+  def ransackable_scopes(auth_object=nil)
+    %w{as_of_year}
+  end
+
   def address_parts
     parts = [street_address].compact
     parts << [[city, state].join(", "), postal_code].join(' ')

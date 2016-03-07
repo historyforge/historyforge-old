@@ -8,9 +8,9 @@ class CensusRecord < ActiveRecord::Base
   attribute :city
   attribute :ward
   attribute :enum_dist
-  attribute :street_prefix
+  attribute :street_prefix, as: :enumeration, values: %w{N S E W}
   attribute :street_name
-  attribute :street_suffix
+  attribute :street_suffix, as: :enumeration, values: %w{St Rd Ave Blvd Pl Terr Ct Pk Tr}.sort
   attribute :street_house_number
   attribute :dwelling_number
   attribute :family_id
