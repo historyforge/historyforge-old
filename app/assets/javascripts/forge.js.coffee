@@ -43,51 +43,57 @@ forge.LayerService = ($http, $rootScope) ->
   $http.defaults.headers.common.Accept = 'application/json'
   return {
     layers: null
+    layer: null
     load: ->
       $http.get('/layers.json').then (response) =>
         @layers = response.data?.items or []
         $rootScope.$broadcast 'layers:updated', @layers
+        if @layers.length is 1
+          @select @layers[0]
+    select: (layer) ->
+      @layer = layer
+      $rootScope.$broadcast 'layers:selected', @layer
   }
 forge.LayerService.$inject = ['$http', '$rootScope']
 
-forge.BuildingListController = ($rootScope, $scope, $http, $anchorScroll, BuildingService) ->
-  $scope.buildingTypes = window.buildingTypes
+forge.BuildingListController = ($rootScope, $scope, $http, $anchorScroll) ->
   $scope.buildings = []
-  $scope.layers = []
-  $scope.layer = null
-  $scope.form = {}
 
   $rootScope.$on 'buildings:updated', (event, buildings) ->
     $scope.buildings = buildings
 
+  return
+forge.BuildingListController.$inject = ['$rootScope', '$scope', '$http', '$anchorScroll']
 
+
+forge.LayersController = ($rootScope, $scope, BuildingService, LayerService) ->
+  $scope.form = {}
   $scope.form.showOnlyMapBuildings = yes
   $scope.form.buildingType = null
+  $scope.buildingTypes = window.buildingTypes
 
   $scope.applyFilters = -> BuildingService.load $scope.form
+  $scope.selectLayer  = -> LayerService.select $scope.layer
+
+  $rootScope.$on 'layers:updated', (event, layers) ->
+    $scope.layers = layers
+
+  $rootScope.$on 'layers:selected', (event, layer) ->
+    $scope.layer = layer
+
 
   BuildingService.load $scope.form
+  LayerService.load()
 
   return
-forge.BuildingListController.$inject = ['$rootScope', '$scope', '$http', '$anchorScroll', 'BuildingService']
 
-
-forge.LayersController = ($scope) ->
-  $scope.selectLayer = ->
-    console.log "Layer selected: ", $scope.layer.name
-    $scope.$parent.layer = $scope.layer
-    return
-  return
-forge.LayersController.$inject = ['$scope']
+forge.LayersController.$inject = ['$rootScope', '$scope', 'BuildingService', 'LayerService']
 
 forge.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
   wmslayer = null
 
-  $rootScope.$on 'layers:updated', (event, layers) ->
-    $scope.layers = layers
-    $scope.layer = layers[0] if $scope.layers.length is 1
-
-  LayerService.load()
+  $rootScope.$on 'layers:selected', (event, layer) ->
+    $scope.layer = layer
 
   $rootScope.$on 'buildings:updated', (event, buildings) ->
     $scope.buildings = buildings
