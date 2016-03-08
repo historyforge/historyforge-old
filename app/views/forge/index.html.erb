@@ -1,53 +1,61 @@
+<%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
 <div id="forge" ng-app="forge">
 
-  <div ng-controller="ForgeCtrl">
+  <div class="map-wrap" ng-controller="ForgeMapCtrl">
+    <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
+      <marker ng-repeat="building in buildings track by $index"
+              position="{{building.latitude}}, {{building.longitude}}"
+              z-index="{{ zIndexFor(building) }}"
+              icon="{{ markerIcon(building) }}"
+              on-mouseover="highlightBuilding(building)"
+              on-click="showBuilding(building)"
+               <%- if can?(:update, Building) -%>
+              draggable="true"
+              on-dragend="moveBuilding(event, building)"
+              <%- end %>
+              ng-if="building.latitude"></marker>
+    </ng-map>
+  </div>
 
-    <div class="map-wrap" ng-controller="ForgeMapCtrl">
-      <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
-        <marker ng-repeat="building in buildings track by $index"
-                position="{{building.latitude}}, {{building.longitude}}"
-                z-index="{{ zIndexFor(building) }}"
-                icon="{{ markerIcon(building) }}"
-                on-mouseover="highlightBuilding(building)"
-                on-click="showBuilding(building)"
-                 <%- if can?(:update, Building) -%>
-                draggable="true"
-                on-dragend="moveBuilding(event, building)"
-                <%- end %>
-                ng-if="building.latitude"></marker>
-      </ng-map>
-    </div>
-
-    <div id="forge-right-col">
-      <div id="layer-selector" ng-controller="LayersCtrl">
-        <div class="col-xs-12">
-          <label for="layer-select" class="control-label">Select map layer: </label>
-          <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
-          <label class="control-label">Transparency:</label>
-          <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>
-        </div>
+  <div id="forge-right-col">
+    <div id="layer-selector" ng-controller="LayersCtrl">
+      <div class="col-xs-12">
+        <label for="layer-select" class="control-label">Select map layer: </label>
+        <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
+        <label class="control-label">Transparency:</label>
+        <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>
       </div>
-      <hr>
-      <div id="building-list" class="col-xs-12">
-        <div ng-repeat="building in buildings" ng-class="buildingClassFor(building)" ng-mouseenter="highlightBuilding(building)" ng-mouseleave="unhighlightBuilding(building)">
-          <h5>{{ building.name }}</h5>
-        </div>
+      <div class="col-xs-12">
+        <label for="show-only-map-buildings">
+          <input type="checkbox" ng-model="form.showOnlyMapBuildings" id="show_only_map_buildings" ng-change="applyFilters()">
+          Show only buildings from 1910
+        </label>
       </div>
-      <div id="building-details" ng-controller="BuildingCtrl">
-        <div class="col-xs-12">
-          <h4>Building Details</h4>
-          <p class="caption" ng-if="!building">Click a marker to see the building details here.</p>
-          <div ng-if="building">
-            <h3>{{ building.name }}</h3>
-            <p>{{ building.street_address }}<br>{{ building.city }}, {{ building.state }}</p>
-
-            <p><a href="/buildings/{{ building.id }}" target="_blank">Open in new tab</a>
-          </div>
-        </div>
+      <div class="col-xs-12">
+        <label for="show-building-types">Building Type</label>
+        <select id="show-building-types"
+                ng-model="form.buildingType"
+                ng-options="item as item.name for item in buildingTypes track by item.id"
+                ng-change="applyFilters()"></select>
       </div>
     </div>
+    <hr>
+    <div id="building-list" class="col-xs-12" ng-controller="BuildingListCtrl">
+      <div ng-repeat="building in buildings"
+           ng-controller="BuildingCtrl"
+           ng-class="buildingClassFor()"
+           ng-mouseenter="highlightBuilding()"
+           ng-mouseleave="unhighlightBuilding()"
+           ng-click="showBuilding()"
+           id="building-{{building.id}}">
+        <h5>{{ building.name }}</h5>
+        <div ng-if="building.current">
+          <p>{{ building.street_address }}<br>{{ building.city }}, {{ building.state }}</p>
 
-
+          <p><a href="/buildings/{{ building.id }}" target="_blank">Open in new tab</a>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>

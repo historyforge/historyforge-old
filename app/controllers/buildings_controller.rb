@@ -3,12 +3,22 @@ class BuildingsController < ApplicationController
   respond_to :json, only: :index
   respond_to :html
 
-  def index
-    authorize! :read, Building
+  def massage_params
+    unless params[:q]
+      params[:q] = {}
+      params.each_pair do |key, value|
+        params[:q][key] = value unless %w{controller action page format q}.include?(key)
+      end
+    end
     unless params[:q].andand[:s]
-      params[:q] ||= {}
       params[:q][:s] = 'name asc'
     end
+    Rails.logger.info params.inspect
+  end
+
+  def index
+    authorize! :read, Building
+    massage_params
     @search = Building.includes(:architects, :building_type).ransack(params[:q])
     @buildings = @search.result
     unless request.format.json?

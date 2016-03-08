@@ -3,28 +3,73 @@
 
 forge = {}
 
-forge.ForgeController = ($scope, $http) ->
+forge.BuildingService = ($http, $rootScope) ->
+  $http.defaults.headers.common.Accept = 'application/json'
+  return {
+    buildings: null
+    load: (form) ->
+      params = lat_not_null: 1
+      params.as_of_year = 1910 if form.showOnlyMapBuildings
+      params.building_type_id_eq = form.buildingType.id if form.buildingType
+
+      $http.get('/buildings.json', params: params).then (response) =>
+        @buildings = response.data?.buildings or []
+        $rootScope.$broadcast 'buildings:updated', @buildings
+      return
+    save: (building) ->
+      token = $('meta[name=csrf-token]').attr('content')
+      $http.patch("/buildings/#{building.id}",
+        authenticity_token: token
+        building:
+          lat: building.lat
+          lon: building.lon
+      ).then =>
+        for bldg in @buildings
+          if bldg.id is building.id
+            bldg.lat = building.lat
+            bldg.lon = building.lon
+        $rootScope.$broadcast 'buildings:updated', @buildings
+    highlight: (id) ->
+      if id
+        building.highlighted = building.id is id for building in @buildings
+      else
+        building.highlighted = no for building in @buildings
+      $rootScope.$broadcast 'building:highlighted', id
+  }
+
+forge.BuildingService.$inject = ['$http', '$rootScope']
+
+forge.LayerService = ($http, $rootScope) ->
+  $http.defaults.headers.common.Accept = 'application/json'
+  return {
+    layers: null
+    load: ->
+      $http.get('/layers.json').then (response) =>
+        @layers = response.data?.items or []
+        $rootScope.$broadcast 'layers:updated', @layers
+  }
+forge.LayerService.$inject = ['$http', '$rootScope']
+
+forge.BuildingListController = ($rootScope, $scope, $http, $anchorScroll, BuildingService) ->
+  $scope.buildingTypes = window.buildingTypes
   $scope.buildings = []
-  $scope.building  = null
-  $scope.highlightedBuilding = null
   $scope.layers = []
   $scope.layer = null
-  $http.get('/layers.json').then (response) ->
-    $scope.layers = response.data?.items or []
-    $scope.layer = $scope.layers[0] if $scope.layers.length is 1
-  $http.get('/buildings.json?q[as_of_year]=1910&q[lat_not_null]=1').then (response) ->
-    $scope.buildings = response.data?.buildings or []
+  $scope.form = {}
 
-  $scope.highlightBuilding = (building) ->
-    $scope.highlightedBuilding = building
-  $scope.unhighlightBuilding = (building) ->
-    $scope.highlightedBuilding = null if $scope.highlightedBuilding?.id is building.id
+  $rootScope.$on 'buildings:updated', (event, buildings) ->
+    $scope.buildings = buildings
 
-  $scope.buildingClassFor = (building) ->
-    return if $scope.highlightedBuilding?.id is building.id then 'highlighted' else ''
+
+  $scope.form.showOnlyMapBuildings = yes
+  $scope.form.buildingType = null
+
+  $scope.applyFilters = -> BuildingService.load $scope.form
+
+  BuildingService.load $scope.form
 
   return
-forge.ForgeController.$inject = ['$scope', '$http']
+forge.BuildingListController.$inject = ['$rootScope', '$scope', '$http', '$anchorScroll', 'BuildingService']
 
 
 forge.LayersController = ($scope) ->
@@ -35,15 +80,22 @@ forge.LayersController = ($scope) ->
   return
 forge.LayersController.$inject = ['$scope']
 
-forge.MapController = ($scope, NgMap, $http, $timeout) ->
+forge.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
   wmslayer = null
-  $http.defaults.headers.common.Accept = 'application/json'
+
+  $rootScope.$on 'layers:updated', (event, layers) ->
+    $scope.layers = layers
+    $scope.layer = layers[0] if $scope.layers.length is 1
+
+  LayerService.load()
+
+  $rootScope.$on 'buildings:updated', (event, buildings) ->
+    $scope.buildings = buildings
 
   $scope.markerIcon = (building) ->
-    highlighted = $scope.highlightedBuilding?.id is building.id
     return {
       path: google.maps.SymbolPath.CIRCLE
-      fillColor: if highlighted then 'blue' else 'red'
+      fillColor: if building.highlighted then 'blue' else 'red'
       fillOpacity: .9
       scale: 6
       strokeColor: '#333'
@@ -51,17 +103,25 @@ forge.MapController = ($scope, NgMap, $http, $timeout) ->
     }
 
   $scope.zIndexFor = (building) ->
-    highlighted = $scope.highlightedBuilding?.id is building.id
-    return if highlighted then 100 else 10
+    return if building.highlighted then 100 else 10
 
-  $scope.showBuilding = (event, building) ->
-    $scope.$parent.building = building
+  $scope.showBuilding = (event, selectedBuilding) ->
+    for building in $scope.buildings
+      if building.id is selectedBuilding.id
+        $scope.showBuildingResult(building.id)
+        building.current = yes
+      else
+        building.current = no
     return
 
+  $scope.showBuildingResult = (id) ->
+    $anchorScroll.yOffset = 100
+    $anchorScroll "building-#{id}"
+
   $scope.highlightBuilding = (event, building) ->
-    $scope.$parent.highlightedBuilding = building
+    BuildingService.highlight building.id
   $scope.unhighlightBuilding = (event, building) ->
-    $scope.$parent.highlightedBuilding = null if $scope.highlightedBuilding?.id is building.id
+    BuildingService.highlight(null) if building.highlighted
 
   dragTimeout = null
   $scope.moveBuilding = (event, building) ->
@@ -69,12 +129,7 @@ forge.MapController = ($scope, NgMap, $http, $timeout) ->
     building.lat = point.lat()
     building.lon = point.lng()
     saveBuilding = ->
-      token = $('meta[name=csrf-token]').attr('content')
-      $http.patch "/buildings/#{building.id}",
-        authenticity_token: token
-        building:
-          lat: building.lat
-          lon: building.lon
+      BuildingService.save(building)
     $timeout.cancel(dragTimeout) if dragTimeout
     dragTimeout = $timeout saveBuilding, 1000
     return
@@ -102,39 +157,31 @@ forge.MapController = ($scope, NgMap, $http, $timeout) ->
     map.setCenter box.getCenter()
     map.fitBounds(box)
 
-  # $scope.$watch 'buildings', (newValue, oldValue) ->
-  #   return unless newValue
-  #   if newValue.length is 1
-  #     building = newValue[0]
-  #     if building.latitude
-  #       latlng = new google.maps.LatLng(building.latitude, building.longitude)
-  #       NgMap.getMap().then (map) ->
-  #         map.setCenter latlng
-  #   else
-  #     bounds = new google.maps.LatLngBounds()
-  #     for building in newValue
-  #       if building.latitude
-  #         latlng = new google.maps.LatLng(building.latitude, building.longitude)
-  #       bounds.extend latlng
-  #     unless $scope.layer
-  #       console.log $scope.layer
-  #       NgMap.getMap().then (map) ->
-  #         console.log 'center map to building bounds!'
-  #         map.setCenter bounds.getCenter()
-  #         map.fitBounds bounds
-  #   return
-
   return
-forge.MapController.$inject = ['$scope', 'NgMap', '$http', '$timeout']
+forge.MapController.$inject = ['$rootScope', '$scope', 'NgMap', '$anchorScroll', '$timeout', 'BuildingService', 'LayerService']
 
-forge.BuildingController = ($scope) -> return
-forge.BuildingController.$inject = ['$scope']
+forge.BuildingController = ($scope, BuildingService) ->
+  $scope.buildingClassFor = () ->
+    return if $scope.building?.highlighted then 'highlighted' else ''
+  $scope.showBuilding = () ->
+    for building in $scope.$parent.buildings
+      building.current = building.id is $scope.building.id
+    return
+
+  $scope.highlightBuilding = () ->
+    BuildingService.highlight $scope.building.id
+  $scope.unhighlightBuilding = () ->
+    BuildingService.highlight(null) if $scope.building.highlighted
+  return
+forge.BuildingController.$inject = ['$scope', 'BuildingService']
 
 
 
 angular
   .module('forge', ['ngMap'])
-  .controller('ForgeCtrl', forge.ForgeController)
+  .service('BuildingService', forge.BuildingService)
+  .service('LayerService', forge.LayerService)
+  .controller('BuildingListCtrl', forge.BuildingListController)
   .controller('LayersCtrl', forge.LayersController)
   .controller('ForgeMapCtrl', forge.MapController)
   .controller('BuildingCtrl', forge.BuildingController)
