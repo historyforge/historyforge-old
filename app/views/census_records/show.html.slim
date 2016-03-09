@@ -4,4 +4,149 @@
   = link_to 'View All', census_records_path, class: 'btn btn-default'
 
 h1.page-title= @record.name
-p All this is coming soon. Use the edit form for now.
+
+.panel.panel-default
+  .panel-heading
+    h4.panel-title Census Scope
+  table.table.table-bordered.table-condensed
+    thead
+      tr
+        th Page
+        th Line
+        th County
+        th City
+        th Ward
+        th Enum Dist
+        th Dwelling
+        th Family ID
+    tbody
+      tr
+        td= @record.page_number
+        td= @record.line_number
+        td= @record.county
+        td= @record.city
+        td= @record.ward
+        td= @record.enum_dist
+        td= @record.dwelling_number
+        td= @record.family_id
+
+.panel.panel-default
+  .panel-heading
+    h4.panel-title Personal Details
+  .panel-body
+    .row
+      .col-xs-4
+        dl
+          dt Address
+          dd= @record.street_address
+        dl
+          dt Relation to Head
+          dd= @record.relation_to_head
+        dl
+          dt Sex
+          dd= @record.sex
+        dl
+          dt Race
+          dd= @record.race
+        dl
+          dt Place of Birth
+          dd= @record.pob
+        dl
+          dt Father's POB
+          dd= @record.pob_father
+        dl
+          dt Mother's POB
+          dd= @record.pob_mother
+        - if @record.year_immigrated?
+          dl
+            dt Year Immigrated
+            dd= @record.year_immigrated
+        dl
+          dt Naturalized Alien?
+          dd= @record.naturalized_alien ? 'Yes' : 'No'
+        dl
+          dt Language Spoken
+          dd= @record.language_spoken
+
+      .col-xs-4
+        dl
+          dt Marital Status
+          dd= @record.marital_status
+        dl
+          dt Years Married
+          dd= @record.years_married
+        dl
+          dt Num Children Born
+          dd= @record.num_children_born
+        dl
+          dt Num Children Alive
+          dd= @record.num_children_alive
+        dl
+          dt Owned or Rented?
+          dd= @record.owned_or_rented
+        dl
+          dt Farm or House?
+          dd= @record.farm_or_house
+        - if @record.num_farm_sched?
+          dl
+            dt Num Farm Sched
+            dd= @record.num_farm_sched
+
+      .col-xs-4
+        dl
+          dt Profession
+          dd= @record.profession
+        - if @record.industry?
+          dl
+            dt Industry
+            dd= @record.industry
+        - if @record.employment?
+          dl
+            dt Employment
+            dd= @record.employment
+        dl
+          dt Without work?
+          dd= @record.unemployed ? 'Yes' : 'No'
+        - if @record.unemployed_weeks_1909?
+          dl
+            dt Weeks w/o work 1909
+            dd= @record.unemployed_weeks_1909
+        dl
+          dt Can read?
+          dd= @record.can_read? ? 'Yes' : 'No'
+        dl
+          dt Can write?
+          dd= @record.can_write? ? 'Yes' : 'No'
+        dl
+          dt Attended school?
+          dd= @record.attended_school? ? 'Yes' : 'No'
+        dl
+          dt Civil War Vet?
+          dd= @record.civil_war_vet ? 'Yes' : 'No'
+        dl
+          dt Blind?
+          dd= @record.blind? ? 'Yes' : 'No'
+        dl
+          dt Deaf & Dumb?
+          dd= @record.deaf_dumb? ? 'Yes' : 'No'
+
+- if @record.fellows.present?
+  .panel.panel-default
+    .panel-heading
+      h4.panel-title Other Family Members
+    table.table.table-condensed.table-bordered
+      thead
+        tr
+          th Name
+          th Sex
+          th Age
+          th Relation
+          th Profession
+      tbody
+        - @record.fellows.each do |row|
+          tr
+            td= link_to row.name, census_record_path(row)
+            td= row.sex
+            td= row.age
+            td= row.relation_to_head
+            td= row.profession

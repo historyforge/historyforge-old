@@ -1,16 +1,12 @@
 window.forgeApp or= {}
 
-forgeApp.BuildingListController = ($rootScope, $scope, $http, $anchorScroll) ->
-  $scope.buildings = []
-  $scope.currentPage = 1;
-  $scope.pageSize = 15;
+forgeApp.MainController = ($rootScope, $scope) ->
+  $scope.viewMode = 'map'
+  $scope.setViewMode = (mode) ->
+    $scope.viewMode = mode;
+    $rootScope.$broadcast 'viewMode:changed', mode
 
-  $rootScope.$on 'buildings:updated', (event, buildings) ->
-    $scope.buildings = buildings
-
-  return
-forgeApp.BuildingListController.$inject = ['$rootScope', '$scope', '$http', '$anchorScroll']
-
+forgeApp.MainController.$inject = ['$rootScope', '$scope']
 
 forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) ->
   $scope.form = {}
@@ -41,9 +37,23 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
 
   $rootScope.$on 'layers:selected', (event, layer) ->
     $scope.layer = layer
+    NgMap.getMap().then (map) ->
+      map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
+      url = "/layers/#{$scope.layer.id}/wms?"
+      fitToBoundingBox(map, $scope.layer.bbox)
+      wmslayer = loadWMS map, url
 
   $rootScope.$on 'buildings:updated', (event, buildings) ->
     $scope.buildings = buildings
+
+  $rootScope.$on 'viewMode:changed', (event, viewMode) ->
+    if $scope.layer
+      NgMap.getMap().then (map) ->
+        fn = ->
+          google.maps.event.trigger(map, "resize")
+          $timeout (fitToBoundingBox(map, $scope.layer.bbox)), 100
+        $timeout fn, 100
+        return
 
   $scope.markerIcon = (building) ->
     return {
@@ -60,22 +70,21 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
 
   currentWindowId = null
   $scope.showBuilding = (event, selectedBuilding) ->
-    NgMap.getMap().then (map) =>
-      map.hideInfoWindow(currentWindowId) if currentWindowId
-      currentWindowId = "building-iw-#{selectedBuilding.id}"
-      $scope.currentBuilding = selectedBuilding
-      map.showInfoWindow.apply this, [event, currentWindowId] #"building-marker-#{selectedBuilding.id}"
+    if $scope.viewMode is 'map'
+      NgMap.getMap().then (map) =>
+        map.hideInfoWindow(currentWindowId) if currentWindowId
+        currentWindowId = "building-iw-#{selectedBuilding.id}"
+        $scope.currentBuilding = selectedBuilding
+        map.showInfoWindow.apply this, [event, currentWindowId] #"building-marker-#{selectedBuilding.id}"
+    else if $scope.viewMode is 'list'
+      $anchorScroll.yOffset = 100
+      $anchorScroll "building-#{selectedBuilding.id}"
     for building in $scope.buildings
       if building.id is selectedBuilding.id
-        $scope.showBuildingResult(building.id)
         building.current = yes
       else
         building.current = no
     return
-
-  $scope.showBuildingResult = (id) ->
-    $anchorScroll.yOffset = 100
-    $anchorScroll "building-#{id}"
 
   $scope.highlightBuilding = (event, building) ->
     BuildingService.highlight building.id
@@ -99,14 +108,6 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       slide: (e, ui) ->
         wmslayer.setOpacity(ui.value / 100)
 
-  $scope.$watch 'layer', (newValue, oldValue) ->
-    if newValue
-      NgMap.getMap().then (map) ->
-        map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
-        url = "/layers/#{newValue.id}/wms?"
-        fitToBoundingBox(map, newValue.bbox)
-        wmslayer = loadWMS map, url
-
   fitToBoundingBox = (map, bbox) ->
     boxValues = bbox.split(',')
     box = new google.maps.LatLngBounds()
@@ -119,7 +120,27 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   return
 forgeApp.MapController.$inject = ['$rootScope', '$scope', 'NgMap', '$anchorScroll', '$timeout', 'BuildingService', 'LayerService']
 
+forgeApp.BuildingListController = ($rootScope, $scope, BuildingService) ->
+  $scope.buildings = BuildingService.buildings
+  $scope.currentPage = 1;
+  $scope.pageSize = 15;
+
+  $rootScope.$on 'buildings:updated', (event, buildings) ->
+    $scope.buildings = buildings
+
+  return
+forgeApp.BuildingListController.$inject = ['$rootScope', '$scope', 'BuildingService']
+
 forgeApp.BuildingController = ($scope, BuildingService) ->
+
+  if $scope.building.year_earliest
+    $scope.yearBuilt = "Built in #{$scope.building.year_earliest}."
+  if $scope.building.year_latest
+    $scope.yearDemolished = "Destroyed in #{$scope.building.year_latest}."
+  $scope.hasYears = $scope.building.year_earliest or $scope.building.year_latest
+
+  $scope.hasArchitects = $scope.building.architects.length > 0
+
   $scope.buildingClassFor = () ->
     return if $scope.building?.highlighted then 'highlighted' else ''
   $scope.showBuilding = () ->

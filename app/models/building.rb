@@ -36,4 +36,18 @@ class Building < ActiveRecord::Base
     [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
   end
 
+  def residents
+    @residents ||= Census1910Record.ransack(street_house_number_eq: address_house_number,
+                                            street_prefix_eq: address_street_prefix,
+                                            street_name_eq: address_street_name).result
+  end
+
+  def families
+    @families = if residents
+      residents.group_by(&:dwelling_number)
+    else
+      nil
+    end
+  end
+
 end

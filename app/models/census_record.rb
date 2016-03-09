@@ -30,4 +30,12 @@ class CensusRecord < ActiveRecord::Base
     [street_house_number, street_prefix, street_name, street_suffix].join(' ')
   end
 
+  def fellows
+    @fellows ||= CensusRecord.where('id<>?', id)
+                     .ransack(street_house_number_eq: street_house_number,
+                              street_prefix_eq: street_prefix,
+                              street_name_eq: street_name,
+                              dwelling_number_eq: dwelling_number,
+                              family_id_eq: family_id).result
+  end
 end

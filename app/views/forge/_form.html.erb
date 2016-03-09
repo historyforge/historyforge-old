@@ -1,0 +1,24 @@
+<div id="layer-selector" ng-controller="LayersCtrl">
+  <div class="col-xs-12">
+    <div id="view-mode-buttons" class="btn-group" role="group">
+      <button type="button" class="btn btn-{{viewMode == 'map'  ? 'primary' : 'default'}}" ng-click="setViewMode('map')">Map</button>
+      <button type="button" class="btn btn-{{viewMode == 'list' ? 'primary' : 'default'}}" ng-click="setViewMode('list')">List</button>
+    </div>
+
+    <!-- <label for="layer-select" class="control-label">Select map layer: </label>
+    <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select> -->
+  </div>
+  <div class="col-xs-12">
+    <label for="show-only-map-buildings">
+      <input type="checkbox" ng-model="form.showOnlyMapBuildings" id="show_only_map_buildings" ng-change="applyFilters()">
+      Show only buildings from 1910
+    </label>
+  </div>
+  <div class="col-xs-12">
+    <label for="show-building-types">Building Type</label>
+    <select id="show-building-types"
+            ng-model="form.buildingType"
+            ng-options="item as item.name for item in buildingTypes track by item.id"
+            ng-change="applyFilters()"></select>
+  </div>
+</div>

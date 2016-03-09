@@ -1,0 +1,37 @@
+<div id="building-list" ng-controller="BuildingListCtrl" ng-if="viewMode == 'list'">
+  <h1>Showing {{ buildings.length }} buildings.</h1>
+  <!-- <dir-pagination-controls boundary-links="false" template="dirPagination"></dir-pagination-controls> -->
+  <!-- <div dir-paginate="building in buildings | filter:q | itemsPerPage: pageSize" current-page="currentPage" -->
+  <div ng-repeat="building in buildings track by $index"
+       class="building"
+       ng-controller="BuildingCtrl"
+       ng-class="buildingClassFor()"
+       ng-mouseenter="highlightBuilding()"
+       ng-mouseleave="unhighlightBuilding()"
+       ng-click="showBuilding()"
+       id="building-{{building.id}}">
+    <div class="pull-right" ng-if="building.photo">
+      <picture>
+      <!--[if IE 9]><video style="display: none;"><![endif]-->
+      <source ng-srcset="/photos/{{building.photo}}/15/phone.jpg" media="(max-width:480px)">
+      <source ng-srcset="/photos/{{building.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+      <source ng-srcset="/photos/{{building.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+      <!--[if IE 9]></video><![endif]-->
+      <img src class="img-responsive img-thumbnail">
+      </picture>
+    </div>
+    <div class="pull-left">
+      <h3><a href="/buildings/{{ building.id }}" target="_blank">{{ building.name }}</a></h3>
+      <p>
+        {{ building.street_address }}<br>{{ building.city }}, {{ building.state }}
+      </p>
+      <p ng-if="hasYears || hasArchitects">
+        <span ng-if="hasYears">{{ yearBuilt }} {{ yearDemolished }}</span>
+        <span ng-if="hasYears && hasArchitects"> &bull; </span>
+        <span ng-if="hasArchitects">Architects: <span ng-repeat="architect in building.architects">{{ architect.name }}</span></span>
+      </p>
+
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>

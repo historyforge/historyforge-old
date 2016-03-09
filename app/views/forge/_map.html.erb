@@ -1,0 +1,40 @@
+<div class="map-wrap" ng-controller="ForgeMapCtrl">
+  <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
+    <div ng-repeat="building in buildings track by $index">
+
+      <marker position="{{building.latitude}}, {{building.longitude}}"
+              z-index="{{ zIndexFor(building) }}"
+              icon="{{ markerIcon(building) }}"
+              on-mouseover="highlightBuilding(building)"
+              on-click="showBuilding(building)"
+              id="building-marker-{{building.id}}"
+               <%- if can?(:update, Building) -%>
+              draggable="true"
+              on-dragend="moveBuilding(event, building)"
+              <%- end %>
+              ng-if="building.latitude"></marker>
+
+      <info-window id="building-iw-{{building.id}}">
+        <div ng-non-bindable="">
+          <h5>{{ currentBuilding.name }}</h5>
+          <picture ng-if="currentBuilding.photo">
+          <!--[if IE 9]><video style="display: none;"><![endif]-->
+          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
+          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+          <!--[if IE 9]></video><![endif]-->
+          <img src class="img-responsive img-thumbnail">
+          </picture>
+
+          <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+
+          <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+        </div>
+      </info-window>
+
+    </div>
+
+    <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>
+
+  </ng-map>
+</div>

@@ -8,6 +8,7 @@ angular
   .module('forge', ['ngMap', 'angularUtils.directives.dirPagination'])
   .service('BuildingService', forgeApp.BuildingService)
   .service('LayerService', forgeApp.LayerService)
+  .controller('MainCtrl', forgeApp.MainController)
   .controller('BuildingListCtrl', forgeApp.BuildingListController)
   .controller('LayersCtrl', forgeApp.LayersController)
   .controller('ForgeMapCtrl', forgeApp.MapController)
