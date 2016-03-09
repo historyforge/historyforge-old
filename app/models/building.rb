@@ -13,7 +13,7 @@ class Building < ActiveRecord::Base
 
   delegate :name, to: :building_type, prefix: true, allow_nil: true
 
-  scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest<=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
+  scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
 
   def self.ransackable_scopes(auth_object=nil)
     %i{as_of_year}

@@ -19,7 +19,7 @@ class BuildingsController < ApplicationController
   def index
     authorize! :read, Building
     massage_params
-    @search = Building.includes(:architects, :building_type).ransack(params[:q])
+    @search = Building.includes(:architects, :building_type, :photos).ransack(params[:q])
     @buildings = @search.result
     unless request.format.json?
       @per_page = params[:per_page] || 25
@@ -108,7 +108,7 @@ class BuildingsController < ApplicationController
       when 'quarter'
         width = (width.to_f * 0.25).ceil
       else
-        width = (width.to_f * params[:style].to_f).ceil
+        width = (width.to_f * (params[:style].to_f / 100.to_f)).ceil
       end
     end
 

@@ -3,17 +3,39 @@
 
   <div class="map-wrap" ng-controller="ForgeMapCtrl">
     <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
-      <marker ng-repeat="building in buildings track by $index"
-              position="{{building.latitude}}, {{building.longitude}}"
-              z-index="{{ zIndexFor(building) }}"
-              icon="{{ markerIcon(building) }}"
-              on-mouseover="highlightBuilding(building)"
-              on-click="showBuilding(building)"
-               <%- if can?(:update, Building) -%>
-              draggable="true"
-              on-dragend="moveBuilding(event, building)"
-              <%- end %>
-              ng-if="building.latitude"></marker>
+      <div ng-repeat="building in buildings track by $index">
+
+        <marker position="{{building.latitude}}, {{building.longitude}}"
+                z-index="{{ zIndexFor(building) }}"
+                icon="{{ markerIcon(building) }}"
+                on-mouseover="highlightBuilding(building)"
+                on-click="showBuilding(building)"
+                id="building-marker-{{building.id}}"
+                 <%- if can?(:update, Building) -%>
+                draggable="true"
+                on-dragend="moveBuilding(event, building)"
+                <%- end %>
+                ng-if="building.latitude"></marker>
+
+        <info-window id="building-iw-{{building.id}}">
+          <div ng-non-bindable="">
+            <h5>{{ currentBuilding.name }}</h5>
+            <picture ng-if="currentBuilding.photo">
+            <!--[if IE 9]><video style="display: none;"><![endif]-->
+            <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
+            <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+            <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+            <!--[if IE 9]></video><![endif]-->
+            <img src class="img-responsive img-thumbnail">
+            </picture>
+
+            <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+
+            <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+          </div>
+        </info-window>
+
+      </div>
     </ng-map>
   </div>
 
@@ -41,7 +63,8 @@
     </div>
     <hr>
     <div id="building-list" class="col-xs-12" ng-controller="BuildingListCtrl">
-      <div ng-repeat="building in buildings"
+      <dir-pagination-controls boundary-links="false" template="dirPagination"></dir-pagination-controls>
+      <div dir-paginate="building in buildings | filter:q | itemsPerPage: pageSize" current-page="currentPage"
            ng-controller="BuildingCtrl"
            ng-class="buildingClassFor()"
            ng-mouseenter="highlightBuilding()"
@@ -50,6 +73,15 @@
            id="building-{{building.id}}">
         <h5>{{ building.name }}</h5>
         <div ng-if="building.current">
+          <picture ng-if="building.photo">
+          <!--[if IE 9]><video style="display: none;"><![endif]-->
+          <source ng-srcset="/photos/{{building.photo}}/15/phone.jpg" media="(max-width:480px)">
+          <source ng-srcset="/photos/{{building.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+          <source ng-srcset="/photos/{{building.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+          <!--[if IE 9]></video><![endif]-->
+          <img src class="img-responsive img-thumbnail">
+          </picture>
+
           <p>{{ building.street_address }}<br>{{ building.city }}, {{ building.state }}</p>
 
           <p><a href="/buildings/{{ building.id }}" target="_blank">Open in new tab</a>
@@ -63,3 +95,24 @@
 <script src="https://maps.googleapis.com/maps/api/js?libraries="></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 <%= javascript_include_tag 'forge' %>
+
+<script id="dirPagination" type="text/html">
+<ul class="pagination" ng-if="1 < pages.length || !autoHide">
+    <li ng-if="boundaryLinks" ng-class="{ disabled : pagination.current == 1 }">
+        <a href="" ng-click="setCurrent(1)">&laquo;</a>
+    </li>
+    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == 1 }">
+        <a href="" ng-click="setCurrent(pagination.current - 1)">&lsaquo;</a>
+    </li>
+    <li ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+        <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+    </li>
+
+    <li ng-if="directionLinks" ng-class="{ disabled : pagination.current == pagination.last }">
+        <a href="" ng-click="setCurrent(pagination.current + 1)">&rsaquo;</a>
+    </li>
+    <li ng-if="boundaryLinks"  ng-class="{ disabled : pagination.current == pagination.last }">
+        <a href="" ng-click="setCurrent(pagination.last)">&raquo;</a>
+    </li>
+</ul>
+</script>
