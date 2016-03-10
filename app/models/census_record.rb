@@ -9,7 +9,7 @@ class CensusRecord < ActiveRecord::Base
   attribute :line_number, as: :integer
   attribute :county, default: 'Tompkins'
   attribute :city, default: 'Ithaca'
-  attibute  :state, default: 'NY'
+  attribute  :state, default: 'NY'
   attribute :ward
   attribute :enum_dist
   attribute :street_prefix, as: :enumeration, values: %w{N S E W}
