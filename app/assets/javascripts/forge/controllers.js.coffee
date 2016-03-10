@@ -49,6 +49,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $rootScope.$on 'viewMode:changed', (event, viewMode) ->
     if $scope.layer
       NgMap.getMap().then (map) ->
+        map.hideInfoWindow(currentWindowId) if currentWindowId
         fn = ->
           google.maps.event.trigger(map, "resize")
           $timeout (fitToBoundingBox(map, $scope.layer.bbox)), 100

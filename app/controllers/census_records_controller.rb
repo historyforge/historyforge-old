@@ -34,7 +34,7 @@ class CensusRecordsController < ApplicationController
     authorize! :create, @record
     if @record.save
       flash[:notice] = 'Census Record created.'
-      redirect_to action: :show
+      redirect_to @record
     else
       flash[:errors] = 'Census Record not saved.'
       render action: :new

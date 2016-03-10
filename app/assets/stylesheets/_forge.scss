@@ -4,6 +4,7 @@ nav.navbar.navbar-static {
   left:0;
   height:50px;
   width:100%;
+  z-index:200;
 }
 
 #warper-maindiv {
@@ -20,7 +21,6 @@ ng-map {
   top:80px;
   right:20px;
   width:30%;
-  background-color:rgba(255, 255, 255, 0.7);
   padding-top:15px;
   padding-bottom:15px;
   .btn-group {
@@ -46,7 +46,11 @@ ng-map {
     width:100%;
     bottom:0px;
   }
-
+  #forge-right-col {
+    background-color:rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    box-shadow: 4px 4px 4px #888;
+  }
 }
 
 .list {

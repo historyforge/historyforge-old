@@ -1,6 +1,8 @@
 .pull-right
   - if can?(:update, @record)
     = link_to 'Edit', [:edit, @record], class: 'btn btn-default'
+  - if can?(:destroy, @record)
+    = link_to 'Delete', @record, class: 'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? There is no return.' }
   = link_to 'View All', census_records_path, class: 'btn btn-default'
 
 h1.page-title= @record.name

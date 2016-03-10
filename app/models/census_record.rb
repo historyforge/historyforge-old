@@ -4,8 +4,8 @@ class CensusRecord < ActiveRecord::Base
 
   attribute :page_number
   attribute :line_number, as: :integer
-  attribute :county
-  attribute :city
+  attribute :county, default: 'Tompkins'
+  attribute :city, default: 'Ithaca'
   attribute :ward
   attribute :enum_dist
   attribute :street_prefix, as: :enumeration, values: %w{N S E W}
@@ -17,10 +17,10 @@ class CensusRecord < ActiveRecord::Base
   attribute :last_name
   attribute :first_name
   attribute :relation_to_head
-  attribute :sex
-  attribute :race
+  attribute :sex, as: :enumeration, values: %w{M F}
+  attribute :race, as: :enumeration, values: %w{W B M}
   attribute :age
-  attribute :marital_status
+  attribute :marital_status, as: :enumeration, values: %w{S W D M1 M2 M3 M4 M5 M6}
 
   def name
     [first_name, last_name].join(' ')

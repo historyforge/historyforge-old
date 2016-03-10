@@ -35,12 +35,12 @@
         .col-xs-4= form.input :relation_to_head
 
       .row
-        .col-xs-4= form.input :sex
-        .col-xs-4= form.input :race
+        .col-xs-4= form.input :sex, as: :select, collection: CensusRecord.sex_choices
+        .col-xs-4= form.input :race, as: :select, collection: CensusRecord.race_choices
         .col-xs-4= form.input :age
 
       .row
-        .col-xs-3= form.input :marital_status
+        .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
         .col-xs-3= form.input :years_married, as: :integer
         .col-xs-3= form.input :num_children_born, as: :integer
         .col-xs-3= form.input :num_children_alive, as: :integer
@@ -63,9 +63,9 @@
       = form.input :can_read, as: :boolean, inline_label: 'Can Read?'
       = form.input :can_write, as: :boolean, inline_label: 'Can Write?'
       = form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
-      = form.input :owned_or_rented
+      = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices
       = form.input :mortgage
-      = form.input :farm_or_house
+      = form.input :farm_or_house, as: :radio_buttons, collection: Census1910Record.farm_or_house_choices
       = form.input :num_farm_sched, as: :integer
       = form.input :civil_war_vet, as: :boolean, inline_label: 'Civil War Vet?'
       = form.input :blind, as: :boolean, inline_label: 'Blind?'
