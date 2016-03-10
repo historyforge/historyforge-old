@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304193032) do
+ActiveRecord::Schema.define(version: 20160310134259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,9 +88,12 @@ ActiveRecord::Schema.define(version: 20160304193032) do
   create_table "census_records", force: :cascade do |t|
     t.string   "type"
     t.jsonb    "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "building_id"
   end
+
+  add_index "census_records", ["building_id"], name: "index_census_records_on_building_id", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
     t.string   "name"
@@ -374,5 +377,6 @@ ActiveRecord::Schema.define(version: 20160304193032) do
   end
 
   add_foreign_key "buildings", "building_types"
+  add_foreign_key "census_records", "buildings"
   add_foreign_key "photos", "buildings"
 end

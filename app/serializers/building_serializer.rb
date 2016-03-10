@@ -3,8 +3,9 @@ class BuildingSerializer < ActiveModel::Serializer
              :street_address, :city, :state, :postal_code, :building_type,
              :latitude, :longitude, :photo
 
-  has_many :architects
-  has_many :photos
+  has_many :architects, serializer: ArchitectSerializer
+  has_many :photos, serializer: PhotoSerializer
+  has_many :census_records, serializer: CensusRecordSerializer
 
   def photo
     object.photos.andand.first.andand.id

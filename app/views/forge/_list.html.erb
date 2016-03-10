@@ -10,16 +10,6 @@
        ng-mouseleave="unhighlightBuilding()"
        ng-click="showBuilding()"
        id="building-{{building.id}}">
-    <div class="pull-right" ng-if="building.photo">
-      <picture>
-      <!--[if IE 9]><video style="display: none;"><![endif]-->
-      <source ng-srcset="/photos/{{building.photo}}/15/phone.jpg" media="(max-width:480px)">
-      <source ng-srcset="/photos/{{building.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
-      <source ng-srcset="/photos/{{building.photo}}/15/desktop.jpg" media="(min-width:1025px)">
-      <!--[if IE 9]></video><![endif]-->
-      <img src class="img-responsive img-thumbnail">
-      </picture>
-    </div>
     <div class="pull-left">
       <h3><a href="/buildings/{{ building.id }}" target="_blank">{{ building.name }}</a></h3>
       <p>
@@ -31,6 +21,39 @@
         <span ng-if="hasArchitects">Architects: <span ng-repeat="architect in building.architects">{{ architect.name }}</span></span>
       </p>
 
+      <div ng-if="building.census_records.length > 0">
+        <h5>1910 Residents</h5>
+        <table class="table table-condensed" style="min-width:600px">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Race</th>
+              <th>Sex</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="person in building.census_records">
+              <td><a href="/census_records/{{person.id}}" target="_blank">{{ person.name }}</a></td>
+              <td>{{ person.age }}</td>
+              <td>{{ person.race }}</td>
+              <td>{{ person.sex }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+    <div class="pull-right" ng-if="building.photo">
+      <picture>
+      <!--[if IE 9]><video style="display: none;"><![endif]-->
+      <source ng-srcset="/photos/{{building.photo}}/15/phone.jpg" media="(max-width:480px)">
+      <source ng-srcset="/photos/{{building.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+      <source ng-srcset="/photos/{{building.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+      <!--[if IE 9]></video><![endif]-->
+      <img src class="img-responsive img-thumbnail">
+      </picture>
     </div>
     <div class="clear"></div>
   </div>

@@ -17,18 +17,91 @@
       <info-window id="building-iw-{{building.id}}">
         <div ng-non-bindable="">
           <h5>{{ currentBuilding.name }}</h5>
-          <picture ng-if="currentBuilding.photo">
-          <!--[if IE 9]><video style="display: none;"><![endif]-->
-          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
-          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
-          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
-          <!--[if IE 9]></video><![endif]-->
-          <img src class="img-responsive img-thumbnail">
-          </picture>
-
-          <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
-
-          <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+          <div class="row" style="width:650px" ng-if="currentBuilding.photo && currentBuilding.census_records.length > 0">
+            <div class="col-xs-3">
+              <picture>
+                <!--[if IE 9]><video style="display: none;"><![endif]-->
+                <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
+                <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+                <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+                <!--[if IE 9]></video><![endif]-->
+                <img src class="img-responsive img-thumbnail">
+              </picture>
+            </div>
+            <div class="col-xs-4">
+              <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+              <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+            </div>
+            <div class="col-xs-5">
+              <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Race</th>
+                    <th>Sex</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="person in currentBuilding.census_records">
+                    <td><a href="/census_records/{{person.id}}" target="_blank">{{ person.name }}</a></td>
+                    <td>{{ person.age }}</td>
+                    <td>{{ person.race }}</td>
+                    <td>{{ person.sex }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row" style="width:450px" ng-if="!currentBuilding.photo && currentBuilding.census_records.length > 0">
+            <div class="col-xs-5">
+              <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+              <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+            </div>
+            <div class="col-xs-7">
+              <h5>1910 Residents</h5>
+              <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Race</th>
+                    <th>Sex</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="person in currentBuilding.census_records">
+                    <td><a href="/census_records/{{person.id}}" target="_blank">{{ person.name }}</a></td>
+                    <td>{{ person.age }}</td>
+                    <td>{{ person.race }}</td>
+                    <td>{{ person.sex }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row" style="min-width:500px" ng-if="currentBuilding.photo && currentBuilding.census_records.length == 0">
+            <div class="col-xs-6">
+              <picture>
+                <!--[if IE 9]><video style="display: none;"><![endif]-->
+                <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
+                <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+                <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+                <!--[if IE 9]></video><![endif]-->
+                <img src class="img-responsive img-thumbnail">
+              </picture>
+            </div>
+            <div class="col-xs-6">
+              <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+              <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+            </div>
+          </div>
+          <div class="row" ng-if="!currentBuilding.photo && currentBuilding.census_records.length == 0">
+            <div class="col-xs-12">
+              <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+              <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+            </div>
+          </div>
         </div>
       </info-window>
 

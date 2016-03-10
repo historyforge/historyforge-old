@@ -26,6 +26,10 @@ class Census1910Record < CensusRecord
   attribute :deaf_dumb, as: :boolean
 
   def self.model_name
-      ActiveModel::Name.new(self, nil, "CensusRecord")
-    end
+    ActiveModel::Name.new(self, nil, "CensusRecord")
+  end
+
+  def year
+    1910
+  end
 end

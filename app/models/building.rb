@@ -4,6 +4,7 @@ class Building < ActiveRecord::Base
   belongs_to :building_type
   belongs_to :frame_type, class_name: 'ConstructionMaterial'
   belongs_to :lining_type, class_name: 'ConstructionMaterial'
+  has_many :census_records, dependent: :nullify
 
   has_many :photos, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
@@ -17,6 +18,21 @@ class Building < ActiveRecord::Base
 
   def self.ransackable_scopes(auth_object=nil)
     %i{as_of_year}
+  end
+
+  geocoded_by :full_street_address
+  after_validation :do_the_geocode, if: :new_record?
+
+  def full_street_address
+    "#{[street_address, city, state].join(' ')} #{postal_code}"
+  end
+
+  def do_the_geocode
+    begin
+      geocode
+    rescue Errno::ENETUNREACH
+      nil
+    end
   end
 
   def address_parts
@@ -37,9 +53,7 @@ class Building < ActiveRecord::Base
   end
 
   def residents
-    @residents ||= Census1910Record.ransack(street_house_number_eq: address_house_number,
-                                            street_prefix_eq: address_street_prefix,
-                                            street_name_eq: address_street_name).result
+    census_records
   end
 
   def families

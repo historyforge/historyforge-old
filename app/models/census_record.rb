@@ -1,6 +1,9 @@
 class CensusRecord < ActiveRecord::Base
 
   include JsonData
+  belongs_to :building
+
+  before_save :ensure_housing
 
   attribute :page_number
   attribute :line_number, as: :integer
@@ -38,4 +41,30 @@ class CensusRecord < ActiveRecord::Base
                               dwelling_number_eq: dwelling_number,
                               family_id_eq: family_id).result
   end
+
+  def matching_building
+    @matching_building ||= Building.where(address_house_number: street_house_number,
+                                          address_street_prefix: street_prefix,
+                                          address_street_name: street_name,
+                                          address_street_suffix: street_suffix,
+                                          city: city).first
+  end
+
+  def ensure_housing
+    self.building ||= matching_building || Building.create(
+      name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
+      address_house_number: street_house_number,
+      address_street_prefix: street_prefix,
+      address_street_name: street_name,
+      address_street_suffix: street_suffix,
+      city: city,
+      state: state,
+      building_type: BuildingType.where(name: 'residential').first
+    )
+  end
+
+  def year
+    raise 'Need a year!'
+  end
+
 end

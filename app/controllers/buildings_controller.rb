@@ -19,9 +19,11 @@ class BuildingsController < ApplicationController
   def index
     authorize! :read, Building
     massage_params
-    @search = Building.includes(:architects, :building_type, :photos).ransack(params[:q])
+    @search = Building.includes(:building_type).ransack(params[:q])
     @buildings = @search.result
-    unless request.format.json?
+    if request.format.json?
+      @buildings = @buildings.includes(:architects, :photos, :census_records)
+    else
       @per_page = params[:per_page] || 25
       paginate_params = {
         :page => params[:page],
