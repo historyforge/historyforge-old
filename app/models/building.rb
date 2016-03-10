@@ -20,7 +20,7 @@ class Building < ActiveRecord::Base
     %i{as_of_year}
   end
 
-  geocoded_by :full_street_address
+  geocoded_by :full_street_address, latitude: :lat, longitude: :lon
   after_validation :do_the_geocode, if: :new_record?
 
   def full_street_address
