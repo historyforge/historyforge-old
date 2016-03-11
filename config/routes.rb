@@ -73,11 +73,11 @@ Rails.application.routes.draw do
   put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
 
 
-  get '/maps/wms/:id' => "maps#wms", :as => 'wms_map'
-  get '/maps/tile/:id/:z/:x/:y' => "maps#tile", :as => 'tile_map'
+  get '/maps/wms/:id' => "wms#map", :as => 'wms_map'
+  get '/maps/tile/:id/:z/:x/:y' => "wms#tile_map", :as => 'tile_map'
 
-  get '/layers/wms/:id' => "layers#wms", :as => "wms_layer"
-  get '/layers/tile/:id/:z/:x/:y' => "layers#tile", :as => 'tile_layer'
+  get '/layers/:id/wms' => "wms#wms_layer", :as => "wms_layer"
+  get '/layers/:id/tile/:z/:x/:y' => "wms#tile_layer", :as => 'tile_layer'
 
   resources :layers do
     member do
@@ -85,8 +85,6 @@ Rails.application.routes.draw do
       get 'publish'
       get 'toggle_visibility'
       post 'update_year'
-      get 'wms'
-      get 'wms2'
       get 'maps'
       get 'export'
       get 'metadata'

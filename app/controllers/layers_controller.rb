@@ -419,8 +419,6 @@ class LayersController < ApplicationController
   end
 
 
-  require 'mapscript'
-  include Mapscript
   def wms()
     begin
       @layer = Layer.find(params[:id])
@@ -482,152 +480,11 @@ class LayersController < ApplicationController
   end
 
 
-  #TODO merge wms and wm2 into one...or use tilecache for serving layers
-  #this action lists all visible layers that have maps in them, and thus should
-  #have a tileindex and something to view.
-  def wms2
-
-    @layer_name = params[:LAYERS]
-    begin
-      ows = Mapscript::OWSRequest.new
-
-      ok_params = Hash.new
-      # params.each {|k,v| k.upcase! } frozen string error
-
-      params.each {|k,v| ok_params[k.upcase] = v }
-
-      [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs, :layers].each do |key|
-
-        ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
-      end
-
-      ows.setParameter("STYLES", "")
-      #ows.setParameter("LAYERS", "image")
-
-      map = Mapscript::MapObj.new(File.join(RAILS_ROOT, '/db/maptemplates/wms.map'))
-      projfile = File.join(RAILS_ROOT, '/lib/proj')
-      map.setConfigOption("PROJ_LIB", projfile)
-      #map.setProjection("init=epsg:900913")
-      map.applyConfigOptions
-
-      # logger.info map.getProjection
-      map.setMetaData("wms_onlineresource",
-        "http://" + request.host_with_port  + "/layers/wms2")
-      unless @layer_name
-
-        Layer.visible.each do |layer|
-          if layer.rectified_maps_count > 0
-            raster = Mapscript::LayerObj.new(map)
-            #raster.name = "layer_"+layer.id.to_s
-            raster.name = "layer_"+layer.id.to_s
-            raster.type =  Mapscript::MS_LAYER_RASTER
-            raster.tileindex = layer.tileindex_path
-            raster.tileitem = "Location"
-
-            raster.status = Mapscript::MS_ON
-            raster.dump = Mapscript::MS_TRUE
-
-            raster.metadata.set('wcs_formats', 'GEOTIFF')
-            # raster.metadata.set('wms_title', "layer "+layer.id.to_s)
-            raster.metadata.set('wms_title', layer.id.to_s + ": "+snippet(layer.name, 15))
-
-            raster.metadata.set('wms_abstract', layer.rectified_maps_count.to_s + "maps. "+
-                layer.rectified_percent.to_i.to_s + "% Complete"+
-                "[Depicts:"+layer.depicts_year.to_s+"]")
-
-            raster.metadata.set('wms_keywordlist', 'depictsYear:'+layer.depicts_year.to_s +
-                ',totalMaps:' + layer.maps.count.to_s +
-                ',numberWarpedMaps:'+ layer.rectified_maps_count.to_s +
-                ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
-                ',lastUpdated:' + layer.updated_at.to_s )
-            raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-            raster.debug = Mapscript::MS_TRUE
-          end
-        end
-
-      else
-        single_layer = Layer.find(@layer_name.to_s.delete("layer_"))
-        raster = Mapscript::LayerObj.new(map)
-        raster.name = "layer_"+single_layer.id.to_s
-        raster.type =  Mapscript::MS_LAYER_RASTER
-        raster.tileindex = single_layer.tileindex_path
-        raster.tileitem = "Location"
-
-        raster.status = Mapscript::MS_ON
-        raster.dump = Mapscript::MS_TRUE
-
-        raster.metadata.set('wcs_formats', 'GEOTIFF')
-        raster.metadata.set('wms_title', single_layer.name)
-        raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:4269 EPSG:900913')
-        raster.metadata.set('wms_keywordlist', 'depictsYear:'+layer.depicts_year.to_s +
-            ',totalMaps:' + layer.maps.count.to_s +
-            ',warpedMaps:'+ layer.rectified_maps_count.to_s +
-            ',percentComplete:'+ layer.rectified_percent.to_i.to_s +
-            ',lastUpdated:' + layer.updated_at.to_s )
-
-        raster.debug = Mapscript::MS_TRUE
-      end
-
-      Mapscript::msIO_installStdoutToBuffer
-      result = map.OWSDispatch(ows)
-      content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
-      result_data = Mapscript::msIO_getStdoutBufferBytes
-
-      send_data result_data, :type => content_type, :disposition => "inline"
-      Mapscript::msIO_resetHandlers
-    rescue RuntimeError => e
-      @e = e
-      render :action => 'wms',:layout =>'application'
-    end
-  end
-
-  def tile
-    x = params[:x].to_i
-    y = params[:y].to_i
-    z = params[:z].to_i
-    #for Google/OSM tile scheme we need to alter the y:
-    y = ((2**z)-y-1)
-    #calculate the bbox
-    params[:bbox] = get_tile_bbox(x,y,z)
-    #build up the other params
-    params[:status] = "warped"
-    params[:format] = "image/png"
-    params[:service] = "WMS"
-    params[:version] = "1.1.1"
-    params[:request] = "GetMap"
-    params[:srs] = "EPSG:900913"
-    params[:width] = "256"
-    params[:height] = "256"
-    #call the wms thing
-    wms
-
-  end
-
   private
 
   def check_if_layer_is_editable
     @layer = Layer.find(params[:id])
     authorize! :update, @layer
-  end
-
-
-  #
-  # tile utility methods. calculates the bounding box for a given TMS tile.
-  # Based on http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
-  # GDAL2Tiles, Google Summer of Code 2007 & 2008
-  # by  Klokan Petr Pridal
-  #
-  def get_tile_bbox(x,y,z)
-    min_x, min_y = get_merc_coords(x * 256, y * 256, z)
-    max_x, max_y = get_merc_coords( (x + 1) * 256, (y + 1) * 256, z )
-    return "#{min_x},#{min_y},#{max_x},#{max_y}"
-  end
-
-  def get_merc_coords(x,y,z)
-    resolution = (2 * Math::PI * 6378137 / 256) / (2 ** z)
-    merc_x = (x * resolution -2 * Math::PI  * 6378137 / 2.0)
-    merc_y = (y * resolution - 2 * Math::PI  * 6378137 / 2.0)
-    return merc_x, merc_y
   end
 
   #little helper method
