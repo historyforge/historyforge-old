@@ -132,6 +132,12 @@ h1.page-title= @record.name
           dt Deaf & Dumb?
           dd= @record.deaf_dumb? ? 'Yes' : 'No'
 
+- if @record.notes.present?
+  .panel.panel-default
+    .panel-heading
+      h4.panel-title Notes
+    .panel-body= simple_format @record.notes
+
 - if @record.fellows.present?
   .panel.panel-default
     .panel-heading

@@ -5,6 +5,7 @@ class CensusRecord < ActiveRecord::Base
 
   before_save :ensure_housing
 
+  attribute :notes
   attribute :page_number
   attribute :line_number, as: :integer
   attribute :county, default: 'Tompkins'
