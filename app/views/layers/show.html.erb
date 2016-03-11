@@ -18,7 +18,7 @@
   <p><b>Export</b></p>
     <ul>
       <li>
-      <%=link_to "WMS Capabilties URL", :action => "wms", :id => @layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1"  %>  <br />
+      <%=link_to "WMS Capabilties URL", wms_layer_url(@layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")  %>  <br />
      </li>
      <li>
        <% josm_url = url_for(wms_layer_url(:id => @layer)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&" %>
