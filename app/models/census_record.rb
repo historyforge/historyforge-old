@@ -47,7 +47,6 @@ class CensusRecord < ActiveRecord::Base
     @matching_building ||= Building.where(address_house_number: street_house_number,
                                           address_street_prefix: street_prefix,
                                           address_street_name: street_name,
-                                          address_street_suffix: street_suffix,
                                           city: city).first
   end
 
