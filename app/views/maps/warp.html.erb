@@ -13,8 +13,8 @@
     var title = '<%=u @map.title -%>';
     var image_width = <%= @map.width %>;
     var image_height = <%= @map.height %>;
-    var wms_url = '<%= url_for :controller => 'maps', :action => 'wms', :id => @map  -%>';
-    var empty_wms_url = '<%= url_for :controller => 'maps', :action => 'wms' -%>';
+    var wms_url = '<%= wms_map_url @map  -%>';
+    var empty_wms_url = '/maps/wms';
     var map_has_bounds = false;
     var layer_baseurl = '/layers/wms';
     var layers_array = [<%=@other_layers.join(",")-%>];

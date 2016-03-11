@@ -4,7 +4,7 @@ class Wms::LayerController < Wms::BaseController
     @layer = Layer.find(params[:id])
 
     map.setMetaData("wms_onlineresource",
-      "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")
+      "http://" + request.host_with_port + "/layers/#{@layer.id}/wms")
 
     raster.tileindex = @layer.tileindex_path
     raster.tileitem = "Location"

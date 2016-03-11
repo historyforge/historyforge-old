@@ -10,7 +10,7 @@ north = bounds[3]
 width = 256
 height = 256
 
-wms_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "wms", :id=>@map)
+wms_baseurl = "http://"+request.host_with_port+ wms_map_url(@map)
 this_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"kml")
 xml.instruct! :xml
 xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
@@ -58,7 +58,7 @@ xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
       xval =Array.new
       yval =Array.new
       xval[0] = west
-      xval[1] = west - (west - east) / 2 
+      xval[1] = west - (west - east) / 2
       xval[2] = east
 
       yval[0] = south
