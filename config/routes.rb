@@ -73,11 +73,11 @@ Rails.application.routes.draw do
   put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
 
 
-  get '/maps/wms/:id' => "wms#map", :as => 'wms_map'
-  get '/maps/tile/:id/:z/:x/:y' => "wms#tile_map", :as => 'tile_map'
+  get '/maps/wms/:id' => "wms/map#wms", :as => 'wms_map'
+  get '/maps/tile/:id/:z/:x/:y' => "wms/map#tile", :as => 'tile_map'
 
-  get '/layers/:id/wms' => "wms#wms_layer", :as => "wms_layer"
-  get '/layers/:id/tile/:z/:x/:y' => "wms#tile_layer", :as => 'tile_layer'
+  get '/layers/:id/wms' => "wms/layer#wms", :as => "wms_layer"
+  get '/layers/:id/tile/:z/:x/:y' => "wms/layer#tile", :as => 'tile_layer'
 
   resources :layers do
     member do
