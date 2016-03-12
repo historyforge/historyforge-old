@@ -18,7 +18,7 @@
       <p ng-if="hasYears || hasArchitects">
         <span ng-if="hasYears">{{ yearBuilt }} {{ yearDemolished }}</span>
         <span ng-if="hasYears && hasArchitects"> &bull; </span>
-        <span ng-if="hasArchitects">Architects: <span ng-repeat="architect in building.architects">{{ architect.name }}</span></span>
+        <span ng-if="hasArchitects">Architects: {{ architectNames }}</span></span>
       </p>
 
       <div ng-if="building.census_records.length > 0">

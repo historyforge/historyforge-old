@@ -143,6 +143,8 @@ forgeApp.BuildingController = ($scope, BuildingService, NgMap) ->
   $scope.hasYears = $scope.building.year_earliest or $scope.building.year_latest
 
   $scope.hasArchitects = $scope.building.architects.length > 0
+  if $scope.hasArchitects
+    $scope.architectNames = $scope.building.architects.map((item) -> item.name).join(', ')
 
   $scope.buildingClassFor = () ->
     return if $scope.building?.highlighted then 'highlighted' else ''
@@ -159,4 +161,5 @@ forgeApp.BuildingController = ($scope, BuildingService, NgMap) ->
   $scope.unhighlightBuilding = () ->
     BuildingService.highlight(null) if $scope.building.highlighted
   return
+
 forgeApp.BuildingController.$inject = ['$scope', 'BuildingService', 'NgMap']
