@@ -1,4 +1,5 @@
 <%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
+<%= javascript_tag "window.googleApiKey = '#{ENV['GOOGLE_API_KEY']}';" %>
 <div id="forge" ng-app="forge" ng-controller="MainCtrl" class="{{viewMode}}">
 
   <%= render 'map' %>

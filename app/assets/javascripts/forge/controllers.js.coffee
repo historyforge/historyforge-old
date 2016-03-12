@@ -13,6 +13,7 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.form.showOnlyMapBuildings = yes
   $scope.form.buildingType = null
   $scope.buildingTypes = window.buildingTypes
+  $scope.buildingTypes.unshift id: null, name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form
   $scope.selectLayer  = -> LayerService.select $scope.layer
@@ -33,6 +34,7 @@ forgeApp.LayersController.$inject = ['$rootScope', '$scope', 'BuildingService', 
 
 forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
 
+  $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
   wmslayer = null
 
   $rootScope.$on 'layers:selected', (event, layer) ->
@@ -132,7 +134,7 @@ forgeApp.BuildingListController = ($rootScope, $scope, BuildingService) ->
   return
 forgeApp.BuildingListController.$inject = ['$rootScope', '$scope', 'BuildingService']
 
-forgeApp.BuildingController = ($scope, BuildingService) ->
+forgeApp.BuildingController = ($scope, BuildingService, NgMap) ->
 
   if $scope.building.year_earliest
     $scope.yearBuilt = "Built in #{$scope.building.year_earliest}."
@@ -145,6 +147,9 @@ forgeApp.BuildingController = ($scope, BuildingService) ->
   $scope.buildingClassFor = () ->
     return if $scope.building?.highlighted then 'highlighted' else ''
   $scope.showBuilding = () ->
+    NgMap.getMap().then (map) =>
+      point = new google.maps.LatLng parseFloat($scope.building.latitude), parseFloat($scope.building.longitude)
+      map.setCenter point
     for building in $scope.$parent.buildings
       building.current = building.id is $scope.building.id
     return
@@ -154,4 +159,4 @@ forgeApp.BuildingController = ($scope, BuildingService) ->
   $scope.unhighlightBuilding = () ->
     BuildingService.highlight(null) if $scope.building.highlighted
   return
-forgeApp.BuildingController.$inject = ['$scope', 'BuildingService']
+forgeApp.BuildingController.$inject = ['$scope', 'BuildingService', 'NgMap']
