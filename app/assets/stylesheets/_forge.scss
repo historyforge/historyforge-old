@@ -37,7 +37,34 @@ ng-map {
   z-index:120;
 }
 
-
+#miniforge {
+  position:relative;
+  .map-wrap {
+    width:100%;
+    height:400px;
+    margin-bottom:30px;
+  }
+  .highlighted {
+    border:none;
+    background: #f7f7f7;
+  }
+  .building {
+    padding:5px;
+  }
+  [ng-controller=MiniBuildingCtrl] {
+    p {
+      margin-top:0;
+    }
+  }
+  #layer-slider {
+    position:absolute;
+    top:350px;
+    left:5%;
+    right:15%;
+    width:80%;
+    z-index:120;
+  }
+}
 .map {
   .map-wrap {
     position: absolute;

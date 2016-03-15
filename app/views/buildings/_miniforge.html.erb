@@ -1,0 +1,60 @@
+<div class="map-wrap" ng-controller="MiniMapCtrl">
+  <ng-map center="[<%= @building.lat -%>, <%= @building.lon -%>]"
+          zoom="18"
+          data-map-type-control="true"
+          data-street-view-control="true"
+          data-tap-disabled="true">
+
+    <marker position="<%= @building.lat -%>, <%= @building.lon -%>"
+            z-index="300"
+            icon="{{ thisMarkerIcon }}"
+             <%- if can?(:update, @building) -%>
+            draggable="true"
+            on-dragend="moveBuilding(event)"
+            <% end -%>></marker>
+
+    <marker ng-repeat="item in buildings track by $index"
+            position="{{item.building.latitude}}, {{item.building.longitude}}"
+            z-index="{{ zIndexFor(item.building) }}"
+            icon="{{ markerIcon(item.building) }}"
+            on-mouseover="highlightBuilding(item.building)"
+            on-click="showBuilding(item.building)"
+            ng-if="item.building.latitude"></marker>
+
+
+    <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>
+
+  </ng-map>
+</div>
+
+<h4>Nearby Buildings</h4>
+<div ng-repeat="item in buildings track by $index"
+     class="building {{ buildingClass }}"
+     ng-controller="MiniBuildingCtrl"
+     ng-mouseenter="highlightBuilding()"
+     ng-mouseleave="unhighlightBuilding()"
+     ng-click="showBuilding()"
+     id="building-{{building.id}}">
+  <div class="pull-left">
+    <p>
+      <a href="/buildings/{{ building.id }}" target="_blank">{{ building.name }}</a><br>
+      {{ building.street_address }}<br>{{ building.city }}, {{ building.state }}
+    </p>
+    <p ng-if="hasYears || hasArchitects">
+      <span ng-if="hasYears">{{ yearBuilt }} {{ yearDemolished }}</span>
+      <span ng-if="hasYears && hasArchitects"> &bull; </span>
+      <span ng-if="hasArchitects">Architects: {{ architectNames }}</span></span>
+    </p>
+  </div>
+  <div class="pull-right" ng-if="building.photo">
+    <picture>
+    <!--[if IE 9]><video style="display: none;"><![endif]-->
+    <source ng-srcset="/photos/{{building.photo}}/5/phone.jpg" media="(max-width:480px)">
+    <source ng-srcset="/photos/{{building.photo}}/5/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+    <source ng-srcset="/photos/{{building.photo}}/5/desktop.jpg" media="(min-width:1025px)">
+    <!--[if IE 9]></video><![endif]-->
+    <img src class="img-responsive img-thumbnail">
+    </picture>
+  </div>
+  <div class="clear"></div>
+</div>

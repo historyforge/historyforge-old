@@ -1,5 +1,3 @@
-<%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
-<%= javascript_tag "window.googleApiKey = '#{ENV['GOOGLE_API_KEY']}';" %>
 <div id="forge" ng-app="forge" ng-controller="MainCtrl" class="{{viewMode}}">
 
   <%= render 'map' %>
@@ -12,6 +10,7 @@
 
 </div>
 
+<%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
 <script src="https://maps.googleapis.com/maps/api/js?libraries="></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 <%= javascript_include_tag 'forge' %>

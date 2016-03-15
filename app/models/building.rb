@@ -52,6 +52,10 @@ class Building < ActiveRecord::Base
     [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
   end
 
+  def neighbors
+    lat? ? Building.near([lat, lon], 0.1).where('id<>?', id).limit(4) : []
+  end
+
   def residents
     census_records
   end

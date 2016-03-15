@@ -54,6 +54,8 @@ class BuildingsController < ApplicationController
   def show
     @building = Building.includes(:architects, :building_type).find params[:id]
     authorize! :read, @building
+    @neighbors = @building.neighbors.map { |building| BuildingSerializer.new(building) }
+    @layer = Layer.where(depicts_year: 1910).first
   end
 
   def edit

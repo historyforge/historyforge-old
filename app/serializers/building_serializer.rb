@@ -1,4 +1,5 @@
 class BuildingSerializer < ActiveModel::Serializer
+
   attributes :id, :name, :year_earliest, :year_latest, :description,
              :street_address, :city, :state, :postal_code, :building_type,
              :latitude, :longitude, :photo
