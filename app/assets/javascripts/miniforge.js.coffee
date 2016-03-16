@@ -1,7 +1,7 @@
 #= require 'ng-map.min'
 #= require 'wms'
 
-MiniMapController = ($scope, NgMap, $rootScope) ->
+MiniMapController = ($scope, NgMap, $rootScope, $http) ->
   $scope.layer = window.layer
   $scope.buildings = window.buildings
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
@@ -42,6 +42,17 @@ MiniMapController = ($scope, NgMap, $rootScope) ->
   $rootScope.$on 'building:highlighted', (event, id) ->
     highlighted = id
 
+  $scope.moveBuilding = (event, building) ->
+    point = event.latLng
+    token = $('meta[name=csrf-token]').attr('content')
+    $http.patch document.location.pathname,
+      authenticity_token: token
+      building:
+        lat: point.lat()
+        lon: point.lng()
+
+    return
+
 
   jQuery("#layer-slider").slider
       value: 100,
@@ -50,7 +61,7 @@ MiniMapController = ($scope, NgMap, $rootScope) ->
         wmslayer.setOpacity(ui.value / 100)
 
 
-MiniMapController.$inject = ['$scope', 'NgMap', '$rootScope']
+MiniMapController.$inject = ['$scope', 'NgMap', '$rootScope', '$http']
 
 MiniBuildingController = ($scope, $rootScope) ->
   $scope.building = $scope.item.building

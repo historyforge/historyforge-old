@@ -8,10 +8,6 @@
               on-mouseover="highlightBuilding(building)"
               on-click="showBuilding(building)"
               id="building-marker-{{building.id}}"
-               <%- if can?(:update, Building) -%>
-              draggable="true"
-              on-dragend="moveBuilding(event, building)"
-              <%- end %>
               ng-if="building.latitude"></marker>
 
       <info-window id="building-iw-{{building.id}}">
