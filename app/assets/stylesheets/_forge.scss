@@ -109,5 +109,14 @@ ng-map {
 }
 
 .gm-style-iw {
-  overflow:hidden;
+  div.row {
+    margin-left:0;
+    margin-right:0;
+    & > div:first-child {
+      padding-left:0;
+    }
+    & > div:last-child {
+      padding-right:0;
+    }
+  }
 }
