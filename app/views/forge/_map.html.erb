@@ -1,5 +1,8 @@
 <div class="map-wrap" ng-controller="ForgeMapCtrl">
-  <ng-map data-map-type-control="true" data-street-view-control="true" data-tap-disabled="true">
+  <ng-map data-map-type-control="true"
+          data-street-view-control="true"
+          data-tap-disabled="true"
+          center="[42.4396474, -76.499342]">
     <div ng-repeat="building in buildings track by $index">
 
       <marker position="{{building.latitude}}, {{building.longitude}}"
@@ -14,7 +17,7 @@
         <div ng-non-bindable="">
           <h5>{{ currentBuilding.name }}</h5>
           <div class="row" style="width:650px" ng-if="currentBuilding.photo && currentBuilding.census_records.length > 0">
-            <div class="col-xs-3">
+            <div class="col-xs-4">
               <picture>
                 <!--[if IE 9]><video style="display: none;"><![endif]-->
                 <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
@@ -24,7 +27,7 @@
                 <img src class="img-responsive img-thumbnail">
               </picture>
             </div>
-            <div class="col-xs-4">
+            <div class="col-xs-3">
               <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
               <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
             </div>

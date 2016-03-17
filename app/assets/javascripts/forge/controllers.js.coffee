@@ -94,16 +94,16 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.unhighlightBuilding = (event, building) ->
     BuildingService.highlight(null) if building.highlighted
 
-  dragTimeout = null
-  $scope.moveBuilding = (event, building) ->
-    point = event.latLng
-    building.lat = point.lat()
-    building.lon = point.lng()
-    saveBuilding = ->
-      BuildingService.save(building)
-    $timeout.cancel(dragTimeout) if dragTimeout
-    dragTimeout = $timeout saveBuilding, 1000
-    return
+  # dragTimeout = null
+  # $scope.moveBuilding = (event, building) ->
+  #   point = event.latLng
+  #   building.lat = point.lat()
+  #   building.lon = point.lng()
+  #   saveBuilding = ->
+  #     BuildingService.save(building)
+  #   $timeout.cancel(dragTimeout) if dragTimeout
+  #   dragTimeout = $timeout saveBuilding, 1000
+  #   return
 
   jQuery("#layer-slider").slider
       value: 100,
