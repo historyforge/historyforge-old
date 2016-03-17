@@ -7,7 +7,7 @@
 h1.page-title Census Records
 
 .row
-  .col-xs-10
+  .col-xs-9
 
     table.table.table-condensed.table-striped
       thead
@@ -30,7 +30,7 @@ h1.page-title Census Records
               = link_to 'View', census_record_path(row), class: 'btn btn-xs btn-default'
               - if can? :update, row
                 = link_to 'Edit', edit_census_record_path(row), class: 'btn btn-xs btn-default'
-  .col-xs-2
+  .col-xs-3
     .panel.panel-default
       .panel-heading
         h3 Filters
