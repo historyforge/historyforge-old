@@ -20,7 +20,7 @@
         .col-xs-6
           = form.input :street_name
         .col-xs-2
-          = form.input :street_suffix, collection: %w{Street Road Avenue Boulevard Place Terrace Court Pike Trace}.sort
+          = form.input :street_suffix, collection: CensusRecord.street_suffix_choices
       .row
         .col-xs-6= form.input :dwelling_number
         .col-xs-6= form.input :family_id
