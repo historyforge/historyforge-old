@@ -43,7 +43,12 @@ h1.page-title= @building.name
             dt Annotations
             dd= @building.annotations
 
-    = simple_format @building.description
+    - if @building.description?
+      .panel.panel-default
+        .panel-heading
+          h4.panel-title Description
+        .panel-body
+          = simple_format @building.description
 
     - if @building.photos.present?
       .panel.panel-default
@@ -82,7 +87,7 @@ h1.page-title= @building.name
   .col-xs-4
     - if @building.lat?
       / Map
-      #miniforge ng-app="miniforge" ng-controller="MiniMapCtrl"
+      #miniforge.well ng-app="miniforge" ng-controller="MiniMapCtrl"
 
         = render 'miniforge'
 
