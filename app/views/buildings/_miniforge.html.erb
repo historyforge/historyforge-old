@@ -1,6 +1,7 @@
 <div class="map-wrap" ng-controller="MiniMapCtrl">
   <ng-map center="[<%= @building.lat -%>, <%= @building.lon -%>]"
           zoom="18"
+          data-styles="[{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}]"
           data-map-type-control="true"
           data-street-view-control="true"
           data-tap-disabled="true">
