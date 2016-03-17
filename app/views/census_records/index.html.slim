@@ -12,8 +12,8 @@ h1.page-title Census Records
     table.table.table-condensed.table-striped
       thead
         tr
-          th Last Name
-          th First Name
+          th Name
+          th Work
           th Year
           th Address
           th City
@@ -21,8 +21,12 @@ h1.page-title Census Records
       tbody
         - @records.each do |row|
           tr
-            td= row.last_name
-            td= row.first_name
+            td= "#{row.last_name}, #{row.first_name}"
+            td
+              - if row.industry?
+                = "#{row.profession} - #{row.industry}"
+              - else
+                = row.profession
             td 1910
             td= row.street_address
             td= row.city
@@ -33,11 +37,13 @@ h1.page-title Census Records
   .col-xs-3
     .panel.panel-default
       .panel-heading
-        h3 Filters
+        h4.panel-title Filters
       .panel-body
         = search_form_for @search, url: census_records_path, builder: SimpleForm::FormBuilder do |form|
           = form.input :last_name_cont, label: 'Last Name'
           = form.input :street_name_cont, label: 'Street Name'
+          = form.input :profession_cont, label: 'Profession'
+          = form.input :industry_cont, label: 'Industry'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', census_records_path, class: 'btn btn-default'
