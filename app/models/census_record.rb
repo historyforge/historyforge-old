@@ -60,7 +60,7 @@ class CensusRecord < ActiveRecord::Base
       address_street_suffix: street_suffix,
       city: city,
       state: state,
-      building_type: BuildingType.where(name: 'residential').first
+      building_type: BuildingType.where(name: 'residence').first
     )
   end
 
