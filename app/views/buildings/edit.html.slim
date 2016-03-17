@@ -1,4 +1,5 @@
-.pull-right
+.pull-right.btn-group
+  = link_to 'Save', "javascript: $('form.edit_building').submit()", class: 'btn btn-primary'
   = link_to 'View', @building, class: 'btn btn-default'
   = link_to 'View All', buildings_path, class: 'btn btn-default'
   - if can?(:destroy, @building)
