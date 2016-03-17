@@ -44,19 +44,23 @@ class CensusRecord < ActiveRecord::Base
                               family_id_eq: family_id).result
   end
 
-  def matching_building
+  def matching_building(my_street_name = nil)
+    my_street_name ||= street_name
     @matching_building ||= Building.where(address_house_number: street_house_number,
                                           address_street_prefix: street_prefix,
-                                          address_street_name: street_name,
+                                          address_street_name: my_street_name,
                                           city: city).first
   end
 
   def ensure_housing
-    self.building ||= matching_building || Building.create(
+
+    my_street_name = street_name == 'Mill' ? 'Court' : street_name
+
+    self.building ||= matching_building(my_street_name) || Building.create(
       name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
       address_house_number: street_house_number,
       address_street_prefix: street_prefix,
-      address_street_name: street_name,
+      address_street_name: my_street_name,
       address_street_suffix: street_suffix,
       city: city,
       state: state,
