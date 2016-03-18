@@ -111,6 +111,8 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       slide: (e, ui) ->
         wmslayer.setOpacity(ui.value / 100)
 
+  jQuery('#forge-right-col').draggable()
+
   fitToBoundingBox = (map, bbox) ->
     boxValues = bbox.split(',')
     box = new google.maps.LatLngBounds()
