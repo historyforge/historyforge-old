@@ -1,9 +1,11 @@
-.pull-right
+.pull-right.btn-group
   - if can?(:update, @record)
     = link_to 'Edit', [:edit, @record], class: 'btn btn-default'
   - if can?(:destroy, @record)
     = link_to 'Delete', @record, class: 'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? There is no return.' }
   = link_to 'View All', census_records_path, class: 'btn btn-default'
+  - if @record.building_id?
+    = link_to 'View Building', building_path(@record.building_id), class: 'btn btn-info'
 
 h1.page-title= @record.name
 
