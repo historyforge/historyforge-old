@@ -1,7 +1,6 @@
 .pull-right
-  span.warper_pagination
-    span#search-pagination-top
-      = will_paginate @records
+  span#search-pagination-top
+    = will_paginate @records
   - if can?(:create, CensusRecord)
     = link_to 'Add New', new_census_record_path, class: 'btn btn-default'
 h1.page-title Census Records
@@ -48,6 +47,5 @@ h1.page-title Census Records
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', census_records_path, class: 'btn btn-default'
 
-.warper_pagination
-  #search-pagination-botton
-    = will_paginate @records
+#search-pagination-bottom
+  = will_paginate @records

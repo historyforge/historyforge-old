@@ -61,6 +61,7 @@ gem 'acts-as-taggable-on', '~> 3.4'
 gem 'paperclip', '~> 4.2.0'
 # gem 'acts_as_commentable'
 gem 'will_paginate', '~> 3.0'
+gem 'will_paginate-bootstrap'
 gem 'spawnling', '~>2.1'
 
 gem 'ruby_mapscript'

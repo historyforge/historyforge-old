@@ -1,13 +1,12 @@
 .pull-right
-  span.warper_pagination
-    span#search-pagination-top
-      = will_paginate @buildings
+  span#search-pagination-top
+    = will_paginate @buildings
   - if can?(:create, Building)
     = link_to 'Add New', new_building_path, class: 'btn btn-default'
 h1.page-title Buildings
 
 .row
-  .col-xs-10
+  .col-xs-9
 
     table.table.table-condensed.table-striped
       thead
@@ -30,10 +29,10 @@ h1.page-title Buildings
               = link_to 'View', row, class: 'btn btn-xs btn-default'
               - if can? :update, row
                 = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
-  .col-xs-2
+  .col-xs-3
     .panel.panel-default
       .panel-heading
-        h3 Filters
+        h4.panel-title Filters
       .panel-body
         = search_form_for @search, builder: SimpleForm::FormBuilder do |form|
           = form.input :name_cont, label: 'Name'
@@ -43,6 +42,5 @@ h1.page-title Buildings
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', buildings_path, class: 'btn btn-default'
 
-.warper_pagination
-  #search-pagination-botton
-    = will_paginate @buildings
+#search-pagination-botton
+  = will_paginate @buildings
