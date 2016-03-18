@@ -37,7 +37,7 @@ h1.page-title Buildings
         = search_form_for @search, builder: SimpleForm::FormBuilder do |form|
           = form.input :name_cont, label: 'Name'
           = form.input :year_earliest_eq, label: 'Year'
-          = form.input :building_type_id_eq, label: 'Building Type', collection: BuildingType.order(:name), include_blank: 'Select'
+          = form.input :building_type_id_eq, label: 'Building Type', collection: BuildingType.order(:name), include_blank: 'All buildings'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', buildings_path, class: 'btn btn-default'
