@@ -38,6 +38,7 @@ gem 'acts_as_list'
 gem 'mini_magick'
 gem 'ar_doc_store'
 gem 'geocoder'
+gem 'non-stupid-digest-assets'
 
 # Use unicorn as the app server
 # gem 'unicorn'
