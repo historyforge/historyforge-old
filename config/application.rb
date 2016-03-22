@@ -36,6 +36,6 @@ module Rails4Mapwarper
     }
 
     config.assets.precompile += %w{forge.js miniforge.js}
-
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
   end
 end
