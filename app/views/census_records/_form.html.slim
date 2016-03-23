@@ -55,22 +55,34 @@
         .col-xs-4= form.input :naturalized_alien
         .col-xs-4= form.input :language_spoken
 
-      = form.input :profession
-      = form.input :industry
-      = form.input :employment
-      = form.input :unemployed, as: :boolean, inline_label: 'Without work?'
-      = form.input :unemployed_weeks_1909
-      = form.input :can_read, as: :boolean, inline_label: 'Can Read?'
-      = form.input :can_write, as: :boolean, inline_label: 'Can Write?'
-      = form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
+      .row
+        .col-xs-4= form.input :profession
+        .col-xs-4= form.input :industry
+        .col-xs-4= form.input :employment
+
+      .row
+        .col-xs-6= form.input :unemployed, as: :boolean, inline_label: 'Without work?'
+        .col-xs-6= form.input :unemployed_weeks_1909
+
+      .row
+        .col-xs-4= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
+        .col-xs-4= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
+        .col-xs-4= form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
+
       = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices
       = form.input :mortgage
       = form.input :farm_or_house, as: :radio_buttons, collection: Census1910Record.farm_or_house_choices
       = form.input :num_farm_sched, as: :integer
-      = form.input :civil_war_vet, as: :boolean, inline_label: 'Civil War Vet?'
-      = form.input :blind, as: :boolean, inline_label: 'Blind?'
-      = form.input :deaf_dumb, as: :boolean, inline_label: 'Deaf and Dumb?'
+
+      .row
+        .col-xs-4= form.input :civil_war_vet, as: :boolean, inline_label: 'Civil War Vet?'
+        .col-xs-4= form.input :blind, as: :boolean, inline_label: 'Blind?'
+        .col-xs-4= form.input :deaf_dumb, as: :boolean, inline_label: 'Deaf and Dumb?'
+
       = form.input :notes, as: :text
 
   .form-actions
     = form.submit 'Save', class: 'btn btn-primary btn-lg'
+    span
+      | After saving, add another person:
+    = select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On this page', 'page'], ['In this enumeration district', 'enumeration']], params[:then]), prompt: 'Select'
