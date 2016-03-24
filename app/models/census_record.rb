@@ -3,7 +3,7 @@ class CensusRecord < ActiveRecord::Base
   include JsonData
   belongs_to :building
 
-  before_save :ensure_housing
+  #before_save :ensure_housing
 
   attribute :notes
   attribute :page_number
