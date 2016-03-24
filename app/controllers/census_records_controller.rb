@@ -88,7 +88,7 @@ class CensusRecordsController < ApplicationController
   end
 
   def after_saved
-    if params[:then]
+    if params[:then].present?
       attrs = []
       attrs += case params[:then]
       when 'enumeration'
