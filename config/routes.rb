@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   end
 
   resources :buildings
-  resources :census_records
+  resources :census_records do
+    get :building_autocomplete, on: :collection
+  end
 
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
 

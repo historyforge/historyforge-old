@@ -3,7 +3,8 @@ class CensusRecord < ActiveRecord::Base
   include JsonData
   belongs_to :building
 
-  #before_save :ensure_housing
+  attr_accessor :ensure_building
+  before_save :ensure_housing
 
   attribute :notes
   attribute :page_number
@@ -44,6 +45,12 @@ class CensusRecord < ActiveRecord::Base
                               family_id_eq: family_id).result
   end
 
+  def buildings_on_street
+    return [] unless (street_name.present? && city.present?)
+    search_streets = street_name == 'Mill' ? ['Court', 'Mill'] : street_name
+    @buildings_on_street ||= Building.where(address_street_name: search_streets, city: city).order(:address_house_number)
+  end
+
   def matching_building(my_street_name = nil)
     my_street_name ||= street_name
     @matching_building ||= Building.where(address_house_number: street_house_number,
@@ -53,7 +60,10 @@ class CensusRecord < ActiveRecord::Base
   end
 
   def ensure_housing
+    building_from_address if building_id.blank? && ensure_building == '1' && street_name.present? && city.present? && street_house_number.present?
+  end
 
+  def building_from_address
     my_street_name = street_name == 'Mill' ? 'Court' : street_name
 
     self.building ||= matching_building(my_street_name) || Building.create(

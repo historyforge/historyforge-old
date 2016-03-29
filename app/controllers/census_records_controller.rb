@@ -34,6 +34,15 @@ class CensusRecordsController < ApplicationController
     end
   end
 
+  def building_autocomplete
+    record = CensusRecord.new
+    record.street_name = params[:street]
+    record.city = params[:city]
+    buildings = record.buildings_on_street
+    buildings = buildings.map {|building| { id: building.id, name: building.name } }
+    render json: buildings
+  end
+
   def create
     @record = Census1910Record.new resource_params
     authorize! :create, @record

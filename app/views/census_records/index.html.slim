@@ -8,31 +8,34 @@ h1.page-title Census Records
 .row
   .col-xs-9
 
-    table.table.table-condensed.table-striped
-      thead
-        tr
-          th Name
-          th Profession - Industry
-          th Year
-          th Address
-          th City
-          th
-      tbody
-        - @records.each do |row|
+    - if @records.blank?
+      p.alert.alert-info No records found.
+    - else
+      table.table.table-condensed.table-striped
+        thead
           tr
-            td= "#{row.last_name}, #{row.first_name}"
-            td
-              - if row.industry?
-                = "#{row.profession} - #{row.industry}"
-              - else
-                = row.profession
-            td 1910
-            td= row.street_address
-            td= row.city
-            td style="text-align:right"
-              = link_to 'View', census_record_path(row), class: 'btn btn-xs btn-default'
-              - if can? :update, row
-                = link_to 'Edit', edit_census_record_path(row), class: 'btn btn-xs btn-default'
+            th Name
+            th Profession - Industry
+            th Year
+            th Address
+            th City
+            th
+        tbody
+          - @records.each do |row|
+            tr
+              td= "#{row.last_name}, #{row.first_name}"
+              td
+                - if row.industry?
+                  = "#{row.profession} - #{row.industry}"
+                - else
+                  = row.profession
+              td 1910
+              td= row.street_address
+              td= row.city
+              td style="text-align:right"
+                = link_to 'View', census_record_path(row), class: 'btn btn-xs btn-default'
+                - if can? :update, row
+                  = link_to 'Edit', edit_census_record_path(row), class: 'btn btn-xs btn-default'
   .col-xs-3
     .panel.panel-default
       .panel-heading
@@ -43,6 +46,7 @@ h1.page-title Census Records
           = form.input :street_name_cont, label: 'Street Name'
           = form.input :profession_cont, label: 'Profession'
           = form.input :industry_cont, label: 'Industry'
+          = form.input :building_id_null, as: :boolean, inline_label: 'No building yet'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', census_records_path, class: 'btn btn-default'
