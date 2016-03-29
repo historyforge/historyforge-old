@@ -64,6 +64,7 @@ class CensusRecordsController < ApplicationController
     @record = Census1910Record.find params[:id]
     # @record.photos.build
     authorize! :update, @record
+    @record.building = @record.matching_building if @record.building_id.blank && @record.street_house_number && @record.street_name
   end
 
   def update
