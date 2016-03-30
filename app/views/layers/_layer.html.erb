@@ -24,7 +24,7 @@
     <% if admin_authorized? -%>
       <span class="layer_visibility">
         <br />
-        <span id="vis-text-<%=layer.id%>">
+        <span id="vis-text-<%=layer.id-%>">
           <% if layer.is_visible -%>
             (Visible)
           <% else -%>
@@ -32,12 +32,10 @@
           <%end-%>
         </span>
 
-        <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility-#{layer.id}", :remote => true)%>
+        <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility-#{layer.id}", data: { :remote => true, method: :patch })%>
         <script type="text/javascript">
-          jQuery(document).ready(function() {
-            jQuery("a#toggle-visibility-<%=layer.id-%>").bind("ajax:success", function(event, data, status, xhr) {
-              jQuery('<%= "#vis-text-#{layer.id}" %>').html(data);
-            });
+          $("a#toggle-visibility-<%=layer.id-%>").bind("ajax:success", function(event, data, status, xhr) {
+            $('<%= "#vis-text-#{layer.id}" -%>').html(data.message);
           });
         </script>
 

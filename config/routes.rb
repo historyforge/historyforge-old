@@ -84,7 +84,7 @@ Rails.application.routes.draw do
     member do
       get 'merge'
       get 'publish'
-      get 'toggle_visibility'
+      patch 'toggle_visibility'
       post 'update_year'
       get 'maps'
       get 'export'
