@@ -47,7 +47,7 @@ class UsersController < ApplicationController
     else
       conditions = nil
     end
-    @users = User.where(conditions).order('last_name asc, first_name asc').paginate(:page=> params[:page], :per_page => 30)
+    @users = User.where(conditions).order('login asc').paginate(:page=> params[:page], :per_page => 30)
 
   end
 

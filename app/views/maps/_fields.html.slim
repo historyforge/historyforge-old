@@ -3,6 +3,27 @@
   = form.input :description, input_html: { cols: 30, rows: 12 }
   = form.input :tag_list, label: 'Tags', hint: '(comma separated)'
   = form.input :map_type, as: :boolean, collection: Map.map_type_hash, as: :select
+  .row
+    .col-sm-6
+      label[for="upload"]
+        b
+          | Upload An Image File:
+        - if @max_size
+          |  Max size:
+          =  number_to_human_size @max_size
+          | .
+        = @upload_file_message
+      br
+      = form.file_field :upload
+    .col-sm-1
+      |  OR
+    .col-sm-5
+      label[for="upload_url"]
+        b
+          | Upload from a URL:
+      = form.text_field :upload_url
+  br
+  br
   .form-actions
     = form.submit 'Save', class: 'btn btn-lg btn-primary'
 .col-sm-6

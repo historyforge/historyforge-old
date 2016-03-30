@@ -684,11 +684,8 @@ class MapsController < ApplicationController
 
   #only allow editing by a user if the user owns it, or if and editor tries to edit it
   def check_if_map_is_editable
-    if user_signed_in? and (current_user.own_this_map?(params[:id])  or current_user.has_role?("editor"))
-      @map = Map.find(params[:id])
-    elsif Map.find(params[:id]).owner.nil?
-      @map = Map.find(params[:id])
-    else
+    @map = Map.find(params[:id])
+    unless can?(:update, @map)
       flash[:notice] = "Sorry, you cannot edit other people's maps"
       redirect_to map_path
     end
