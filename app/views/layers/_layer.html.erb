@@ -32,16 +32,15 @@
           <%end-%>
         </span>
 
-      <script type="text/javascript">
-        jQuery(document).ready(function() {
-          jQuery("a#toggle-visibility").bind("ajax:success", function(event, data, status, xhr) {
-            jQuery('<%= "#vis-text-#{layer.id}" %>').html(data);
+        <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility-#{layer.id}", :remote => true)%>
+        <script type="text/javascript">
+          jQuery(document).ready(function() {
+            jQuery("a#toggle-visibility-<%=layer.id-%>").bind("ajax:success", function(event, data, status, xhr) {
+              jQuery('<%= "#vis-text-#{layer.id}" %>').html(data);
+            });
           });
-        });
-      </script>
+        </script>
 
-        <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility", :remote => true)%>
-        <%# link_to_remote("Toggle Visibility", :update => "vis-text-#{layer.id}", :url => { :action => "toggle_visibility", :id => layer})%> |
       <% end  %>
       <% if user_signed_in? && (admin_authorized? or current_user.own_this_layer?(layer.id)) -%>
         <%= link_to "Edit Map Layer", layer_path(:id=>layer, :anchor=>"Edit_tab") -%> |
