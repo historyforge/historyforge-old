@@ -35,17 +35,13 @@
           <%end-%>
         </span>
 
+        <%= link_to("Toggle Visibility", toggle_visibility_layer_path(layer), :id => "toggle-visibility-#{layer.id}", data: { :remote => true, method: :patch })%>
         <script type="text/javascript">
-          jQuery(document).ready(function() {
-            jQuery("a#<%="toggle-vis-#{layer.id}"%>").bind("ajax:success", function(e, data, status, xhr) {
-              jQuery("<%="#vis-text-#{layer.id}"%>").html(data.message);
-            }).bind("ajax:error", function(e) {
-              console.log("error", e);
-            });
+          jQuery("a#toggle-visibility-<%=layer.id-%>").bind("ajax:success", function(event, data, status, xhr) {
+            jQuery('<%= "#vis-text-#{layer.id}" -%>').html(data.message);
           });
         </script>
 
-        <%= link_to("Toggle Visibility", toggle_visibility_layer_path(:id=>layer.id, :format=>"json"), :id => "toggle-vis-#{layer.id}", :remote => true)%>
       <% end  %>
       <% if admin_authorized? -%>
         <%= link_to("Merge", :controller => "layers", :action=> "merge", :id => layer) %> |
