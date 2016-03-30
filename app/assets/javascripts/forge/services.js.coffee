@@ -45,8 +45,8 @@ forgeApp.LayerService = ($http, $rootScope) ->
       $http.get('/layers.json').then (response) =>
         @layers = response.data?.items or []
         $rootScope.$broadcast 'layers:updated', @layers
-        if @layers.length is 1
-          @select @layers[0]
+        @select(layer) for layer in @layers when layer.id is 10
+
     select: (layer) ->
       @layer = layer
       $rootScope.$broadcast 'layers:selected', @layer

@@ -13,7 +13,7 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.form.showOnlyMapBuildings = yes
   $scope.form.buildingType = null
   $scope.buildingTypes = window.buildingTypes
-  $scope.buildingTypes.unshift id: null, name: 'all buildings'
+  $scope.buildingTypes.unshift name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form
   $scope.selectLayer  = -> LayerService.select $scope.layer
@@ -54,6 +54,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         map.hideInfoWindow(currentWindowId) if currentWindowId
         fn = ->
           google.maps.event.trigger(map, "resize")
+          $('#forge-right-col').removeAttr('style')
           $timeout (fitToBoundingBox(map, $scope.layer.bbox)), 100
         $timeout fn, 100
         return
