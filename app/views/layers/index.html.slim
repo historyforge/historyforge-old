@@ -3,11 +3,11 @@
     = render :partial => 'maps/map_detail', :object => @map
   #search-title= @html_title
 
-  h2
-    = @html_title
-    - if @query && @query.length > 0
-      | &mdash; Searched for
-      = "\"#{@query}\""
+h2
+  = @html_title
+  - if @query && @query.length > 0
+    | &mdash; Searched for
+    = "\"#{@query}\""
 
 .row
   .col-md-5
