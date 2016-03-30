@@ -18,7 +18,7 @@
     <body <% if @onload -%>onload="<%=@onload%>"<%end%>>
 
     <%= render :partial => 'shared/header' %>
-    <div class="container-fluid">
+    <div class="container-fluid" id="warper-maindiv">
 
     <table style="margin:16px 0; width:100%;">
       <%= render :partial => 'layers/layer_detail', :object => @layer, :locals => {:variety => "detail"} %>

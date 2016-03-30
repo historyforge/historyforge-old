@@ -1,0 +1,51 @@
+.row
+  .col-sm-8
+    - unless @layer.rectified_maps_count  < 1 || !@layer.is_visible?
+      = render 'layers/layermap', layer: @layer
+  .col-sm-4
+    - if @layer.description.present?
+      p
+        b Description
+        br
+        = @layer.description
+    - if @layer.source_uri.present?
+      p
+        b Source/ Bibliographic Ref URL
+        br
+        = @layer.source_uri
+
+    p
+      b Export
+
+    - josm_url = url_for(wms_layer_url(:id => @layer)) + "?request=GetMap&version=1.1.1&styles=&format=image/png&srs={proj}&exceptions=application/vnd.ogc.session.inimage&width={width}&height={height}&BBOX={bbox}&"
+    - tile_url = url_for(tile_layer_url(:x => "{X}",:y => "{y}", :x => "{x}", :z => "{z}", :format =>"png"))
+
+    ul
+      li=link_to "WMS Capabilties URL", wms_layer_url(@layer, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1")
+      li= link_to("WMS link suitable for JOSM OpenStreetMap Editor", josm_url)
+      li= "Tiles (Google/OSM scheme): #{URI.unescape(tile_url)}"
+      li= link_to("Download KML", layer_url(:id => @layer, :format=>:kml))
+
+h3
+  | Maps
+  span#view-maps-index-link
+= will_paginate @maps
+
+#loading-spinner style="width:100px;margin-left:auto;margin-right:auto" class="hidden"
+  | Loading.....
+  br
+  = image_tag "spinner.gif"
+
+#map_table_div
+  table#map_table.table.table-condensed.table-striped
+    thead
+      tr
+        th Map
+        th Title
+        th Last modified
+        th Status
+
+    tbody#results
+      = render :partial => 'maps/map', :collection => @maps unless @maps.nil?
+
+  = will_paginate @maps

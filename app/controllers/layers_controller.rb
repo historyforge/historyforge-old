@@ -1,6 +1,6 @@
 class LayersController < ApplicationController
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_filter :authenticate_user! , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :tile, :trace, :id]
+  before_filter :authenticate_user! , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :tile, :trace, :id]
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :trace, :id]
 
   before_filter :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :trace, :id]
@@ -13,98 +13,9 @@ class LayersController < ApplicationController
   end
 
 
-  def geosearch
-    require 'geoplanet'
-    # sort_init 'updated_at'
-    # sort_update
-
-    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
-
-    #TODO change to straight javascript call.
-    if params[:place] && !params[:place].blank?
-      place_query = params[:place]
-      GeoPlanet.appid = APP_CONFIG['yahoo_app_id']
-
-      geoplanet_result = GeoPlanet::Place.search(place_query, :count => 2)
-      if geoplanet_result[0]
-        g_bbox =  geoplanet_result[0].bounding_box.map!{|x| x.reverse}
-        extents = g_bbox[1] + g_bbox[0]
-        render :json => extents.to_json
-        return
-      else
-        render :json => extents.to_json
-        return
-      end
-    end
-
-    if params[:bbox] && params[:bbox].split(',').size == 4
-      begin
-        extents = params[:bbox].split(',').collect {|i| Float(i)}
-      rescue ArgumentError
-        logger.debug "arg error with bbox, setting extent to defaults"
-      end
-    end
-    @bbox = extents.join(',')
-    if extents
-      bbox_poly_ary = [
-        [ extents[0], extents[1] ],
-        [ extents[2], extents[1] ],
-        [ extents[2], extents[3] ],
-        [ extents[0], extents[3] ],
-        [ extents[0], extents[1] ]
-      ]
-
-      bbox_polygon = GeoRuby::SimpleFeatures::Polygon.from_coordinates([bbox_poly_ary], -1).as_ewkt
-      if params[:operation] == "within"
-        conditions = ["ST_Within(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
-      else
-        conditions = ["ST_Intersects(bbox_geom, ST_GeomFromText('#{bbox_polygon}'))"]
-      end
-
-    else
-      conditions = nil
-    end
-
-
-    if params[:sort_order] && params[:sort_order] == "desc"
-      sort_nulls = " NULLS LAST"
-    else
-      sort_nulls = " NULLS FIRST"
-    end
-    @operation = params[:operation]
-
-    if @operation == "intersect"
-      sort_geo = "ABS(ST_Area(bbox_geom) - ST_Area(ST_GeomFromText('#{bbox_polygon}'))) ASC,  "
-    else
-      sort_geo ="ST_Area(bbox_geom) DESC ,"
-    end
-
-
-    paginate_params = {
-      :page => params[:page],
-      :per_page => 20
-    }
-    # order_params = sort_geo + sort_clause + sort_nulls
-    @layers = Layer.select("bbox, name, updated_at, id, maps_count, rectified_maps_count,
-                       depicts_year").visible.with_maps.where(conditions).paginate(paginate_params)
-
-    @jsonlayers = @layers.to_json
-    respond_to do |format|
-      format.html{ render :layout =>'application' }
-      format.json { render :json => {:stat => "ok",
-          :current_page => @layers.current_page,
-          :per_page => @layers.per_page,
-          :total_entries => @layers.total_entries,
-          :total_pages => @layers.total_pages,
-          :items => @layers.to_a}.to_json , :callback => params[:callback]}
-    end
-  end
-
-
-
   def index
     # sort_init('created_at', {:default_order => "desc"})
-    session[@sort_name] = nil  #remove the session sort as we have percent
+    # session[@sort_name] = nil  #remove the session sort as we have percent
     # sort_update
     @query = params[:query]
     @field = %w(name description).detect{|f| f== (params[:field])}
@@ -139,13 +50,19 @@ class LayersController < ApplicationController
     if !map.nil?
       @map = Map.find(map)
       layer_ids = @map.layers.map(&:id)
-      @layers = Layer.where(id: layer_ids).select('*, round(rectified_maps_count::float / maps_count::float * 100) as percent').where(conditions).order(order_options).paginate(paginate_params)
+      @layers = Layer.where(id: layer_ids).select('*, round(rectified_maps_count::float / maps_count::float * 100) as percent').where(conditions).order(order_options)
       @html_title = "Map Layer List for Map #{@map.id}"
       @page = "for_map"
     else
-      @layers = Layer.select(select).where(conditions).paginate(paginate_params)
+      @layers = Layer.select(select).where(conditions)
       @html_title = "Browse Map Layers"
     end
+
+    if !user_signed_in? || request.format.json?
+      @layers = @layers.where(is_visible: true)
+    end
+
+    @layers = @layers.paginate(paginate_params)
 
     if request.xhr?
       # for pageless :
@@ -416,67 +333,6 @@ class LayersController < ApplicationController
   # called by id JS oauth
   def idland
     render "maps/idland", :layout => false
-  end
-
-
-  def wms()
-    begin
-      @layer = Layer.find(params[:id])
-      ows = Mapscript::OWSRequest.new
-
-      ok_params = Hash.new
-      # params.each {|k,v| k.upcase! } frozen string error
-
-      params.each {|k,v| ok_params[k.upcase] = v }
-
-      [:request, :version, :transparency, :service, :srs, :width, :height, :bbox, :format, :srs].each do |key|
-
-        ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
-      end
-
-      ows.setParameter("VeRsIoN","1.1.1")
-      ows.setParameter("STYLES", "")
-      ows.setParameter("LAYERS", "image")
-      #ows.setParameter("COVERAGE", "image")
-
-      map = Mapscript::MapObj.new(File.join(Rails.root, '/lib/mapserver/wms.map'))
-      projfile = File.join(Rails.root, '/lib/proj')
-      map.setConfigOption("PROJ_LIB", projfile)
-      #map.setProjection("init=epsg:900913")
-      map.applyConfigOptions
-
-      # logger.info map.getProjection
-      map.setMetaData("wms_onlineresource",
-        "http://" + request.host_with_port + "/layers/wms/#{@layer.id}")
-
-      raster = Mapscript::LayerObj.new(map)
-      raster.name = "image"
-      raster.type =  Mapscript::MS_LAYER_RASTER
-      raster.addProcessing("RESAMPLE=BILINEAR")
-      raster.tileindex = @layer.tileindex_path
-      raster.tileitem = "Location"
-
-      raster.status = Mapscript::MS_ON
-      #raster.setProjection( "+init=" + str(epsg).lower() )
-      raster.dump = Mapscript::MS_TRUE
-
-      #raster.setProjection('init=epsg:4326')
-      raster.metadata.set('wcs_formats', 'GEOTIFF')
-      raster.metadata.set('wms_title', @layer.name)
-      raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:3857 EPSG:4269 EPSG:900913')
-      raster.debug = Mapscript::MS_TRUE
-
-      Mapscript::msIO_installStdoutToBuffer
-      result = map.OWSDispatch(ows)
-      content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
-      result_data = Mapscript::msIO_getStdoutBufferBytes
-
-      send_data result_data, :type => content_type, :disposition => "inline"
-      Mapscript::msIO_resetHandlers
-    rescue RuntimeError => e
-      @e = e
-      render :layout =>'application'
-    end
   end
 
 

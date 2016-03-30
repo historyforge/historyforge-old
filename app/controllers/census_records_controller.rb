@@ -1,6 +1,6 @@
 class CensusRecordsController < ApplicationController
 
-  # TODO: accommodate census records other than 1910
+  include RestoreSearch
 
   respond_to :json, only: :index
   respond_to :html

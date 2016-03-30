@@ -1,5 +1,7 @@
 class BuildingsController < ApplicationController
 
+  include RestoreSearch
+
   respond_to :json, only: :index
   respond_to :html
 

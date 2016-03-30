@@ -72,7 +72,7 @@ gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
 
 gem 'gdal'
 gem 'georuby'
-gem 'geoplanet'
+# gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 gem 'quiet_assets'

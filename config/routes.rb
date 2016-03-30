@@ -59,7 +59,6 @@ Rails.application.routes.draw do
       get 'idland'
     end
     collection do
-        get 'geosearch'
         get 'tag'
     end
     resources :layers
@@ -94,9 +93,6 @@ Rails.application.routes.draw do
       get 'id'
       get 'trace'
       get 'idland'
-    end
-    collection do
-      get 'geosearch'
     end
   end
 
