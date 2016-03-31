@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160310134259) do
+ActiveRecord::Schema.define(version: 20160331124523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20160310134259) do
     t.text     "annotations"
     t.integer  "lining_type_id"
     t.integer  "frame_type_id"
+    t.string   "block_number"
   end
 
   add_index "buildings", ["building_type_id"], name: "index_buildings_on_building_type_id", using: :btree

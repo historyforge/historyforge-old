@@ -38,6 +38,7 @@ h1.page-title Buildings
           = form.input :name_cont, label: 'Name'
           = form.input :year_earliest_eq, label: 'Year'
           = form.input :building_type_id_eq, label: 'Building Type', collection: BuildingType.order(:name), include_blank: 'All buildings'
+          = form.input :block_number_eq, label: 'Block No.'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', buildings_path, class: 'btn btn-default'

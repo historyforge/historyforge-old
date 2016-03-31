@@ -26,6 +26,7 @@
         .col-xs-6
           = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
       = form.input :annotations
+      = form.input :block_number
 
   .panel.panel-default
     .panel-heading

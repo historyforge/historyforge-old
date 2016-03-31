@@ -42,6 +42,9 @@ h1.page-title= @building.name
           - if @building.annotations.present?
             dt Annotations
             dd= @building.annotations
+          - if @building.block_number?
+            dt Block Number
+            dd= @building.block_number
 
     - if @building.description?
       .panel.panel-default
