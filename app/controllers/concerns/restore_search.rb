@@ -3,10 +3,14 @@ module RestoreSearch
   extend ActiveSupport::Concern
 
   included do
-    before_filter :restore_search, :only => :index
+    before_filter :restore_search, :only => :index, unless: :is_json_request?
   end
 
-  protected
+  private
+
+  def is_json_request?
+    request.format.json?
+  end
 
   def restore_search
     q_key = "q_#{controller_name}"

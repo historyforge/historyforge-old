@@ -121,8 +121,8 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     box.extend new google.maps.LatLng(parseFloat(boxValues[3]), parseFloat(boxValues[2]))
     console.log 'center map to layer bounds!'
     # map.setCenter box.getCenter()
-    map.setZoom 18
-    #map.fitBounds(box)
+    # map.setZoom 18
+    map.fitBounds(box)
 
   return
 forgeApp.MapController.$inject = ['$rootScope', '$scope', 'NgMap', '$anchorScroll', '$timeout', 'BuildingService', 'LayerService']
