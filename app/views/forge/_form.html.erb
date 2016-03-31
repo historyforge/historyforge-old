@@ -1,38 +1,45 @@
 <div id="layer-selector" ng-controller="LayersCtrl">
-  <div class="col-xs-12">
-    <div id="view-mode-buttons" class="btn-group" role="group">
-      <button type="button" class="btn btn-xs btn-{{viewMode == 'map'  ? 'primary' : 'default'}}" ng-click="setViewMode('map')">Map</button>
-      <button type="button" class="btn btn-xs btn-{{viewMode == 'list' ? 'primary' : 'default'}}" ng-click="setViewMode('list')">List</button>
+
+  <!-- <div id="layer-selector-toggle">
+    <a href="#layer-selector-form" data-toggle="collapse" class="btn btn-default" role="button"><i class="glyphicon glyphicon-menu-hamburger"></i></a>
+  </div> -->
+
+  <div id="layer-selector-form">
+    <div class="col-xs-12">
+      <div id="view-mode-buttons" class="btn-group" role="group">
+        <button type="button" class="btn btn-xs btn-{{viewMode == 'map'  ? 'primary' : 'default'}}" ng-click="setViewMode('map')">Map</button>
+        <button type="button" class="btn btn-xs btn-{{viewMode == 'list' ? 'primary' : 'default'}}" ng-click="setViewMode('list')">List</button>
+      </div>
+
     </div>
 
-  </div>
-
-  <div class="col-xs-12">
-    <div class="row">
-      <div class="col-lg-4 col-sm-12">
-        <label for="layer-select" class="control-label">Map Layer</label>
+    <div class="col-xs-12">
+      <div class="row">
+        <div class="col-lg-4 col-sm-12">
+          <label for="layer-select" class="control-label">Map Layer</label>
+        </div>
+        <div class="col-lg-8 col-sm-12">
+          <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
+        </div>
       </div>
-      <div class="col-lg-8 col-sm-12">
-        <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
+      <div class="row">
+        <div class="col-lg-4 col-sm-12">
+          <label for="show-building-types">Buildings</label>
+        </div>
+        <div class="col-lg-8 col-sm-12">
+          <select id="show-building-types" class="form-control"
+                  ng-model="form.buildingType"
+                  ng-options="item as item.name for item in buildingTypes track by item.id"
+                  ng-change="applyFilters()"></select>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-4 col-sm-12">
-        <label for="show-building-types">Buildings</label>
-      </div>
-      <div class="col-lg-8 col-sm-12">
-        <select id="show-building-types" class="form-control"
-                ng-model="form.buildingType"
-                ng-options="item as item.name for item in buildingTypes track by item.id"
-                ng-change="applyFilters()"></select>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-4 col-sm-12">
-        <label for="show-only-map-buildings">
-          <input type="checkbox" ng-model="form.showOnlyMapBuildings" id="show_only_map_buildings" ng-change="applyFilters()">
-          1910 buildings only?
-        </label>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-4 col-sm-12">
+          <label for="show-only-map-buildings">
+            <input type="checkbox" ng-model="form.showOnlyMapBuildings" id="show_only_map_buildings" ng-change="applyFilters()">
+            1910 buildings only?
+          </label>
+        </div>
       </div>
     </div>
   </div>

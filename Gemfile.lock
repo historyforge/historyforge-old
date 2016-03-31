@@ -64,9 +64,8 @@ GEM
       activerecord (~> 4.0)
       pg (~> 0.17)
     arel (6.0.3)
-    autoprefixer-rails (6.2.3)
+    autoprefixer-rails (6.3.5)
       execjs
-      json
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
