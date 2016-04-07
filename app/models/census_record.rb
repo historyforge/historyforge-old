@@ -1,6 +1,7 @@
 class CensusRecord < ActiveRecord::Base
 
   include JsonData
+  include Moderation
   belongs_to :building
 
   attr_accessor :ensure_building

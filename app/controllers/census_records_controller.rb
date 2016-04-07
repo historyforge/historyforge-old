@@ -11,6 +11,9 @@ class CensusRecordsController < ApplicationController
       params[:q] ||= {}
       params[:q][:s] = 'last_name asc'
     end
+    if cannot? :moderate, CensusRecord
+      params[:q][:reviewed_at_not_null] = 1
+    end
     @search = Census1910Record.ransack(params[:q])
     @records = @search.result
     unless request.format.json?
@@ -46,6 +49,11 @@ class CensusRecordsController < ApplicationController
   def create
     @record = Census1910Record.new resource_params
     authorize! :create, @record
+    @record.created_by = current_user
+    if can?(:review, @record)
+      @record.reviewed_by = current_user
+      @record.reviewed_at = Time.now
+    end
     if @record.save
       flash[:notice] = 'Census Record created.'
       after_saved
@@ -89,6 +97,22 @@ class CensusRecordsController < ApplicationController
       flash[:errors] = 'Unable to delete building.'
       redirect_to :back
     end
+  end
+
+  def save_as
+    @record = Census1910Record.find params[:id]
+    authorize! :create, @record
+    after_saved
+  end
+
+  def reviewed
+    @record = Census1910Record.find params[:id]
+    authorize! :review, @record
+    @record.reviewed_by ||= current_user
+    @record.reviewed_at ||= Time.now
+    @record.save
+    flash[:notice] = 'The census record is marked as reviewed and available for public view.'
+    redirect_to :back
   end
 
   private

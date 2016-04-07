@@ -1,5 +1,7 @@
 class Building < ActiveRecord::Base
 
+  include Moderation
+
   has_and_belongs_to_many :architects
   belongs_to :building_type
   belongs_to :frame_type, class_name: 'ConstructionMaterial'

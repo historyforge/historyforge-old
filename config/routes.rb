@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   resources :buildings
   resources :census_records do
     get :building_autocomplete, on: :collection
+    put :save_as, on: :member
+    put :reviewed, on: :member
   end
 
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"

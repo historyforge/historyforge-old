@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331124523) do
+ActiveRecord::Schema.define(version: 20160407122307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,21 +80,31 @@ ActiveRecord::Schema.define(version: 20160331124523) do
     t.integer  "lining_type_id"
     t.integer  "frame_type_id"
     t.string   "block_number"
+    t.integer  "created_by_id"
+    t.integer  "reviewed_by_id"
+    t.datetime "reviewed_at"
   end
 
   add_index "buildings", ["building_type_id"], name: "index_buildings_on_building_type_id", using: :btree
+  add_index "buildings", ["created_by_id"], name: "index_buildings_on_created_by_id", using: :btree
   add_index "buildings", ["frame_type_id"], name: "index_buildings_on_frame_type_id", using: :btree
   add_index "buildings", ["lining_type_id"], name: "index_buildings_on_lining_type_id", using: :btree
+  add_index "buildings", ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id", using: :btree
 
   create_table "census_records", force: :cascade do |t|
     t.string   "type"
     t.jsonb    "data"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "building_id"
+    t.integer  "created_by_id"
+    t.integer  "reviewed_by_id"
+    t.datetime "reviewed_at"
   end
 
   add_index "census_records", ["building_id"], name: "index_census_records_on_building_id", using: :btree
+  add_index "census_records", ["created_by_id"], name: "index_census_records_on_created_by_id", using: :btree
+  add_index "census_records", ["reviewed_by_id"], name: "index_census_records_on_reviewed_by_id", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
     t.string   "name"
@@ -378,6 +388,10 @@ ActiveRecord::Schema.define(version: 20160331124523) do
   end
 
   add_foreign_key "buildings", "building_types"
+  add_foreign_key "buildings", "users", column: "created_by_id"
+  add_foreign_key "buildings", "users", column: "reviewed_by_id"
   add_foreign_key "census_records", "buildings"
+  add_foreign_key "census_records", "users", column: "created_by_id"
+  add_foreign_key "census_records", "users", column: "reviewed_by_id"
   add_foreign_key "photos", "buildings"
 end

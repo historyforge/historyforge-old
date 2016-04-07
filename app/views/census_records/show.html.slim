@@ -1,11 +1,27 @@
-.pull-right.btn-group
-  - if can?(:update, @record)
-    = link_to 'Edit', [:edit, @record], class: 'btn btn-default'
-  - if can?(:destroy, @record)
-    = link_to 'Delete', @record, class: 'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? There is no return.' }
-  = link_to 'View All', census_records_path, class: 'btn btn-default'
-  - if @record.building_id?
-    = link_to 'View Building', building_path(@record.building_id), class: 'btn btn-info'
+.pull-right
+  .dropdown style="display:inline-block"
+    a.btn.btn-primary.dropdown-toggle data-toggle='dropdown' href="#"
+      | Actions
+      = ' '
+      span.caret
+    ul.dropdown-menu
+      - if !@record.reviewed? && can?(:review, @record)
+        li= link_to 'Mark as Reviewed', [:reviewed, @record], method: :put
+      - if can?(:update, @record)
+        li= link_to 'Edit', [:edit, @record]
+      - if can?(:destroy, @record)
+        li= link_to 'Delete', @record, data: { method: :delete, confirm: 'Are you sure? There is no return.' }
+      li= link_to 'View All', census_records_path
+      - if @record.building_id?
+        li= link_to 'View Building', building_path(@record.building_id)
+
+  - if can?(:create, CensusRecord)
+    | &nbsp;
+    div style="display:inline-block"
+      = form_tag(save_as_census_record_path(@record), method: :put, class: 'form-inline') do
+        = select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On this page', 'page'], ['In this enumeration district', 'enumeration']], params[:then]), prompt: 'Select', class: 'form-control'
+        = submit_tag 'Add Record', class: 'btn btn-primary'
+
 
 h1.page-title= @record.name
 
@@ -163,3 +179,7 @@ h1.page-title= @record.name
             td= row.age
             td= row.relation_to_head
             td= row.profession
+
+- if can?(:review, CensusRecord)
+  .alert.alert-info
+    = "Reviewed by #{@record.reviewed_by.andand.name || 'a kind soul'} on #{@record.reviewed_at.to_s(:long)}"

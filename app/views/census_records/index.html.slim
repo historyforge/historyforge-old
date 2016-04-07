@@ -23,7 +23,10 @@ h1.page-title Census Records
         tbody
           - @records.each do |row|
             tr
-              td= "#{row.last_name}, #{row.first_name}"
+              td
+                = "#{row.last_name}, #{row.first_name}"
+                - unless row.reviewed?
+                  span.label.label-danger< NEW
               td
                 - if row.industry?
                   = "#{row.profession} - #{row.industry}"
@@ -47,9 +50,11 @@ h1.page-title Census Records
           = form.input :profession_cont, label: 'Profession'
           = form.input :industry_cont, label: 'Industry'
           = form.input :building_id_null, as: :boolean, inline_label: 'No building yet'
+          - if can? :review, CensusRecord
+            = form.input :reviewed_at_null, as: :boolean, inline_label: 'Unreviewed only'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
-            =< link_to 'Reset', census_records_path, class: 'btn btn-default'
+            =< link_to 'Reset', census_records_path(reset: true), class: 'btn btn-default'
 
 #search-pagination-bottom
   = will_paginate @records
