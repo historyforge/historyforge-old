@@ -11,7 +11,7 @@ class People::CensusRecordsController < ApplicationController
       params[:q] ||= {}
       params[:q][:s] = 'last_name asc'
     end
-    if cannot? :moderate, resource_class
+    unless current_user
       params[:q][:reviewed_at_not_null] = 1
     end
     @search = resource_class.ransack(params[:q])

@@ -6,7 +6,7 @@ class Building < ActiveRecord::Base
   belongs_to :building_type
   belongs_to :frame_type, class_name: 'ConstructionMaterial'
   belongs_to :lining_type, class_name: 'ConstructionMaterial'
-  has_many :census_records, dependent: :nullify
+  has_many :census_records, dependent: :nullify, class_name: 'Census1910Record'
 
   has_many :photos, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
