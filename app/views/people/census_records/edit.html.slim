@@ -1,5 +1,5 @@
 .pull-right.btn-group
-  = link_to 'Save', "javascript: $('form.edit_census_record').submit()", class: 'btn btn-primary'
+  = link_to 'Save', "javascript: $('form.simple_form').submit()", class: 'btn btn-primary'
   = link_to 'View', resource_path(@record), class: 'btn btn-default'
   = link_to 'View All', collection_path, class: 'btn btn-default'
   - if can?(:destroy, @record)

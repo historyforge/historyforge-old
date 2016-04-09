@@ -34,7 +34,7 @@ $(document).on 'blur', '#city, #street_name', ->
   street = null if street is ''
   if city and street
     params = city: city, street: street
-    $.getJSON '/census_records/building_autocomplete', params, (json) ->
+    $.getJSON '/census/1910/building_autocomplete', params, (json) ->
       building = $('#building_id')
       current_value = building.val()
       html = '<option value="">Select a building</option>'
