@@ -81,7 +81,7 @@ h1.page-title= @building.name
               tbody
                 - family.each do |row|
                   tr
-                    td= link_to row.name, census_record_path(row)
+                    td= link_to row.name, row
                     td= row.sex
                     td= row.age
                     td= row.relation_to_head
