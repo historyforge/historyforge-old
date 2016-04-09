@@ -49,9 +49,9 @@ h1.page-title Census Records
           = form.input :street_name_cont, label: 'Street Name'
           = form.input :profession_cont, label: 'Profession'
           = form.input :industry_cont, label: 'Industry'
-          = form.input :building_id_null, as: :boolean, inline_label: 'No building yet'
-          - if can? :review, CensusRecord
-            = form.input :reviewed_at_null, as: :boolean, inline_label: 'Unreviewed only'
+          /= form.input :building_id_null, as: :radio_buttons, label: 'No building yet'
+          /- if can? :review, CensusRecord
+            = form.input :reviewed_at_null, as: :radio_buttons, label: 'Unreviewed only'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
             =< link_to 'Reset', collection_path(reset: true), class: 'btn btn-default'
