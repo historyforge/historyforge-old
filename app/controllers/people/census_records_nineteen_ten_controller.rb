@@ -37,5 +37,10 @@ class People::CensusRecordsNineteenTenController < People::CensusRecordsControll
     Census1910Record
   end
 
+  def page_title
+    '1910 Census Records'
+  end
+
+
 
 end

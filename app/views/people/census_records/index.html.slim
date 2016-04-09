@@ -3,7 +3,7 @@
     = will_paginate @records
   - if can?(:create, CensusRecord)
     = link_to 'Add New', new_resource_path, class: 'btn btn-default'
-h1.page-title Census Records
+h1.page-title= @page_title
 
 .row
   .col-xs-9

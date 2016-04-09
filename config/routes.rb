@@ -27,17 +27,23 @@ Rails.application.routes.draw do
   resources :buildings
 
   concern :people_directory do
-    get :building_autocomplete, on: :collection
-    put :save_as, on: :member
-    put :reviewed, on: :member
+    collection do
+      get :building_autocomplete
+      get :unreviewed
+      get :unhoused
+    end
+    member do
+      put :save_as
+      put :reviewed
+    end
   end
 
-  get '/census_records', to: redirect('/census/1910')
-  get '/census_records/new', to: redirect('census/1910/new')
-  post '/census_records' => 'people/census_records_nineteen_ten#create'
-  get '/census_records/:id', to: redirect('/census/1910/%{id}')
-  get '/census_records/:id/edit', to: redirect('/census/1910/%{id}/edit')
-  patch '/census_records/:id' => 'people/census_records_nineteen_ten#update'
+  # get '/census_records', to: redirect('/census/1910')
+  # get '/census_records/new', to: redirect('census/1910/new')
+  # post '/census_records' => 'people/census_records_nineteen_ten#create'
+  # get '/census_records/:id', to: redirect('/census/1910/%{id}')
+  # get '/census_records/:id/edit', to: redirect('/census/1910/%{id}/edit')
+  # patch '/census_records/:id' => 'people/census_records_nineteen_ten#update'
 
   # resources :census_records,
   #           concerns: [:people_directory],

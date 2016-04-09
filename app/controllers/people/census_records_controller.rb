@@ -6,25 +6,25 @@ class People::CensusRecordsController < ApplicationController
   respond_to :html
 
   def index
-    authorize! :read, resource_class
-    unless params[:q].andand[:s]
-      params[:q] ||= {}
-      params[:q][:s] = 'last_name asc'
-    end
-    unless current_user
-      params[:q][:reviewed_at_not_null] = 1
-    end
-    @search = resource_class.ransack(params[:q])
-    @records = @search.result
-    unless request.format.json?
-      @per_page = params[:per_page] || 25
-      paginate_params = {
-        :page => params[:page],
-        :per_page => @per_page
-      }
-      @records = @records.paginate(paginate_params)
-    end
+    @page_title = page_title
+    load_census_records
     respond_with @records
+  end
+
+  def unreviewed
+    @page_title = "#{page_title} - Unreviewed"
+    params[:q] ||= {}
+    params[:q][:reviewed_at_null] = 1
+    load_census_records
+    render action: :index
+  end
+
+  def unhoused
+    @page_title = "#{page_title} - Unhoused"
+    params[:q] ||= {}
+    params[:q][:building_id_null] = 1
+    load_census_records
+    render action: :index
   end
 
   def new
@@ -117,6 +117,10 @@ class People::CensusRecordsController < ApplicationController
 
   private
 
+  def page_title
+    raise 'Need to implement page title.'
+  end
+  
   def resource_class
     raise 'resource_class needs a constant name!'
   end
@@ -147,5 +151,27 @@ class People::CensusRecordsController < ApplicationController
       redirect_to @record
     end
   end
+
+  def load_census_records
+    authorize! :read, resource_class
+    unless params[:q].andand[:s]
+      params[:q] ||= {}
+      params[:q][:s] = 'last_name asc'
+    end
+    unless current_user
+      params[:q][:reviewed_at_not_null] = 1
+    end
+    @search = resource_class.ransack(params[:q])
+    @records = @search.result
+    unless request.format.json?
+      @per_page = params[:per_page] || 25
+      paginate_params = {
+        :page => params[:page],
+        :per_page => @per_page
+      }
+      @records = @records.paginate(paginate_params)
+    end
+  end
+
 
 end
