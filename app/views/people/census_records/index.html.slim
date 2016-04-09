@@ -1,6 +1,13 @@
 .pull-right
   span#search-pagination-top
     = will_paginate @records
+  - if current_user
+    - unless current_page?(collection_path)
+      = link_to 'All', collection_path, class: 'btn btn-default'
+    - unless current_page?(unhoused_collection_path)
+      = link_to 'Unhoused', unhoused_collection_path, class: 'btn btn-default'
+    - unless current_page?(unreviewed_collection_path)
+      = link_to 'Unreviewed', unreviewed_collection_path, class: 'btn btn-default'
   - if can?(:create, CensusRecord)
     = link_to 'Add New', new_resource_path, class: 'btn btn-default'
 h1.page-title= @page_title
@@ -44,7 +51,7 @@ h1.page-title= @page_title
       .panel-heading
         h4.panel-title Filters
       .panel-body
-        = search_form_for @search, url: collection_path, builder: SimpleForm::FormBuilder do |form|
+        = search_form_for @search, url: url_for(), builder: SimpleForm::FormBuilder do |form|
           = form.input :last_name_cont, label: 'Last Name'
           = form.input :street_name_cont, label: 'Street Name'
           = form.input :profession_cont, label: 'Profession'
@@ -54,7 +61,7 @@ h1.page-title= @page_title
             = form.input :reviewed_at_null, as: :radio_buttons, label: 'Unreviewed only'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
-            =< link_to 'Reset', collection_path(reset: true), class: 'btn btn-default'
+            =< link_to 'Reset', url_for(reset: true), class: 'btn btn-default'
 
 #search-pagination-bottom
   = will_paginate @records

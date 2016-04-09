@@ -24,12 +24,22 @@ class People::CensusRecordsNineteenTenController < People::CensusRecordsControll
     census1910_records_path(*args)
   end
 
+  def unreviewed_collection_path(*args)
+    unreviewed_census1910_records_path(*args)
+  end
+
+  def unhoused_collection_path(*args)
+    unhoused_census1910_records_path(*args)
+  end
+
   helper_method :resource_path,
                 :edit_resource_path,
                 :new_resource_path,
                 :save_as_resource_path,
                 :review_resource_path,
-                :collection_path
+                :collection_path,
+                :unhoused_collection_path,
+                :unreviewed_collection_path
 
   private
 
