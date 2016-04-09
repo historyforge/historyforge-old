@@ -32,6 +32,18 @@ Rails.application.routes.draw do
     put :reviewed, on: :member
   end
 
+  get '/census_records', to: redirect('/census/1910')
+  get '/census_records/new', to: redirect('census/1910/new')
+  post '/census_records' => 'people/census_records_nineteen_ten#create'
+  get '/census_records/:id', to: redirect('/census/1910/%{id}')
+  get '/census_records/:id/edit', to: redirect('/census/1910/%{id}/edit')
+  patch '/census_records/:id' => 'people/census_records_nineteen_ten#update'
+
+  # resources :census_records,
+  #           concerns: [:people_directory],
+  #           controller: 'people/census_records_nineteen_ten',
+  #           as: 'census1910_records'
+
   resources :census_1910_records,
             concerns: [:people_directory],
             controller: 'people/census_records_nineteen_ten',

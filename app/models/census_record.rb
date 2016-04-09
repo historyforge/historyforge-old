@@ -32,6 +32,10 @@ class CensusRecord < ActiveRecord::Base
   attribute :age
   attribute :marital_status, as: :enumeration, values: %w{S W D M1 M2 M3 M4 M5 M6}
 
+  validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
+            :sex, :race, :age, :marital_status,
+            presence: true
+
   validate :dont_add_same_person, on: :create
   def dont_add_same_person
     if new_record? && likely_matches?
@@ -45,7 +49,7 @@ class CensusRecord < ActiveRecord::Base
       street_name_eq: street_name,
       last_name: last_name,
       first_name: first_name
-    ).result.any?
+    ).result.count > 0
   end
 
   def name
