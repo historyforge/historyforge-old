@@ -20,7 +20,7 @@ class Census1910Record < CensusRecord
   attribute :can_write, as: :boolean
   attribute :attended_school, as: :boolean
   attribute :owned_or_rented, as: :enumeration, values: %w{O R}
-  attribute :mortgage
+  attribute :mortgage, as: :enumeration, values: %w{M F}
   attribute :farm_or_house, as: :enumeration, values: %w{F H}
   attribute :num_farm_sched, as: :integer
   attribute :civil_war_vet, as: :boolean
