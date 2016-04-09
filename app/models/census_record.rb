@@ -32,6 +32,22 @@ class CensusRecord < ActiveRecord::Base
   attribute :age
   attribute :marital_status, as: :enumeration, values: %w{S W D M1 M2 M3 M4 M5 M6}
 
+  validate :dont_add_same_person, on: :create
+  def dont_add_same_person
+    if new_record? && likely_matches?
+      errors.add :last_name, 'A person with the same street number, street name, last name, and first name is already in the system.'
+    end
+  end
+
+  def likely_matches?
+    self.class.ransack(
+      street_house_number_eq: street_house_number,
+      street_name_eq: street_name,
+      last_name: last_name,
+      first_name: first_name
+    ).result.any?
+  end
+
   def name
     [first_name, middle_name, last_name].select(&:present?).join(' ')
   end
