@@ -63,8 +63,14 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
 
 MiniMapController.$inject = ['$scope', 'NgMap', '$rootScope', '$http']
 
+MiniBuildingListController = ($scope) ->
+  $scope.buildings = []
+  for building in window.buildings
+    $scope.buildings.push building.building
+  return
+MiniBuildingListController.$inject = ['$scope']
+
 MiniBuildingController = ($scope, $rootScope) ->
-  $scope.building = $scope.item.building
   $scope.buildingClass = null
   $scope.highlightBuilding = (event) ->
     $rootScope.$broadcast 'building:highlighted', $scope.building.id
@@ -82,3 +88,4 @@ angular
   .module('miniforge', ['ngMap'])
   .controller('MiniMapCtrl', MiniMapController)
   .controller('MiniBuildingCtrl', MiniBuildingController)
+  .controller('MiniBuildingListCtrl', MiniBuildingListController)
