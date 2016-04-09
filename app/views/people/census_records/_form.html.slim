@@ -46,9 +46,9 @@
 
       .row
         .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
-        .col-xs-3= form.input :years_married, as: :integer
-        .col-xs-3= form.input :num_children_born, as: :integer
-        .col-xs-3= form.input :num_children_alive, as: :integer
+        .col-xs-3= form.input :years_married, as: :integer, input_html: { min: 0 }
+        .col-xs-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
+        .col-xs-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
 
       .row
         .col-xs-4= form.input :pob
@@ -78,7 +78,7 @@
         .col-xs-3= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
         .col-xs-3= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
         .col-xs-3= form.input :farm_or_house, as: :select, collection: Census1910Record.farm_or_house_choices
-        .col-xs-3= form.input :num_farm_sched, as: :integer
+        .col-xs-3= form.input :num_farm_sched, as: :integer, input_html: { min: 0 }
 
       .row
         .col-xs-4= form.input :civil_war_vet, as: :boolean, inline_label: 'Civil War Vet?'
