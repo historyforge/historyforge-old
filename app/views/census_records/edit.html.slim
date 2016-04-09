@@ -1,8 +1,0 @@
-.pull-right.btn-group
-  = link_to 'Save', "javascript: $('form.edit_census_record').submit()", class: 'btn btn-primary'
-  = link_to 'View', @record, class: 'btn btn-default'
-  = link_to 'View All', census_records_path, class: 'btn btn-default'
-  - if can?(:destroy, @record)
-    = link_to 'Delete', @record, class: 'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? There is no undo.' }
-h1.page-title= @record.name
-= render 'form'

@@ -6,19 +6,19 @@
       span.caret
     ul.dropdown-menu
       - if !@record.reviewed? && can?(:review, @record)
-        li= link_to 'Mark as Reviewed', [:reviewed, @record], method: :put
+        li= link_to 'Mark as Reviewed', review_resource_path(@record), method: :put
       - if can?(:update, @record)
-        li= link_to 'Edit', [:edit, @record]
+        li= link_to 'Edit', edit_resource_path(@record)
       - if can?(:destroy, @record)
-        li= link_to 'Delete', @record, data: { method: :delete, confirm: 'Are you sure? There is no return.' }
-      li= link_to 'View All', census_records_path
+        li= link_to 'Delete', resource_path(@record), data: { method: :delete, confirm: 'Are you sure? There is no return.' }
+      li= link_to 'View All', collection_path
       - if @record.building_id?
         li= link_to 'View Building', building_path(@record.building_id)
 
   - if can?(:create, CensusRecord)
     | &nbsp;
     div style="display:inline-block"
-      = form_tag(save_as_census_record_path(@record), method: :put, class: 'form-inline') do
+      = form_tag(save_as_resource_path(@record), method: :put, class: 'form-inline') do
         = select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On this page', 'page'], ['In this enumeration district', 'enumeration']], params[:then]), prompt: 'Select', class: 'form-control'
         = submit_tag 'Add Record', class: 'btn btn-primary'
 

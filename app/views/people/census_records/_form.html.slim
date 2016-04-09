@@ -34,9 +34,10 @@
       h4.panel-title Personal Details
     .panel-body
       .row
-        .col-xs-4= form.input :last_name
-        .col-xs-4= form.input :first_name
-        .col-xs-4= form.input :relation_to_head
+        .col-xs-3= form.input :last_name
+        .col-xs-3= form.input :first_name
+        .col-xs-3= form.input :middle_name
+        .col-xs-3= form.input :relation_to_head
 
       .row
         .col-xs-4= form.input :sex, as: :select, collection: CensusRecord.sex_choices
@@ -62,7 +63,7 @@
       .row
         .col-xs-4= form.input :profession
         .col-xs-4= form.input :industry
-        .col-xs-4= form.input :employment
+        .col-xs-4= form.input :employment, as: :select, collection: Census1910Record.employment_choices
 
       .row
         .col-xs-6= form.input :unemployed, as: :boolean, inline_label: 'Without work?'

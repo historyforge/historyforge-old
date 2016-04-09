@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160407122307) do
+ActiveRecord::Schema.define(version: 20160408122856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,8 +91,18 @@ ActiveRecord::Schema.define(version: 20160407122307) do
   add_index "buildings", ["lining_type_id"], name: "index_buildings_on_lining_type_id", using: :btree
   add_index "buildings", ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id", using: :btree
 
-  create_table "census_records", force: :cascade do |t|
-    t.string   "type"
+  create_table "census_1900_records", force: :cascade do |t|
+    t.jsonb    "data"
+    t.integer  "building_id"
+    t.integer  "person_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "census_1900_records", ["building_id"], name: "index_census_1900_records_on_building_id", using: :btree
+  add_index "census_1900_records", ["person_id"], name: "index_census_1900_records_on_person_id", using: :btree
+
+  create_table "census_1910_records", force: :cascade do |t|
     t.jsonb    "data"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
@@ -100,11 +110,23 @@ ActiveRecord::Schema.define(version: 20160407122307) do
     t.integer  "created_by_id"
     t.integer  "reviewed_by_id"
     t.datetime "reviewed_at"
+    t.integer  "person_id"
   end
 
-  add_index "census_records", ["building_id"], name: "index_census_records_on_building_id", using: :btree
-  add_index "census_records", ["created_by_id"], name: "index_census_records_on_created_by_id", using: :btree
-  add_index "census_records", ["reviewed_by_id"], name: "index_census_records_on_reviewed_by_id", using: :btree
+  add_index "census_1910_records", ["building_id"], name: "index_census_1910_records_on_building_id", using: :btree
+  add_index "census_1910_records", ["created_by_id"], name: "index_census_1910_records_on_created_by_id", using: :btree
+  add_index "census_1910_records", ["reviewed_by_id"], name: "index_census_1910_records_on_reviewed_by_id", using: :btree
+
+  create_table "census_1920_records", force: :cascade do |t|
+    t.jsonb    "data"
+    t.integer  "building_id"
+    t.integer  "person_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "census_1920_records", ["building_id"], name: "index_census_1920_records_on_building_id", using: :btree
+  add_index "census_1920_records", ["person_id"], name: "index_census_1920_records_on_person_id", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
     t.string   "name"
@@ -312,6 +334,12 @@ ActiveRecord::Schema.define(version: 20160407122307) do
 
   add_index "oauth_tokens", ["token"], name: "index_oauth_tokens_on_token", unique: true, using: :btree
 
+  create_table "people", force: :cascade do |t|
+    t.jsonb    "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "permissions", force: :cascade do |t|
     t.integer  "role_id",    null: false
     t.integer  "user_id",    null: false
@@ -390,8 +418,13 @@ ActiveRecord::Schema.define(version: 20160407122307) do
   add_foreign_key "buildings", "building_types"
   add_foreign_key "buildings", "users", column: "created_by_id"
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
-  add_foreign_key "census_records", "buildings"
-  add_foreign_key "census_records", "users", column: "created_by_id"
-  add_foreign_key "census_records", "users", column: "reviewed_by_id"
+  add_foreign_key "census_1900_records", "buildings"
+  add_foreign_key "census_1900_records", "people"
+  add_foreign_key "census_1910_records", "buildings"
+  add_foreign_key "census_1910_records", "people"
+  add_foreign_key "census_1910_records", "users", column: "created_by_id"
+  add_foreign_key "census_1910_records", "users", column: "reviewed_by_id"
+  add_foreign_key "census_1920_records", "buildings"
+  add_foreign_key "census_1920_records", "people"
   add_foreign_key "photos", "buildings"
 end

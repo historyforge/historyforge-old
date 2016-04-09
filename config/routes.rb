@@ -25,11 +25,18 @@ Rails.application.routes.draw do
   end
 
   resources :buildings
-  resources :census_records do
+
+  concern :people_directory do
     get :building_autocomplete, on: :collection
     put :save_as, on: :member
     put :reviewed, on: :member
   end
+
+  resources :census_1910_records,
+            concerns: [:people_directory],
+            controller: 'people/census_records_nineteen_ten',
+            path: 'census/1910',
+            as: 'census1910_records'
 
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
 

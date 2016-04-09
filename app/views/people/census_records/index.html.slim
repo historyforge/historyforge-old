@@ -2,7 +2,7 @@
   span#search-pagination-top
     = will_paginate @records
   - if can?(:create, CensusRecord)
-    = link_to 'Add New', new_census_record_path, class: 'btn btn-default'
+    = link_to 'Add New', new_resource_path, class: 'btn btn-default'
 h1.page-title Census Records
 
 .row
@@ -36,15 +36,15 @@ h1.page-title Census Records
               td= row.street_address
               td= row.city
               td style="text-align:right"
-                = link_to 'View', census_record_path(row), class: 'btn btn-xs btn-default'
+                = link_to 'View', resource_path(row), class: 'btn btn-xs btn-default'
                 - if can? :update, row
-                  = link_to 'Edit', edit_census_record_path(row), class: 'btn btn-xs btn-default'
+                  = link_to 'Edit', edit_resource_path(row), class: 'btn btn-xs btn-default'
   .col-xs-3
     .panel.panel-default
       .panel-heading
         h4.panel-title Filters
       .panel-body
-        = search_form_for @search, url: census_records_path, builder: SimpleForm::FormBuilder do |form|
+        = search_form_for @search, url: collection_path, builder: SimpleForm::FormBuilder do |form|
           = form.input :last_name_cont, label: 'Last Name'
           = form.input :street_name_cont, label: 'Street Name'
           = form.input :profession_cont, label: 'Profession'
@@ -54,7 +54,7 @@ h1.page-title Census Records
             = form.input :reviewed_at_null, as: :boolean, inline_label: 'Unreviewed only'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
-            =< link_to 'Reset', census_records_path(reset: true), class: 'btn btn-default'
+            =< link_to 'Reset', collection_path(reset: true), class: 'btn btn-default'
 
 #search-pagination-bottom
   = will_paginate @records

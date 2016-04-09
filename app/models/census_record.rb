@@ -1,5 +1,7 @@
 class CensusRecord < ActiveRecord::Base
 
+  self.abstract_class = true
+
   include JsonData
   include Moderation
   belongs_to :building
@@ -23,6 +25,7 @@ class CensusRecord < ActiveRecord::Base
   attribute :family_id
   attribute :last_name
   attribute :first_name
+  attribute :middle_name
   attribute :relation_to_head
   attribute :sex, as: :enumeration, values: %w{M F}
   attribute :race, as: :enumeration, values: %w{W B M}
@@ -30,7 +33,7 @@ class CensusRecord < ActiveRecord::Base
   attribute :marital_status, as: :enumeration, values: %w{S W D M1 M2 M3 M4 M5 M6}
 
   def name
-    [first_name, last_name].join(' ')
+    [first_name, middle_name, last_name].select(&:present?).join(' ')
   end
 
   def street_address
@@ -38,7 +41,7 @@ class CensusRecord < ActiveRecord::Base
   end
 
   def fellows
-    @fellows ||= CensusRecord.where('id<>?', id)
+    @fellows ||= self.class.where('id<>?', id)
                      .ransack(street_house_number_eq: street_house_number,
                               street_prefix_eq: street_prefix,
                               street_name_eq: street_name,

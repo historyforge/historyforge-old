@@ -1,5 +1,7 @@
 class Census1910Record < CensusRecord
 
+  self.table_name = 'census_1910_records'
+
   attribute :years_married, as: :integer
   attribute :num_children_born, as: :integer
   attribute :num_children_alive, as: :integer
@@ -11,7 +13,7 @@ class Census1910Record < CensusRecord
   attribute :language_spoken, default: 'English'
   attribute :profession
   attribute :industry
-  attribute :employment
+  attribute :employment, as: :enumeration, values: %w{W Emp OA}
   attribute :unemployed, as: :boolean
   attribute :unemployed_weeks_1909
   attribute :can_read, as: :boolean
@@ -25,9 +27,9 @@ class Census1910Record < CensusRecord
   attribute :blind, as: :boolean
   attribute :deaf_dumb, as: :boolean
 
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "CensusRecord")
-  end
+  # def self.model_name
+  #   ActiveModel::Name.new(self, nil, "CensusRecord")
+  # end
 
   def year
     1910

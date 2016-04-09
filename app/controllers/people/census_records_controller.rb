@@ -1,4 +1,4 @@
-class CensusRecordsController < ApplicationController
+class People::CensusRecordsController < ApplicationController
 
   include RestoreSearch
 
@@ -6,15 +6,15 @@ class CensusRecordsController < ApplicationController
   respond_to :html
 
   def index
-    authorize! :read, CensusRecord
+    authorize! :read, resource_class
     unless params[:q].andand[:s]
       params[:q] ||= {}
       params[:q][:s] = 'last_name asc'
     end
-    if cannot? :moderate, CensusRecord
+    if cannot? :moderate, resource_class
       params[:q][:reviewed_at_not_null] = 1
     end
-    @search = Census1910Record.ransack(params[:q])
+    @search = resource_class.ransack(params[:q])
     @records = @search.result
     unless request.format.json?
       @per_page = params[:per_page] || 25
@@ -28,8 +28,8 @@ class CensusRecordsController < ApplicationController
   end
 
   def new
-    authorize! :create, CensusRecord
-    @record = Census1910Record.new
+    authorize! :create, resource_class
+    @record = resource_class.new
     if params[:attributes]
       params[:attributes].each do |key, value|
         @record.public_send "#{key}=", value
@@ -38,7 +38,7 @@ class CensusRecordsController < ApplicationController
   end
 
   def building_autocomplete
-    record = CensusRecord.new
+    record = resource_class.new
     record.street_name = params[:street]
     record.city = params[:city]
     buildings = record.buildings_on_street
@@ -47,7 +47,7 @@ class CensusRecordsController < ApplicationController
   end
 
   def create
-    @record = Census1910Record.new resource_params
+    @record = resource_class.new resource_params
     authorize! :create, @record
     @record.created_by = current_user
     if can?(:review, @record)
@@ -64,19 +64,19 @@ class CensusRecordsController < ApplicationController
   end
 
   def show
-    @record = Census1910Record.find params[:id]
+    @record = resource_class.find params[:id]
     authorize! :read, @record
   end
 
   def edit
-    @record = Census1910Record.find params[:id]
+    @record = resource_class.find params[:id]
     # @record.photos.build
     authorize! :update, @record
     # @record.building = @record.matching_building if @record.building_id.blank? && @record.street_house_number && @record.street_name
   end
 
   def update
-    @record = Census1910Record.find params[:id]
+    @record = resource_class.find params[:id]
     authorize! :update, @record
     if @record.update_attributes(resource_params)
       flash[:notice] = 'Census Record updated.'
@@ -88,7 +88,7 @@ class CensusRecordsController < ApplicationController
   end
 
   def destroy
-    @record = Census1910Record.find params[:id]
+    @record = resource_class.find params[:id]
     authorize! :destroy, @record
     if @record.destroy
       flash[:notice] = 'Census Record deleted.'
@@ -100,13 +100,13 @@ class CensusRecordsController < ApplicationController
   end
 
   def save_as
-    @record = Census1910Record.find params[:id]
+    @record = resource_class.find params[:id]
     authorize! :create, @record
     after_saved
   end
 
   def reviewed
-    @record = Census1910Record.find params[:id]
+    @record = resource_class.find params[:id]
     authorize! :review, @record
     @record.reviewed_by ||= current_user
     @record.reviewed_at ||= Time.now
@@ -117,8 +117,12 @@ class CensusRecordsController < ApplicationController
 
   private
 
+  def resource_class
+    raise 'resource_class needs a constant name!'
+  end
+
   def resource_params
-    params.require(:census_record).permit!
+    params.require(resource_class.model_name.param_key).permit!
   end
 
   def after_saved
