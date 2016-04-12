@@ -23,7 +23,7 @@
         = submit_tag 'Add Record', class: 'btn btn-primary'
 
   - if !@record.reviewed? && can?(:review, @record)
-    = link_to 'Good to go!', review_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
+    => link_to 'Good to go!', review_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
 
 h1.page-title= @record.name
 
