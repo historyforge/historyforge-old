@@ -6,7 +6,7 @@
       span.caret
     ul.dropdown-menu
       - if !@record.reviewed? && can?(:review, @record)
-        li= link_to 'Mark as Reviewed', review_resource_path(@record), method: :put
+        li= link_to 'Mark as Reviewed', reviewed_resource_path(@record), method: :put
       - if can?(:update, @record)
         li= link_to 'Edit', edit_resource_path(@record)
       - if can?(:destroy, @record)
@@ -23,7 +23,8 @@
         = submit_tag 'Add Record', class: 'btn btn-primary'
 
   - if !@record.reviewed? && can?(:review, @record)
-    => link_to 'Good to go!', review_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
+    | &nbsp;
+    => link_to 'Good to go!', reviewed_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
 
 h1.page-title= @record.name
 

@@ -16,8 +16,8 @@ class People::CensusRecordsNineteenTenController < People::CensusRecordsControll
     save_as_census1910_record_path(*args)
   end
 
-  def review_resource_path(*args)
-    review_census1910_record_path(*args)
+  def reviewed_resource_path(*args)
+    reviewed_census1910_record_path(*args)
   end
 
   def collection_path(*args)
@@ -36,7 +36,7 @@ class People::CensusRecordsNineteenTenController < People::CensusRecordsControll
                 :edit_resource_path,
                 :new_resource_path,
                 :save_as_resource_path,
-                :review_resource_path,
+                :reviewed_resource_path,
                 :collection_path,
                 :unhoused_collection_path,
                 :unreviewed_collection_path
