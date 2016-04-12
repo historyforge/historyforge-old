@@ -180,6 +180,6 @@ h1.page-title= @record.name
             td= row.relation_to_head
             td= row.profession
 
-- if !@record.reviewed? && can?(:review, CensusRecord)
+- if @record.reviewed? && can?(:review, CensusRecord)
   .alert.alert-info
     = "Reviewed by #{@record.reviewed_by.andand.name || 'a kind soul'} on #{@record.reviewed_at.to_s(:long)}"
