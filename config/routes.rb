@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     end
     member do
       put :save_as
-      put :reviewed
+      put :review
     end
   end
 
