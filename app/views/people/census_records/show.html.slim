@@ -24,7 +24,7 @@
 
   - if !@record.reviewed? && can?(:review, @record)
     | &nbsp;
-    => link_to 'Good to go!', reviewed_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
+    => link_to 'Good to go!', reviewed_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public. If you have made changes to this form, please save them first and then click this button.' }
 
 h1.page-title= @record.name
 
