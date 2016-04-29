@@ -5,35 +5,18 @@ class BuildingsController < ApplicationController
   respond_to :json, only: :index
   respond_to :html
 
-  def massage_params
-    unless params[:q]
-      params[:q] = {}
-      params.each_pair do |key, value|
-        params[:q][key] = value unless %w{controller action page format q}.include?(key)
-      end
-    end
-    unless params[:q].andand[:s]
-      params[:q][:s] = 'name asc'
-    end
-    Rails.logger.info params.inspect
+  def index
+    @page_title = 'Buildings'
+    load_buildings
+    respond_with @buildings
   end
 
-  def index
-    authorize! :read, Building
-    massage_params
-    @search = Building.includes(:building_type).ransack(params[:q])
-    @buildings = @search.result
-    if request.format.json?
-      @buildings = @buildings.includes(:architects, :photos, :census_records)
-    else
-      @per_page = params[:per_page] || 25
-      paginate_params = {
-        :page => params[:page],
-        :per_page => @per_page
-      }
-      @buildings = @buildings.paginate(paginate_params)
-    end
-    respond_with @buildings
+  def unpeopled
+    @page_title = "Buildings - Unpeopled"
+    params[:q] ||= {}
+    params[:q][:without_residents] = 1
+    load_buildings
+    render action: :index
   end
 
   def new
@@ -153,5 +136,35 @@ class BuildingsController < ApplicationController
                                      :lat, :lon, :architects_list,
                                      { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] })
   end
+
+  def load_buildings
+    authorize! :read, Building
+    massage_params
+    @search = Building.includes(:building_type).ransack(params[:q])
+    @buildings = @search.result
+    if request.format.json?
+      @buildings = @buildings.includes(:architects, :photos, :census_records)
+    else
+      @per_page = params[:per_page] || 25
+      paginate_params = {
+        :page => params[:page],
+        :per_page => @per_page
+      }
+      @buildings = @buildings.paginate(paginate_params)
+    end
+  end
+
+  def massage_params
+    unless params[:q]
+      params[:q] = {}
+      params.each_pair do |key, value|
+        params[:q][key] = value unless %w{controller action page format q}.include?(key)
+      end
+    end
+    unless params[:q].andand[:s]
+      params[:q][:s] = 'name asc'
+    end
+  end
+
 
 end

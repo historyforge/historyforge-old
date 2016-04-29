@@ -24,7 +24,11 @@ Rails.application.routes.draw do
     resources :roles
   end
 
-  resources :buildings
+  resources :buildings do
+    collection do
+      get :unpeopled
+    end
+  end
 
   concern :people_directory do
     collection do

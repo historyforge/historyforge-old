@@ -17,9 +17,10 @@ class Building < ActiveRecord::Base
   delegate :name, to: :building_type, prefix: true, allow_nil: true
 
   scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
+  scope :without_residents, -> { joins("LEFT OUTER JOIN census_1910_records ON census_1910_records.building_id=buildings.id").where("census_1910_records.id IS NULL").where(building_type_id: BuildingType::RESIDENCE) }
 
   def self.ransackable_scopes(auth_object=nil)
-    %i{as_of_year}
+    %i{as_of_year without_residents}
   end
 
   geocoded_by :full_street_address, latitude: :lat, longitude: :lon
