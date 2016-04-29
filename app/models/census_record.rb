@@ -48,7 +48,8 @@ class CensusRecord < ActiveRecord::Base
       street_house_number_eq: street_house_number,
       street_name_eq: street_name,
       last_name_eq: last_name,
-      first_name_eq: first_name
+      first_name_eq: first_name,
+      age_eq: age
     ).result.count > 0
   end
 
