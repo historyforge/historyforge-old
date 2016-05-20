@@ -43,7 +43,7 @@ class People::CensusRecordsController < ApplicationController
     record.city = params[:city]
     buildings = record.buildings_on_street
     buildings = buildings.map {|building| { id: building.id, name: building.name } }
-    render json: buildings
+    render json: buildings.to_json
   end
 
   def create
@@ -120,7 +120,7 @@ class People::CensusRecordsController < ApplicationController
   def page_title
     raise 'Need to implement page title.'
   end
-  
+
   def resource_class
     raise 'resource_class needs a constant name!'
   end
