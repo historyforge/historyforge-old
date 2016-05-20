@@ -39,6 +39,6 @@ $(document).on 'blur', '#city, #street_name', ->
       current_value = building.val()
       html = '<option value="">Select a building</option>'
       for item in json
-        html += "<option value=\"#{json.id}\">#{json.name}</option>"
+        html += "<option value=\"#{item.id}\">#{item.name}</option>"
       building.html html
       building.val current_value

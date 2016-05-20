@@ -34,6 +34,7 @@ class CensusRecord < ActiveRecord::Base
 
   validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
             :sex, :race, :age, :marital_status,
+            :page_number, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
   validate :dont_add_same_person, on: :create
