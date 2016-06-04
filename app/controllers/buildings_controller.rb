@@ -142,8 +142,32 @@ class BuildingsController < ApplicationController
     massage_params
     @search = Building.includes(:building_type).ransack(params[:q])
     @buildings = @search.result
+
     if request.format.json?
-      @buildings = @buildings.includes(:architects, :photos, :census_records)
+      @buildings = @buildings.includes(:architects, :photos) #, :census_records)
+      if params[:people].present?
+        if params[:people] == '1910'
+          actual_buildings = []
+          q = JSON.parse(params[:peopleParams]).inject({}) {|hash, item|
+            hash[item[0].to_sym] = item[1] if item[1].present?
+            hash
+          }
+          people = Census1910Record.where.not(reviewed_at: nil).ransack(q).result
+          if people.present?
+            people = people.index_by(&:building_id)
+            people.each do |bid, people|
+              building = @buildings.detect {|bldg| bldg.id == bid}
+              if building
+                building.residents = people
+                actual_buildings << building
+              end
+            end
+          end
+          @buildings = actual_buildings
+        end
+      else
+      end
+
     else
       @per_page = params[:per_page] || 25
       paginate_params = {

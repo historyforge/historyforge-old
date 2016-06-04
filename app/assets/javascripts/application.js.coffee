@@ -26,6 +26,11 @@ $(document).ready ->
   window.alertifyInit = alertify.init
   do pageLoad
 
+$(document).on 'click', '#search-map', ->
+  $form = $(this).closest('form')
+  $form.append "<input type=\"hidden\" name=\"people\" value=\"1910\">"
+  $form.attr 'action', '/forge'
+  $form.submit()
 
 $(document).on 'blur', '#city, #street_name', ->
   city = $('#city').val()

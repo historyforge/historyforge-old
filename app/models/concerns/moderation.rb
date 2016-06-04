@@ -9,5 +9,7 @@ module Moderation
       reviewed_at.present?
     end
 
+    scope :reviewed, -> { where.not :reviewed_at, nil }
+
   end
 end

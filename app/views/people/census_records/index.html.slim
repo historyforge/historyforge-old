@@ -62,6 +62,7 @@ h1.page-title= @page_title
             = form.input :reviewed_at_null, as: :radio_buttons, label: 'Unreviewed only'
           .form-actions
             = form.submit 'Search', class: 'btn btn-primary'
+            =< form.submit 'Map It', class: 'btn btn-primary', id: 'search-map'
             =< link_to 'Reset', url_for(reset: true), class: 'btn btn-default'
 
 #search-pagination-bottom
