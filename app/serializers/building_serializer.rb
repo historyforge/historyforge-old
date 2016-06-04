@@ -2,11 +2,11 @@ class BuildingSerializer < ActiveModel::Serializer
 
   attributes :id, :name, :year_earliest, :year_latest, :description,
              :street_address, :city, :state, :postal_code, :building_type,
-             :latitude, :longitude, :photo
+             :latitude, :longitude, :photo, :census_records
 
   has_many :architects, serializer: ArchitectSerializer
   has_many :photos, serializer: PhotoSerializer
-  has_many :census_records, serializer: CensusRecordSerializer
+  # has_many :census_records #, serializer: CensusRecordSerializer
 
   def photo
     object.photos.andand.first.andand.id
@@ -22,6 +22,10 @@ class BuildingSerializer < ActiveModel::Serializer
 
   def longitude
     object.lon
+  end
+
+  def census_records
+    object.residents.andand.map {|item| CensusRecordSerializer.new(item).as_json }.map {|item| item['census_record'] }
   end
 
 end

@@ -154,7 +154,7 @@ class BuildingsController < ApplicationController
           }
           people = Census1910Record.where.not(reviewed_at: nil).ransack(q).result
           if people.present?
-            people = people.index_by(&:building_id)
+            people = people.group_by(&:building_id)
             people.each do |bid, people|
               building = @buildings.detect {|bldg| bldg.id == bid}
               if building
@@ -165,7 +165,6 @@ class BuildingsController < ApplicationController
           end
           @buildings = actual_buildings
         end
-      else
       end
 
     else
