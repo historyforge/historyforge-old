@@ -26,6 +26,7 @@ h1.page-title= @page_title
             th Year
             th Address
             th City
+            th POB
             th
         tbody
           - @records.each do |row|
@@ -42,6 +43,7 @@ h1.page-title= @page_title
               td 1910
               td= row.street_address
               td= row.city
+              td= row.pob
               td style="text-align:right"
                 = link_to 'View', resource_path(row), class: 'btn btn-xs btn-default'
                 - if can? :update, row
