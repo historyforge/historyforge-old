@@ -1,4 +1,4 @@
 .pull-right
   = link_to 'View All', collection_path, class: 'btn btn-default'
-h1.page-title New 1910 Census Record
+h1.page-title= "New #{@record.year} Census Record"
 = render 'form'

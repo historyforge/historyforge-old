@@ -54,11 +54,23 @@ Rails.application.routes.draw do
   #           controller: 'people/census_records_nineteen_ten',
   #           as: 'census1910_records'
 
+  resources :census_1900_records,
+            concerns: [:people_directory],
+            controller: 'people/census_records_nineteen_aught',
+            path: 'census/1900',
+            as: 'census1900_records'
+
   resources :census_1910_records,
             concerns: [:people_directory],
             controller: 'people/census_records_nineteen_ten',
             path: 'census/1910',
             as: 'census1910_records'
+
+  resources :census_1920_records,
+            concerns: [:people_directory],
+            controller: 'people/census_records_nineteen_twenty',
+            path: 'census/1920',
+            as: 'census1920_records'
 
   get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
 

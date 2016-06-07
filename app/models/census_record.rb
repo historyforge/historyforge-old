@@ -31,6 +31,26 @@ class CensusRecord < ActiveRecord::Base
   attribute :race, as: :enumeration, values: %w{W B M}
   attribute :age
   attribute :marital_status, as: :enumeration, values: %w{S W D M1 M2 M3 M4 M5 M6}
+  attribute :years_married, as: :integer
+  attribute :num_children_born, as: :integer
+  attribute :num_children_alive, as: :integer
+  attribute :pob, default: 'New York'
+  attribute :pob_father, default: 'New York'
+  attribute :pob_mother, default: 'New York'
+  attribute :year_immigrated, as: :integer
+  attribute :naturalized_alien
+  attribute :profession
+  attribute :industry
+  attribute :employment, as: :enumeration, values: %w{W Emp OA}
+  attribute :unemployed, as: :boolean
+  attribute :attended_school, as: :boolean
+  attribute :can_read, as: :boolean
+  attribute :can_write, as: :boolean
+  attribute :can_speak_english, as: :boolean
+  attribute :owned_or_rented, as: :enumeration, values: %w{O R}
+  attribute :mortgage, as: :enumeration, values: %w{M F}
+  attribute :farm_or_house, as: :enumeration, values: %w{F H}
+  attribute :num_farm_sched, as: :integer
 
   validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
             :sex, :race, :age, :marital_status,

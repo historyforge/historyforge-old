@@ -173,5 +173,14 @@ class People::CensusRecordsController < ApplicationController
     end
   end
 
+  helper_method :resource_path,
+                :edit_resource_path,
+                :new_resource_path,
+                :save_as_resource_path,
+                :reviewed_resource_path,
+                :collection_path,
+                :unhoused_collection_path,
+                :unreviewed_collection_path
+
 
 end

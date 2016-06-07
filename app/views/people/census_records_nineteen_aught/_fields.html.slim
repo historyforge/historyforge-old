@@ -1,0 +1,45 @@
+.row
+  .col-xs-3= form.input :last_name
+  .col-xs-3= form.input :first_name
+  .col-xs-3= form.input :middle_name
+  .col-xs-3= form.input :relation_to_head
+
+.row
+  .col-xs-6= form.input :sex, as: :select, collection: CensusRecord.sex_choices
+  .col-xs-6= form.input :race, as: :select, collection: CensusRecord.race_choices
+
+.row
+  .col-xs-4= form.input :birth_month, as: :integer, placeholder: '1-12'
+  .col-xs-4= form.input :birth_year
+  .col-xs-4= form.input :age
+
+.row
+  .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
+  .col-xs-3= form.input :years_married, as: :integer, input_html: { min: 0 }
+  .col-xs-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
+  .col-xs-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
+
+.row
+  .col-xs-4= form.input :pob
+  .col-xs-4= form.input :pob_father
+  .col-xs-4= form.input :pob_mother
+
+.row
+  .col-xs-3= form.input :year_immigrated, as: :integer
+  .col-xs-3= form.input :naturalized_alien
+  .col-xs-3= form.input :years_in_us, as: :integer
+
+.row
+  .col-xs-6= form.input :profession
+  .col-xs-6= form.input :unemployed_months, as: :integer
+
+.row
+  .col-xs-3= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
+  .col-xs-3= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
+  .col-xs-3= form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
+  .col-xs-3= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
+
+.row
+  .col-xs-4= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
+  .col-xs-4= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
+  .col-xs-4= form.input :farm_or_house, as: :select, collection: Census1910Record.farm_or_house_choices

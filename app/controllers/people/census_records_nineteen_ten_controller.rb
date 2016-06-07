@@ -32,15 +32,6 @@ class People::CensusRecordsNineteenTenController < People::CensusRecordsControll
     unhoused_census1910_records_path(*args)
   end
 
-  helper_method :resource_path,
-                :edit_resource_path,
-                :new_resource_path,
-                :save_as_resource_path,
-                :reviewed_resource_path,
-                :collection_path,
-                :unhoused_collection_path,
-                :unreviewed_collection_path
-
   private
 
   def resource_class
