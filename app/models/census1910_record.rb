@@ -11,4 +11,8 @@ class Census1910Record < CensusRecord
   def year
     1910
   end
+
+  def self.folder_name
+    'census_records_nineteen_ten'
+  end
 end

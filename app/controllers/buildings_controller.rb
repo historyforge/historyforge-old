@@ -169,11 +169,7 @@ class BuildingsController < ApplicationController
 
     else
       @per_page = params[:per_page] || 25
-      paginate_params = {
-        :page => params[:page],
-        :per_page => @per_page
-      }
-      @buildings = @buildings.paginate(paginate_params)
+      @buildings = @buildings.page(params[:page] || 1).per(@per_page)
     end
   end
 

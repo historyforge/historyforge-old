@@ -108,3 +108,104 @@ div.date {
     margin:0;
   }
 }
+
+#sort-filters {
+  label {
+    display:block;
+    float:none;
+  }
+}
+.value-input-container {
+  display:inline;
+}
+.value-input-container.checkboxes {
+  display:block;
+  // max-height:200px;
+  overflow:auto;
+  column-gap: 10px;
+  -webkit-column-gap: 10px;
+  vertical-align:top;
+  label.checkbox {
+    padding-left:20px;
+    margin-top:0;
+    margin-bottom:0;
+    font-weight:normal;
+  }
+
+  &.column-count-2 {
+    column-count: 2;
+  }
+  &.column-count-3 {
+    column-count: 3;
+  }
+  &.column-count-4 {
+    column-count: 4;
+  }
+}
+
+#census-records-filters {
+  margin-left:15px;
+  width:250px;
+  float:left;
+}
+
+#census-records {
+  margin-left:300px;
+  margin-right:15px;
+  font-size:11px;
+  h1 {
+    margin-top:0;
+  }
+  td {
+    //white-space: nowrap;
+    min-width:100px;
+    max-width:300px;
+    p:first-child {
+      margin-top:0;
+    }
+    p:last-child {
+      margin-bottom:0;
+    }
+  }
+  table {
+    margin-top:1em;
+    border-bottom:1px solid #ccc;
+    border-right:1px solid #ccc;
+    width:auto;
+  }
+  th {
+    border-top:1px solid #ccc;
+  }
+  th, td {
+    border-left:1px solid #ccc;
+  }
+}
+
+.check_boxes {
+  span.checkbox {
+    margin-top:0;
+    margin-bottom:0;
+  }
+}
+
+.boolean, .radio_buttons, .check_boxes {
+  input[type=radio],
+  input[type=checkbox] {
+    width:auto;
+    vertical-align: middle;
+    display:inline;
+    padding:6px 12px;
+    position:static;
+    margin-right:8px;
+    margin-top:0;
+    border:none;
+    box-shadow:none;
+  }
+  span.radio, span.checkbox {
+    margin-right:20px;
+    label.control-label {
+      float:none;
+      width:auto;
+    }
+  }
+}

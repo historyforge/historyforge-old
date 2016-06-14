@@ -1,7 +1,7 @@
 
 <h2>Imports</h2>
 <%= link_to 'Add new import', new_import_url %>
-<%= will_paginate @imports %>
+<%= paginate @imports %>
 <table class="usertable">
   <thead>
     <tr>
@@ -18,5 +18,5 @@
     <%= render :partial => "import", :collection => @imports %>
   </tbody>
 </table>
-<%= will_paginate @users %>
+<%= paginate @users %>
 

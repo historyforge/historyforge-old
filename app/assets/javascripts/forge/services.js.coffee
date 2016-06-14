@@ -11,7 +11,7 @@ forgeApp.BuildingService = ($http, $rootScope) ->
 
       if window.forgeSearchParams?.people?
         params.people = window.forgeSearchParams.people
-        params.peopleParams = window.forgeSearchParams.q
+        params.peopleParams = window.forgeSearchParams.s
 
       $http.get('/buildings.json', params: params).then (response) =>
         @buildings = response.data?.buildings or []

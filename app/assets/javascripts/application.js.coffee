@@ -10,6 +10,7 @@
 #= require SelectFeatureNoClick
 #= require querystring
 #= require alertify.min
+#= require advanced_search
 
 querystring = require('querystring-component')
 

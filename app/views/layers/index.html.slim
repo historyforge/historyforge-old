@@ -11,7 +11,7 @@ h2
 
 .row
   .col-md-5
-    = will_paginate @layers
+    = paginate @layers
   - if @page != 'for_map'
     .col-md-7
       .pull-right.form-inline
@@ -36,7 +36,7 @@ h2
       = render :partial => 'layer', :collection => @layers unless @layers.nil?
 
   #search-pagination-bottom
-    = will_paginate @layers
+    = paginate @layers
     .per_page_select
       = page_entries_info @layers
       | &nbsp;

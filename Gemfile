@@ -49,20 +49,12 @@ gem 'non-stupid-digest-assets'
 gem 'devise'
 gem 'devise-encryptable'
 
-# gem 'omniauth-twitter'
-# gem 'omniauth-osm'
-# gem 'omniauth-github'
-# gem "omniauth-mediawiki"
-
 gem 'pg'
 gem 'activerecord-postgis-adapter'
-# gem 'activerecord-postgis-adapter', '3.0.0.beta2'
 
 gem 'acts-as-taggable-on', '~> 3.4'
 gem 'paperclip', '~> 4.2.0'
-# gem 'acts_as_commentable'
-gem 'will_paginate', '~> 3.0'
-gem 'will_paginate-bootstrap'
+gem 'kaminari'
 gem 'spawnling', '~>2.1'
 
 gem 'ruby_mapscript'
@@ -72,7 +64,6 @@ gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
 
 gem 'gdal'
 gem 'georuby'
-# gem 'geoplanet'
 gem 'yql', '0.0.2'
 
 gem 'quiet_assets'

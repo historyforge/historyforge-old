@@ -29,7 +29,7 @@
 h3
   | Maps
   span#view-maps-index-link
-= will_paginate @maps
+= paginate @maps
 
 #loading-spinner style="width:100px;margin-left:auto;margin-right:auto" class="hidden"
   | Loading.....
@@ -48,4 +48,4 @@ h3
     tbody#results
       = render :partial => 'maps/map', :collection => @maps unless @maps.nil?
 
-  = will_paginate @maps
+  = paginate @maps

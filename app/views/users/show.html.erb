@@ -13,7 +13,7 @@
 <h3>User Maps</h3>
 
 <div id = "usermaps">
-  <%=will_paginate @mymaps %>
+  <%=paginate @mymaps %>
   <table id="map_table" class="table table-striped">
     <thead>
       <tr>
@@ -27,5 +27,5 @@
       <%= render :partial => 'maps/map', :collection =>  @mymaps unless @mymaps.nil? %>
     </tbody>
   </table>
-  <%= will_paginate @mymaps %>
+  <%= paginate @mymaps %>
 </div>

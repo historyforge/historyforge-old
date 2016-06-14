@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
   concern :people_directory do
     collection do
+      get :advanced_search_filters
       get :building_autocomplete
       get :unreviewed
       get :unhoused

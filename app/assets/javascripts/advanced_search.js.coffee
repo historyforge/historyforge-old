@@ -1,0 +1,354 @@
+getFieldConfig = (attribute) ->
+  for key, value of window.attributeFilters["filters"]
+    if attribute is key
+      return value
+
+getFieldConfigFromScope = (scope) ->
+  for attribute, value of window.attributeFilters["filters"]
+    return value if value.scopes[scope]?
+
+getSortableFields = ->
+  fields = {}
+  for key, value of window.attributeFilters["filters"]
+    if value.sortable
+      fields[value.sortable] = value.label
+  fields
+
+addAttributeFilter = (scope, scopeValue) ->
+  field_config = getFieldConfigFromScope(scope)
+  return unless field_config?
+  console.log field_config
+  html = document.createElement 'DIV'
+  html.className = 'attribute-filter'
+  sentence = [field_config.label]
+  for key, value of field_config.scopes
+    if key is scope
+      sentence.push value
+  if scope.match /null$/
+    input = document.createElement 'INPUT'
+    input.setAttribute 'type', 'hidden'
+    input.setAttribute 'name', "s[#{scope}]"
+    input.setAttribute 'value', 1
+    html.appendChild input
+  else switch field_config.type
+    when 'boolean'
+      input = document.createElement 'INPUT'
+      input.setAttribute 'type', 'hidden'
+      input.setAttribute 'name', "s[#{scope}]"
+      input.setAttribute 'value', '1'
+      html.appendChild input
+    when 'checkboxes'
+      values = []
+      for choice in field_config.choices
+        label = value = choice
+        for singleScopeValue in scopeValue
+          if value.toString() is singleScopeValue.toString()
+            values.push label
+            input = document.createElement 'INPUT'
+            input.setAttribute 'type', 'hidden'
+            input.setAttribute 'name', "s[#{scope}][]"
+            input.setAttribute 'value', singleScopeValue
+            html.appendChild input
+      values = values.join ', '
+      sentence.push values
+    when 'text'
+      input = document.createElement 'INPUT'
+      input.setAttribute 'type', 'hidden'
+      input.setAttribute 'name', "s[#{scope}]"
+      input.setAttribute 'value', scopeValue
+      html.appendChild input
+      sentence.push '"' + scopeValue + '"'
+    when 'number'
+      input = document.createElement 'INPUT'
+      input.setAttribute 'type', 'hidden'
+      input.setAttribute 'name', "s[#{scope}]"
+      input.setAttribute 'value', scopeValue
+      html.appendChild input
+      sentence.push scopeValue
+    when 'dropdown'
+      input = document.createElement 'INPUT'
+      input.setAttribute 'type', 'hidden'
+      input.setAttribute 'name', "s[#{scope}]"
+      input.setAttribute 'value', scopeValue
+      html.appendChild input
+      for choice in field_config.choices
+        label = value = choice
+        if scopeValue is value.toString()
+          sentence.push label
+    when 'daterange'
+      input1 = document.createElement 'INPUT'
+      input1.setAttribute 'type', 'hidden'
+      input1.setAttribute 'name', "s[#{scope}]"
+      input1.setAttribute 'value', scopeValue
+      html.appendChild input1
+      otherScope = scope.replace(/gteq/, 'lteq')
+      otherValue = window.currentAttributeFilters[otherScope]
+      input2 = document.createElement 'INPUT'
+      input2.setAttribute 'type', 'hidden'
+      input2.setAttribute 'name', "s[#{otherScope}]"
+      input2.setAttribute 'value', otherValue
+      html.appendChild input2
+      sentence.push moment(scopeValue).format('M/D/YY')
+      sentence.push ' to '
+      sentence.push moment(otherValue).format('M/D/YY')
+
+  closeButton = document.createElement 'BUTTON'
+  closeButton.type = 'button'
+  closeButton.className = 'close'
+  closeButton.innerHTML = "&times;"
+  closeButton.onclick = -> $(html).remove()
+  html.appendChild closeButton
+
+  desc = document.createElement 'P'
+  desc.innerText = sentence.join(' ')
+  if field_config.append
+    desc.innerText += field_config.append
+  html.appendChild desc
+
+  $('#attribute-filters').append html
+
+$(document).on 'submit', '#new_s', ->
+  shownFields = $('#showFieldsForm').find('input:checked')
+  if (shownFields.size() > 0)
+    showFilters = $('#show-filters')
+    showFilters.html(null)
+
+$(document).on 'change', 'select.scope', ->
+  scope = $(this).val()
+  name = 's[' + scope + ']'
+  form = $(this).closest('.modal-body').find('.value-input-container')
+  inputs = form.find('input, select')
+  if scope.match /null$/
+    inputs.filter(':checked').prop 'checked', no
+    form.find('label').hide()
+    form.find('input.null-choice').prop('disabled', no).attr('name', name)
+  else
+    form.find('label').show()
+    form.find('input.null-choice').prop('disabled', yes)
+    if inputs.size() > 1
+      name += '[]'
+    inputs.attr 'name', name
+
+$(document).on 'change', 'select.attribute', ->
+  attribute = $(this).val()
+  form = $(this).closest('.modal-body')
+  field_config = getFieldConfig(attribute)
+  if field_config
+
+    scopeSelectContainer = form.find('.scope-selection-container')
+    scopeSelectContainer.empty().hide()
+
+    scopeSelect = document.createElement('SELECT')
+    scopeSelect.className = 'scope'
+    scopeSelect = $ scopeSelect
+    for key, value of field_config.scopes
+      scopeSelect.append "<option value=\"#{key}\">#{value}</option>"
+      scopeSelect.find('option:first').prop('selected', true)
+    if scopeSelect.find('option').size() is 1
+      scopeSelect.hide()
+      scopeSelectContainer.append $('<span>' + scopeSelect.find('option:first').text() + '</span>')
+    scopeSelectContainer.append(scopeSelect).css('display', 'inline')
+
+    valueBox = form.find('.value-input-container')
+    valueBox.hide().empty().prop('className', 'value-input-container').addClass(field_config.type)
+    if field_config.columns
+      valueBox.addClass 'column-count-' + field_config.columns
+
+    appendToValueBox = (input) ->
+      if field_config.append
+        div = document.createElement 'DIV'
+        div.className = 'input-append'
+        span = document.createElement 'SPAN'
+        span.className = 'add-on'
+        span.appendChild document.createTextNode(field_config.append)
+        div.appendChild input
+        div.appendChild span
+        valueBox.append div
+      else
+        valueBox.append input
+      valueBox.css 'display', 'inline'
+
+    switch field_config.type
+      when 'boolean'
+        name = "s[" + scopeSelect.val() + "]"
+        input = document.createElement 'INPUT'
+        input.setAttribute 'name', name
+        input.setAttribute 'type', 'hidden'
+        input.setAttribute 'value', '1'
+        appendToValueBox(input)
+
+      when 'checkboxes'
+        null_choice = document.createElement 'INPUT'
+        null_choice.type = 'hidden'
+        null_choice.disabled = true
+        null_choice.className = 'null-choice'
+        null_choice.value = 1
+        valueBox.append null_choice
+        for choice in field_config.choices
+          labelText = value = choice
+          name = 's[' + scopeSelect.val() + '][]'
+          id = 's_' + scopeSelect.val() + '_' + value
+          input = document.createElement 'INPUT'
+          input.setAttribute 'type', 'checkbox'
+          input.setAttribute 'id', id
+          input.setAttribute 'name', name
+          input.setAttribute 'value', value
+          label = document.createElement 'LABEL'
+          label.setAttribute 'for', id
+          label.className = 'checkbox'
+          label.appendChild input
+          label.appendChild document.createTextNode(labelText)
+          valueBox.append label
+        valueBox.show()
+
+      when 'text'
+        name = "s[#{scopeSelect.val()}]"
+        input = document.createElement 'INPUT'
+        input.setAttribute 'name', name
+        input.setAttribute 'type', 'text'
+        appendToValueBox(input)
+
+      when 'number'
+        name = "s[#{scopeSelect.val()}]"
+        input = document.createElement 'INPUT'
+        input.setAttribute 'name', name
+        input.setAttribute 'type', 'number'
+        appendToValueBox(input)
+
+      when 'dropdown'
+        choices = field_config.choices
+        name = "s[#{scopeSelect.val()}]"
+        input = document.createElement 'SELECT'
+        input.setAttribute 'name', name
+        for choice in choices
+          label = value = choice
+          option = document.createElement 'OPTION'
+          $(option).val value
+          $(option).text label
+          input.appendChild option
+        appendToValueBox(input)
+
+      when 'daterange'
+        startDate = moment().startOf('month')
+        endDate = moment().endOf('month')
+        div = $('<div class="picker"></div>')
+        div.append $('<i class="icon-calendar.icon-large"></i>')
+        div.append "<span>#{startDate.format('M/D/YY')} - #{endDate.format('M/D/YY')}</span><b class=\"caret\"></b>"
+        div.css('display', 'inline')
+
+        from = document.createElement 'INPUT'
+        from.setAttribute 'type', 'hidden'
+        from.setAttribute 'name', "s[#{scopeSelect.val()}]"
+        from.setAttribute 'value', startDate.format('YYYY-MM-DD')
+        from.className = 'from'
+
+        to = document.createElement 'INPUT'
+        to.setAttribute 'type', 'hidden'
+        to.setAttribute 'name', "s[#{scopeSelect.val().replace(/gteq/, 'lteq')}]"
+        to.setAttribute 'value', endDate.format('YYYY-MM-DD')
+        to.className = 'to'
+
+        valueBox.append from
+        valueBox.append to
+
+        appendToValueBox(div)
+        valueBox.searchDateRange(startDate, endDate)
+
+    return
+
+$.fn.advancedSearch = (options={}) ->
+  @each ->
+    url = options.url
+    timestamp = options.timestamp
+    useCached = options.cache
+    fields = options.fields
+    filters = options.filters
+    sorts = options.sorts
+
+    attributeFiltersCallback = (json) ->
+      window.attributeFilters = json
+      window.sortedAttributeFilters = []
+      for key, value of json['filters']
+        window.sortedAttributeFilters.push key: key, label: value.label, value: value
+      # window.sortedAttributeFilters = window.sortedAttributeFilters.sort (a,b) ->
+      #   if a.label < b.label
+      #     -1
+      #   else if a.label > b.label
+      #     1
+      #   else
+      #     0
+
+      if filters
+        for scope, value of filters
+          addAttributeFilter scope, value
+      c = sorts.c
+      d = sorts.d
+      $('#c').each ->
+        fields = getSortableFields()
+        for value, label of fields
+          option = document.createElement 'OPTION'
+          $(option).val value
+          $(option).text label
+          this.appendChild option
+        $(this).val c
+      $('#d').each ->
+        $(this).append '<option value="asc">up</option><option value="desc">down</option>'
+        $(this).val d
+
+    if window.localStorage && useCached
+      json = null
+      last_load = window.localStorage.getItem(url + '_last_load') || 0
+      last_load = parseInt(last_load) if last_load?
+      if last_load and timestamp < last_load
+        json = window.localStorage.getItem(url)
+
+      if json
+        attributeFiltersCallback(JSON.parse(json))
+      else
+        $.getJSON url, (json) ->
+          window.localStorage.setItem(url, JSON.stringify(json))
+          window.localStorage.setItem('attributes_last_load', (new Date).getTime() / 1000)
+          attributeFiltersCallback(json)
+    else
+      $.getJSON url, (json) ->
+        attributeFiltersCallback(json)
+
+    $(document).on 'shown.bs.modal', '#newAttributeFilter', ->
+      $(this).find('select.scope').hide()
+      $(this).find('.value-input-container').empty()
+      attrSelect = $(this).find('select.attribute')
+      attrSelect.html "<option>Select field name</option>"
+
+      for key in window.sortedAttributeFilters
+        value = key.value
+        if value.scopes
+          attrSelect.append '<option value="' + key.key + '">' + value.label + '</option>'
+    return
+
+$.fn.searchDateRange = (from, to) ->
+  this.each ->
+    dateRangeOptions =
+      startDate: from
+      endDate: to
+      opens: 'left'
+      alwaysShowCalendars: yes
+      ranges:
+        'Today': [moment(), moment()]
+        'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)]
+        'Last 7 Days': [moment().subtract('days', 6), moment()]
+        'Last 30 Days': [moment().subtract('days', 29), moment()]
+        'This Month': [moment().startOf('month'), moment().endOf('month')]
+        'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+        'This Year': [moment().startOf('year'), moment()]
+        'Last Year': [moment().subtract('years', 1).startOf('year'), moment().subtract('years', 1).endOf('year')]
+    fromInput = $(this).find('.from')
+    toInput = $(this).find('.to')
+    picker = $(this).find('.picker')
+    picker.daterangepicker dateRangeOptions, (start, end) ->
+      start = moment(start)
+      end = moment(end)
+      console.log start, end
+      picker.find('span').html(start.format('M/D/YYYY') + ' - ' + end.format('M/D/YYYY'))
+      fromInput.val(start.format('YYYY-MM-DD'))
+      toInput.val(end.format('YYYY-MM-DD'))
+    return this

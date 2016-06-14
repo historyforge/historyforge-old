@@ -6,7 +6,7 @@ h2
     | "
 .row
   .col-md-5.col-xs-12
-    = will_paginate @maps
+    = paginate @maps
   .col-md-7.col-xs-12
     .pull-right= render 'shared/search'
 
@@ -25,7 +25,7 @@ table.table.table-striped.table-condensed
     = render :partial => 'map', :collection => @maps unless @maps.nil?
 
 #search-pagination-bottom
-  = will_paginate @maps
+  = paginate @maps
   .per_page_select
     = page_entries_info @maps
     | . 

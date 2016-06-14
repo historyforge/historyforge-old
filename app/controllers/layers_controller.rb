@@ -39,10 +39,6 @@ class LayersController < ApplicationController
     end
 
     @per_page = params[:per_page] || 20
-    paginate_params = {
-      :page => params[:page],
-      :per_page => @per_page
-    }
 
     # order_options =  sort_clause  + sort_nulls
 
@@ -62,7 +58,7 @@ class LayersController < ApplicationController
       @layers = @layers.where(is_visible: true)
     end
 
-    @layers = @layers.paginate(paginate_params)
+    @layers = @layers.page(params[:page] || 1).per(@per_page)
 
     if request.xhr?
       # for pageless :
@@ -85,16 +81,11 @@ class LayersController < ApplicationController
 
   #method returns json or xml representation of a layers maps
   def maps
-    paginate_params = {
-      :page => params[:page],
-      :per_page => 50
-    }
-
     show_warped = params[:show_warped]
     unless show_warped == "0"
-      lmaps = @layer.maps.warped.order(:map_type).paginate(paginate_params)
+      lmaps = @layer.maps.warped.order(:map_type).page(params[:page] || 1).per(50)
     else
-      lmaps = @layer.maps.order(:map_type).paginate(paginate_params)
+      lmaps = @layer.maps.order(:map_type).pagee(params[:page] || 1).per(50)
     end
     respond_to do |format|
       #format.json {render :json =>lmaps.to_json(:stat => "ok",:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])}
@@ -121,10 +112,10 @@ class LayersController < ApplicationController
     end
 
     if  user_signed_in? and (current_user.own_this_layer?(params[:id]) or current_user.has_role?("editor"))
-      @maps = @layer.maps.order(:map_type).paginate(:page => params[:page], :per_page => 30)
+      @maps = @layer.maps.order(:map_type).page(params[:page] || 1).per(30)
     else
       @disabled_tabs += ["edit"]
-      @maps = @layer.maps.are_public.order(:map_type).paginate(:page => params[:page], :per_page => 30)
+      @maps = @layer.maps.are_public.order(:map_type).page(params[:page] || 1).per(30)
     end
     @html_title = "Map Layer "+ @layer.id.to_s + " " + @layer.name.to_s
 

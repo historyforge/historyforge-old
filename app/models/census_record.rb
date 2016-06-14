@@ -14,7 +14,7 @@ class CensusRecord < ActiveRecord::Base
   attribute :line_number, as: :integer
   attribute :county, default: 'Tompkins'
   attribute :city, default: 'Ithaca'
-  attribute  :state, default: 'NY'
+  attribute :state, default: 'NY'
   attribute :ward
   attribute :enum_dist
   attribute :street_prefix, as: :enumeration, values: %w{N S E W}
@@ -51,6 +51,16 @@ class CensusRecord < ActiveRecord::Base
   attribute :mortgage, as: :enumeration, values: %w{M F}
   attribute :farm_or_house, as: :enumeration, values: %w{F H}
   attribute :num_farm_sched, as: :integer
+
+  ransacker :name, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
+    Arel::Nodes::NamedFunction.new('LOWER',
+                                   [Arel::Nodes::NamedFunction.new('concat_ws',
+                                                                   [Arel::Nodes::Quoted.new(' '),
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('first_name')),
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('middle_name')),
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('last_name'))
+                                                                     ])])
+  end
 
   validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
             :sex, :race, :age, :marital_status,

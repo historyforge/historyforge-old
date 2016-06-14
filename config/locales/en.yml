@@ -34,6 +34,11 @@ en:
         address_street_prefix: 'Prefix'
         address_street_name: 'Street Name'
         address_street_suffix: 'Suffix'
+        unemployed_weeks_1909: 'Weeks unemployed in 1909'
+        can_read: 'Can read?'
+        can_write: 'Can write?'
+        num_children_born: 'Number of children born'
+        num_children_alive: 'Number of children alive'
       census_record:
         street_house_number: 'House Number'
         street_prefix: 'Prefix'

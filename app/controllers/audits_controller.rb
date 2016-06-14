@@ -7,8 +7,7 @@ class AuditsController < ApplicationController
 
   def index
     @html_title = "Recent Activity"
-    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.order(:created_at => :desc).paginate(:page => params[:page],
-      :per_page => 20)
+    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.order(:created_at => :desc).page(params[:page]).per(20)
     @title = "Recent Activity For Everything"
     @linktomap = "yes please"
     render :action => 'index'
@@ -31,8 +30,7 @@ class AuditsController < ApplicationController
 
     order_options = "created_at DESC"
     where_options = ['user_id = ?', user_id ]
-    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page],
-      :per_page => 20)
+    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).page(params[:page]).per(20)
 
     render :action => 'index'
   end
@@ -45,7 +43,7 @@ class AuditsController < ApplicationController
 
     order_options = "created_at DESC"
     where_options = ['auditable_type = ? AND auditable_id = ?', 'Map', @map.id]
-    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page], :per_page => 20)
+    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).page(params[:page]).per(20)
 
     @title = "Recent Activity for Map "+params[:id].to_s
     respond_to do | format |
@@ -63,7 +61,7 @@ class AuditsController < ApplicationController
     @html_title = "Activity for All Maps"
     order_options = "created_at DESC"
     where_options = ['auditable_type = ?', 'Map']
-    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).paginate(:page => params[:page], :per_page => 20)
+    @audits = Audited::Adapters::ActiveRecord::Audit.unscoped.where(where_options).order(order_options).page(params[:page]).per(20)
 
     @title = "Recent Activity for All Maps"
     render :action => 'index'

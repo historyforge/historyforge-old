@@ -144,22 +144,18 @@ class MapsController < ApplicationController
         sort_nulls = " NULLS FIRST"
       end
       @per_page = params[:per_page] || 10
-      paginate_params = {
-        :page => params[:page],
-        :per_page => @per_page
-      }
       order_options = "title asc #{sort_nulls}"
       where_options = conditions
       #order('name').where('name LIKE ?', "%#{search}%").paginate(page: page, per_page: 10)
 
       if @show_warped == "1"
-        @maps = Map.warped.are_public.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.warped.are_public.where(where_options).order(order_options).page(params[:page] || 1).per(@per_page)
       elsif @show_warped == "1" && (user_signed_in? and current_user.has_role?("editor"))
-        @maps = Map.warped.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.warped.where(where_options).order(order_options).page(params[:page] || 1).per(@per_page)
       elsif  @show_warped != "1" && (user_signed_in? and current_user.has_role?("editor"))
-        @maps = Map.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.where(where_options).order(order_options).page(params[:page] || 1).per(@per_page)
       else
-        @maps = Map.are_public.where(where_options).order(order_options).paginate(paginate_params)
+        @maps = Map.are_public.where(where_options).order(order_options).page(params[:page] || 1).per(@per_page)
       end
 
       @maps = @maps.published unless user_signed_in?
@@ -196,9 +192,7 @@ class MapsController < ApplicationController
     # sort_update
     @tags = params[:id] || @query
     @html_title = "Maps tagged with #{@tags} on "
-    @maps = Map.are_public.order('title asc').tagged_with(@tags).paginate(
-      :page => params[:page],
-      :per_page => 20)
+    @maps = Map.are_public.order('title asc').tagged_with(@tags).page(params[:page] || 1).per(20)
     respond_to do |format|
       format.html { render :layout =>'application' }  # index.html.erb
       format.xml  { render :xml => @maps }
@@ -394,7 +388,7 @@ class MapsController < ApplicationController
     end
     if Layer.exists?(params[:layerid].to_i)
       @layer = Layer.find(params[:layerid].to_i)
-      @maps = @layer.maps.paginate(:per_page => 30, :page => 1, :order => :map_type)
+      @maps = @layer.maps.per(30).page(1)).order(:map_type)
     end
 
     render :text => "Map has changed. Map type: "+@map.map_type.to_s

@@ -1,6 +1,6 @@
 .pull-right
   span#search-pagination-top
-    = will_paginate @buildings
+    = paginate @buildings
   - if can?(:create, Building)
     = link_to 'Add New', new_building_path, class: 'btn btn-default'
     = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default'
@@ -46,4 +46,4 @@ h1.page-title= @page_title
             =< link_to 'Reset', buildings_path, class: 'btn btn-default'
 
 #search-pagination-botton
-  = will_paginate @buildings
+  = paginate @buildings

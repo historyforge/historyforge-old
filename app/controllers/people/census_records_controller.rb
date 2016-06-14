@@ -154,23 +154,8 @@ class People::CensusRecordsController < ApplicationController
 
   def load_census_records
     authorize! :read, resource_class
-    unless params[:q].andand[:s]
-      params[:q] ||= {}
-      params[:q][:s] = 'last_name asc'
-    end
-    unless current_user
-      params[:q][:reviewed_at_not_null] = 1
-    end
-    @search = resource_class.ransack(params[:q])
-    @records = @search.result
-    unless request.format.json?
-      @per_page = params[:per_page] || 25
-      paginate_params = {
-        :page => params[:page],
-        :per_page => @per_page
-      }
-      @records = @records.paginate(paginate_params)
-    end
+    @search = CensusRecordSearch.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.json?
+    @records = @search.to_a
   end
 
   helper_method :resource_path,
@@ -180,7 +165,8 @@ class People::CensusRecordsController < ApplicationController
                 :reviewed_resource_path,
                 :collection_path,
                 :unhoused_collection_path,
-                :unreviewed_collection_path
+                :unreviewed_collection_path,
+                :resource_class
 
 
 end

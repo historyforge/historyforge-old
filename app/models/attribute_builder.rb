@@ -1,0 +1,141 @@
+class AttributeBuilder
+
+  def self.boolean(json, key)
+    AttributeBuilder::Boolean.new(json: json, key: key).to_json
+  end
+
+  def self.collection(json, klass, key, choices, cols=2, sortable=true)
+    AttributeBuilder::Collection.new(json: json, klass: klass, key: key, columns: cols, extras: { choices: choices, sortable: sortable }).to_json
+  end
+
+  def self.enumeration(json, klass, key, cols=2)
+    AttributeBuilder::Enumeration.new(json: json, key: key, klass: klass, columns: cols).to_json
+  end
+
+  def self.number(json, key, *args)
+    AttributeBuilder::Number.new(json: json, key: key, extras: args.extract_options!).to_json
+  end
+
+  def self.text(json, key, *args)
+    AttributeBuilder::Text.new(json: json, key: key, extras: args.extract_options!).to_json
+  end
+
+end
+
+class AttributeBuilder::BaseAttribute
+  attr_accessor :key, :json, :type, :klass
+
+  def initialize(key: nil, json: nil, type: nil, klass: nil, choices: nil, columns: nil, extras: nil)
+    @key, @json, @type, @klass, @choices, @columns, @extras = key, json, type, klass, choices, columns, extras
+    @sortable = @extras && @extras.delete(:sortable)
+  end
+
+  def to_json
+    json.set! key do
+      json.type type
+      json.label label
+      json.scopes do
+        scopes
+      end
+      extras
+    end
+  end
+
+  def scopes
+  end
+
+  def label
+    (@klass ? @klass : CensusRecord).human_attribute_name(key)
+  end
+
+  def extras
+    return unless @extras
+    @extras.each do |key, value|
+      json.set! key, value
+    end
+  end
+end
+
+class AttributeBuilder::Boolean < AttributeBuilder::BaseAttribute
+  def type
+    'boolean'
+  end
+
+  def scopes
+    json.set! "#{key}_true", 'Yes'
+    json.set! "#{key}_false", 'No'
+  end
+end
+
+class AttributeBuilder::Enumeration < AttributeBuilder::BaseAttribute
+  def type
+    'checkboxes'
+  end
+
+  def scopes
+    json.set! "#{key}_in".to_sym, 'is one of'
+    json.set! "#{key}_not_in".to_sym, 'is not one of'
+    json.set! "#{key}_null".to_sym, 'is empty'
+    json.set! "#{key}_not_null", 'is not empty'
+  end
+
+  def extras
+    super
+    json.choices choices
+    json.columns @columns
+    json.sortable(key_name) if @sortable
+  end
+
+  def choices
+    klass.send("#{key}_choices")
+  end
+end
+
+class AttributeBuilder::Collection < AttributeBuilder::Enumeration
+  def choices
+    @extras.delete :choices
+  end
+
+  def key_name
+    key
+  end
+
+  def extras
+    super
+    json.sortable(key) if @sortable
+  end
+end
+
+class AttributeBuilder::Number < AttributeBuilder::BaseAttribute
+  def type
+    'number'
+  end
+
+  def scopes
+    json.set! "#{key}_eq".to_sym, 'equals'
+    json.set! "#{key}_lt".to_sym, 'less than'
+    json.set! "#{key}_lteq".to_sym, 'less than equal to'
+    json.set! "#{key}_gteq".to_sym, 'greater than or equal to'
+    json.set! "#{key}_gt".to_sym, 'greater than'
+  end
+  def extras
+    super
+    json.sortable key
+  end
+end
+
+class AttributeBuilder::Text < AttributeBuilder::BaseAttribute
+  def type
+    'text'
+  end
+
+  def scopes
+    json.set! "#{key}_cont", 'contains'
+    json.set! "#{key}_start", 'starts with'
+    json.set! "#{key}_end", 'ends with'
+  end
+  def extras
+    super
+    json.sortable key
+  end
+end

@@ -9,7 +9,7 @@ class ImportsController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 
   def index
-    @imports = Import.order("updated_at DESC").paginate(:page => params[:page],:per_page => 30)
+    @imports = Import.order("updated_at DESC").page(params[:page] || 1).per(30)
   end
 
   def new
@@ -45,7 +45,7 @@ class ImportsController < ApplicationController
     end
     redirect_to imports_path
   end
- 
+
   def update
     if @import.update_attributes(import_params)
       flash[:notice] = "Successfully updated import."
@@ -73,13 +73,13 @@ class ImportsController < ApplicationController
     elsif @import.layer_id != nil
       @layer = Layer.find(@import.layer_id)
     end
-    
+
 
     #show finished import, or alter show?
   end
 
   private
-  
+
   def find_import
     @import = Import.find(params[:id])
   end
@@ -100,9 +100,9 @@ class ImportsController < ApplicationController
       format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
     end
   end
-  
+
   def import_params
-      params.require(:import).permit(:name,:path, :map_title_suffix, :map_description, :map_publisher, :map_author, :layer_id, :layer_title,  :uploader_user_id, 
+      params.require(:import).permit(:name,:path, :map_title_suffix, :map_description, :map_publisher, :map_author, :layer_id, :layer_title,  :uploader_user_id,
         :maps_attributes => [:title, :description, :publisher, :authors, :source_uri, :id, "_destroy"] )
   end
 

@@ -15,7 +15,7 @@
   <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"<%end-%>
 </h2>
 
-<%= will_paginate @users %>
+<%= paginate @users %>
 <table class="table table-striped table-condensed">
   <thead>
     <tr>
@@ -31,4 +31,4 @@
     <%= render :partial => "user", :collection => @users %>
   </tbody>
 </table>
-<%= will_paginate @users %>
+<%= paginate @users %>
