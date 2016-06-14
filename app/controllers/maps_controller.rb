@@ -388,7 +388,7 @@ class MapsController < ApplicationController
     end
     if Layer.exists?(params[:layerid].to_i)
       @layer = Layer.find(params[:layerid].to_i)
-      @maps = @layer.maps.per(30).page(1)).order(:map_type)
+      @maps = @layer.maps.per(30).page(1).order(:map_type)
     end
 
     render :text => "Map has changed. Map type: "+@map.map_type.to_s
