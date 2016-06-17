@@ -38,7 +38,7 @@ class Ability
 
       if user.has_role?("builder")
         can :create, Building
-        can :update, Builing, created_by_id: user.id
+        can :update, Building, created_by_id: user.id
       end
 
     end
