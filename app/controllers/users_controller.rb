@@ -27,12 +27,10 @@ class UsersController < ApplicationController
 
       COUNT(case when action='destroy' and auditable_type='Gcp' then 1 end) as gcp_destroy_count
 
-      from audits group by user_id, username ORDER BY last_name ASC, first_name ASC"
+      from audits group by user_id, username ORDER BY username ASC"
 
 
-    @users_activity = Audited::Adapters::ActiveRecord::Audit.paginate_by_sql(the_sql,
-                                               :page => params[:page],
-                                               :per_page => 30)
+    @users_activity = Kaminari.paginate_array(Audited::Adapters::ActiveRecord::Audit.find_by_sql(the_sql)).page(params[:page] || 1).per(30)
   end
 
 
@@ -47,14 +45,14 @@ class UsersController < ApplicationController
     else
       conditions = nil
     end
-    @users = User.where(conditions).order('login asc').paginate(:page=> params[:page], :per_page => 30)
+    @users = User.where(conditions).order('login asc').page(params[:page] || 1).per(30)
 
   end
 
   def show
     @user = User.find(params[:id]) || current_user
     @html_title = "Showing User "+ @user.login.capitalize
-    @mymaps = @user.maps.order("updated_at DESC").paginate(:page => params[:page],:per_page => 8)
+    @mymaps = @user.maps.order("updated_at DESC").page(params[:page] || 1).per(8)
     @current_user_maps = current_user.maps
     respond_to do | format |
       format.html {}

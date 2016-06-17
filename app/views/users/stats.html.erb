@@ -1,7 +1,7 @@
 <h2>User Statistics</h2>
 
 <%= paginate @users_activity %>
-<table class="usertable">
+<table class="table table-condensed table-striped">
   <thead>
     <tr>
       <th>User</th>
@@ -17,7 +17,7 @@
   <tbody>
 
     <% @users_activity.each do | user | %>
-      <tr class="<%= cycle('table0', 'table1') -%>">
+      <tr>
         <td><% if user.user_id
             user_name = User.select(:login).find_by_id(user.user_id).login
         %>

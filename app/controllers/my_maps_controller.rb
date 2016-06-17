@@ -3,7 +3,7 @@ class MyMapsController < ApplicationController
   before_filter :authenticate_user!, :only => [:list, :show, :create, :destroy]
 
   def list
-    @mymaps = @user.maps.order("updated_at DESC").paginate(:page => params[:page],:per_page => 8)
+    @mymaps = @user.maps.order("updated_at DESC").page(params[:page] || 1).per(8)
     @mylayers = @user.layers
     @remove_from = true
     @html_title = "#{@user.login.capitalize}'s 'My Maps' on "
@@ -12,10 +12,10 @@ class MyMapsController < ApplicationController
 
   def create
 
-    if @user == current_user 
+    if @user == current_user
       @map = Map.find(params[:map_id])
       um = @user.my_maps.new(:map => @map)
-      if um.save     
+      if um.save
         flash[:notice] = "Map saved to My Maps"
       else
         flash[:notice] = um.errors.on(:user_id)
@@ -37,7 +37,7 @@ class MyMapsController < ApplicationController
 
       my_map = @user.my_maps.find_by_map_id(params[:map_id])
 
-      if my_map.destroy 
+      if my_map.destroy
         flash[:notice] = "Map removed from list!"
       else
         flash[:notice] = "Map coudn't be removed from list"
@@ -49,7 +49,7 @@ class MyMapsController < ApplicationController
         flash[:notice]= "Map coudn't be removed from list"
       end
 
-   
+
 
     end
     redirect_to my_maps_path
