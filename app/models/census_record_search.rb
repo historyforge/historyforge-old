@@ -49,7 +49,7 @@ class CensusRecordSearch
     @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
   end
 
-  def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 5)
+  def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 25)
     new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], true, per
   end
 
