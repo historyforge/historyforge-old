@@ -13,16 +13,16 @@ class People::CensusRecordsController < ApplicationController
 
   def unreviewed
     @page_title = "#{page_title} - Unreviewed"
-    params[:q] ||= {}
-    params[:q][:reviewed_at_null] = 1
+    params[:s] ||= {}
+    params[:s][:reviewed_at_null] = 1
     load_census_records
     render action: :index
   end
 
   def unhoused
     @page_title = "#{page_title} - Unhoused"
-    params[:q] ||= {}
-    params[:q][:building_id_null] = 1
+    params[:s] ||= {}
+    params[:s][:building_id_null] = 1
     load_census_records
     render action: :index
   end

@@ -3,8 +3,7 @@
 .container-fluid
 
   .pull-right
-    span#search-pagination-top
-      = paginate @search.scoped
+
     - if current_user
       - unless current_page?(collection_path)
         = link_to 'All', collection_path, class: 'btn btn-default'
@@ -23,25 +22,27 @@
       - if @records.blank?
         p.alert.alert-info No records found.
       - else
+
+        = paginate @search.scoped
+        = page_entries_info @search.scoped, entry_name: 'record'
+
         table.table.table-condensed.table-striped
           thead
             tr
               - @search.f.each do |field|
                 th= t "simple_form.labels.census_record.#{field}", default: field.humanize
-              th
           tbody
             - @records.each do |row|
               - record = CensusRecordPresenter.new(row, current_user)
               tr
                 - @search.f.each_with_index do |field, i|
                   td
-                    = row.public_send field
+                    - if i == 0
+                      = link_to row.public_send(field), resource_path(row)
+                    - else
+                      = row.public_send field
                     - if i == 0 && !row.reviewed?
                       span.label.label-danger< NEW
-                td style="text-align:right"
-                  = link_to 'View', resource_path(row), class: 'btn btn-xs btn-default'
-                  - if can? :update, row
-                    = link_to 'Edit', edit_resource_path(row), class: 'btn btn-xs btn-default'
 
     /  .panel.panel-default
         .panel-heading

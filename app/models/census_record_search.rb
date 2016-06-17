@@ -4,7 +4,7 @@ class CensusRecordSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :entity_class
+  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :entity_class
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -30,7 +30,7 @@ class CensusRecordSearch
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.ransack(rp).result
-      @scoped = @scoped.page(page) if paged?
+      @scoped = @scoped.page(page).per(per) if paged?
       @d = 'asc' unless %w{asc desc}.include?(@d)
       if @c
         if entity_class.columns.map(&:name).include?(@c)
@@ -49,11 +49,11 @@ class CensusRecordSearch
     @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
   end
 
-  def self.generate(params:{}, user:nil, entity_class:nil, paged:true)
-    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], true
+  def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 5)
+    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], true, per
   end
 
-  def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort_col, sort_dir, paged)
+  def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort_col, sort_dir, paged, per)
     @user = user
     @entity_class = entity_class
     @page = page || 1
@@ -64,6 +64,7 @@ class CensusRecordSearch
     @c = sort_col || 'name'
     @d = sort_dir || 'asc'
     @paged = paged
+    @per = per
   end
 
   def to_csv
@@ -103,7 +104,7 @@ class CensusRecordSearch
   end
 
   def default_fields
-    %w{name profession industry pob street_address city state}
+    %w{name sex race age marital_status relation_to_head profession industry pob street_address}
   end
 
   def all_fields
