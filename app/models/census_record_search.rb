@@ -36,9 +36,9 @@ class CensusRecordSearch
         if entity_class.columns.map(&:name).include?(@c)
           add_regular_order_clause
         elsif @c == 'name'
-          @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'last_name' #{@d}, #{entity_class.table_name}.data->>'first_name' #{@d}, #{entity_class.table_name}.data->>'middle_name' #{@d}")
+          @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
         else
-          @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'#{@c}' #{@d}")
+          @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'#{@c}' #{@d}, #{name_order_clause}")
         end
       end
     end
@@ -46,7 +46,7 @@ class CensusRecordSearch
   end
 
   def add_regular_order_clause
-    @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
+    @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}, #{name_order_clause}")
   end
 
   def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 25)
@@ -89,6 +89,10 @@ class CensusRecordSearch
       end
     end
 
+  end
+
+  def name_order_clause
+    "#{entity_class.table_name}.data->>'last_name' #{@d}, #{entity_class.table_name}.data->>'first_name' #{@d}, #{entity_class.table_name}.data->>'middle_name' #{@d}"
   end
 
   def paged?
