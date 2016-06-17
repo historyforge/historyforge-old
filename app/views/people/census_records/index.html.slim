@@ -44,26 +44,9 @@
                     - if i == 0 && !row.reviewed?
                       span.label.label-danger< NEW
 
-    /  .panel.panel-default
-        .panel-heading
-          h4.panel-title Filters
-        .panel-body
-          = search_form_for @search, url: url_for(), builder: SimpleForm::FormBuilder do |form|
-            = form.input :last_name_cont, label: 'Last Name'
-            = form.input :street_name_cont, label: 'Street Name'
-            = form.input :profession_cont, label: 'Profession'
-            = form.input :industry_cont, label: 'Industry'
-            = form.input :pob_cont, label: 'POB'
-            /= form.input :building_id_null, as: :radio_buttons, label: 'No building yet'
-            /- if can? :review, CensusRecord
-              = form.input :reviewed_at_null, as: :radio_buttons, label: 'Unreviewed only'
-            .form-actions
-              = form.submit 'Search', class: 'btn btn-primary'
-              =< form.submit 'Map It', class: 'btn btn-primary', id: 'search-map'
-              =< link_to 'Reset', url_for(reset: true), class: 'btn btn-default'
+        #search-pagination-bottom
+          = paginate @search.scoped
 
-#search-pagination-bottom
-  = paginate @search.scoped
 
 javascript:
   $('#new_s').advancedSearch({
