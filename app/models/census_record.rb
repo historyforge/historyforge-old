@@ -38,7 +38,7 @@ class CensusRecord < ActiveRecord::Base
   attribute :pob_father, default: 'New York'
   attribute :pob_mother, default: 'New York'
   attribute :year_immigrated, as: :integer
-  attribute :naturalized_alien
+  attribute :naturalized_alien, as: :enumeration, values: %w{na pa al}
   attribute :profession
   attribute :industry
   attribute :employment, as: :enumeration, values: %w{W Emp OA}

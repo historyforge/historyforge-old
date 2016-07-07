@@ -22,7 +22,7 @@
 
 .row
   .col-xs-4= form.input :year_immigrated, as: :integer
-  .col-xs-4= form.input :naturalized_alien
+  .col-xs-4= form.input :naturalized_alien, as: :select, collection: CensusRecord.naturalized_alien_choices
   .col-xs-4= form.input :language_spoken
 
 .row
