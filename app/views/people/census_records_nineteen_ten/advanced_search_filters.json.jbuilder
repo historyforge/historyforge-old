@@ -39,7 +39,7 @@ json.filters do
     json.sortable 'industry'
   end
 
-  AttributeBuilder.number json, :page_number
+  AttributeBuilder.text   json, :page_number
   AttributeBuilder.number json, :line_number
   AttributeBuilder.text   json, :county
   AttributeBuilder.text   json, :city
