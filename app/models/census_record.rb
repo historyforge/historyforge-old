@@ -124,14 +124,20 @@ class CensusRecord < ActiveRecord::Base
   end
 
   def building_from_address
-    my_street_name = street_name == 'Mill' ? 'Court' : street_name
-
+    my_street_name = street_name
+    my_street_suffix = street_suffix
+    if street_name == 'Mill'
+      my_street_name = 'Court'
+    elsif street_name == 'Boulevard' || street_name == 'Glenwood'
+      my_street_name = 'Old Taughannock'
+      my_street_suffix = 'Blvd'
+    end
     self.building ||= matching_building(my_street_name) || Building.create(
       name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
       address_house_number: street_house_number,
       address_street_prefix: street_prefix,
       address_street_name: my_street_name,
-      address_street_suffix: street_suffix,
+      address_street_suffix: my_street_suffix,
       city: city,
       state: state,
       building_type: BuildingType.where(name: 'residence').first
