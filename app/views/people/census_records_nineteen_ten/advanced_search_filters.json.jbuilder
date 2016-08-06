@@ -39,7 +39,8 @@ json.filters do
     json.sortable 'industry'
   end
 
-  AttributeBuilder.text   json, :page_number
+  AttributeBuilder.number   json, :page_no
+  AttributeBuilder.enumeration json, Census1910Record, :page_side
   AttributeBuilder.number json, :line_number
   AttributeBuilder.text   json, :county
   AttributeBuilder.text   json, :city

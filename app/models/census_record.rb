@@ -11,6 +11,8 @@ class CensusRecord < ActiveRecord::Base
 
   attribute :notes
   attribute :page_number
+  attribute :page_no, as: :integer
+  attribute :page_side, as: :enumeration, values: %w{A B}, strict: true
   attribute :line_number, as: :integer
   attribute :county, default: 'Tompkins'
   attribute :city, default: 'Ithaca'
@@ -64,7 +66,7 @@ class CensusRecord < ActiveRecord::Base
 
   validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
             :sex, :race, :age, :marital_status,
-            :page_number, :line_number, :county, :city, :state, :ward, :enum_dist,
+            :page_no, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
   validate :dont_add_same_person, on: :create

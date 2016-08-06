@@ -5,7 +5,9 @@
       h4.panel-title Census Scope
     .panel-body
       .row
-        .col-xs-2= form.input :page_number
+        /.col-xs-2= form.input :page_number
+        .col-xs-1= form.input :page_no, as: :integer, input_html: { min: 0, max: 10_000 }
+        .col-xs-1= form.input :page_side, collection: %w{A B}
         .col-xs-2= form.input :line_number, as: :integer, input_html: { min: 0, max: 100 }
         .col-xs-2= form.input :county
         .col-xs-2= form.input :city, input_html: { id: 'city' }
