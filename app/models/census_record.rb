@@ -70,6 +70,8 @@ class CensusRecord < ActiveRecord::Base
             presence: true
 
   validate :dont_add_same_person, on: :create
+  before_validation :massage_page_number
+
   def dont_add_same_person
     if new_record? && likely_matches?
       errors.add :last_name, 'A person with the same street number, street name, last name, and first name is already in the system.'
@@ -138,6 +140,17 @@ class CensusRecord < ActiveRecord::Base
 
   def year
     raise 'Need a year!'
+  end
+
+  def massage_page_number
+    if page_number.present? && page_no.blank?
+      if page_number =~ /B|b/
+        self.page_side = 'B'
+      else
+        self.page_side = 'A'
+      end
+      self.page_no = page.to_i
+    end
   end
 
 end
