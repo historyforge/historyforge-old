@@ -149,7 +149,7 @@ class CensusRecord < ActiveRecord::Base
       else
         self.page_side = 'A'
       end
-      self.page_no = page.to_i
+      self.page_no = page_number.to_i
     end
   end
 
