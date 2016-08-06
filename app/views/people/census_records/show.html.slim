@@ -44,7 +44,7 @@ h1.page-title= @record.name
         th Family ID
     tbody
       tr
-        td= @record.page_number
+        td= "#{@record.page_no}#{@record.page_side}"
         td= @record.line_number
         td= @record.county
         td= @record.city

@@ -112,7 +112,7 @@ class CensusRecordSearch
   end
 
   def all_fields
-    %w{page_number line_number county city ward enum_dist street_address dwelling_number family_id
+    %w{page_no page_side line_number county city ward enum_dist street_address dwelling_number family_id
       name relation_to_head sex race age marital_status years_married
       num_children_born num_children_alive pob pob_father pob_mother year_immigrated
       naturalized_alien language_spoken profession industry employment
@@ -126,7 +126,7 @@ class CensusRecordSearch
   end
 
   def census_scope_fields
-    %w{page_number line_number county city ward enum_dist dwelling_number family_id}
+    %w{page_no page_side line_number county city ward enum_dist dwelling_number family_id}
   end
 
   def location_fields
