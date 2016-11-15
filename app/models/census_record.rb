@@ -107,12 +107,12 @@ class CensusRecord < ActiveRecord::Base
 
   def buildings_on_street
     return [] unless (street_name.present? && city.present?)
-    search_streets = street_name == 'Mill' ? ['Court', 'Mill'] : street_name
+    search_streets = [street_name, convert_street_name]
     @buildings_on_street ||= Building.where(address_street_name: search_streets, city: city).order(:address_house_number)
   end
 
   def matching_building(my_street_name = nil)
-    my_street_name ||= street_name
+    my_street_name ||= convert_street_name
     @matching_building ||= Building.where(address_house_number: street_house_number,
                                           address_street_prefix: street_prefix,
                                           address_street_name: my_street_name,
