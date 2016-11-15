@@ -123,15 +123,29 @@ class CensusRecord < ActiveRecord::Base
     building_from_address if building_id.blank? && ensure_building == '1' && street_name.present? && city.present? && street_house_number.present?
   end
 
-  def building_from_address
-    my_street_name = street_name
-    my_street_suffix = street_suffix
+  def convert_street_name
     if street_name == 'Mill'
-      my_street_name = 'Court'
+      'Court'
     elsif street_name == 'Boulevard' || street_name == 'Glenwood'
-      my_street_name = 'Old Taughannock'
-      my_street_suffix = 'Blvd'
+      'Old Taughannock'
+    elsif street_name == 'Humboldt'
+      'Floral'
+    else
+      street_name
     end
+  end
+
+  def convert_street_suffix
+    if street_name == 'Boulevard' || street_name == 'Glenwood'
+      'Blvd'
+    elsif street_name == 'Humboldt'
+      'Avenue'
+    end
+  end
+
+  def building_from_address
+    my_street_name = convert_street_name
+    my_street_suffix = convert_street_suffix
     self.building ||= matching_building(my_street_name) || Building.create(
       name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
       address_house_number: street_house_number,
