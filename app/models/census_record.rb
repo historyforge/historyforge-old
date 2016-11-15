@@ -123,6 +123,7 @@ class CensusRecord < ActiveRecord::Base
     building_from_address if building_id.blank? && ensure_building == '1' && street_name.present? && city.present? && street_house_number.present?
   end
 
+  # TODO: street name conversions need to be backed by database, moved into own class
   def convert_street_name
     if street_name == 'Mill'
       'Court'

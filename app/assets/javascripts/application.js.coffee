@@ -48,3 +48,11 @@ $(document).on 'blur', '#city, #street_name', ->
         html += "<option value=\"#{item.id}\">#{item.name}</option>"
       building.html html
       building.val current_value
+
+buildingNamed = no
+$(document).on 'ready', ->
+  buildingNamed = $('#building_name').val()
+$(document).on 'change', '#building_address_house_number, #building_address_street_prefix, #building_address_street_name, #building_address_street_suffix', ->
+  unless buildingNamed
+    buildingName = [$('#building_address_house_number').val(), $('#building_address_street_prefix').val(), $('#building_address_street_name').val(), $('#building_address_street_suffix').val()].join(' ')
+    $('#building_name').val(buildingName)

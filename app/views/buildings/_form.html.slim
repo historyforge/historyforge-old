@@ -2,10 +2,42 @@
 
   .panel.panel-default
     .panel-heading
+      h4.panel-title Building Location
+    .panel-body
+      .row
+        .col-xs-2
+          = form.input :address_house_number
+        .col-xs-2
+          = form.input :address_street_prefix, collection: %w{N S E W}
+        .col-xs-6
+          = form.input :address_street_name
+        .col-xs-2
+          = form.input :address_street_suffix, collection: %w{St Rd Ave Blvd Pl Terr Ct Pk Tr}.sort
+
+      .row
+        .col-xs-4
+          = form.input :city
+        .col-xs-4
+          = form.input :state
+        .col-xs-4
+          = form.input :postal_code
+
+      .row
+        .col-xs-6
+          = form.input :lat, hint: 'Will eventually be replaced by map with draggable marker.'
+        .col-xs-6
+          = form.input :lon, hint: 'Will eventually be replaced by map with draggable marker.'
+
+
+  .panel.panel-default
+    .panel-heading
       h4.panel-title Name and Use
     .panel-body
-      = form.input :name
-      = form.input :building_type_id, collection: BuildingType.order(:name)
+      .row
+        .col-xs-6
+          = form.input :name
+        .col-xs-6
+          = form.input :building_type_id, collection: BuildingType.order(:name)
       .row
         .col-xs-6
           = form.input :year_earliest
@@ -19,33 +51,16 @@
       h4.panel-title Construction Details
     .panel-body
       = form.input :architects_list
-      = form.input :stories
       .row
-        .col-xs-6
+        .col-xs-3
+          = form.input :stories
+        .col-xs-3
           = form.input :frame_type_id,  collection: ConstructionMaterial.order(:name)
-        .col-xs-6
+        .col-xs-3
           = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
+        .col-xs-3
+          = form.input :block_number
       = form.input :annotations
-      = form.input :block_number
-
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Building Location
-    .panel-body
-      .row
-        .col-xs-2
-          = form.input :address_house_number
-        .col-xs-2
-          = form.input :address_street_prefix, collection: %w{N S E W}
-        .col-xs-6
-          = form.input :address_street_name
-        .col-xs-2
-          = form.input :address_street_suffix, collection: %w{St Rd Ave Blvd Pl Terr Ct Pk Tr}.sort
-      = form.input :city
-      = form.input :state
-      = form.input :postal_code
-      = form.input :lat, hint: 'Will eventually be replaced by map with draggable marker.'
-      = form.input :lon, hint: 'Will eventually be replaced by map with draggable marker.'
 
   .panel.panel-default
     .panel-heading
