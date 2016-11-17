@@ -31,20 +31,22 @@
   .col-xs-4= form.input :employment, as: :select, collection: Census1910Record.employment_choices
 
 .row
-  .col-xs-6= form.input :unemployed, as: :boolean, inline_label: 'Without work?'
+  .col-xs-6= form.input :unemployed, as: :radio_buttons, label: 'Without work?'
   .col-xs-6= form.input :unemployed_weeks_1909
 
-.row
-  .col-xs-4= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
-  .col-xs-4= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
-  .col-xs-4= form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
+table style="width:100%"
+  tr
+    td= form.input :can_read, as: :radio_buttons, label: 'Read'
+    td= form.input :can_write, as: :radio_buttons, label: 'Write'
+    td= form.input :attended_school, as: :radio_buttons, label: 'Attended School'
 
-.row
-  .col-xs-4= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
-  .col-xs-4= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
-  .col-xs-4= form.input :farm_or_house, as: :select, collection: Census1910Record.farm_or_house_choices
+    td= form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices
+    td= form.input :mortgage, as: :radio_buttons, collection: Census1910Record.mortgage_choices
+    td= form.input :farm_or_house, as: :radio_buttons, collection: Census1910Record.farm_or_house_choices
 
-.row
-  .col-xs-4= form.input :civil_war_vet, as: :boolean, inline_label: 'Civil War Vet? Says UA UN CA or CN'
-  .col-xs-4= form.input :blind, as: :boolean, inline_label: 'Blind? Says Bl'
-  .col-xs-4= form.input :deaf_dumb, as: :boolean, inline_label: 'Deaf and Dumb? Says DD'
+    td
+      = form.input :civil_war_vet, as: :radio_buttons, label: 'Civil War', collection: [["UA UN CA CN", true], ["blank", false]]
+    td
+      = form.input :blind, as: :radio_buttons, label: 'Blind', collection: [["Bl", true], ["blank", false]]
+    td
+      = form.input :deaf_dumb, as: :radio_buttons, label: 'Deaf and Dumb', collection: [["DD", true], ["blank", false]]
