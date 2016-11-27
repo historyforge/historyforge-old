@@ -13,8 +13,7 @@ class BuildingsController < ApplicationController
 
   def unpeopled
     @page_title = "Buildings - Unpeopled"
-    params[:q] ||= {}
-    params[:q][:without_residents] = 1
+    params[:unpeopled] = 1
     load_buildings
     render action: :index
   end
