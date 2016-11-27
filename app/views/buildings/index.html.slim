@@ -1,6 +1,7 @@
 .pull-right
   span#search-pagination-top
-    = paginate @buildings
+    = paginate @search
+    = page_entries_info @search.scoped, entry_name: 'record'
   - if can?(:create, Building)
     = link_to 'Add New', new_building_path, class: 'btn btn-default'
     = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default'
@@ -8,42 +9,47 @@
 h1.page-title= @page_title
 
 .row
-  .col-xs-9
+  .col-xs-9#buildings
 
-    table.table.table-condensed.table-striped
-      thead
-        tr
-          th= sort_link(@search, :name, 'Building')
-          th Type
-          th= sort_link(@search, :year_earliest, 'Year')
-          th Address
-          th City
-          th
-      tbody
-        - @buildings.each do |row|
+    - if @buildings.blank?
+      p.alert.alert-info No records found.
+    - else
+
+      = paginate @search.scoped
+      = page_entries_info @search.scoped, entry_name: 'record'
+
+      table.table.table-condensed.table-striped
+        thead
           tr
-            td= row.name
-            td= row.building_type_name
-            td= row.year_earliest
-            td= row.street_address
-            td= row.city
-            td style="text-align:right"
-              = link_to 'View', row, class: 'btn btn-xs btn-default'
-              - if can? :update, row
-                = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
+            - @search.f.each do |field|
+              th= t "simple_form.labels.building.#{field}", default: field.humanize
+            th Actions
+        tbody
+          - @buildings.each do |row|
+            - record = BuildingPresenter.new(row, current_user)
+            tr
+              - @search.f.each_with_index do |field, i|
+                td
+                  = record.public_send field
+                  - if i == 0 && !row.reviewed?
+                    span.label.label-danger< NEW
+              td style="text-align:right;white-space:nowrap"
+                = link_to 'View', row, class: 'btn btn-xs btn-default'
+                - if can? :update, row
+                  = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
+
   .col-xs-3
-    .panel.panel-default
-      .panel-heading
-        h4.panel-title Filters
-      .panel-body
-        = search_form_for @search, builder: SimpleForm::FormBuilder do |form|
-          = form.input :name_cont, label: 'Name'
-          = form.input :year_earliest_eq, label: 'Year'
-          = form.input :building_type_id_eq, label: 'Building Type', collection: BuildingType.order(:name), include_blank: 'All buildings'
-          = form.input :block_number_eq, label: 'Block No.'
-          .form-actions
-            = form.submit 'Search', class: 'btn btn-primary'
-            =< link_to 'Reset', buildings_path, class: 'btn btn-default'
+    = render 'filters'
 
 #search-pagination-botton
-  = paginate @buildings
+  = paginate @search
+
+javascript:
+  $('#new_s').advancedSearch({
+    url: '#{File.join(url_for().sub(/\/unpeopled|\/unreviewed/, ''), 'advanced_search_filters.json')}',
+    cache: true,
+    timestamp: #{AdvancedSearchFilterTimestamp.call('Building')},
+    fields: #{@search.f.to_json.html_safe},
+    filters: #{@search.s.to_json.html_safe},
+    sorts: #{@search.sorts.to_json.html_safe}
+  });

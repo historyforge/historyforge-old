@@ -26,6 +26,19 @@ class Building < ActiveRecord::Base
   geocoded_by :full_street_address, latitude: :lat, longitude: :lon
   after_validation :do_the_geocode, if: :new_record?
 
+  # [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
+
+  ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
+    Arel::Nodes::NamedFunction.new('LOWER',
+                                   [Arel::Nodes::NamedFunction.new('concat_ws',
+                                                                   [Arel::Nodes::Quoted.new(' '),
+                                                                     parent.table[:address_house_number],
+                                                                     parent.table[:address_street_prefix],
+                                                                     parent.table[:address_street_name],
+                                                                     parent.table[:address_street_suffix]
+                                                                     ])])
+  end
+
   def full_street_address
     "#{[street_address, city, state].join(' ')} #{postal_code}"
   end

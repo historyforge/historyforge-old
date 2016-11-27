@@ -1,0 +1,46 @@
+class BuildingPresenter < Struct.new(:model, :user)
+
+  def initialize(model, user)
+    self.model, self.user = model, user
+  end
+
+  def building_type
+    model.building_type_name.andand.capitalize
+  end
+
+  def street_address
+    [model.address_house_number, model.address_street_prefix, model.address_street_name, model.address_street_suffix].join(' ')
+  end
+
+  def year_earliest
+    return model.year_earliest if model.year_earliest.present?
+    model.year_earliest_circa.present? ? "ca. #{model.year_earliest_circa}" : 'Unknown'
+  end
+
+  def year_latest
+    return model.year_latest if model.year_latest.present?
+    model.year_latest_circa.present? ? "ca. #{model.year_latest_circa}" : 'Unknown'
+  end
+
+  def name
+    model.name || 'Unnamed'
+  end
+
+  def architects
+    model.architects.andand.map(&:name).andand.join(', ') || 'Unknown'
+  end
+
+  def lining_type
+    model.lining_type.andand.name.andand.capitalize || 'Unspecified'
+  end
+
+  def frame_type
+    model.frame_type.andand.name.andand.capitalize || 'Unspecified'
+  end
+
+  def method_missing(method, *args)
+    model.send(method, *args)
+  end
+
+
+end

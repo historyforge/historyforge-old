@@ -49,6 +49,10 @@ en:
         pob: 'Place of Birth'
         pob_father: 'Place of Birth - Father'
         pob_mother: 'Place of Birth - Mother'
+        architects: 'Architect(s)'
+        year_earliest: 'Year Built'
+        year_latest: 'Year Demolished'
+        name: 'Building Name'
 
     hints:
       building:

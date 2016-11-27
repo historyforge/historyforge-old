@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :buildings do
     collection do
       get :unpeopled
+      get :advanced_search_filters
     end
   end
 

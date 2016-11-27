@@ -5,13 +5,20 @@ forgeApp.BuildingService = ($http, $rootScope) ->
   return {
     buildings: null
     load: (form) ->
-      params = lat_not_null: 1
-      params.as_of_year = 1910 if form.showOnlyMapBuildings
-      params.building_type_id_eq = form.buildingType.id if form.buildingType
 
-      if window.forgeSearchParams?.people?
-        params.people = window.forgeSearchParams.people
-        params.peopleParams = window.forgeSearchParams.s
+      params = {}
+      if window.forgeSearchParams?.buildings?
+        params.s = window.forgeSearchParams.s
+      else
+        params.s or= {}
+        params.s.as_of_year = 1910 if form.showOnlyMapBuildings
+        params.s.building_type_id_eq = form.buildingType.id if form.buildingType
+
+        # TODO: allow search of building and people by redoing forgeSearchParams
+        if window.forgeSearchParams?.people?
+          params.people = window.forgeSearchParams.people
+          params.peopleParams = window.forgeSearchParams.s
+      params.s.lat_not_null = 1
 
       $http.get('/buildings.json', params: params).then (response) =>
         @buildings = response.data?.buildings or []

@@ -40,7 +40,10 @@ addAttributeFilter = (scope, scopeValue) ->
     when 'checkboxes'
       values = []
       for choice in field_config.choices
-        label = value = choice
+        if typeof(choice) is 'string'
+          label = value = choice
+        else
+          [label, value] = choice
         for singleScopeValue in scopeValue
           if value.toString() is singleScopeValue.toString()
             values.push label
@@ -185,7 +188,10 @@ $(document).on 'change', 'select.attribute', ->
         null_choice.value = 1
         valueBox.append null_choice
         for choice in field_config.choices
-          labelText = value = choice
+          if typeof(choice) is 'string'
+            labelText = value = choice
+          else
+            [labelText, value] = choice
           name = 's[' + scopeSelect.val() + '][]'
           id = 's_' + scopeSelect.val() + '_' + value
           input = document.createElement 'INPUT'

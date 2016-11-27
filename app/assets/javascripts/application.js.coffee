@@ -29,7 +29,10 @@ $(document).ready ->
 
 $(document).on 'click', '#search-map', ->
   $form = $(this).closest('form')
-  $form.append "<input type=\"hidden\" name=\"people\" value=\"1910\">"
+  if document.location.toString().match(/building/)
+    $form.append "<input type=\"hidden\" name=\"buildings\" value=\"1\">"
+  else
+    $form.append "<input type=\"hidden\" name=\"people\" value=\"1910\">"
   $form.attr 'action', '/forge'
   $form.submit()
 

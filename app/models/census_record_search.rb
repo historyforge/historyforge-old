@@ -104,7 +104,7 @@ class CensusRecordSearch
   end
 
   def fieldsets
-    @fs.present? ? @fs : %w{case_manager}
+    @fs.present? ? @fs : %w{census_scope location}
   end
 
   def default_fields
