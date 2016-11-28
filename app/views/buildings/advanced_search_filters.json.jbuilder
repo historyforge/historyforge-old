@@ -22,8 +22,15 @@ json.filters do
   AttributeBuilder.collection json, Building, :building_type_id, BuildingType.order(:name).map {|item| [ item.name.capitalize, item.id ]}
   AttributeBuilder.collection json, Building, :lining_type_id, ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
   AttributeBuilder.collection json, Building, :frame_type_id, ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
-  AttributeBuilder.number     json, :block_number
-  AttributeBuilder.number     json, :as_of_year
+  AttributeBuilder.text       json, :block_number
+  json.as_of_year do
+    json.type 'number'
+    json.label 'As of Year'
+    json.scopes do
+      json.as_of_year_eq 'equals'
+    end
+  end
+
   AttributeBuilder.number     json, :year_earliest
   AttributeBuilder.number     json, :year_latest
   AttributeBuilder.number     json, :stories

@@ -4,7 +4,7 @@ class BuildingSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled
+  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled, :people, :people_params
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -44,8 +44,8 @@ class BuildingSearch
         @scoped = @scoped.page(page).per(per)
       else
         @scoped = @scoped.includes(:architects, :photos)
-        if params[:people].present?
-          if params[:people] == '1910'
+        if people.present?
+          if people == '1910'
             actual_buildings = []
             q = people_params.inject({}) {|hash, item|
               hash[item[0].to_sym] = item[1] if item[1].present?
@@ -92,8 +92,6 @@ class BuildingSearch
     item.unpeopled = true if params[:unpeopled]
     item
   end
-
-  attr_accessor :people_year, :people_params
 
   def initialize(user, scopes, page, fields, fieldsets, groupings, sort_col, sort_dir, paged, per)
     @user = user

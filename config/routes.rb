@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'forge#index'
+  root 'home#index2'
   get '/about' => 'home#about', :as => 'about'
   get '/photos/:id/:style/:device' => 'buildings#photo', as: 'photo'
 
