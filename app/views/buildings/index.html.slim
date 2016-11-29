@@ -1,48 +1,46 @@
-.pull-right
-  span#search-pagination-top
-    = paginate @search
-    = page_entries_info @search.scoped, entry_name: 'record'
-  - if can?(:create, Building)
-    = link_to 'Add New', new_building_path, class: 'btn btn-default'
-    = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default'
-    = link_to 'All', buildings_path, class: 'btn btn-default'
-h1.page-title= @page_title
+- @full_layout = true
 
-.row
-  .col-xs-9#buildings
+.container-fluid
 
-    - if @buildings.blank?
-      p.alert.alert-info No records found.
-    - else
-
-      = paginate @search.scoped
+  .pull-right
+    span#search-pagination-top
+      = paginate @search
       = page_entries_info @search.scoped, entry_name: 'record'
+    - if can?(:create, Building)
+      = link_to 'Add New', new_building_path, class: 'btn btn-default'
+      = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default'
+      = link_to 'All', buildings_path, class: 'btn btn-default'
+  h1.page-title= @page_title
 
-      table.table.table-condensed.table-striped
-        thead
-          tr
-            - @search.f.each do |field|
-              th= t "simple_form.labels.building.#{field}", default: field.humanize
-            th Actions
-        tbody
-          - @buildings.each do |row|
-            - record = BuildingPresenter.new(row, current_user)
+  .row
+    #buildings-filters= render 'filters'
+
+    #buildings
+
+      - if @buildings.blank?
+        p.alert.alert-info No records found.
+      - else
+
+        table.table.table-condensed.table-striped
+          thead
             tr
-              - @search.f.each_with_index do |field, i|
-                td
-                  = record.public_send field
-                  - if i == 0 && !row.reviewed?
-                    span.label.label-danger< NEW
-              td style="text-align:right;white-space:nowrap"
-                = link_to 'View', row, class: 'btn btn-xs btn-default'
-                - if can? :update, row
-                  = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
+              - @search.f.each do |field|
+                th= t "simple_form.labels.building.#{field}", default: field.humanize
+              th Actions
+          tbody
+            - @buildings.each do |row|
+              - record = BuildingPresenter.new(row, current_user)
+              tr
+                - @search.f.each_with_index do |field, i|
+                  td
+                    = record.public_send field
+                    - if i == 0 && !row.reviewed?
+                      span.label.label-danger< NEW
+                td style="text-align:right;white-space:nowrap"
+                  = link_to 'View', row, class: 'btn btn-xs btn-default'
+                  - if can? :update, row
+                    = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
 
-  .col-xs-3
-    = render 'filters'
-
-#search-pagination-botton
-  = paginate @search
 
 javascript:
   $('#new_s').advancedSearch({

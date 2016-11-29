@@ -122,9 +122,12 @@ $(document).on 'change', 'select.scope', ->
   form = $(this).closest('.modal-body').find('.value-input-container')
   inputs = form.find('input, select')
   if scope.match /null$/
-    inputs.filter(':checked').prop 'checked', no
-    form.find('label').hide()
-    form.find('input.null-choice').prop('disabled', no).attr('name', name)
+    if (form.find('input.null-choice').size() > 0)
+      inputs.filter(':checked').prop 'checked', no
+      form.find('label').hide()
+      form.find('input.null-choice').prop('disabled', no).attr('name', name)
+    else
+      inputs.attr('name', name)
   else
     form.find('label').show()
     form.find('input.null-choice').prop('disabled', yes)
@@ -146,7 +149,7 @@ $(document).on 'change', 'select.attribute', ->
     scopeSelect = $ scopeSelect
     for key, value of field_config.scopes
       scopeSelect.append "<option value=\"#{key}\">#{value}</option>"
-      scopeSelect.find('option:first').prop('selected', true)
+    scopeSelect.find('option:first').prop('selected', true)
     if scopeSelect.find('option').size() is 1
       scopeSelect.hide()
       scopeSelectContainer.append $('<span>' + scopeSelect.find('option:first').text() + '</span>')
@@ -214,12 +217,22 @@ $(document).on 'change', 'select.attribute', ->
         input.setAttribute 'type', 'text'
         appendToValueBox(input)
 
-      when 'number'
+      when 'number', 'age', 'time'
         name = "s[#{scopeSelect.val()}]"
         input = document.createElement 'INPUT'
         input.setAttribute 'name', name
         input.setAttribute 'type', 'number'
         appendToValueBox(input)
+        scopeSelect.bind 'change', ->
+          val = $(this).val()
+          if val.match(/null/)
+            if input.getAttribute('type') is 'number'
+              input.setAttribute('type', 'hidden')
+              input.setAttribute('value', '1')
+          else if input.getAttribute('type') is 'hidden'
+            input.setAttribute('type', 'number')
+            input.setAttribute('value', null)
+          true
 
       when 'dropdown'
         choices = field_config.choices
@@ -276,13 +289,6 @@ $.fn.advancedSearch = (options={}) ->
       window.sortedAttributeFilters = []
       for key, value of json['filters']
         window.sortedAttributeFilters.push key: key, label: value.label, value: value
-      # window.sortedAttributeFilters = window.sortedAttributeFilters.sort (a,b) ->
-      #   if a.label < b.label
-      #     -1
-      #   else if a.label > b.label
-      #     1
-      #   else
-      #     0
 
       if filters
         for scope, value of filters

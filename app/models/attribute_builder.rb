@@ -12,6 +12,14 @@ class AttributeBuilder
     AttributeBuilder::Enumeration.new(json: json, key: key, klass: klass, columns: cols).to_json
   end
 
+  def self.time(json, key, *args)
+    AttributeBuilder::Time.new(json: json, key: key, extras: args.extract_options!).to_json
+  end
+
+  def self.age(json, key, *args)
+    AttributeBuilder::Age.new(json: json, key: key, extras: args.extract_options!).to_json
+  end
+
   def self.number(json, key, *args)
     AttributeBuilder::Number.new(json: json, key: key, extras: args.extract_options!).to_json
   end
@@ -114,9 +122,51 @@ class AttributeBuilder::Number < AttributeBuilder::BaseAttribute
   def scopes
     json.set! "#{key}_eq".to_sym, 'equals'
     json.set! "#{key}_lt".to_sym, 'less than'
-    json.set! "#{key}_lteq".to_sym, 'less than equal to'
+    json.set! "#{key}_lteq".to_sym, 'less than or equal to'
     json.set! "#{key}_gteq".to_sym, 'greater than or equal to'
     json.set! "#{key}_gt".to_sym, 'greater than'
+    json.set! "#{key}_not_null".to_sym, 'is not blank'
+    json.set! "#{key}_null".to_sym, 'is blank'
+  end
+  def extras
+    super
+    json.sortable key
+  end
+end
+
+class AttributeBuilder::Time < AttributeBuilder::BaseAttribute
+  def type
+    'number'
+  end
+
+  def scopes
+    json.set! "#{key}_eq".to_sym, 'equals'
+    json.set! "#{key}_lt".to_sym, 'earlier than'
+    json.set! "#{key}_lteq".to_sym, 'on or earlier than'
+    json.set! "#{key}_gteq".to_sym, 'on or later than'
+    json.set! "#{key}_gt".to_sym, 'later than'
+    json.set! "#{key}_not_null".to_sym, 'is not blank'
+    json.set! "#{key}_null".to_sym, 'is blank'
+  end
+  def extras
+    super
+    json.sortable key
+  end
+end
+
+class AttributeBuilder::Age < AttributeBuilder::BaseAttribute
+  def type
+    'number'
+  end
+
+  def scopes
+    json.set! "#{key}_eq".to_sym, 'equals'
+    json.set! "#{key}_lt".to_sym, 'younger than'
+    json.set! "#{key}_lteq".to_sym, 'as young or younger than'
+    json.set! "#{key}_gteq".to_sym, 'as old or older than'
+    json.set! "#{key}_gt".to_sym, 'older than'
+    json.set! "#{key}_not_null".to_sym, 'is not blank'
+    json.set! "#{key}_null".to_sym, 'is blank'
   end
   def extras
     super

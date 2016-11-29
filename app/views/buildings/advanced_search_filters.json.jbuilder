@@ -31,8 +31,8 @@ json.filters do
     end
   end
 
-  AttributeBuilder.number     json, :year_earliest
-  AttributeBuilder.number     json, :year_latest
+  AttributeBuilder.time       json, :year_earliest
+  AttributeBuilder.time       json, :year_latest
   AttributeBuilder.number     json, :stories
   AttributeBuilder.text       json, :description
   AttributeBuilder.text       json, :annotations

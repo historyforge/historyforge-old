@@ -52,7 +52,7 @@ json.filters do
   AttributeBuilder.text   json, :relation_to_head
   AttributeBuilder.enumeration json, Census1910Record, :sex
   AttributeBuilder.enumeration json, Census1910Record, :race
-  AttributeBuilder.number json, :age
+  AttributeBuilder.age    json, :age
   AttributeBuilder.enumeration json, Census1910Record, :marital_status
   AttributeBuilder.number json, :years_married
   AttributeBuilder.number json, :num_children_born

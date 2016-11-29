@@ -31,11 +31,15 @@ class BuildingPresenter < Struct.new(:model, :user)
   end
 
   def lining_type
-    model.lining_type.andand.name.andand.capitalize || 'Unspecified'
+    model.lining_type.andand.name.andand.capitalize || 'Unknown'
   end
 
   def frame_type
-    model.frame_type.andand.name.andand.capitalize || 'Unspecified'
+    model.frame_type.andand.name.andand.capitalize || 'Unknown'
+  end
+
+  def stories
+    model.stories.present? ? (model.stories % 1 == 0 ? model.stories.to_i : model.stories) : 'Unknown'
   end
 
   def method_missing(method, *args)
