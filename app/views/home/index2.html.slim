@@ -14,8 +14,8 @@
       .col-lg-6
         h4 Buildings built as of 1850
       .col-lg-6
-        =< link_to 'Table', "/buildings?s[as_of_year]=1850", class: 'btn btn-primary'
-        =< link_to 'Map It', "/forge?buildings=1&s[as_of_year]=1850", class: 'btn btn-primary'
+        =< link_to 'Table', "/buildings?s[year_earliest_lteq]=1850", class: 'btn btn-primary'
+        =< link_to 'Map It', "/forge?buildings=1&s[year_earliest_lteq]=1850", class: 'btn btn-primary'
     .row
       .col-lg-6
         h4 Henry St. John Historic District
