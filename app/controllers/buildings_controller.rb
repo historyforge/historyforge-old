@@ -140,7 +140,7 @@ class BuildingsController < ApplicationController
     authorize! :read, Building
     massage_params
 
-    @search = BuildingSearch.generate params: params, user: current_user, paged: request.format.json?
+    @search = BuildingSearch.generate params: params, user: current_user, paged: !request.format.json?
     @buildings = @search.to_a
 
   end

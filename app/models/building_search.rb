@@ -86,7 +86,7 @@ class BuildingSearch
 
 
   def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 25)
-    item = new user, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], true, per
+    item = new user, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], paged, per
     item.people = params[:people] if params[:people]
     item.people_params = JSON.parse(params[:peopleParams]) if params[:peopleParams]
     item.unpeopled = true if params[:unpeopled]
