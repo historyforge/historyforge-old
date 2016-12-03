@@ -64,6 +64,18 @@ class CensusRecord < ActiveRecord::Base
                                                                      ])])
   end
 
+  ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
+    Arel::Nodes::NamedFunction.new('LOWER',
+                                   [Arel::Nodes::NamedFunction.new('concat_ws',
+                                                                   [Arel::Nodes::Quoted.new(' '),
+                                                                     parent.table[:street_house_number],
+                                                                     parent.table[:street_prefix],
+                                                                     parent.table[:street_name],
+                                                                     parent.table[:street_suffix]
+                                                                     ])])
+  end
+
+
   validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
             :sex, :race, :age, :marital_status,
             :page_no, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
