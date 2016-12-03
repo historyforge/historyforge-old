@@ -68,10 +68,10 @@ class CensusRecord < ActiveRecord::Base
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',
                                                                    [Arel::Nodes::Quoted.new(' '),
-                                                                     parent.table[:street_house_number],
-                                                                     parent.table[:street_prefix],
-                                                                     parent.table[:street_name],
-                                                                     parent.table[:street_suffix]
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('street_house_number')),
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('street_prefix')),
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('street_name')),
+                                                                     Arel::Nodes::InfixOperation.new("->>", parent.table[:data], Arel::Nodes::Quoted.new('street_suffix'))
                                                                      ])])
   end
 
