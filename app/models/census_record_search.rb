@@ -118,6 +118,7 @@ class CensusRecordSearch
       naturalized_alien language_spoken profession industry employment
       unemployed unemployed_weeks_1909 can_read can_write attended_school
       owned_or_rented mortgage farm_or_house civil_war_vet blind deaf_dumb
+      notes
     }
   end
 

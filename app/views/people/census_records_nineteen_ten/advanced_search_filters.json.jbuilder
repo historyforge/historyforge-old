@@ -5,6 +5,7 @@ json.filters do
     json.label 'Name'
     json.scopes do
       json.name_cont 'contains'
+      json.name_not_cont 'does not contain'
     end
     json.sortable 'name'
   end
@@ -14,6 +15,7 @@ json.filters do
     json.label 'POB'
     json.scopes do
       json.pob_cont 'contains'
+      json.pob_not_cont 'does not contain'
       json.pob_eq 'equals'
     end
     json.sortable 'pob'
@@ -24,6 +26,7 @@ json.filters do
     json.label 'Profession'
     json.scopes do
       json.profession_cont 'contains'
+      json.profession_not_cont 'does not contain'
       json.profession_eq 'equals'
     end
     json.sortable 'profession'
@@ -34,10 +37,15 @@ json.filters do
     json.label 'Industry'
     json.scopes do
       json.industry_cont 'contains'
+      json.industry_not_cont 'does not contain'
       json.industry_eq 'equals'
     end
     json.sortable 'industry'
   end
+
+  AttributeBuilder.text   json, :first_name
+  AttributeBuilder.text   json, :middle_name
+  AttributeBuilder.text   json, :last_name
 
   AttributeBuilder.number   json, :page_no
   AttributeBuilder.enumeration json, Census1910Record, :page_side
@@ -76,5 +84,15 @@ json.filters do
   AttributeBuilder.boolean json, :blind
   AttributeBuilder.boolean json, :civil_war_vet
   AttributeBuilder.boolean json, :deaf_dumb
+
+  json.notes do
+    json.type 'text'
+    json.label 'Notes'
+    json.scopes do
+      json.notes_cont 'contains'
+    end
+    json.sortable 'notes'
+  end
+
 
 end

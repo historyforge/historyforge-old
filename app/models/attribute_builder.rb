@@ -181,6 +181,7 @@ class AttributeBuilder::Text < AttributeBuilder::BaseAttribute
 
   def scopes
     json.set! "#{key}_cont", 'contains'
+    json.set! "#{key}_not_cont", 'does not contain'
     json.set! "#{key}_start", 'starts with'
     json.set! "#{key}_end", 'ends with'
   end

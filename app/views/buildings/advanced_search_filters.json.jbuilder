@@ -5,6 +5,7 @@ json.filters do
     json.label 'Name'
     json.scopes do
       json.name_cont 'contains'
+      json.name_not_cont 'does not contain'
     end
     json.sortable 'name'
   end
@@ -14,6 +15,7 @@ json.filters do
     json.label 'City'
     json.scopes do
       json.city_cont 'contains'
+      json.city_not_cont 'does not contain'
       json.city_eq 'equals'
     end
     json.sortable 'city'
@@ -38,4 +40,14 @@ json.filters do
   AttributeBuilder.text       json, :annotations
   AttributeBuilder.text       json, :street_address
   AttributeBuilder.collection json, Architect, :architects_id, Architect.order(:name).map {|item| [item.name, item.id] }
+
+  json.notes do
+    json.type 'text'
+    json.label 'Notes'
+    json.scopes do
+      json.notes_cont 'contains'
+    end
+    json.sortable 'notes'
+  end
+
 end

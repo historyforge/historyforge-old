@@ -155,7 +155,7 @@ class BuildingSearch
        year_earliest year_latest
        description annotations stories block_number
        building_type lining_type frame_type
-       architects
+       architects notes
     }
   end
 
