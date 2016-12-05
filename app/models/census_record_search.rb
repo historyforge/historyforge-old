@@ -50,7 +50,7 @@ class CensusRecordSearch
   end
 
   def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 25)
-    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], true, per
+    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], paged, per
   end
 
   def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort_col, sort_dir, paged, per)
