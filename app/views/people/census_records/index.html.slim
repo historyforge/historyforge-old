@@ -33,7 +33,7 @@
                 th= t "simple_form.labels.census_record.#{field}", default: field.humanize
           tbody
             - @records.each do |row|
-              - record = CensusRecordPresenter.new(row, current_user)
+              /- record = CensusRecordPresenter.new(row, current_user)
               tr
                 - @search.f.each_with_index do |field, i|
                   td

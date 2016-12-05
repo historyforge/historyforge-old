@@ -13,7 +13,7 @@ class BuildingSearch
   validates :t, presence: true
 
   def to_a
-    @results ||= scoped.to_a
+    @results ||= scoped.to_a.map {|row| BuildingPresenter.new(row, user) }
   end
 
   def ransack_params

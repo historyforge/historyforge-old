@@ -3,6 +3,7 @@ class People::CensusRecordsController < ApplicationController
   include RestoreSearch
 
   respond_to :json, only: :index
+  respond_to :csv, only: :index
   respond_to :html
 
   def index
@@ -154,7 +155,7 @@ class People::CensusRecordsController < ApplicationController
 
   def load_census_records
     authorize! :read, resource_class
-    @search = CensusRecordSearch.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.json?
+    @search = CensusRecordSearch.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?
     @records = @search.to_a
   end
 

@@ -3,6 +3,7 @@ class BuildingsController < ApplicationController
   include RestoreSearch
 
   respond_to :json, only: :index
+  respond_to :csv, only: :index
   respond_to :html
 
   def index
@@ -168,7 +169,7 @@ class BuildingsController < ApplicationController
     authorize! :read, Building
     massage_params
 
-    @search = BuildingSearch.generate params: params, user: current_user, paged: !request.format.json?
+    @search = BuildingSearch.generate params: params, user: current_user, paged: request.format.html?
     @buildings = @search.to_a
 
   end

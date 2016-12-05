@@ -4,8 +4,6 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     self.model, self.user = model, user
   end
 
-  delegate :method_missing, to: :model
-
   def name
     "#{last_name}, #{first_name} #{middle_name}".strip
   end
@@ -14,5 +12,8 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     [street_house_number, street_prefix, street_name, street_suffix].join(' ')
   end
 
+  def method_missing(method, *args)
+    model.send(method, *args)
+  end
 
 end

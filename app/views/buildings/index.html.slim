@@ -30,19 +30,17 @@
                 th= t "simple_form.labels.building.#{field}", default: field.humanize
               th Actions
           tbody
-            - @buildings.each do |row|
-              - record = BuildingPresenter.new(row, current_user)
+            - @buildings.each do |record|
               tr
                 - @search.f.each_with_index do |field, i|
                   td
                     = record.public_send field
-                    - if i == 0 && !row.reviewed?
+                    - if i == 0 && !record.reviewed?
                       span.label.label-danger< NEW
                 td style="text-align:right;white-space:nowrap"
-                  = link_to 'View', row, class: 'btn btn-xs btn-default'
-                  - if can? :update, row
-                    = link_to 'Edit', [:edit, row], class: 'btn btn-xs btn-default'
-
+                  = link_to 'View', record.model, class: 'btn btn-xs btn-default'
+                  - if can? :update, record.model
+                    = link_to 'Edit', [:edit, record.model], class: 'btn btn-xs btn-default'
 
 javascript:
   $('#new_s').advancedSearch({

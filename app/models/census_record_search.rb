@@ -13,7 +13,7 @@ class CensusRecordSearch
   validates :t, presence: true
 
   def to_a
-    @results ||= scoped.to_a
+    @results ||= scoped.to_a.map {|row| CensusRecordPresenter.new(row, user) }
   end
 
   def ransack_params
