@@ -27,7 +27,11 @@ Rails.application.routes.draw do
   resources :buildings do
     collection do
       get :unpeopled
+      get :unreviewed
       get :advanced_search_filters
+    end
+    member do
+      put :review
     end
   end
 

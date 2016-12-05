@@ -4,7 +4,7 @@ class BuildingSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled, :people, :people_params
+  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled, :unreviewed, :people, :people_params
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -39,6 +39,7 @@ class BuildingSearch
       @scoped = entity_class.includes(:building_type).ransack(rp).result
       add_order_clause
       @scoped = @scoped.without_residents if unpeopled
+      @scoped = @scoped.where(reviewed_at: nil) if unreviewed
 
       if paged?
         @scoped = @scoped.page(page).per(per)
@@ -90,6 +91,7 @@ class BuildingSearch
     item.people = params[:people] if params[:people]
     item.people_params = JSON.parse(params[:peopleParams]) if params[:peopleParams]
     item.unpeopled = true if params[:unpeopled]
+    item.unreviewed = true if params[:unreviewed]
     item
   end
 

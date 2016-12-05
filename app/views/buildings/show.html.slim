@@ -1,6 +1,8 @@
 .pull-right
   - if can?(:update, @building)
     = link_to 'Edit', [:edit, @building], class: 'btn btn-default'
+  - if can?(:review, @building) && !@building.reviewed?
+    = link_to 'Review', [:review, @building], class: 'btn btn-default', data: { method: :put }
   = link_to 'View All', buildings_path, class: 'btn btn-default'
 
 h1.page-title= @building.name

@@ -18,6 +18,14 @@ class BuildingsController < ApplicationController
     render action: :index
   end
 
+  def unreviewed
+    @page_title = "Buildings - Unreviewed"
+    authorize! :review, Building
+    params[:unreviewed] = 1
+    load_buildings
+    render action: :index
+  end
+
   def new
     authorize! :create, Building
     @building = Building.new
@@ -56,6 +64,12 @@ class BuildingsController < ApplicationController
   def update
     @building = Building.find params[:id]
     authorize! :update, @building
+
+    if params[:Review] && can?(:review, @building) && !@building.reviewed?
+      @building.reviewed_by = current_user
+      @building.reviewed_at = Time.now
+    end
+
     if @building.update_attributes(building_params)
       flash[:notice] = 'Building updated.'
       if request.format.json?
@@ -78,6 +92,20 @@ class BuildingsController < ApplicationController
     else
       flash[:errors] = 'Unable to delete building.'
       redirect_to :back
+    end
+  end
+
+  def review
+    @building = Building.find params[:id]
+    authorize! :review, @building
+    @building.reviewed_by = current_user
+    @building.reviewed_at = Time.now
+    if @building.save
+      flash[:notice] = 'Building reviewed.'
+      redirect_to @building
+    else
+      flash[:errors] = 'Building not reviewed.'
+      render action: :new
     end
   end
 

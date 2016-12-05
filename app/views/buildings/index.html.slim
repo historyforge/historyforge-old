@@ -9,6 +9,8 @@
     - if can?(:create, Building)
       = link_to 'Add New', new_building_path, class: 'btn btn-default'
       = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default'
+      - if can?(:review, Building)
+        = link_to 'Unreviewed', unreviewed_buildings_path, class: 'btn btn-default'
       = link_to 'All', buildings_path, class: 'btn btn-default'
   h1.page-title= @page_title
 
