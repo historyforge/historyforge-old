@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160806153456) do
+ActiveRecord::Schema.define(version: 20161205134509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20160806153456) do
   end
 
   add_index "census_1900_records", ["building_id"], name: "index_census_1900_records_on_building_id", using: :btree
+  add_index "census_1900_records", ["data"], name: "index_census_1900_records_on_data", using: :gin
   add_index "census_1900_records", ["person_id"], name: "index_census_1900_records_on_person_id", using: :btree
 
   create_table "census_1910_records", force: :cascade do |t|
@@ -115,6 +116,7 @@ ActiveRecord::Schema.define(version: 20160806153456) do
 
   add_index "census_1910_records", ["building_id"], name: "index_census_1910_records_on_building_id", using: :btree
   add_index "census_1910_records", ["created_by_id"], name: "index_census_1910_records_on_created_by_id", using: :btree
+  add_index "census_1910_records", ["data"], name: "index_census_1910_records_on_data", using: :gin
   add_index "census_1910_records", ["reviewed_by_id"], name: "index_census_1910_records_on_reviewed_by_id", using: :btree
 
   create_table "census_1920_records", force: :cascade do |t|
@@ -126,6 +128,7 @@ ActiveRecord::Schema.define(version: 20160806153456) do
   end
 
   add_index "census_1920_records", ["building_id"], name: "index_census_1920_records_on_building_id", using: :btree
+  add_index "census_1920_records", ["data"], name: "index_census_1920_records_on_data", using: :gin
   add_index "census_1920_records", ["person_id"], name: "index_census_1920_records_on_person_id", using: :btree
 
   create_table "client_applications", force: :cascade do |t|
