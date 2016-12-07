@@ -36,10 +36,6 @@ class BuildingsController < ApplicationController
     @building = Building.new building_params
     authorize! :create, @building
     @building.created_by = current_user
-    if can?(:review, @building)
-      @building.reviewed_by = current_user
-      @building.reviewed_at = Time.now
-    end
     if @building.save
       flash[:notice] = 'Building created.'
       redirect_to @building

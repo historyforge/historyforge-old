@@ -33,16 +33,20 @@ class CensusRecordSearch
       @scoped = @scoped.page(page).per(per) if paged?
       @d = 'asc' unless %w{asc desc}.include?(@d)
       if @c
-        if entity_class.columns.map(&:name).include?(@c)
-          add_regular_order_clause
+        if @c == 'census_scope'
+          add_census_page_order_clause
         elsif @c == 'name'
           @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
         else
-          @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'#{@c}' #{@d}, #{name_order_clause}")
+          add_regular_order_clause
         end
       end
     end
 
+  end
+
+  def add_census_page_order_clause
+    @scoped = @scoped.order entity_class.send(:sanitize_sql, "ward #{@d}, enum_dist #{@d}, page_number #{@d}, page_side #{@d}, line_number #{@d}")
   end
 
   def add_regular_order_clause
@@ -92,7 +96,7 @@ class CensusRecordSearch
   end
 
   def name_order_clause
-    "#{entity_class.table_name}.data->>'last_name' #{@d}, #{entity_class.table_name}.data->>'first_name' #{@d}, #{entity_class.table_name}.data->>'middle_name' #{@d}"
+    "last_name #{@d}, first_name #{@d}, middle_name #{@d}"
   end
 
   def paged?
@@ -100,11 +104,11 @@ class CensusRecordSearch
   end
 
   def columns
-    @columns ||= ([Set.new(f)] + fieldsets.map {|fs| Set.new public_send("#{fs}_fields") }).reduce(&:union)
+    @columns ||= (fieldsets.map {|fs| Set.new public_send("#{fs}_fields") } + [Set.new(f)]).reduce(&:union)
   end
 
   def fieldsets
-    @fs.present? ? @fs : %w{census_scope location}
+    @fs.present? ? @fs : %w{census_scope}
   end
 
   def default_fields
@@ -112,7 +116,7 @@ class CensusRecordSearch
   end
 
   def all_fields
-    %w{page_no page_side line_number county city ward enum_dist street_address dwelling_number family_id
+    %w{page_number page_side line_number county city ward enum_dist street_address dwelling_number family_id
       name relation_to_head sex race age marital_status years_married
       num_children_born num_children_alive pob pob_father pob_mother year_immigrated
       naturalized_alien language_spoken profession industry employment
@@ -127,11 +131,11 @@ class CensusRecordSearch
   end
 
   def census_scope_fields
-    %w{page_no page_side line_number county city ward enum_dist dwelling_number family_id}
+    %w{page_number page_side line_number}
   end
 
   def location_fields
-    %w{street_house_number street_prefix street_name street_suffix}
+    %w{county city ward enum_dist}
   end
 
 end

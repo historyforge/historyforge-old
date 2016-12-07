@@ -130,7 +130,7 @@ class AttributeBuilder::Number < AttributeBuilder::BaseAttribute
   end
   def extras
     super
-    json.sortable key
+    json.sortable(key) if @sortable != false
   end
 end
 

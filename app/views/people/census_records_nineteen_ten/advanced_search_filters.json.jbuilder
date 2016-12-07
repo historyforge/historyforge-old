@@ -1,5 +1,10 @@
 json.filters do
 
+  json.census_scope do
+    json.label 'Census Schedule'
+    json.sortable 'census_scope'
+  end
+
   json.name do
     json.type 'text'
     json.label 'Name'
@@ -47,9 +52,9 @@ json.filters do
   AttributeBuilder.text   json, :middle_name
   AttributeBuilder.text   json, :last_name
 
-  AttributeBuilder.number   json, :page_no
+  AttributeBuilder.number   json, :page_number
   AttributeBuilder.enumeration json, Census1910Record, :page_side
-  AttributeBuilder.number json, :line_number
+  AttributeBuilder.number json, :line_number, sortable: false
   AttributeBuilder.text   json, :county
   AttributeBuilder.text   json, :city
   AttributeBuilder.number json, :ward

@@ -5,7 +5,7 @@ getFieldConfig = (attribute) ->
 
 getFieldConfigFromScope = (scope) ->
   for attribute, value of window.attributeFilters["filters"]
-    return value if value.scopes[scope]?
+    return value if value.scopes?[scope]?
 
 getSortableFields = ->
   fields = {}
@@ -17,7 +17,8 @@ getSortableFields = ->
 addAttributeFilter = (scope, scopeValue) ->
   field_config = getFieldConfigFromScope(scope)
   return unless field_config?
-  console.log field_config
+  return unless field_config.scopes?
+  # console.log field_config
   html = document.createElement 'DIV'
   html.className = 'attribute-filter'
   sentence = [field_config.label]

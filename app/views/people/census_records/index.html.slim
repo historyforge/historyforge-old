@@ -29,13 +29,13 @@
         table.table.table-condensed.table-striped
           thead
             tr
-              - @search.f.each do |field|
+              - @search.columns.each do |field|
                 th= t "simple_form.labels.census_record.#{field}", default: field.humanize
           tbody
             - @records.each do |row|
               /- record = CensusRecordPresenter.new(row, current_user)
               tr
-                - @search.f.each_with_index do |field, i|
+                - @search.columns.each_with_index do |field, i|
                   td
                     - if i == 0
                       = link_to row.public_send(field), resource_path(row)
