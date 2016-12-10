@@ -34,22 +34,22 @@ h1.page-title= @record.name
   table.table.table-bordered.table-condensed
     thead
       tr
-        th Page
-        th Line
         th County
         th City
         th Ward
         th Enum Dist
+        th Page
+        th Line
         th Dwelling
         th Family ID
     tbody
       tr
-        td= "#{@record.page_number}#{@record.page_side}"
-        td= @record.line_number
         td= @record.county
         td= @record.city
         td= @record.ward
         td= @record.enum_dist
+        td= "#{@record.page_number}#{@record.page_side}"
+        td= @record.line_number
         td= @record.dwelling_number
         td= @record.family_id
 
