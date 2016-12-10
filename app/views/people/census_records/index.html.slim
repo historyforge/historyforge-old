@@ -31,18 +31,18 @@
             tr
               - @search.columns.each do |field|
                 th= t "simple_form.labels.census_record.#{field}", default: field.humanize
+              th Actions
           tbody
             - @records.each do |row|
               /- record = CensusRecordPresenter.new(row, current_user)
               tr
                 - @search.columns.each_with_index do |field, i|
                   td
-                    - if i == 0
-                      = link_to row.public_send(field), resource_path(row)
-                    - else
-                      = row.public_send field
-                    - if i == 0 && !row.reviewed?
-                      span.label.label-danger< NEW
+                    = row.public_send field
+                td
+                  = link_to "View", row, class: 'btn btn-default btn-xs'
+                  - unless row.reviewed?
+                    span.label.label-danger< NEW
 
         #search-pagination-bottom
           = paginate @search.scoped
