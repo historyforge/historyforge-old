@@ -12,12 +12,14 @@ class Ability
       end
       can :read, Building do |building| building.reviewed?; end
       can :read, Architect
+      can :read, Census1910Record do |record| record.reviewed?; end
       can :read, CensusRecord do |record| record.reviewed?; end
     else
 
       can :manage, Layer, user_id: user.id
       can :update, User, id: user.id
       can :read, CensusRecord
+      can :read, Census1910Record
       can :read, Building
 
       if user.has_role?("administrator") || user.has_role?("super user")
@@ -34,6 +36,8 @@ class Ability
       if user.has_role?("census taker")
         can :create, CensusRecord
         can :update, CensusRecord, created_by_id: user.id
+        can :create, Census1910Record
+        can :update, Census1910Record, created_by_id: user.id
       end
 
       if user.has_role?("builder")
