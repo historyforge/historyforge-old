@@ -76,11 +76,13 @@ class BuildingSearch
   def add_order_clause
     @d = 'asc' unless %w{asc desc}.include?(@d)
     if @c
-      if entity_class.columns.map(&:name).include?(@c)
+      if @c == 'street_address'
+        @scoped = @scoped.order entity_class.send(:sanitize_sql, "address_house_number #{@d}, address_street_prefix #{@d}, address_street_name #{@d}, address_street_suffix #{@d}")
+      elsif entity_class.columns.map(&:name).include?(@c)
         @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
       else
         # BOOM!
-        @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'#{@c}' #{@d}, #{name_order_clause}")
+        # @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'#{@c}' #{@d}, #{name_order_clause}")
       end
     end
   end

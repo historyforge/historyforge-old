@@ -41,13 +41,4 @@ json.filters do
   AttributeBuilder.text       json, :street_address
   AttributeBuilder.collection json, Architect, :architects_id, Architect.order(:name).map {|item| [item.name, item.id] }
 
-  json.notes do
-    json.type 'text'
-    json.label 'Notes'
-    json.scopes do
-      json.notes_cont 'contains'
-    end
-    json.sortable 'notes'
-  end
-
 end
