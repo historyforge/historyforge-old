@@ -169,7 +169,7 @@ class BuildingsController < ApplicationController
     @buildings = @search.to_a
 
     if request.format.json?
-      @buildings = @buildings.map {|building| BuildingSerializer.new(building) }
+      @buildings = @buildings.map {|building| BuildingSerializer.new(building, root: false) }
     else
       @buildings = @buildings.map {|building| BuildingPresenter.new(building, current_user) }
     end

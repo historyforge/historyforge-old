@@ -32,12 +32,12 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
 
 forgeApp.LayersController.$inject = ['$rootScope', '$scope', 'BuildingService', 'LayerService']
 
-forgeApp.MapController = ($scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
+forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
 
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
   wmslayer = null
 
-  $scope.$on 'layers:selected', (event, layer) ->
+  $rootScope.$on 'layers:selected', (event, layer) ->
     $scope.layer = layer
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
@@ -45,10 +45,10 @@ forgeApp.MapController = ($scope, NgMap, $anchorScroll, $timeout, BuildingServic
       fitToBoundingBox(map, $scope.layer.bbox)
       wmslayer = loadWMS map, url
 
-  $scope.$on 'buildings:updated', (event, buildings) ->
+  $rootScope.$on 'buildings:updated', (event, buildings) ->
     $scope.buildings = buildings
 
-  $scope.$on 'viewMode:changed', (event, viewMode) ->
+  $rootScope.$on 'viewMode:changed', (event, viewMode) ->
     if $scope.layer
       NgMap.getMap().then (map) ->
         map.hideInfoWindow(currentWindowId) if currentWindowId
@@ -127,12 +127,12 @@ forgeApp.MapController = ($scope, NgMap, $anchorScroll, $timeout, BuildingServic
   return
 forgeApp.MapController.$inject = ['$rootScope', '$scope', 'NgMap', '$anchorScroll', '$timeout', 'BuildingService', 'LayerService']
 
-forgeApp.BuildingListController = ($scope, BuildingService) ->
+forgeApp.BuildingListController = ($rootScope, $scope, BuildingService) ->
   $scope.buildings = BuildingService.buildings
   $scope.currentPage = 1;
   $scope.pageSize = 15;
 
-  $scope.$on 'buildings:updated', (event, buildings) ->
+  $rootScope.$on 'buildings:updated', (event, buildings) ->
     $scope.buildings = buildings
 
   return
