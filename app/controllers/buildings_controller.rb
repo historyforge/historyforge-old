@@ -168,6 +168,12 @@ class BuildingsController < ApplicationController
     @search = BuildingSearch.generate params: params, user: current_user, paged: request.format.html?
     @buildings = @search.to_a
 
+    if request.format.json?
+      @buildings = @buildings.map {|building| BuildingSerializer.new(building) }
+    else
+      @buildings = @buildings.map {|building| BuildingPresenter.new(building, current_user) }
+    end
+
   end
 
   def massage_params
