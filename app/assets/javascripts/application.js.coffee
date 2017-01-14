@@ -11,6 +11,7 @@
 #= require querystring
 #= require alertify.min
 #= require advanced_search
+#= require census_form
 
 querystring = require('querystring-component')
 
