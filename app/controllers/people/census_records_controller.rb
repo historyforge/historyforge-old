@@ -127,7 +127,11 @@ class People::CensusRecordsController < ApplicationController
   end
 
   def resource_params
-    params.require(resource_class.model_name.param_key).permit!
+    key = resource_class.model_name.param_key
+    params[key].each do |key2, value|
+      params[key][key2] = nil if value == 'on'
+    end
+    params.require(key).permit!
   end
 
   def after_saved
