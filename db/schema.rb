@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170114163726) do
+ActiveRecord::Schema.define(version: 20170114173515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,8 +157,8 @@ ActiveRecord::Schema.define(version: 20170114163726) do
     t.string   "language_spoken",                 default: "English"
     t.string   "unemployed_weeks_1909"
     t.boolean  "civil_war_vet_old"
-    t.boolean  "blind"
-    t.boolean  "deaf_dumb"
+    t.boolean  "blind",                           default: false
+    t.boolean  "deaf_dumb",                       default: false
     t.text     "notes"
     t.string   "civil_war_vet",         limit: 2
   end

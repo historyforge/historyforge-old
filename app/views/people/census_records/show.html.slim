@@ -103,19 +103,19 @@ h1.page-title= @record.name
           dd= @record.years_married
         dl
           dt Num Children Born
-          dd= @record.num_children_born
+          dd= @record.num_children_born || 'blank'
         dl
           dt Num Children Alive
-          dd= @record.num_children_alive
+          dd= @record.num_children_alive || 'blank'
         dl
           dt Owned or Rented?
-          dd= @record.owned_or_rented
+          dd= @record.owned_or_rented || 'blank'
         dl
           dt Mortgage?
-          dd= @record.mortgage
+          dd= @record.mortgage || 'blank'
         dl
           dt Farm or House?
-          dd= @record.farm_or_house
+          dd= @record.farm_or_house || 'blank'
 
       .col-xs-4
         dl
