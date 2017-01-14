@@ -22,4 +22,12 @@ module CensusRecordsHelper
     # raise record.inspect
   end
 
+  def yes_no_na(value)
+    if value.nil?
+      'blank'
+    else
+      value ? 'yes' : 'no'
+    end
+  end
+
 end

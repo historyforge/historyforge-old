@@ -118,9 +118,10 @@ h1.page-title= @record.name
           dd= @record.farm_or_house || 'blank'
 
       .col-xs-4
-        dl
-          dt Profession
-          dd= @record.profession
+        - if @record.profession.present?
+          dl
+            dt Profession
+            dd= @record.profession
         - if @record.industry?
           dl
             dt Industry
@@ -131,29 +132,29 @@ h1.page-title= @record.name
             dd= @record.employment
         dl
           dt Without work?
-          dd= @record.unemployed ? 'Yes' : 'No'
+          dd= yes_no_na @record.unemployed
         - if @record.unemployed_weeks_1909?
           dl
             dt Weeks w/o work 1909
             dd= @record.unemployed_weeks_1909
         dl
           dt Can read?
-          dd= @record.can_read? ? 'Yes' : 'No'
+          dd= yes_no_na @record.can_read
         dl
           dt Can write?
-          dd= @record.can_write? ? 'Yes' : 'No'
+          dd= yes_no_na @record.can_write
         dl
           dt Attended school?
-          dd= @record.attended_school? ? 'Yes' : 'No'
+          dd= yes_no_na @record.attended_school
         dl
           dt Civil War Vet?
-          dd= @record.civil_war_vet ? 'Yes' : 'No'
+          dd= @record.civil_war_vet || 'blank'
         dl
           dt Blind?
-          dd= @record.blind? ? 'Yes' : 'No'
+          dd= @record.blind? ? 'Yes' : 'blank'
         dl
           dt Deaf & Dumb?
-          dd= @record.deaf_dumb? ? 'Yes' : 'No'
+          dd= @record.deaf_dumb? ? 'Yes' : 'blank '
 
 - if @record.notes.present?
   .panel.panel-default
