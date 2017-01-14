@@ -61,46 +61,46 @@ h1.page-title= @record.name
       .col-xs-4
         dl
           dt Address
-          dd= @record.street_address
+          dd= @record.street_address || 'blank'
         dl
           dt Relation to Head
-          dd= @record.relation_to_head
+          dd= @record.relation_to_head.andand.capitalize || 'blank'
         dl
           dt Sex
-          dd= @record.sex
+          dd= @record.sex || 'blank'
         dl
           dt Race
-          dd= @record.race
+          dd= @record.race || 'blank'
         dl
           dt Age in 1909
-          dd= @record.age
+          dd= @record.age || 'blank'
         dl
           dt Place of Birth
-          dd= @record.pob
+          dd= @record.pob || 'blank'
         dl
           dt Father's POB
-          dd= @record.pob_father
+          dd= @record.pob_father || 'blank'
         dl
           dt Mother's POB
-          dd= @record.pob_mother
+          dd= @record.pob_mother || 'blank'
         - if @record.year_immigrated?
           dl
             dt Year Immigrated
             dd= @record.year_immigrated
         dl
           dt Naturalized Alien?
-          dd= @record.naturalized_alien
+          dd= @record.naturalized_alien || 'blank'
         dl
           dt Language Spoken
-          dd= @record.language_spoken
+          dd= @record.language_spoken || 'blank'
 
       .col-xs-4
         dl
           dt Marital Status
-          dd= @record.marital_status
+          dd= @record.marital_status || 'blank'
         dl
           dt Years Married
-          dd= @record.years_married
+          dd= @record.years_married || 'blank'
         dl
           dt Num Children Born
           dd= @record.num_children_born || 'blank'
