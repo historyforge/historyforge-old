@@ -41,7 +41,9 @@ en:
         num_children_alive: 'Number of children alive'
       defaults:
         page_no: 'Sheet'
+        page_number: 'Sheet'
         page_side: 'Side'
+        line_number: 'Line'
         street_house_number: 'House Number'
         street_prefix: 'Prefix'
         street_name: 'Street Name'
@@ -61,3 +63,5 @@ en:
         year_earliest: 'Year built or first mentioned.'
         year_latest: 'Year in which the building was demolished.'
         annotations: 'Such as words written about the building on a Sanborn map. Eventually this will be more complicated.'
+      census1910_record:
+        owned_or_rented: "Neither - two checks"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207133016) do
+ActiveRecord::Schema.define(version: 20170114163726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,10 +156,11 @@ ActiveRecord::Schema.define(version: 20161207133016) do
     t.string   "num_farm_sched"
     t.string   "language_spoken",                 default: "English"
     t.string   "unemployed_weeks_1909"
-    t.boolean  "civil_war_vet"
+    t.boolean  "civil_war_vet_old"
     t.boolean  "blind"
     t.boolean  "deaf_dumb"
     t.text     "notes"
+    t.string   "civil_war_vet",         limit: 2
   end
 
   add_index "census_1910_records", ["building_id"], name: "index_census_1910_records_on_building_id", using: :btree

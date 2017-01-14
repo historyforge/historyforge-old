@@ -22,31 +22,31 @@
 
 .row
   .col-xs-4= form.input :year_immigrated, as: :integer
-  .col-xs-4= form.input :naturalized_alien, as: :select, collection: CensusRecord.naturalized_alien_choices
+  .col-xs-4= form.input :naturalized_alien, as: :select, collection: select_options_for(CensusRecord.naturalized_alien_choices)
   .col-xs-4= form.input :language_spoken
 
 .row
   .col-xs-4= form.input :profession
   .col-xs-4= form.input :industry
-  .col-xs-4= form.input :employment, as: :select, collection: Census1910Record.employment_choices
+  .col-xs-4= form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
 
 .row
-  .col-xs-6= form.input :unemployed, as: :radio_buttons, label: 'Without work?'
+  .col-xs-6= form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices
   .col-xs-6= form.input :unemployed_weeks_1909
 
 table style="width:100%"
   tr
-    td= form.input :can_read, as: :radio_buttons, label: 'Read'
-    td= form.input :can_write, as: :radio_buttons, label: 'Write'
-    td= form.input :attended_school, as: :radio_buttons, label: 'Attended School'
+    td= form.input :can_read, as: :radio_buttons, label: 'Read', collection: yes_no_choices
+    td= form.input :can_write, as: :radio_buttons, label: 'Write', collection: yes_no_choices
+    td= form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices
 
-    td= form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices
-    td= form.input :mortgage, as: :radio_buttons, collection: Census1910Record.mortgage_choices
-    td= form.input :farm_or_house, as: :radio_buttons, collection: Census1910Record.farm_or_house_choices
+    td= form.input :owned_or_rented, as: :radio_buttons, collection: select_options_for(Census1910Record.owned_or_rented_choices)
+    td= form.input :mortgage, as: :radio_buttons, collection: select_options_for(Census1910Record.mortgage_choices)
+    td= form.input :farm_or_house, as: :radio_buttons, collection: select_options_for(Census1910Record.farm_or_house_choices)
 
     td
-      = form.input :civil_war_vet, as: :radio_buttons, label: 'Civil War', collection: [["UA UN CA CN", true], ["blank", false]]
+      = form.input :civil_war_vet, as: :radio_buttons, label: 'Civil War', collection: select_options_for(Census1910Record.civil_war_vet_choices)
     td
-      = form.input :blind, as: :radio_buttons, label: 'Blind', collection: [["Bl", true], ["blank", false]]
+      = form.input :blind, as: :radio_buttons, label: 'Blind', collection: [["blank", false], ["Bl", true]]
     td
-      = form.input :deaf_dumb, as: :radio_buttons, label: 'Deaf and Dumb', collection: [["DD", true], ["blank", false]]
+      = form.input :deaf_dumb, as: :radio_buttons, label: 'Deaf and Dumb', collection: [["blank", false], ["DD", true]]

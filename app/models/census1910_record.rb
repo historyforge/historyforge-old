@@ -25,9 +25,10 @@ class Census1910Record < ActiveRecord::Base
   define_enumeration :marital_status, %w{S W D M1 M2 M3 M4 M5 M6}
   define_enumeration :naturalized_alien, %w{na pa al}
   define_enumeration :employment, %w{W Emp OA}
-  define_enumeration :owned_or_rented, %w{O R}
+  define_enumeration :owned_or_rented, %w{O R Neither}
   define_enumeration :mortgage, %w{M F}
   define_enumeration :farm_or_house, %w{F H}
+  define_enumeration :civil_war_vet, %w{UA UN CA CN}
 
   ransacker :name, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',

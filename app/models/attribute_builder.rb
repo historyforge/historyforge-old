@@ -72,6 +72,7 @@ class AttributeBuilder::Boolean < AttributeBuilder::BaseAttribute
   def scopes
     json.set! "#{key}_true", 'Yes'
     json.set! "#{key}_false", 'No'
+    json.set! "#{key}_null", 'Blank'
   end
 end
 
