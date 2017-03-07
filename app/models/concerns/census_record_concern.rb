@@ -56,8 +56,9 @@ module CensusRecordConcern
 
     def matching_building(my_street_name = nil)
       my_street_name ||= convert_street_name
+      my_street_prefix = convert_street_prefix
       @matching_building ||= Building.where(address_house_number: street_house_number,
-                                            address_street_prefix: street_prefix,
+                                            address_street_prefix: my_street_prefix,
                                             address_street_name: my_street_name,
                                             city: city).first
     end
@@ -74,6 +75,10 @@ module CensusRecordConcern
         'Old Taughannock'
       elsif street_name == 'Humboldt'
         'Floral'
+      elsif street_name == 'Mechanic'
+        'Hillview'
+      elsif street_name == 'Tioga' && street_prefix == 'S'
+        'Turner'
       else
         street_name
       end
@@ -82,18 +87,31 @@ module CensusRecordConcern
     def convert_street_suffix
       if street_name == 'Boulevard' || street_name == 'Glenwood'
         'Blvd'
+      elsif street_name == 'Mechanic' || (street_name == 'Tioga' && street_prefix == 'S'
+        'Pl'
       elsif street_name == 'Humboldt'
         'Avenue'
+      else
+        street_suffix
+      end
+    end
+
+    def convert_street_prefix
+      if street_name == 'Tioga' || street_prefix == 'S'
+        nil
+      else
+        street_prefix
       end
     end
 
     def building_from_address
       my_street_name = convert_street_name
       my_street_suffix = convert_street_suffix
+      my_street_prefix = convert_street_prefix
       self.building ||= matching_building(my_street_name) || Building.create(
         name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
         address_house_number: street_house_number,
-        address_street_prefix: street_prefix,
+        address_street_prefix: my_street_prefix,
         address_street_name: my_street_name,
         address_street_suffix: my_street_suffix,
         city: city,
