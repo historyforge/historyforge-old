@@ -87,7 +87,7 @@ module CensusRecordConcern
     def convert_street_suffix
       if street_name == 'Boulevard' || street_name == 'Glenwood'
         'Blvd'
-      elsif street_name == 'Mechanic' || (street_name == 'Tioga' && street_prefix == 'S'
+      elsif street_name == 'Mechanic' || (street_name == 'Tioga' && street_prefix == 'S')
         'Pl'
       elsif street_name == 'Humboldt'
         'Avenue'
