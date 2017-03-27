@@ -52,8 +52,8 @@ $(document).ready ->
         $('#census1910_record_years_married').val(null).prop('disabled', no)
 
 
-    $('#census1910_record_page_side').trigger 'change'
-    $('#census1910_record_sex').trigger 'change'
-    $('#census1910_record_age').trigger 'change'
-    $('#census1910_record_marital_status').trigger 'change'
-    $('#census1910_record_relation_to_head').trigger 'change'
+    # $('#census1910_record_page_side').trigger 'change'
+    # $('#census1910_record_sex').trigger 'change'
+    # $('#census1910_record_age').trigger 'change'
+    # $('#census1910_record_marital_status').trigger 'change'
+    # $('#census1910_record_relation_to_head').trigger 'change'

@@ -40,7 +40,6 @@ table style="width:100%"
     td= form.input :can_read, as: :radio_buttons, label: 'Read', collection: yes_no_choices
     td= form.input :can_write, as: :radio_buttons, label: 'Write', collection: yes_no_choices
     td= form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices
-
     td= form.input :owned_or_rented, as: :radio_buttons, collection: select_options_for(Census1910Record.owned_or_rented_choices)
     td= form.input :mortgage, as: :radio_buttons, collection: select_options_for(Census1910Record.mortgage_choices)
     td= form.input :farm_or_house, as: :radio_buttons, collection: select_options_for(Census1910Record.farm_or_house_choices)
