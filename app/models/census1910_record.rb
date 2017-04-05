@@ -24,6 +24,8 @@ class Census1910Record < ActiveRecord::Base
                         :relation_to_head, :pob, :pob_father, :pob_mother,
                         :profession, :industry, :employment, :notes
 
+  before_validation :set_profession_to_none_if_blank
+
   define_enumeration :page_side, %w{A B}, true
   define_enumeration :street_prefix, %w{N S E W}
   define_enumeration :street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr}.sort
@@ -64,5 +66,9 @@ class Census1910Record < ActiveRecord::Base
 
   def self.folder_name
     'census_records_nineteen_ten'
+  end
+
+  def set_profession_to_none_if_blank
+    self.profession = 'None' if profession.blank?
   end
 end
