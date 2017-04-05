@@ -91,6 +91,7 @@ json.filters do
   AttributeBuilder.enumeration json, Census1910Record, :civil_war_vet
   AttributeBuilder.boolean json, :deaf_dumb
   AttributeBuilder.boolean json, :provisional
+  AttributeBuilder.boolean json, :taker_error
 
   json.notes do
     json.type 'text'

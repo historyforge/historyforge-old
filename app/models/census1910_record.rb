@@ -19,7 +19,8 @@ class Census1910Record < ActiveRecord::Base
                         :profession, :industry, :employment, :notes
 
   before_validation  :set_profession_to_none_if_blank
-  validate           :validate_employment_status
+  validate           :validate_employment_status, unless: :taker_error?
+  validate           :validate_head_of_household, unless: :taker_error?
 
   define_enumeration :page_side, %w{A B}, true
   define_enumeration :street_prefix, %w{N S E W}
@@ -71,6 +72,14 @@ class Census1910Record < ActiveRecord::Base
     if employment == 'W'
       errors.add(:unemployed, "Required since Employment is W.") if unemployed.nil?
       errors.add(:unemployed_weeks_1909, "Required since Employment is W.") if unemployed_weeks_1909.blank?
+    end
+  end
+  def validate_head_of_household
+    if relation_to_head == 'Head'
+      errors.add(:owned_or_rented, "Required for head of household") if owned_or_rented.blank?
+      errors.add(:owned_or_rented, "Head of household either owns or rents.") if owned_or_rented == 'Neither'
+      errors.add(:mortgage, "Must be M or F for head of household.") if owned_or_rented == 'O' && mortgage.blank?
+      errors.add(:farm_or_house, "Must be F or H for head of household.") if owned_or_rented == 'O' && farm_or_house.blank?
     end
   end
 
