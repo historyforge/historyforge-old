@@ -22,6 +22,9 @@
   .col-xs-4= form.input :pob_mother
 
 .row
+  .col-xs-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+
+.row
   .col-xs-4= form.input :year_immigrated, as: :integer
   .col-xs-4= form.input :naturalized_alien, as: :select, collection: select_options_for(CensusRecord.naturalized_alien_choices)
   .col-xs-4= form.input :language_spoken

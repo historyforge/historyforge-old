@@ -37,7 +37,8 @@
     .panel-body
       = render 'fields', form: form
       = form.input :notes, as: :text
-
+      - if can?(:provisional, form.object)
+        = form.input :provisional, as: :boolean, inline_label: 'This record is provisional. We made it up from other sources because census record is missing or illegible.'
   .form-actions
     = form.submit 'Save', class: 'btn btn-primary btn-lg'
     span

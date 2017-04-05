@@ -30,7 +30,7 @@ class Ability
         can :manage, Gcp
         can :manage, Building
         can :manage, Architect
-        can :manage, CensusRecord
+        can :manage, Census1910Record
       end
 
       if user.has_role?("census taker")

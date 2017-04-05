@@ -73,6 +73,7 @@ json.filters do
   AttributeBuilder.text json, :pob
   AttributeBuilder.text json, :pob_father
   AttributeBuilder.text json, :pob_mother
+  AttributeBuilder.boolean json, :foreign_born
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.text json, :language_spoken
@@ -89,6 +90,7 @@ json.filters do
   AttributeBuilder.boolean json, :blind
   AttributeBuilder.enumeration json, Census1910Record, :civil_war_vet
   AttributeBuilder.boolean json, :deaf_dumb
+  AttributeBuilder.boolean json, :provisional
 
   json.notes do
     json.type 'text'
