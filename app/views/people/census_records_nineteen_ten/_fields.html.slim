@@ -17,12 +17,10 @@
   .col-xs-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
 
 .row
-  .col-xs-4= form.input :pob
-  .col-xs-4= form.input :pob_father
-  .col-xs-4= form.input :pob_mother
-
-.row
-  .col-xs-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+  .col-xs-3= form.input :pob
+  .col-xs-3= form.input :pob_father
+  .col-xs-3= form.input :pob_mother
+  .col-xs-3= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
 
 .row
   .col-xs-4= form.input :year_immigrated, as: :integer
