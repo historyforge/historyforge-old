@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170115023907) do
+ActiveRecord::Schema.define(version: 20170115034657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,8 @@ ActiveRecord::Schema.define(version: 20170115023907) do
     t.boolean  "deaf_dumb",                        default: false
     t.text     "notes"
     t.string   "civil_war_vet",         limit: 2
+    t.boolean  "provisional",                      default: false
+    t.boolean  "foreign_born",                     default: false
   end
 
   add_index "census_1910_records", ["building_id"], name: "index_census_1910_records_on_building_id", using: :btree
