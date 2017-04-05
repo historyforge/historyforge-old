@@ -1,5 +1,6 @@
 class Building < ActiveRecord::Base
 
+  include AutoStripAttributes
   include Moderation
 
   has_and_belongs_to_many :architects
@@ -39,6 +40,10 @@ class Building < ActiveRecord::Base
                                                                      parent.table[:address_street_suffix]
                                                                      ])])
   end
+
+  auto_strip_attributes :name, :city, :postal_code, :description, :address_house_number,
+                        :address_street_prefix, :address_house_number, :address_street_suffix,
+                        :stories, :annotations
 
   def full_street_address
     "#{[street_address, city, state].join(' ')} #{postal_code}"

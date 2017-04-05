@@ -1,5 +1,6 @@
 class Census1910Record < ActiveRecord::Base
 
+  include AutoStripAttributes
   include CensusRecordConcern
 
   self.table_name = 'census_1910_records'
@@ -16,6 +17,12 @@ class Census1910Record < ActiveRecord::Base
       validates_inclusion_of name, in: values
     end
   end
+
+  auto_strip_attributes :county, :city, :state,
+                        :street_prefix, :street_house_number, :street_name, :street_suffix,
+                        :dwelling_number, :family_id, :last_name, :first_name, :middle_name,
+                        :relation_to_head, :pob, :pob_father, :pob_mother,
+                        :profession, :industry, :employment, :notes
 
   define_enumeration :page_side, %w{A B}, true
   define_enumeration :street_prefix, %w{N S E W}
