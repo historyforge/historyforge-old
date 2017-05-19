@@ -78,6 +78,9 @@ h1.page-title= @record.name
           dt Place of Birth
           dd= @record.pob || 'blank'
         dl
+          dt Foreign Born
+          dd= @record.foreign_born? ? 'Yes' : 'No'
+        dl
           dt Father's POB
           dd= @record.pob_father || 'blank'
         dl
