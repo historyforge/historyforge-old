@@ -27,6 +27,14 @@ class BuildingsController < ApplicationController
     render action: :index
   end
 
+  def uninvestigated
+    @page_title = "Buildings - Need to Investigate"
+    authorize! :review, Building
+    params[:uninvestigated] = 1
+    load_buildings
+    render action: :index
+  end
+
   def new
     authorize! :create, Building
     @building = Building.new
@@ -97,6 +105,7 @@ class BuildingsController < ApplicationController
     authorize! :review, @building
     @building.reviewed_by = current_user
     @building.reviewed_at = Time.now
+    @building.investigate = false
     if @building.save
       flash[:notice] = 'Building reviewed.'
       redirect_to @building
@@ -158,6 +167,7 @@ class BuildingsController < ApplicationController
                                      :address_street_name, :address_street_suffix,
                                      :building_type_id, :lining_type_id, :frame_type_id,
                                      :lat, :lon, :architects_list,
+                                     :investigate, :investigate_reason,
                                      { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] })
   end
 

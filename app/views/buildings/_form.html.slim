@@ -86,6 +86,22 @@
               - if photo_form.object.persisted?
                 = photo_form.input :_destroy, inline_label: 'Delete photo on SAVE.', as: :boolean
 
+  - if !@building.reviewed? && can?(:review, @building)
+    .panel.panel-default
+      .panel-heading
+        h3 Investigation
+      .panel-body
+        = form.input :investigate, as: :boolean, inline_label: 'This building requires further investigation before it can be marked as reviewed.'
+        = form.input :investigate_reason
+        h5 Possible reasons:
+        ul
+          li The house number does not appear on the Sanborn map
+          li The Sanborn map does not cover this area
+          li The street name is different now than it was then
+          li The building does not yet have longitude/latitude entries
+          li There appears to have been a data entry error (i.e. this building contains only a daughter with no other family members)
+          li There are two instances of the same building
+
   .form-actions
     = form.submit 'Save', class: 'btn btn-primary btn-lg'
     - if !@building.reviewed? && can?(:review, @building)

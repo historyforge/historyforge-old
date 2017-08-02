@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     collection do
       get :unpeopled
       get :unreviewed
+      get :uninvestigated
       get :advanced_search_filters
     end
     member do

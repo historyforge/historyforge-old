@@ -12,6 +12,10 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     [street_house_number, street_prefix, street_name, street_suffix].join(' ')
   end
 
+  def foreign_born
+    model.foreign_born? ? 'Yes' : 'No'
+  end
+
   def method_missing(method, *args)
     model.send(method, *args)
   end

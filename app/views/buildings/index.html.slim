@@ -7,11 +7,12 @@
       = paginate @search
       = page_entries_info @search.scoped, entry_name: 'record'
     - if can?(:create, Building)
-      = link_to 'Add New', new_building_path, class: 'btn btn-default'
-      = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default'
+      = link_to 'Add New', new_building_path, class: 'btn btn-default btn-xs'
+      = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-default btn-xs'
       - if can?(:review, Building)
-        = link_to 'Unreviewed', unreviewed_buildings_path, class: 'btn btn-default'
-      = link_to 'All', buildings_path, class: 'btn btn-default'
+        = link_to 'Unreviewed', unreviewed_buildings_path, class: 'btn btn-default btn-xs'
+        = link_to 'Uninvestigated', uninvestigated_buildings_path, class: 'btn btn-default btn-xs'
+      = link_to 'All', buildings_path, class: 'btn btn-default btn-xs'
   h1.page-title= @page_title
 
   .row
@@ -44,7 +45,7 @@
 
 javascript:
   $('#new_s').advancedSearch({
-    url: '#{File.join(url_for().sub(/\/unpeopled|\/unreviewed/, ''), 'advanced_search_filters.json')}',
+    url: '/buildings/advanced_search_filters.json',
     cache: true,
     timestamp: #{AdvancedSearchFilterTimestamp.call('Building')},
     fields: #{@search.f.to_json.html_safe},

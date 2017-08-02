@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.9'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -40,6 +40,7 @@ gem 'ar_doc_store'
 gem 'geocoder'
 gem 'non-stupid-digest-assets'
 
+gem 'nokogiri', '1.6.8.1' # Because 1.8 won't compile with Ruby 2.0
 # Use unicorn as the app server
 # gem 'unicorn'
 

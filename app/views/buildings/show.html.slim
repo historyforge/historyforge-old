@@ -9,6 +9,12 @@ h1.page-title= @building.name
 
 .row
   .col-xs-8
+    - if can?(:review, @building) && @building.investigate?
+      .alert.alert-danger
+        | This building requires further investigation before it can be marked as reviewed.
+        - if @building.investigate_reason?
+          | &nbsp; &nbsp;
+          b= @building.investigate_reason
     .panel.panel-default
       .panel-heading
         h4.panel-title Details
