@@ -1,48 +1,19 @@
 .container
   .jumbotron
     h1 Explore Ithaca in 1910
-    p HistoryForge brings together the people who lived in Ithaca in 1910, the buildings in which they lived, and overlays them on a historical map of 1910 Ithaca.
+    p
+      | HistoryForge brings together the people who lived in Ithaca in 1910, the buildings in which they lived, and overlays them on a historical map of 1910 Ithaca. Read more about it on
+      =< link_to "The History Center website.", "https://thehistorycenter.net/historyforge", target: '_blank'
 
   .jumbotron
     h2 Historic Building Database
     p In cooperation with Historic Ithaca, The History Center has stocked HistoryForge with metadata and photographs of hundreds of structures. You can even see who lived there in 1910.
-    .row
-      .col-lg-12
-        => link_to 'Explore!', '/buildings', class: 'btn btn-lg btn-primary'
-        | &nbsp; OR CHECK OUT
-    .row
-      .col-lg-6
-        h4 Buildings built as of 1850
-      .col-lg-6
-        =< link_to 'Table', "/buildings?s[year_earliest_lteq]=1850", class: 'btn btn-primary'
-        =< link_to 'Map It', "/forge?buildings=1&s[year_earliest_lteq]=1850", class: 'btn btn-primary'
-    .row
-      .col-lg-6
-        h4 Henry St. John Historic District
-      .col-lg-6
-        =< link_to 'Table', "/buildings?s[block_number_eq]=Henry%20St.%20John%20Historic%20District&buildings=1", class: 'btn btn-primary'
-        =< link_to 'Map It', "/forge?buildings=1&s[block_number_eq]=Henry%20St.%20John%20Historic%20District&buildings=1", class: 'btn btn-primary'
+    p= link_to 'Explore!', '/buildings', class: 'btn btn-lg btn-primary'
 
   .jumbotron
     h2 1910 Census Database
     p The History Center has embarked on a mission to enter the 1910 census records for Ithaca into a searchable database, and incorporate this data into its programs and presentations.
-    p The task is both exciting and huge. Volunteer opportunities for data entry abound. Feel the world of 1910 come to life in your mind as you enter the details of a block of residents.
-    .row
-      .col-lg-12
-        => link_to 'Explore!', '/census/1910', class: 'btn btn-lg btn-primary'
-        | &nbsp;OR CHECK OUT
-    .row
-      .col-lg-6
-        h4 Italians in Ithaca
-      .col-lg-6
-        =< link_to 'Table', "/census/1910?c=name&d=asc&commit=Search&fs%5B%5D=census_scope&f%5B%5D=street_address&f%5B%5D=name&f%5B%5D=relation_to_head&f%5B%5D=sex&f%5B%5D=race&f%5B%5D=age&f%5B%5D=marital_status&f%5B%5D=pob&f%5B%5D=profession&f%5B%5D=industry&s%5Bpob_father_start%5D=It", class: 'btn btn-primary'
-        =< link_to 'Map It', "/forge?s%5Bpob_father_start%5D=It&c=name&d=asc&commit=Map+It&fs%5B%5D=census_scope&f%5B%5D=street_address&f%5B%5D=name&f%5B%5D=relation_to_head&f%5B%5D=sex&f%5B%5D=race&f%5B%5D=age&f%5B%5D=marital_status&f%5B%5D=pob&f%5B%5D=profession&f%5B%5D=industry&people=1910", class: 'btn btn-primary'
-    .row
-      .col-lg-6
-        h4 Divorced Ithacans Older than 30
-      .col-lg-6
-        =< link_to 'Table', "/census/1910?s%5Bage_gteq%5D=30&c=name&d=asc&fs%5B%5D=census_scope&fs%5B%5D=location&f%5B%5D=street_address&f%5B%5D=name&f%5B%5D=relation_to_head&f%5B%5D=sex&f%5B%5D=race&f%5B%5D=age&f%5B%5D=marital_status&f%5B%5D=pob&f%5B%5D=profession&f%5B%5D=industry&s%5Bmarital_status_in%5D%5B%5D=D", class: 'btn btn-primary'
-        =< link_to 'Map It', "/forge?s%5Bage_gteq%5D=30&c=name&d=asc&fs%5B%5D=census_scope&fs%5B%5D=location&f%5B%5D=street_address&f%5B%5D=name&f%5B%5D=relation_to_head&f%5B%5D=sex&f%5B%5D=race&f%5B%5D=age&f%5B%5D=marital_status&f%5B%5D=pob&f%5B%5D=profession&f%5B%5D=industry&s%5Bmarital_status_in%5D%5B%5D=D&people=1910", class: 'btn btn-primary'
+    p= link_to 'Explore!', '/census/1910', class: 'btn btn-lg btn-primary'
 
   .jumbotron
     h2 Virtual Map Library
