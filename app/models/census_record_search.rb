@@ -76,7 +76,7 @@ class CensusRecordSearch
     require 'csv'
     CSV.generate do |csv|
 
-      headers = []
+      headers = ['ID']
 
       columns.each do |field|
         headers << I18n.t("simple_form.labels.census_record.#{field}", default: field.humanize)
@@ -85,7 +85,7 @@ class CensusRecordSearch
       csv << headers
 
       self.to_a.each do |row|
-        row_results = []
+        row_results = [row.id]
         columns.each do |field|
           row_results << row.public_send(field)
         end
