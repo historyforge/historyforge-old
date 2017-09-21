@@ -117,9 +117,9 @@ class Change1900CensusRecords < ActiveRecord::Migration
       t.string   "employment"
 
       # t.boolean  "unemployed"
-      # t.boolean  "attended_school"
-      # t.boolean  "can_read"
-      # t.boolean  "can_write"
+      t.boolean  "attended_school"
+      t.boolean  "can_read"
+      t.boolean  "can_write"
       t.string   "owned_or_rented",       limit: 10
       t.string   "mortgage",              limit: 1
       t.string   "farm_or_house",         limit: 1

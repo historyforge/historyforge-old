@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170918124344) do
+ActiveRecord::Schema.define(version: 20170921123744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -261,6 +261,9 @@ ActiveRecord::Schema.define(version: 20170918124344) do
     t.string   "profession"
     t.string   "industry"
     t.string   "employment"
+    t.boolean  "attended_school"
+    t.boolean  "can_read"
+    t.boolean  "can_write"
     t.string   "owned_or_rented",      limit: 10
     t.string   "mortgage",             limit: 1
     t.string   "farm_or_house",        limit: 1
@@ -268,6 +271,10 @@ ActiveRecord::Schema.define(version: 20170918124344) do
     t.boolean  "provisional",                     default: false
     t.boolean  "foreign_born",                    default: false
     t.boolean  "taker_error",                     default: false
+    t.integer  "person_id"
+    t.integer  "building_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "client_applications", force: :cascade do |t|
@@ -566,5 +573,7 @@ ActiveRecord::Schema.define(version: 20170918124344) do
   add_foreign_key "census_1910_records", "people"
   add_foreign_key "census_1910_records", "users", column: "created_by_id"
   add_foreign_key "census_1910_records", "users", column: "reviewed_by_id"
+  add_foreign_key "census_1920_records", "buildings"
+  add_foreign_key "census_1920_records", "people"
   add_foreign_key "photos", "buildings"
 end

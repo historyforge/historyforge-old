@@ -9,6 +9,10 @@ class Building < ActiveRecord::Base
   belongs_to :lining_type, class_name: 'ConstructionMaterial'
   has_many :census_records, dependent: :nullify, class_name: 'Census1910Record'
 
+  has_many :census_1900_records, dependent: :nullify, class_name: 'Census1900Record'
+  has_many :census_1910_records, dependent: :nullify, class_name: 'Census1910Record'
+  has_many :census_1920_records, dependent: :nullify, class_name: 'Census1920Record'
+
   has_many :photos, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
 
