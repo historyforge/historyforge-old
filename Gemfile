@@ -36,7 +36,7 @@ gem 'active_model_serializers'
 gem 'ransack'
 gem 'acts_as_list'
 gem 'mini_magick'
-gem 'ar_doc_store'
+# gem 'ar_doc_store'
 gem 'geocoder'
 gem 'non-stupid-digest-assets'
 
