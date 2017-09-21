@@ -1,5 +1,4 @@
 json.filters do
-
   json.census_scope do
     json.label 'Census Schedule'
     json.sortable 'census_scope'
@@ -77,8 +76,8 @@ json.filters do
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.text json, :language_spoken
-  AttributeBuilder.text json, :profession
-  AttributeBuilder.text json, :industry
+  # AttributeBuilder.text json, :profession
+  # AttributeBuilder.text json, :industry
   AttributeBuilder.enumeration json, Census1910Record, :employment
   AttributeBuilder.boolean json, :unemployed
   AttributeBuilder.number json, :unemployed_weeks_1909
@@ -86,6 +85,7 @@ json.filters do
   AttributeBuilder.boolean json, :can_write
   AttributeBuilder.boolean json, :attended_school
   AttributeBuilder.enumeration json, Census1910Record, :owned_or_rented
+  AttributeBuilder.enumeration json, Census1910Record, :mortgage
   AttributeBuilder.enumeration json, Census1910Record, :farm_or_house
   AttributeBuilder.boolean json, :blind
   AttributeBuilder.enumeration json, Census1910Record, :civil_war_vet

@@ -1,5 +1,4 @@
 class People::CensusRecordsController < ApplicationController
-
   include RestoreSearch
 
   respond_to :json, only: :index
@@ -137,16 +136,16 @@ class People::CensusRecordsController < ApplicationController
   def after_saved
     if params[:then].present?
       attrs = []
-      attrs += case params[:then]
-      when 'enumeration'
-        %w{page_number page_side county city ward enum_dist}
-      when 'page'
-        %w{page_number page_side county city ward enum_dist}
-      when 'dwelling'
-        %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name}
-      when 'family'
-        %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id}
-      end
+      attrs +=  case params[:then]
+                when 'enumeration'
+                  %w{page_number page_side county city ward enum_dist}
+                when 'page'
+                  %w{page_number page_side county city ward enum_dist}
+                when 'dwelling'
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name}
+                when 'family'
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id}
+                end
       attributes = attrs.inject({}) {|hash, item|
         hash[item] = @record.public_send(item)
         hash
@@ -159,9 +158,11 @@ class People::CensusRecordsController < ApplicationController
 
   def load_census_records
     authorize! :read, resource_class
-    @search = CensusRecordSearch.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?
+    @search = census_record_search_class.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?
     @records = @search.to_a
   end
+
+  def census_record_search_class; end
 
   helper_method :resource_path,
                 :edit_resource_path,
@@ -172,6 +173,4 @@ class People::CensusRecordsController < ApplicationController
                 :unhoused_collection_path,
                 :unreviewed_collection_path,
                 :resource_class
-
-
 end

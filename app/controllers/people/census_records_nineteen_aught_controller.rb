@@ -1,5 +1,4 @@
 class People::CensusRecordsNineteenAughtController < People::CensusRecordsController
-
   def resource_path(*args)
     census1900_record_path(*args)
   end
@@ -42,6 +41,7 @@ class People::CensusRecordsNineteenAughtController < People::CensusRecordsContro
     '1900 Census Records'
   end
 
-
-
+  def census_record_search_class
+    CensusRecord1900Search
+  end
 end

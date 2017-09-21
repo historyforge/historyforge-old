@@ -55,6 +55,10 @@ en:
         year_earliest: 'Year Built'
         year_latest: 'Year Demolished'
         name: 'Building Name'
+        years_in_us: 'Years in US'
+        mother_tongue_father: 'Mother Tongue - Father'
+        mother_tongue_mother: 'Mother Tongue - Mother'
+        mother_tongue: 'Mother Tongue'
 
     hints:
       building:
