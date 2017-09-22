@@ -1,0 +1,101 @@
+.row
+  .col-xs-4
+    dl
+      dt Address
+      dd= @record.street_address || 'blank'
+    dl
+      dt Relation to Head
+      dd= @record.relation_to_head.andand.capitalize || 'blank'
+    dl
+      dt Sex
+      dd= @record.sex || 'blank'
+    dl
+      dt Race
+      dd= @record.race || 'blank'
+    dl
+      dt Age in 1909
+      dd= @record.age || 'blank'
+    dl
+      dt Place of Birth
+      dd= @record.pob || 'blank'
+    dl
+      dt Foreign Born
+      dd= @record.foreign_born? ? 'Yes' : 'No'
+    dl
+      dt Father's POB
+      dd= @record.pob_father || 'blank'
+    dl
+      dt Mother's POB
+      dd= @record.pob_mother || 'blank'
+    - if @record.year_immigrated?
+      dl
+        dt Year Immigrated
+        dd= @record.year_immigrated
+    dl
+      dt Naturalized Alien?
+      dd= @record.naturalized_alien || 'blank'
+    dl
+      dt Language Spoken
+      dd= @record.language_spoken || 'blank'
+
+  .col-xs-4
+    dl
+      dt Marital Status
+      dd= @record.marital_status || 'blank'
+    dl
+      dt Years Married
+      dd= @record.years_married || 'blank'
+    dl
+      dt Num Children Born
+      dd= @record.num_children_born || 'blank'
+    dl
+      dt Num Children Alive
+      dd= @record.num_children_alive || 'blank'
+    dl
+      dt Owned or Rented?
+      dd= @record.owned_or_rented || 'blank'
+    dl
+      dt Mortgage?
+      dd= @record.mortgage || 'blank'
+    dl
+      dt Farm or House?
+      dd= @record.farm_or_house || 'blank'
+
+  .col-xs-4
+    - if @record.profession.present?
+      dl
+        dt Profession
+        dd= @record.profession
+    - if @record.industry?
+      dl
+        dt Industry
+        dd= @record.industry
+    - if @record.employment?
+      dl
+        dt Employment
+        dd= @record.employment
+    dl
+      dt Without work?
+      dd= yes_no_na @record.unemployed
+    - if @record.unemployed_weeks_1909?
+      dl
+        dt Weeks w/o work 1909
+        dd= @record.unemployed_weeks_1909
+    dl
+      dt Can read?
+      dd= yes_no_na @record.can_read
+    dl
+      dt Can write?
+      dd= yes_no_na @record.can_write
+    dl
+      dt Attended school?
+      dd= yes_no_na @record.attended_school
+    dl
+      dt Civil War Vet?
+      dd= @record.civil_war_vet || 'blank'
+    dl
+      dt Blind?
+      dd= @record.blind? ? 'Yes' : 'blank'
+    dl
+      dt Deaf & Dumb?
+      dd= @record.deaf_dumb? ? 'Yes' : 'blank '
