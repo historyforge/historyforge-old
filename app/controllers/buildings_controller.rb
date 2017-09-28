@@ -167,7 +167,7 @@ class BuildingsController < ApplicationController
                                      :address_street_name, :address_street_suffix,
                                      :building_type_id, :lining_type_id, :frame_type_id,
                                      :lat, :lon, :architects_list,
-                                     :investigate, :investigate_reason,
+                                     :investigate, :investigate_reason, :notes,
                                      { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] })
   end
 

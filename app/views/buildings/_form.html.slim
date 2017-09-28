@@ -102,6 +102,12 @@
           li There appears to have been a data entry error (i.e. this building contains only a daughter with no other family members)
           li There are two instances of the same building
 
+  .panel.panel-default
+    .panel-heading
+      h4.panel-title Additional Notes
+    .panel-body
+      = form.input :notes, input_html: { rows: 12 }
+
   .form-actions
     = form.submit 'Save', class: 'btn btn-primary btn-lg'
     - if !@building.reviewed? && can?(:review, @building)

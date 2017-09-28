@@ -51,7 +51,7 @@ class BuildingSearch
       @f << 'investigate_reason' if uninvestigated
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
-      @scoped = entity_class.includes(:building_type).ransack(rp).result
+      @scoped = entity_class.includes(:building_type, :architects).ransack(rp).result
       add_order_clause
       @scoped = @scoped.without_residents if unpeopled
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed
@@ -59,7 +59,7 @@ class BuildingSearch
 
       @scoped = @scoped.page(page).per(per)
       if expanded
-        @scoped = @scoped.includes(:architects, :photos, :census_1900_records, :census_1910_records, :census_1920_records)
+        @scoped = @scoped.includes(:photos, :census_1900_records, :census_1910_records, :census_1920_records)
         if people.present?
           people_class = "Census#{people}Record".constantize
           people = people_class.where.not(reviewed_at: nil)
@@ -73,14 +73,6 @@ class BuildingSearch
           if people.present?
             @residents = people.group_by(&:building_id)
             @scoped = @scoped.where(id: @residents.keys)
-            # people.each do |bid, people|
-            #   building = @scoped.detect {|bldg| bldg.id == bid}
-            #   if building
-            #     building.residents = people
-            #     actual_buildings << building
-            #   end
-            # end
-            # @scoped = actual_buildings
           end
         end
 

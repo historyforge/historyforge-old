@@ -95,6 +95,13 @@ h1.page-title= @building.name
                       td= row.age
                       td= row.relation_to_head
                       td= row.profession
+    - if @building.notes?
+      .panel.panel-default
+        .panel-heading
+          h4.panel-title Additional Notes
+        .panel-body
+          = simple_format @building.notes
+
 
   .col-xs-4
     - if @building.lat?

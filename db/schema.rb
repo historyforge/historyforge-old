@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921123744) do
+ActiveRecord::Schema.define(version: 20170928160042) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,7 @@ ActiveRecord::Schema.define(version: 20170921123744) do
     t.datetime "reviewed_at"
     t.boolean  "investigate",                                     default: false
     t.string   "investigate_reason"
+    t.text     "notes"
   end
 
   add_index "buildings", ["building_type_id"], name: "index_buildings_on_building_type_id", using: :btree
