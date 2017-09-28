@@ -36,7 +36,9 @@ class CensusRecordSearch
         if @c == 'census_scope'
           add_census_page_order_clause
         elsif @c == 'name'
-          @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
+          add_name_order_clause
+        elsif @c == 'street_address'
+          add_street_address_order_clause
         else
           add_regular_order_clause
         end
@@ -45,8 +47,16 @@ class CensusRecordSearch
 
   end
 
+  def add_street_address_order_clause
+    @scoped = @scoped.order entity_class.send(:sanitize_sql, "street_name #{@d}, street_prefix #{@d}, street_house_number #{@d}, street_suffix #{@d}")
+  end
+
   def add_census_page_order_clause
     @scoped = @scoped.order entity_class.send(:sanitize_sql, "ward #{@d}, enum_dist #{@d}, page_number #{@d}, page_side #{@d}, line_number #{@d}")
+  end
+
+  def add_name_order_clause
+    @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
   end
 
   def add_regular_order_clause
