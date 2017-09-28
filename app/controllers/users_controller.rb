@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
   layout 'application'
 
-  before_filter :authenticate_user!, :only => [:show, :edit, :update]
+  before_filter :authenticate_user!, only: [:show, :edit, :update]
 
-  before_filter :check_super_user_role, :only => [:index, :new, :create, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
+  before_filter :check_super_user_role, only: [:index, :new, :create, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
 
-  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+  rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
   # helper :sort
   # include SortHelper
@@ -57,7 +57,7 @@ class UsersController < ApplicationController
     respond_to do | format |
       format.html {}
       format.js {}
-      format.json {render :json => {:stat => "ok",:items => @user.to_a}.to_json(:only =>[:login, :created_at, :stat, :items, :enabled ])  }
+      format.json {render json: {stat: "ok",items: @user.to_a}.to_json(only: [:login, :created_at, :stat, :items, :enabled ])  }
     end
 
   end
@@ -96,7 +96,7 @@ class UsersController < ApplicationController
       redirect_to user_path(@user)
     else
       @html_title = "Edit User Settings"
-      render :action => 'edit'
+      render action: 'edit'
     end
   end
 
@@ -111,14 +111,17 @@ class UsersController < ApplicationController
     else
       flash[:error] = "Admins cannot be destroyed"
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
+  rescue PG::ForeignKeyViolation
+    flash[:error] = "Cannot delete error because they have added records, such as building and census records, that we would prefer not to delete or orphan. We suggest you disable the user instead."
+    redirect_to action: 'index'
   end
 
   def disable_and_reset
     @user = User.find(params[:id])
     if @user.provider?
       flash[:error] = "Sorry, users from other providers are not able to be reset"
-      return redirect_to :action => 'show'
+      return redirect_to action: 'show'
     end
     unless @user.has_role?("administrator") ||  @user.has_role?("super user")
       generated_password = Devise.friendly_token.first(8)
@@ -137,7 +140,7 @@ class UsersController < ApplicationController
       flash[:error] = "Admins cannot be disabled and reset, sorry"
     end
 
-    redirect_to :action => 'show'
+    redirect_to action: 'show'
   end
 
   def disable
@@ -147,7 +150,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = "There was a problem disabling this user."
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   def enable
@@ -157,7 +160,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = "There was a problem enabling this user."
     end
-    redirect_to :action => 'index'
+    redirect_to action: 'index'
   end
 
   def bad_record
@@ -166,7 +169,7 @@ class UsersController < ApplicationController
         flash[:notice] = "User not found"
         redirect_to root_path
       end
-      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+      format.json {render json: {stat: "not found", items: []}.to_json, status: 404}
     end
   end
 
