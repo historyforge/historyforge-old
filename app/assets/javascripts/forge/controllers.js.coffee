@@ -10,9 +10,10 @@ forgeApp.MainController.$inject = ['$rootScope', '$scope']
 
 forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) ->
   $scope.form = {}
-  $scope.form.showOnlyMapBuildings = yes
   $scope.form.buildingType = null
+  $scope.form.buildingYear = null
   $scope.buildingTypes = window.buildingTypes
+  $scope.buildingYears = [null, 1900, 1910, 1920, 1930]
   $scope.buildingTypes.unshift name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form
@@ -24,6 +25,12 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $rootScope.$on 'layers:selected', (event, layer) ->
     $scope.layer = layer
 
+  $rootScope.$on 'buildings:updated', (event) ->
+    $scope.meta = BuildingService.meta
+
+  $scope.setPage = (page) =>
+    $scope.form.page = page
+    BuildingService.load $scope.form
 
   BuildingService.load $scope.form
   LayerService.load()
@@ -45,14 +52,15 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       fitToBoundingBox(map, $scope.layer.bbox)
       wmslayer = loadWMS map, url
 
-  $rootScope.$on 'buildings:updated', (event, buildings) ->
-    $scope.buildings = buildings
+  $rootScope.$on 'buildings:updated', (event) ->
+    $scope.buildings = BuildingService.buildings
+    $scope.meta = BuildingService.meta
 
   $rootScope.$on 'viewMode:changed', (event, viewMode) ->
     if $scope.layer
       NgMap.getMap().then (map) ->
-        map.hideInfoWindow(currentWindowId) if currentWindowId
         fn = ->
+          map.hideInfoWindow('building-iw')
           google.maps.event.trigger(map, "resize")
           $('#forge-right-col').removeAttr('style')
           $timeout (fitToBoundingBox(map, $scope.layer.bbox)), 100
@@ -76,10 +84,9 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.showBuilding = (event, selectedBuilding) ->
     if $scope.viewMode is 'map'
       NgMap.getMap().then (map) =>
-        map.hideInfoWindow(currentWindowId) if currentWindowId
-        currentWindowId = "building-iw-#{selectedBuilding.id}"
+        map.hideInfoWindow('building-iw')
         $scope.currentBuilding = selectedBuilding
-        map.showInfoWindow.apply this, [event, currentWindowId] #"building-marker-#{selectedBuilding.id}"
+        map.showInfoWindow.apply this, [event, "building-iw"] #"building-marker-#{selectedBuilding.id}"
     else if $scope.viewMode is 'list'
       $anchorScroll.yOffset = 100
       $anchorScroll "building-#{selectedBuilding.id}"

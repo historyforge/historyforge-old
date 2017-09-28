@@ -15,19 +15,19 @@
 
     <div class="col-xs-12">
       <div class="row">
-        <div class="col-lg-4 col-sm-12">
+        <div class="col-lg-4 col-sm-4">
           <label for="layer-select" class="control-label">Map Layer</label>
         </div>
-        <div class="col-lg-8 col-sm-12">
+        <div class="col-lg-8 col-sm-8">
           <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
         </div>
       </div>
       <% if params[:buildings].blank? %>
         <div class="row">
-          <div class="col-lg-4 col-sm-12">
+          <div class="col-lg-4 col-sm-4">
             <label for="show-building-types">Buildings</label>
           </div>
-          <div class="col-lg-8 col-sm-12">
+          <div class="col-lg-8 col-sm-8">
             <select id="show-building-types" class="form-control"
                     ng-model="form.buildingType"
                     ng-options="item as item.name for item in buildingTypes track by item.id"
@@ -35,16 +35,31 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-8 col-lg-offset-4 col-sm-12">
-            <label for="show-only-map-buildings">
-              <input type="checkbox" ng-model="form.showOnlyMapBuildings" id="show_only_map_buildings" ng-change="applyFilters()">
-              1910 buildings only?
-            </label>
+          <div class="col-lg-4 col-sm-4">
+            <label for="show-building-years">Year</label>
+          </div>
+          <div class="col-lg-8 col-sm-8">
+            <select id="show-building-years" class="form-control"
+                    ng-model="form.buildingYear"
+                    ng-options="year for year in buildingYears"
+                    ng-change="applyFilters()"></select>
           </div>
         </div>
       <% else %>
       <!-- TODO: list building filters -->
       <% end %>
+      <div class="row" ng-if="meta">
+        <div class="col-sm-12">
+          {{ meta.info }}
+          <br />
+          Page &nbsp;
+          <a class="btn btn-xs btn-default" ng-click="setPage(1)" ng-if="meta.current_page != 1">1</a>
+          <a class="btn btn-xs btn-default" ng-click="setPage(meta.prev_page)" ng-if="meta.prev_page && meta.prev_page != 1">{{ meta.prev_page }}</a>
+          {{ meta.current_page }}
+          <a class="btn btn-xs btn-default" ng-click="setPage(meta.next_page)" ng-if="meta.next_page">{{ meta.next_page }}</a>
+          <a class="btn btn-xs btn-default" ng-click="setPage(meta.total_pages)" ng-if="meta.current_page != meta.total_pages">{{ meta.total_pages }}</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>

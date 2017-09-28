@@ -4,14 +4,14 @@ forgeApp.BuildingService = ($http, $rootScope) ->
   $http.defaults.headers.common.Accept = 'application/json'
   return {
     buildings: null
+    meta: null
     load: (form) ->
-
       params = {}
       if window.forgeSearchParams?.buildings?
         params.s = window.forgeSearchParams.s
       else
         params.s or= {}
-        params.s.as_of_year = 1910 if form.showOnlyMapBuildings
+        params.s.as_of_year = form.buildingYear if form.buildingYear
         params.s.building_type_id_eq = form.buildingType.id if form.buildingType
 
         # TODO: allow search of building and people by redoing forgeSearchParams
@@ -19,10 +19,12 @@ forgeApp.BuildingService = ($http, $rootScope) ->
           params.people = window.forgeSearchParams.people
           params.peopleParams = window.forgeSearchParams.s
       params.s.lat_not_null = 1
+      params.page = form.page || 1
 
       $http.get('/buildings.json', params: params).then (response) =>
         @buildings = response.data?.buildings or []
-        $rootScope.$broadcast 'buildings:updated', @buildings
+        @meta = response.data?.meta
+        $rootScope.$broadcast 'buildings:updated'
       return
     save: (building) ->
       token = $('meta[name=csrf-token]').attr('content')

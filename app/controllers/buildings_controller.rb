@@ -175,13 +175,13 @@ class BuildingsController < ApplicationController
     authorize! :read, Building
     massage_params
 
-    @search = BuildingSearch.generate params: params, user: current_user, paged: request.format.html?
-    @buildings = @search.to_a
+    @search = BuildingSearch.generate params: params, user: current_user, paged: true, per: 50
 
     if request.format.json?
-      @buildings = @buildings.map {|building| BuildingSerializer.new(building, root: false) }
+      @search.expanded = true
+      @buildings = @search.as_json
     else
-      @buildings = @buildings.map {|building| BuildingPresenter.new(building, current_user) }
+      @buildings = @search.to_a.map {|building| BuildingPresenter.new(building, current_user) }
     end
 
   end

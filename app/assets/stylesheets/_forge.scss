@@ -23,6 +23,9 @@ ng-map {
   width:30%;
   padding-top:15px;
   padding-bottom:15px;
+  background-color:rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  box-shadow: 4px 4px 4px #888;
   .btn-group {
     margin-bottom:12px;
   }
@@ -74,9 +77,6 @@ ng-map {
     bottom:0px;
   }
   #forge-right-col {
-    background-color:rgba(255, 255, 255, 0.7);
-    border-radius: 6px;
-    box-shadow: 4px 4px 4px #888;
     cursor: move;
   }
 }
@@ -88,7 +88,7 @@ ng-map {
     width: 30%;
     height:300px;
     right:20px;
-    top:280px;
+    bottom:20px;
   }
 
   #building-list {

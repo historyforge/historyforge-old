@@ -21,27 +21,29 @@
         <span ng-if="hasArchitects">Architects: {{ architectNames }}</span></span>
       </p>
 
-      <div ng-if="building.census_records.length > 0">
-        <h5>1910 Residents</h5>
-        <table class="table table-condensed" style="min-width:600px">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Race</th>
-              <th>Sex</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="person in building.census_records">
-              <td><a href="/census_records/{{person.id}}" target="_blank">{{ person.name }}</a></td>
-              <td>{{ person.age }}</td>
-              <td>{{ person.race }}</td>
-              <td>{{ person.sex }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div ng-repeat="year in [1900, 1910, 1920, 1930]">
+        <div ng-if="building.census_records[year].length">
+          <h5>{{ year }} Residents</h5>
+          <table class="table table-condensed" style="min-width:600px">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Race</th>
+                <th>Sex</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="person in building.census_records[year]">
+                <td><a href="/census/{{year}}/{{person.id}}" target="_blank">{{ person.name }}</a></td>
+                <td>{{ person.age }}</td>
+                <td>{{ person.race }}</td>
+                <td>{{ person.sex }}</td>
+              </tr>
+            </tbody>
+          </table>
 
+        </div>
       </div>
 
     </div>

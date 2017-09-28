@@ -72,28 +72,29 @@ h1.page-title= @building.name
                 = picture_tag photo: photo, style: 'quarter', img_class: 'img-thumbnail'
                 = simple_format photo.full_caption
 
-    - if @building.residents.present?
-      .panel.panel-default
-        .panel-heading
-          h4.panel-title Residents in 1910
-        .panel-body
-          - @building.families.each do |id, family|
-            table.table.table-condensed.table-bordered
-              thead
-                tr
-                  th Name
-                  th Sex
-                  th Age
-                  th Relation
-                  th Profession
-              tbody
-                - family.each do |row|
+    - %w[1900 1910 1920].each do |year|
+      - if @building.public_send("census_#{year}_records").present?
+        .panel.panel-default
+          .panel-heading
+            h4.panel-title= "Residents in #{year}"
+          .panel-body
+            - @building.public_send("families_in_#{year}").each do |id, family|
+              table.table.table-condensed.table-bordered
+                thead
                   tr
-                    td= link_to row.name, row
-                    td= row.sex
-                    td= row.age
-                    td= row.relation_to_head
-                    td= row.profession
+                    th Name
+                    th Sex
+                    th Age
+                    th Relation
+                    th Profession
+                tbody
+                  - family.each do |row|
+                    tr
+                      td= link_to row.name, row
+                      td= row.sex
+                      td= row.age
+                      td= row.relation_to_head
+                      td= row.profession
 
   .col-xs-4
     - if @building.lat?

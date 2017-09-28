@@ -4,7 +4,7 @@ class BuildingSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled, :unreviewed, :uninvestigated, :people, :people_params
+  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled, :unreviewed, :uninvestigated, :people, :people_params, :expanded
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -14,6 +14,13 @@ class BuildingSearch
 
   def to_a
     @results ||= scoped.to_a #.map {|row| BuildingPresenter.new(row, user) }
+  end
+
+  def as_json
+    {
+      buildings: scoped.to_a.map { |building| BuildingSerializer.new(building, root: false) },
+      meta: pagination_dict(scoped)
+    }
   end
 
   def ransack_params
@@ -43,10 +50,9 @@ class BuildingSearch
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed
       @scoped = @scoped.where(investigate: true) if uninvestigated
 
-      if paged?
-        @scoped = @scoped.page(page).per(per)
-      else
-        @scoped = @scoped.includes(:architects, :photos)
+      @scoped = @scoped.page(page).per(per)
+      if expanded
+        @scoped = @scoped.includes(:architects, :photos, :census_1900_records, :census_1910_records, :census_1920_records)
         if people.present?
           if people == '1910'
             actual_buildings = []
@@ -168,4 +174,21 @@ class BuildingSearch
     %w{}
   end
 
+  def pagination_dict(object)
+    info =  if object.total_pages < 2
+              "All #{object.total_count} record(s)."
+            else
+              first = object.offset_value + 1
+              last = object.last_page? ? object.total_count : object.offset_value + object.limit_value
+              "#{first}-#{last} of #{object.total_count} records."
+            end
+    {
+      current_page: object.current_page,
+      next_page: object.next_page,
+      prev_page: object.prev_page,
+      total_pages: object.total_pages,
+      total_count: object.total_count,
+      info: info
+    }
+  end
 end

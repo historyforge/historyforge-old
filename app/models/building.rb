@@ -95,4 +95,13 @@ class Building < ActiveRecord::Base
     end
   end
 
+  def families_in_1900
+    census_1900_records.group_by(&:dwelling_number)
+  end
+  def families_in_1910
+    census_1910_records.group_by(&:dwelling_number)
+  end
+  def families_in_1920
+    census_1920_records.group_by(&:dwelling_number)
+  end
 end
