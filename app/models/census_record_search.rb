@@ -97,7 +97,7 @@ class CensusRecordSearch
       self.to_a.each do |row|
         row_results = [row.id]
         columns.each do |field|
-          row_results << row.public_send(field)
+          row_results << row.field_for(field)
         end
         csv << row_results
       end
@@ -114,7 +114,11 @@ class CensusRecordSearch
   end
 
   def columns
-    @columns ||= (fieldsets.map {|fs| Set.new public_send("#{fs}_fields") } + [Set.new(f)]).reduce(&:union)
+    return @columns if defined?(@columns)
+    @columns = (fieldsets.map { |fs|
+      method = "#{fs}_fields"
+      respond_to?(method) ? Set.new(public_send(method)) : nil
+    }.compact + [Set.new(f)]).reduce(&:union)
   end
 
   def fieldsets

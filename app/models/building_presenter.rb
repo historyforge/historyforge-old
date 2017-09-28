@@ -5,7 +5,7 @@ class BuildingPresenter < Struct.new(:model, :user)
   end
 
   def building_type
-    model.building_type_name.andand.capitalize
+    model.building_type_name.andand.capitalize || 'Unknown'
   end
 
   def street_address
@@ -42,8 +42,14 @@ class BuildingPresenter < Struct.new(:model, :user)
     model.stories.present? ? (model.stories % 1 == 0 ? model.stories.to_i : model.stories) : 'Unknown'
   end
 
+  def field_for(field)
+    return public_send(field) if respond_to?(field)
+    return model.public_send(field) if model.respond_to?(field)
+    '?'
+  end
+
   def method_missing(method, *args)
-    model.send(method, *args)
+    model.public_send(method, *args)
   end
 
 

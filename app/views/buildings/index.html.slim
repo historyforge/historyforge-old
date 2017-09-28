@@ -35,7 +35,7 @@
               tr
                 - @search.f.each_with_index do |field, i|
                   td
-                    = record.public_send field
+                    = record.field_for field
                     - if i == 0 && !record.reviewed?
                       span.label.label-danger< NEW
                 td style="text-align:right;white-space:nowrap"

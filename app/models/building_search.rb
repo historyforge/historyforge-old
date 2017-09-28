@@ -136,7 +136,7 @@ class BuildingSearch
       self.to_a.each do |row|
         row_results = []
         columns.each do |field|
-          row_results << row.public_send(field)
+          row_results << row.field_for(field)
         end
         csv << row_results
       end

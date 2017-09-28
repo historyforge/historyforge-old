@@ -51,6 +51,10 @@ class CensusRecord < ActiveRecord::Base
                                                                      ])])
   end
 
+  def field_for(field)
+    respond_to?(field) ? public_send(field) : '?'
+  end
+
   def dont_add_same_person
     if new_record? && likely_matches?
       errors.add :last_name, 'A person with the same street number, street name, last name, and first name is already in the system.'

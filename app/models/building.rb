@@ -49,6 +49,10 @@ class Building < ActiveRecord::Base
                         :address_street_prefix, :address_house_number, :address_street_suffix,
                         :stories, :annotations
 
+  def field_for(field)
+    respond_to?(field) ? public_send(field) : '?'
+  end
+
   def full_street_address
     "#{[street_address, city, state].join(' ')} #{postal_code}"
   end

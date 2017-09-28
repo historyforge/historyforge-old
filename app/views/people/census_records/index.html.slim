@@ -38,7 +38,7 @@
               tr
                 - @search.columns.each_with_index do |field, i|
                   td
-                    = row.public_send field
+                    = row.field_for field
                 td
                   = link_to "View", row, class: 'btn btn-default btn-xs'
                   - unless row.reviewed?
