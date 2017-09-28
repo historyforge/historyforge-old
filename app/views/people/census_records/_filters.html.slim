@@ -17,7 +17,7 @@
       br
     .form-actions.panel-footer
       = form.submit 'Search', class: 'btn btn-sm btn-primary'
-      =< form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
+      =< form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map', data: { year: controller.year }
       =< link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-default'
 
   .modal.fade id="showFieldsForm"

@@ -13,12 +13,19 @@ class BuildingSearch
   validates :t, presence: true
 
   def to_a
-    @results ||= scoped.to_a #.map {|row| BuildingPresenter.new(row, user) }
+    return @results if defined?(@results)
+    @results = scoped.to_a
+    if @residents
+      @results.each do |result|
+        result.residents = @residents[result.id]
+      end
+    end
+    @results
   end
 
   def as_json
     {
-      buildings: scoped.to_a.map { |building| BuildingSerializer.new(building, root: false) },
+      buildings: to_a.map { |building| BuildingSerializer.new(building, root: false) },
       meta: pagination_dict(scoped)
     }
   end
@@ -54,24 +61,26 @@ class BuildingSearch
       if expanded
         @scoped = @scoped.includes(:architects, :photos, :census_1900_records, :census_1910_records, :census_1920_records)
         if people.present?
-          if people == '1910'
-            actual_buildings = []
+          people_class = "Census#{people}Record".constantize
+          people = people_class.where.not(reviewed_at: nil)
+          if people_params.present?
             q = people_params.inject({}) {|hash, item|
               hash[item[0].to_sym] = item[1] if item[1].present?
               hash
             }
-            people = Census1910Record.where.not(reviewed_at: nil).ransack(q).result
-            if people.present?
-              people = people.group_by(&:building_id)
-              people.each do |bid, people|
-                building = @scoped.detect {|bldg| bldg.id == bid}
-                if building
-                  building.residents = people
-                  actual_buildings << building
-                end
-              end
-            end
-            @scoped = actual_buildings
+            people = people.ransack(q).result
+          end
+          if people.present?
+            @residents = people.group_by(&:building_id)
+            @scoped = @scoped.where(id: @residents.keys)
+            # people.each do |bid, people|
+            #   building = @scoped.detect {|bldg| bldg.id == bid}
+            #   if building
+            #     building.residents = people
+            #     actual_buildings << building
+            #   end
+            # end
+            # @scoped = actual_buildings
           end
         end
 

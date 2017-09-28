@@ -82,10 +82,7 @@ class Building < ActiveRecord::Base
     lat? ? Building.near([lat, lon], 0.1).where('id<>?', id).limit(4) : []
   end
 
-  attr_writer :residents
-  def residents
-    @residents ||= census_records
-  end
+  attr_accessor :residents
 
   def families
     @families = if residents

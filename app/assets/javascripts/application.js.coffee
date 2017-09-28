@@ -33,7 +33,8 @@ $(document).on 'click', '#search-map', ->
   if document.location.toString().match(/building/)
     $form.append "<input type=\"hidden\" name=\"buildings\" value=\"1\">"
   else
-    $form.append "<input type=\"hidden\" name=\"people\" value=\"1910\">"
+    year = $(this).data('year')
+    $form.append "<input type=\"hidden\" name=\"people\" value=\"#{year}\">"
   $form.attr 'action', '/forge'
   $form.submit()
 

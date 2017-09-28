@@ -31,6 +31,10 @@ class People::CensusRecordsNineteenAughtController < People::CensusRecordsContro
     unhoused_census1900_records_path(*args)
   end
 
+  def year
+    1900
+  end
+
   private
 
   def resource_class
