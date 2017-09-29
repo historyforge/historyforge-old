@@ -13,7 +13,7 @@ class Building < ActiveRecord::Base
   has_many :census_1910_records, dependent: :nullify, class_name: 'Census1910Record'
   has_many :census_1920_records, dependent: :nullify, class_name: 'Census1920Record'
 
-  has_many :photos, -> { order(:position) }, dependent: :destroy
+  has_and_belongs_to_many :photos #, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
 
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
@@ -31,8 +31,6 @@ class Building < ActiveRecord::Base
 
   geocoded_by :full_street_address, latitude: :lat, longitude: :lon
   after_validation :do_the_geocode, if: :new_record?
-
-  # [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
 
   ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',

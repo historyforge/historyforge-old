@@ -6,6 +6,7 @@ class CensusRecord < ActiveRecord::Base
   include Moderation
 
   belongs_to :building
+  belongs_to :person
 
   attr_accessor :ensure_building
   before_save :ensure_housing
@@ -162,5 +163,15 @@ class CensusRecord < ActiveRecord::Base
 
   def year
     raise 'Need a year!'
+  end
+
+  def generate_person_record!
+    build_person
+    person.first_name = first_name
+    person.middle_name = middle_name
+    person.last_name = last_name
+    person.sex = sex
+    person.race = race
+    person.save
   end
 end

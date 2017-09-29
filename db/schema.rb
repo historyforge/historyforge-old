@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928160042) do
+ActiveRecord::Schema.define(version: 20170929135029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,6 +93,11 @@ ActiveRecord::Schema.define(version: 20170928160042) do
   add_index "buildings", ["frame_type_id"], name: "index_buildings_on_frame_type_id", using: :btree
   add_index "buildings", ["lining_type_id"], name: "index_buildings_on_lining_type_id", using: :btree
   add_index "buildings", ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id", using: :btree
+
+  create_table "buildings_photos", id: false, force: :cascade do |t|
+    t.integer "building_id"
+    t.integer "photo_id"
+  end
 
   create_table "census_1900_records", force: :cascade do |t|
     t.jsonb    "data"
@@ -485,9 +490,18 @@ ActiveRecord::Schema.define(version: 20170928160042) do
   add_index "oauth_tokens", ["token"], name: "index_oauth_tokens_on_token", unique: true, using: :btree
 
   create_table "people", force: :cascade do |t|
-    t.jsonb    "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.string   "last_name"
+    t.string   "first_name"
+    t.string   "middle_name"
+    t.string   "sex",         limit: 1
+    t.string   "race",        limit: 1
+  end
+
+  create_table "people_photos", id: false, force: :cascade do |t|
+    t.integer "person_id"
+    t.integer "photo_id"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -568,6 +582,8 @@ ActiveRecord::Schema.define(version: 20170928160042) do
   add_foreign_key "buildings", "building_types"
   add_foreign_key "buildings", "users", column: "created_by_id"
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
+  add_foreign_key "buildings_photos", "buildings"
+  add_foreign_key "buildings_photos", "photos"
   add_foreign_key "census_1900_records", "buildings"
   add_foreign_key "census_1900_records", "people"
   add_foreign_key "census_1910_records", "buildings"
@@ -576,5 +592,7 @@ ActiveRecord::Schema.define(version: 20170928160042) do
   add_foreign_key "census_1910_records", "users", column: "reviewed_by_id"
   add_foreign_key "census_1920_records", "buildings"
   add_foreign_key "census_1920_records", "people"
+  add_foreign_key "people_photos", "people"
+  add_foreign_key "people_photos", "photos"
   add_foreign_key "photos", "buildings"
 end

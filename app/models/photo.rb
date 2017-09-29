@@ -1,15 +1,14 @@
 class Photo < ActiveRecord::Base
+  has_and_belongs_to_many :buildings
+  has_and_belongs_to_many :people
 
-  belongs_to :building
-
-  acts_as_list scope: :building_id
+  # acts_as_list scope: :building_id
 
   has_attached_file :photo,
-    :url => '/:attachment/:id/:style/:basename.:extension',
-    :default_url => "/assets/missing.png"
-  validates_attachment_size(:photo, :less_than => MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
-  #attr_protected :upload_file_name, :upload_content_type, :upload_size
-  validates_attachment_content_type :photo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
+                    url: '/:attachment/:id/:style/:basename.:extension',
+                    default_url: "/assets/missing.png"
+  validates_attachment_size(:photo, less_than: MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
+  validates_attachment_content_type :photo, content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif"]
   validates :photo, presence: true
 
   def full_caption
