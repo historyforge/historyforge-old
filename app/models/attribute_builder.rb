@@ -84,8 +84,8 @@ class AttributeBuilder::Enumeration < AttributeBuilder::BaseAttribute
   def scopes
     json.set! "#{key}_in".to_sym, 'is one of'
     json.set! "#{key}_not_in".to_sym, 'is not one of'
-    json.set! "#{key}_null".to_sym, 'is empty'
-    json.set! "#{key}_not_null", 'is not empty'
+    json.set! "#{key}_null".to_sym, 'is blank'
+    json.set! "#{key}_not_null", 'is not blank'
   end
 
   def extras
