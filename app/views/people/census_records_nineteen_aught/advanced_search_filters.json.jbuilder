@@ -76,7 +76,7 @@ json.filters do
   # AttributeBuilder.number json, :unemployed_weeks_1909
   AttributeBuilder.boolean json, :can_read
   AttributeBuilder.boolean json, :can_write
-  AttributeBuilder.boolean json, :attended_school
+  AttributeBuilder.number json, :attended_school
   AttributeBuilder.boolean json, :can_speak_english
   AttributeBuilder.enumeration json, Census1900Record, :owned_or_rented
   AttributeBuilder.enumeration json, Census1900Record, :mortgage

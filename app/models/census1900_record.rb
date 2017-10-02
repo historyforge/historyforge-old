@@ -7,6 +7,11 @@ class Census1900Record < CensusRecord
   # attribute :years_in_us, as: :integer
   # attribute :unemployed_months, as: :integer
 
+  validates :attended_school, :years_in_us, :years_married,
+            :num_children_born, :num_children_alive, :unemployed_months,
+            :birth_month, :birth_year, :age,
+            numericality: { greater_than_or_equal_to: 0, allow_blank: true }
+
   def year
     1900
   end

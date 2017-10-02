@@ -88,4 +88,4 @@
       dd= yes_no_na @record.can_write
     dl
       dt Attended school?
-      dd= yes_no_na @record.attended_school
+      dd= @record.attended_school ? pluralize(@record.attended_school, 'month') : 'blank'

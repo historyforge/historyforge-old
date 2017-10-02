@@ -101,7 +101,7 @@ class People::CensusRecordsController < ApplicationController
 
   def save_as
     @record = resource_class.find params[:id]
-    authorize! :create, @record
+    authorize! :create, resource_class
     after_saved
   end
 
