@@ -32,6 +32,9 @@
   .col-xs-6= form.input :mother_tongue_mother
 
 .row
+  .col-xs-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+
+.row
   .col-xs-12= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
 
 .row
