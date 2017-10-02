@@ -34,6 +34,7 @@ h1.page-title= @record.name
   table.table.table-bordered.table-condensed
     thead
       tr
+        th Year
         th County
         th City
         th Ward
@@ -44,6 +45,7 @@ h1.page-title= @record.name
         th Family ID
     tbody
       tr
+        td= controller.year
         td= @record.county
         td= @record.city
         td= @record.ward
