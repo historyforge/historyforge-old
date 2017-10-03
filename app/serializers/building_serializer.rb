@@ -34,7 +34,7 @@ class BuildingSerializer < ActiveModel::Serializer
         1900 => object.census_1900_records.andand.map { |item| CensusRecordSerializer.new(item, root: false).as_json },
         1910 => object.census_1910_records.andand.map { |item| CensusRecordSerializer.new(item, root: false).as_json },
         1920 => object.census_1920_records.andand.map { |item| CensusRecordSerializer.new(item, root: false).as_json },
-        1930 => [],
+        1930 => object.census_1930_records.andand.map { |item| CensusRecordSerializer.new(item, root: false).as_json }
       }
     end
   end

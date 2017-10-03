@@ -12,6 +12,7 @@ class Building < ActiveRecord::Base
   has_many :census_1900_records, dependent: :nullify, class_name: 'Census1900Record'
   has_many :census_1910_records, dependent: :nullify, class_name: 'Census1910Record'
   has_many :census_1920_records, dependent: :nullify, class_name: 'Census1920Record'
+  has_many :census_1930_records, dependent: :nullify, class_name: 'Census1930Record'
 
   has_and_belongs_to_many :photos #, -> { order(:position) }, dependent: :destroy
   accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
@@ -102,5 +103,8 @@ class Building < ActiveRecord::Base
   end
   def families_in_1920
     census_1920_records.group_by(&:dwelling_number)
+  end
+  def families_in_1930
+    census_1930_records.group_by(&:dwelling_number)
   end
 end

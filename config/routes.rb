@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
   root 'home#index2'
-  get '/about' => 'home#about', :as => 'about'
+  get '/about' => 'home#about', as: 'about'
   get '/photos/:id/:style/:device' => 'buildings#photo', as: 'photo'
 
   get '/forge' => 'forge#index', as: 'forge'
 
   devise_for :users,
-             :path => 'u',
-             :skip => [ :registerable, :confirmable ],
-             :controllers => { :sessions => "sessions" } #, :omniauth_callbacks => "omniauth_callbacks" }
+             path: 'u',
+             skip: [ :registerable, :confirmable ],
+             controllers: { sessions: "sessions" } #, omniauth_callbacks: "omniauth_callbacks" }
 
   resources :users do
     member do
@@ -79,7 +79,13 @@ Rails.application.routes.draw do
             path: 'census/1920',
             as: 'census1920_records'
 
-  get '/maps/activity' => 'audits#for_map_model', :as => "maps_activity"
+  resources :census_1930_records,
+            concerns: [:people_directory],
+            controller: 'people/census_records_nineteen_thirty',
+            path: 'census/1930',
+            as: 'census1930_records'
+
+  get '/maps/activity' => 'audits#for_map_model', as: "maps_activity"
 
   resources :maps  do
     member do
@@ -114,21 +120,21 @@ Rails.application.routes.draw do
     resources :layers
   end
 
-  get '/maps/thumb/:id' => 'maps#thumb', :as =>'thumb_map'
+  get '/maps/thumb/:id' => 'maps#thumb', as: 'thumb_map'
 
-  get '/gcps/' => 'gcp#index', :as => "gcps"
-  get '/gcps/:id' => 'gcps#show', :as => "gcp"
-  delete '/gcps/:id/destroy' => 'gcps#destroy', :as => "destroy_gcp"
-  post '/gcps/add/:mapid' => 'gcps#add', :as => "add_gcp"
-  put '/gcps/update/:id' => 'gcps#update', :as => "update_gcp"
-  put '/gcps/update_field/:id' => 'gcps#update_field', :as => "update_field_gcp"
+  get '/gcps/' => 'gcp#index', as: "gcps"
+  get '/gcps/:id' => 'gcps#show', as: "gcp"
+  delete '/gcps/:id/destroy' => 'gcps#destroy', as: "destroy_gcp"
+  post '/gcps/add/:mapid' => 'gcps#add', as: "add_gcp"
+  put '/gcps/update/:id' => 'gcps#update', as: "update_gcp"
+  put '/gcps/update_field/:id' => 'gcps#update_field', as: "update_field_gcp"
 
 
-  get '/maps/wms/:id' => "wms/map#wms", :as => 'wms_map'
-  get '/maps/tile/:id/:z/:x/:y' => "wms/map#tile", :as => 'tile_map'
+  get '/maps/wms/:id' => "wms/map#wms", as: 'wms_map'
+  get '/maps/tile/:id/:z/:x/:y' => "wms/map#tile", as: 'tile_map'
 
-  get '/layers/:id/wms' => "wms/layer#wms", :as => "wms_layer"
-  get '/layers/:id/tile/:z/:x/:y' => "wms/layer#tile", :as => 'tile_layer'
+  get '/layers/:id/wms' => "wms/layer#wms", as: "wms_layer"
+  get '/layers/:id/tile/:z/:x/:y' => "wms/layer#tile", as: 'tile_layer'
 
   resources :layers do
     member do
@@ -146,23 +152,23 @@ Rails.application.routes.draw do
     end
   end
 
-  put '/layers/:id/remove_map/:map_id' => 'layers#remove_map', :as => 'remove_layer_map'
-  put '/layers/:id/merge' => 'layers#merge', :as => 'do_merge_layer'
+  put '/layers/:id/remove_map/:map_id' => 'layers#remove_map', as: 'remove_layer_map'
+  put '/layers/:id/merge' => 'layers#merge', as: 'do_merge_layer'
 
-  get '/users/:user_id/maps' => 'my_maps#list', :as => 'my_maps'
-  post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', :as => 'add_my_map'
-  post '/users/:user_id/maps/destroy/:map_id' => 'my_maps#destroy', :as => 'destroy_my_map'
+  get '/users/:user_id/maps' => 'my_maps#list', as: 'my_maps'
+  post '/users/:user_id/maps/create/:map_id' => 'my_maps#create', as: 'add_my_map'
+  post '/users/:user_id/maps/destroy/:map_id' => 'my_maps#destroy', as: 'destroy_my_map'
 
-  get '/users/:id/activity' => 'audits#for_user', :as => 'user_activity'
+  get '/users/:id/activity' => 'audits#for_user', as: 'user_activity'
 
 
-  get '/maps/acitvity.:format' => 'audits#for_map_model', :as => "formatted_maps_activity"
-  get '/maps/:id/activity' => 'audits#for_map', :as => "map_activity"
-  get '/maps/:id/activity.:format' => 'audits#for_map', :as => "formatted_map_activity"
+  get '/maps/acitvity.:format' => 'audits#for_map_model', as: "formatted_maps_activity"
+  get '/maps/:id/activity' => 'audits#for_map', as: "map_activity"
+  get '/maps/:id/activity.:format' => 'audits#for_map', as: "formatted_map_activity"
 
-  get '/activity' => 'audits#index', :as => "activity"
-  get '/activity/:id' => 'audits#show', :as => "activity_details"
-  get '/activity.:format' => 'audits#index', :as => "formatted_activity"
+  get '/activity' => 'audits#index', as: "activity"
+  get '/activity/:id' => 'audits#show', as: "activity_details"
+  get '/activity.:format' => 'audits#index', as: "formatted_activity"
 
   resources :imports do
     member do

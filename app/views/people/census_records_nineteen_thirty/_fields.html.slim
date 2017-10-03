@@ -1,0 +1,58 @@
+.row
+  .col-xs-3= form.input :last_name
+  .col-xs-3= form.input :first_name
+  .col-xs-3= form.input :middle_name
+  .col-xs-3= form.input :relation_to_head
+
+.row
+  .col-xs-3= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented'
+  .col-xs-3= form.input :home_value, label: 'Value of home or monthly payment'
+  .col-xs-3= form.input :has_radio, as: :boolean, inline_label: 'Radio Set'
+  .col-xs-3= form.input :lives_on_farm, as: :boolean, inline_label: 'Live on Farm?'
+
+.row
+  .col-xs-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
+  .col-xs-3= form.input :race, as: :select, collection: CensusRecord.race_choices
+  .col-xs-3= form.input :age
+  .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
+
+.row
+  .col-xs-4= form.input :age_married
+  .col-xs-4= form.input :attended_school, inline_label: 'Attended School?'
+  .col-xs-4= form.input :can_read_write, as: :boolean, inline_label: 'Able to read and write?'
+
+.row
+  .col-xs-4= form.input :pob
+  .col-xs-3= form.input :pob_father
+  .col-xs-3= form.input :pob_mother
+
+.row
+  .col-xs-4= form.input :pob_code
+  .col-xs-4= form.input :pob_father_code
+  .col-xs-4= form.input :pob_mother_code
+
+.row
+  .col-xs-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+
+.row
+  .col-xs-4= form.input :mother_tongue
+  .col-xs-6= form.input :year_immigrated, as: :integer
+  .col-xs-6= form.input :naturalized_alien
+
+.row
+  .col-xs-12= form.input :can_speak_english, as: :boolean, inline_label: 'Speaks English?'
+
+.row
+  .col-xs-4= form.input :profession
+  .col-xs-4= form.input :industry
+  .col-xs-4= form.input :profession_code
+
+.row
+  .col-xs-4= form.input :worker_class, label: 'Worker Class'
+  .col-xs-4= form.input :worked_yesterday, as: :boolean, inline_label: 'At work yesterday?'
+  .col-xs-4= form.input :unemployment_line, label: 'Unemployment Schedule No.'
+
+.row
+  .col-xs-4= form.input :veteran, as: :boolean, inline_label: 'Veteran?'
+  .col-xs-4= form.input :war_fought, label: 'What War?'
+  .col-xs-4= form.input :farm_schedule, label: 'Farm Number'

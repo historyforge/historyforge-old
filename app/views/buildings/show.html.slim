@@ -72,7 +72,7 @@ h1.page-title= @building.name
                 = picture_tag photo: photo, style: 'quarter', img_class: 'img-thumbnail'
                 = simple_format photo.full_caption
 
-    - %w[1900 1910 1920].each do |year|
+    - %w[1900 1910 1920 1930].each do |year|
       - if @building.public_send("census_#{year}_records").present?
         .panel.panel-default
           .panel-heading

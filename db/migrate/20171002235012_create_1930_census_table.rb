@@ -7,7 +7,7 @@ class Create1930CensusTable < ActiveRecord::Migration
       t.references :reviewed_by, index: true
       t.datetime :reviewed_at
       t.integer  :page_number
-      t.string   :page_side,            limit: 1
+      t.string   :page_side, limit: 1
       t.integer  :line_number
       t.string   :county,                          default: 'Tompkins'
       t.string   :city,                            default: 'Ithaca'
@@ -33,21 +33,21 @@ class Create1930CensusTable < ActiveRecord::Migration
       t.integer  :age
       t.string   :marital_status,       limit: 2
       t.integer :age_married
-      t.boolean :educated_since_1929
+      t.boolean :attended_school
       t.boolean :can_read_write
       t.string   :pob,                             default: 'New York'
       t.string   :pob_father,                      default: 'New York'
       t.string   :pob_mother,                      default: 'New York'
       t.string   :pob_code
-      t.string   :pob_code_father
-      t.string   :pob_code_mother
+      t.string   :pob_father_code
+      t.string   :pob_mother_code
       t.string   :mother_tongue
       t.integer  :year_immigrated
       t.string   :naturalized_alien
       t.boolean  :can_speak_english
-      t.string   :occupation
+      t.string   :profession
       t.string   :industry
-      t.string   :occupation_code
+      t.string   :profession_code
       t.string   :worker_class
       t.boolean  :worked_yesterday
       t.string   :unemployment_line
