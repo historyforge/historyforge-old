@@ -41,7 +41,7 @@ json.filters do
   AttributeBuilder.text   json, :middle_name
   AttributeBuilder.text   json, :last_name
 
-  AttributeBuilder.number   json, :page_number
+  AttributeBuilder.number json, :page_number
   AttributeBuilder.enumeration json, Census1900Record, :page_side
   AttributeBuilder.number json, :line_number, sortable: false
   AttributeBuilder.text   json, :county
@@ -70,7 +70,7 @@ json.filters do
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.text json, :language_spoken
   # AttributeBuilder.text json, :profession
-  # AttributeBuilder.text json, :industry
+  AttributeBuilder.text json, :industry
   # AttributeBuilder.enumeration json, Census1900Record, :employment
   AttributeBuilder.number json, :unemployed_months
   # AttributeBuilder.number json, :unemployed_weeks_1909
@@ -81,6 +81,7 @@ json.filters do
   AttributeBuilder.enumeration json, Census1900Record, :owned_or_rented
   AttributeBuilder.enumeration json, Census1900Record, :mortgage
   AttributeBuilder.enumeration json, Census1900Record, :farm_or_house
+  AttributeBuilder.number json, :farm_schedule
   # AttributeBuilder.boolean json, :blind
   # AttributeBuilder.enumeration json, Census1900Record, :civil_war_vet
   # AttributeBuilder.boolean json, :deaf_dumb

@@ -70,12 +70,19 @@
     dl
       dt Farm or House?
       dd= @record.farm_or_house || 'blank'
+    dl
+      dt Farm Schedule
+      dd= @record.farm_schedule || 'blank'
 
   .col-xs-4
     - if @record.profession.present?
       dl
         dt Profession
         dd= @record.profession
+    - if @record.industry.present?
+      dl
+        dt Industry
+        dd= @record.industry
     - if @record.unemployed_months?
       dl
         dt Months Unemployed

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171002235012) do
+ActiveRecord::Schema.define(version: 20171028031007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,8 @@ ActiveRecord::Schema.define(version: 20171002235012) do
     t.boolean  "foreign_born",                   default: false
     t.boolean  "taker_error",                    default: false
     t.integer  "attended_school"
+    t.string   "industry"
+    t.integer  "farm_schedule"
   end
 
   add_index "census_1900_records", ["building_id"], name: "index_census_1900_records_on_building_id", using: :btree
