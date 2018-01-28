@@ -2,6 +2,9 @@ class Building < ActiveRecord::Base
 
   include AutoStripAttributes
   include Moderation
+  include DefineEnumeration
+
+  define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
 
   has_and_belongs_to_many :architects
   belongs_to :building_type

@@ -12,7 +12,7 @@
         .col-xs-6
           = form.input :address_street_name
         .col-xs-2
-          = form.input :address_street_suffix, collection: %w{St Rd Ave Blvd Pl Terr Ct Pk Tr}.sort
+          = form.input :address_street_suffix, collection: Building.address_street_suffix_choices
 
       .row
         .col-xs-4
