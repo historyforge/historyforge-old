@@ -5,14 +5,19 @@
   .col-xs-3= form.input :relation_to_head
 
 .row
+  .col-xs-6= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
+  .col-xs-6= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
+
+.row
   .col-xs-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
   .col-xs-3= form.input :race, as: :select, collection: CensusRecord.race_choices
   .col-xs-3= form.input :age
   .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
 
 .row
-  .col-xs-6= form.input :year_immigrated, as: :integer
-  .col-xs-6= form.input :naturalized_alien
+  .col-xs-4= form.input :year_immigrated, as: :integer
+  .col-xs-4= form.input :naturalized_alien
+  .col-xs-4= form.input :year_naturalized, as: :integer
 
 .row
   .col-xs-4= form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
@@ -38,11 +43,7 @@
   .col-xs-12= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
 
 .row
-  .col-xs-4= form.input :profession
-  .col-xs-4= form.input :industry
-  .col-xs-4= form.input :employment, as: :select, collection: Census1910Record.employment_choices
-
-.row
-  .col-xs-4= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
-  .col-xs-4= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
-  .col-xs-4= form.input :farm_or_house, as: :select, collection: Census1910Record.farm_or_house_choices
+  .col-xs-3= form.input :profession
+  .col-xs-3= form.input :industry
+  .col-xs-3= form.input :employment, as: :select, collection: Census1910Record.employment_choices
+  .col-xs-3= form.input :farm_schedule

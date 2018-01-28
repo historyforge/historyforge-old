@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171028031007) do
+ActiveRecord::Schema.define(version: 20180128223838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,8 @@ ActiveRecord::Schema.define(version: 20171028031007) do
     t.integer  "attended_school"
     t.string   "industry"
     t.integer  "farm_schedule"
+    t.string   "name_prefix"
+    t.string   "name_suffix"
   end
 
   add_index "census_1900_records", ["building_id"], name: "index_census_1900_records_on_building_id", using: :btree
@@ -225,6 +227,8 @@ ActiveRecord::Schema.define(version: 20171028031007) do
     t.boolean  "provisional",                      default: false
     t.boolean  "foreign_born",                     default: false
     t.boolean  "taker_error",                      default: false
+    t.string   "name_prefix"
+    t.string   "name_suffix"
   end
 
   add_index "census_1910_records", ["building_id"], name: "index_census_1910_records_on_building_id", using: :btree
@@ -284,6 +288,10 @@ ActiveRecord::Schema.define(version: 20171028031007) do
     t.integer  "building_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name_prefix"
+    t.string   "name_suffix"
+    t.integer  "year_naturalized"
+    t.integer  "farm_schedule"
   end
 
   add_index "census_1920_records", ["building_id"], name: "index_census_1920_records_on_building_id", using: :btree
@@ -349,6 +357,8 @@ ActiveRecord::Schema.define(version: 20171028031007) do
     t.boolean  "taker_error",                    default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name_prefix"
+    t.string   "name_suffix"
   end
 
   add_index "census_1930_records", ["building_id"], name: "index_census_1930_records_on_building_id", using: :btree

@@ -60,6 +60,7 @@ en:
         mother_tongue_father: 'Mother Tongue - Father'
         mother_tongue_mother: 'Mother Tongue - Mother'
         mother_tongue: 'Mother Tongue'
+        farm_schedule: 'Farm Number'
 
     hints:
       building:
