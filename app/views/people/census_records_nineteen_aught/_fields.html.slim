@@ -1,12 +1,14 @@
 .row
   .col-xs-3= form.input :last_name
   .col-xs-3= form.input :first_name
-  .col-xs-3= form.input :middle_name
-  .col-xs-3= form.input :relation_to_head
+  .col-xs-2= form.input :middle_name
+  .col-xs-2= form.input :name_prefix
+  .col-xs-2= form.input :name_suffix
 
 .row
-  .col-xs-3= form.input :race, as: :select, collection: CensusRecord.race_choices
-  .col-xs-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
+  .col-xs-2= form.input :relation_to_head
+  .col-xs-2= form.input :race, as: :select, collection: CensusRecord.race_choices
+  .col-xs-2= form.input :sex, as: :select, collection: CensusRecord.sex_choices
   .col-xs-2= form.input :birth_month, as: :select, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
   .col-xs-2= form.input :birth_year
   .col-xs-2= form.input :age

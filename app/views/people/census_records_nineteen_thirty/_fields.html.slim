@@ -1,8 +1,10 @@
 .row
-  .col-xs-3= form.input :last_name
-  .col-xs-3= form.input :first_name
-  .col-xs-3= form.input :middle_name
-  .col-xs-3= form.input :relation_to_head
+  .col-xs-2= form.input :last_name
+  .col-xs-2= form.input :first_name
+  .col-xs-2= form.input :middle_name
+  .col-xs-2= form.input :name_prefix
+  .col-xs-2= form.input :name_suffix
+  .col-xs-2= form.input :relation_to_head
 
 .row
   .col-xs-3= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented'

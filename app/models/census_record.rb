@@ -35,9 +35,11 @@ class CensusRecord < ActiveRecord::Base
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',
                                                                    [Arel::Nodes::Quoted.new(' '),
+                                                                     parent.table[:name_prefix],
                                                                      parent.table[:first_name],
                                                                      parent.table[:middle_name],
-                                                                     parent.table[:last_name]
+                                                                     parent.table[:last_name],
+                                                                     parent.table[:name_suffix]
                                                                      ])])
   end
 
@@ -73,7 +75,7 @@ class CensusRecord < ActiveRecord::Base
   end
 
   def name
-    [first_name, middle_name, last_name].select(&:present?).join(' ')
+    [name_prefix, first_name, middle_name, last_name, name_suffix].select(&:present?).join(' ')
   end
 
   def street_address
