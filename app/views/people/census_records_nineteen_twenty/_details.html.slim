@@ -43,6 +43,10 @@
     dl
       dt Naturalized Alien?
       dd= @record.naturalized_alien || 'blank'
+    - if @record.year_naturalized?
+      dl
+        dt Year Naturalized
+        dd= @record.year_naturalized
 
   .col-xs-4
     dl
@@ -54,9 +58,6 @@
     dl
       dt Mortgage?
       dd= @record.mortgage || 'blank'
-    dl
-      dt Farm or House?
-      dd= @record.farm_or_house || 'blank'
 
   .col-xs-4
     - if @record.profession.present?
@@ -71,6 +72,10 @@
       dl
         dt Employment
         dd= @record.employment
+    - if @record.farm_schedule?
+      dl
+        dt Farm Number
+        dd= @record.farm_schedule
     dl
       dt Can speak English?
       dd= yes_no_na @record.can_speak_english
