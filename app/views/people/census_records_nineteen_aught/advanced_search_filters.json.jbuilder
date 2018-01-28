@@ -68,7 +68,7 @@ json.filters do
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.number json, :year_in_us
   AttributeBuilder.boolean json, :naturalized_alien
-  AttributeBuilder.text json, :language_spoken
+  # AttributeBuilder.text json, :language_spoken
   # AttributeBuilder.text json, :profession
   AttributeBuilder.text json, :industry
   # AttributeBuilder.enumeration json, Census1900Record, :employment

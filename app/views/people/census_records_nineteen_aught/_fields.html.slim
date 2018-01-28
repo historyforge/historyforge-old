@@ -5,13 +5,11 @@
   .col-xs-3= form.input :relation_to_head
 
 .row
-  .col-xs-6= form.input :sex, as: :select, collection: CensusRecord.sex_choices
-  .col-xs-6= form.input :race, as: :select, collection: CensusRecord.race_choices
-
-.row
-  .col-xs-4= form.input :birth_month, as: :select, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
-  .col-xs-4= form.input :birth_year
-  .col-xs-4= form.input :age
+  .col-xs-3= form.input :race, as: :select, collection: CensusRecord.race_choices
+  .col-xs-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
+  .col-xs-2= form.input :birth_month, as: :select, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
+  .col-xs-2= form.input :birth_year
+  .col-xs-2= form.input :age
 
 .row
   .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
@@ -27,9 +25,9 @@
 
 .row
   .col-xs-3= form.input :year_immigrated, as: :integer
-  .col-xs-3= form.input :naturalized_alien
   .col-xs-3= form.input :years_in_us, as: :integer
-  .col-xs-3= form.input :language_spoken
+  .col-xs-3= form.input :naturalized_alien
+  /.col-xs-3= form.input :language_spoken
 
 .row
   .col-xs-4= form.input :profession
@@ -37,9 +35,9 @@
   .col-xs-4= form.input :unemployed_months, as: :integer
 
 .row
+  .col-xs-3= form.input :attended_school, as: :integer, inline_label: 'Attended School?', hint: 'No. of months'
   .col-xs-3= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
   .col-xs-3= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
-  .col-xs-3= form.input :attended_school, as: :integer, inline_label: 'Attended School?', hint: 'No. of months'
   .col-xs-3= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
 
 .row
