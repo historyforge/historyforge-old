@@ -36,16 +36,17 @@
 
 .row
   .col-xs-4= form.input :mother_tongue
-  .col-xs-6= form.input :year_immigrated, as: :integer
-  .col-xs-6= form.input :naturalized_alien
+  .col-xs-4= form.input :year_immigrated, as: :integer
+  .col-xs-4= form.input :naturalized_alien
 
 .row
   .col-xs-12= form.input :can_speak_english, as: :boolean, inline_label: 'Speaks English?'
 
 .row
-  .col-xs-4= form.input :profession
-  .col-xs-4= form.input :industry
-  .col-xs-4= form.input :profession_code
+  .col-xs-3= form.input :profession
+  .col-xs-3= form.input :industry
+  .col-xs-3= form.input :profession_code
+  .col-xs-3= form.input :farm_schedule, label: 'Farm Number'
 
 .row
   .col-xs-4= form.input :worker_class, label: 'Worker Class'
@@ -55,4 +56,3 @@
 .row
   .col-xs-4= form.input :veteran, as: :boolean, inline_label: 'Veteran?'
   .col-xs-4= form.input :war_fought, label: 'What War?'
-  .col-xs-4= form.input :farm_schedule, label: 'Farm Number'
