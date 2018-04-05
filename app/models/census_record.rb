@@ -122,6 +122,8 @@ class CensusRecord < ActiveRecord::Base
       'Hillview'
     elsif street_name == 'Tioga' && street_prefix == 'S'
       'Turner'
+    elsif street_name == 'Wheat'
+      'Cleveland'
     else
       street_name
     end
@@ -132,7 +134,7 @@ class CensusRecord < ActiveRecord::Base
       'Blvd'
     elsif street_name == 'Mechanic' || (street_name == 'Tioga' && street_prefix == 'S')
       'Pl'
-    elsif street_name == 'Humboldt'
+    elsif street_name == 'Humboldt' || street_name == 'Wheat'
       'Avenue'
     else
       street_suffix
