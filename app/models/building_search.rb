@@ -56,8 +56,7 @@ class BuildingSearch
       @scoped = @scoped.without_residents if unpeopled
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed
       @scoped = @scoped.where(investigate: true) if uninvestigated
-
-      @scoped = @scoped.page(page).per(per)
+      @scoped = @scoped.page(page).per(per) if paged
       if expanded
         @scoped = @scoped.includes(:photos, :census_1900_records, :census_1910_records, :census_1920_records, :census_1930_records)
         if people.present?
@@ -176,20 +175,29 @@ class BuildingSearch
   end
 
   def pagination_dict(object)
-    info =  if object.total_pages < 2
-              "All #{object.total_count} record(s)."
-            else
-              first = object.offset_value + 1
-              last = object.last_page? ? object.total_count : object.offset_value + object.limit_value
-              "#{first}-#{last} of #{object.total_count} records."
-            end
-    {
-      current_page: object.current_page,
-      next_page: object.next_page,
-      prev_page: object.prev_page,
-      total_pages: object.total_pages,
-      total_count: object.total_count,
-      info: info
-    }
+    if object.respond_to?(:total_pages)
+      info =  if object.total_pages < 2
+                "All #{object.total_count} record(s)."
+              else
+                first = object.offset_value + 1
+                last = object.last_page? ? object.total_count : object.offset_value + object.limit_value
+                "#{first}-#{last} of #{object.total_count} records."
+              end
+      {
+        current_page: object.current_page,
+        next_page: object.next_page,
+        prev_page: object.prev_page,
+        total_pages: object.total_pages,
+        total_count: object.total_count,
+        info: info,
+        paged: object.total_pages > 1
+      }
+    else
+      {
+        info: "All #{object.size} record(s).",
+        total_count: object.size,
+        paged: false
+      }
+    end
   end
 end

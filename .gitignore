@@ -9,6 +9,7 @@
 
 .idea
 .env.*
+certs
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
