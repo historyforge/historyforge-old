@@ -47,12 +47,15 @@ class Wms::BaseController < ActionController::Metal
 
   def send_map_data(map, ows)
     Mapscript::msIO_installStdoutToBuffer
-    result = map.OWSDispatch(ows)
-    content_type = Mapscript::msIO_stripStdoutBufferContentType || "text/plain"
-    result_data = Mapscript::msIO_getStdoutBufferBytes
+    map.OWSDispatch(ows)
+    content_type = Mapscript.msIO_stripStdoutBufferContentType || "text/plain"
+    result_data = Mapscript.msIO_getStdoutBufferBytes
 
     send_data result_data, :type => content_type, :disposition => "inline"
-    Mapscript::msIO_resetHandlers
+  rescue Mapscript::MapserverError
+    render nothing: true, status: 404
+  ensure
+    Mapscript.msIO_resetHandlers
   end
 
   def ows
