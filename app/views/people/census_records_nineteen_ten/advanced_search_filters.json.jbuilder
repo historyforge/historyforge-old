@@ -101,6 +101,4 @@ json.filters do
     end
     json.sortable 'notes'
   end
-
-
 end

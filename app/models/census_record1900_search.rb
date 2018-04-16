@@ -10,7 +10,7 @@ class CensusRecord1900Search < CensusRecordSearch
       naturalized_alien language_spoken profession
       unemployed_months can_read can_write attended_school
       owned_or_rented mortgage farm_or_house
-      notes
+      notes latitude longitude
     ]
   end
 end

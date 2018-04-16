@@ -12,7 +12,7 @@ class CensusRecord1920Search < CensusRecordSearch
       naturalized_alien
       profession industry employment
       owned_or_rented mortgage farm_or_house
-      notes
+      notes latitude longitude
     ]
   end
 end

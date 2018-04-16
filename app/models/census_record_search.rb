@@ -31,6 +31,7 @@ class CensusRecordSearch
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.ransack(rp).result
       @scoped = @scoped.page(page).per(per) if paged?
+      @scoped = @scoped.includes(:building) if f.include?('latitude') || f.include?('longitude')
       @d = 'asc' unless %w{asc desc}.include?(@d)
       if @c
         if @c == 'census_scope'

@@ -82,6 +82,14 @@ class CensusRecord < ActiveRecord::Base
     [street_house_number, street_prefix, street_name, street_suffix].join(' ')
   end
 
+  def latitude
+    building.andand.lat
+  end
+
+  def longitude
+    building.andand.lon
+  end
+
   def fellows
     @fellows ||= self.class.where('id<>?', id)
                      .ransack(street_house_number_eq: street_house_number,

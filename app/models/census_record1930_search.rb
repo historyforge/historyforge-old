@@ -14,7 +14,7 @@ class CensusRecord1930Search < CensusRecordSearch
       profession industry
       owned_or_rented home_value has_radio lives_on_farm
       veteran war_fought worker_class worked_yesterday unemployment_line
-      notes
+      notes latitude longitude
     ]
   end
 end
