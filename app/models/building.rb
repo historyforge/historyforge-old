@@ -55,6 +55,9 @@ class Building < ActiveRecord::Base
     respond_to?(field) ? public_send(field) : '?'
   end
 
+  alias_attribute :latitude, :lat
+  alias_attribute :longitude, :lon
+
   def full_street_address
     "#{[street_address, city, state].join(' ')} #{postal_code}"
   end

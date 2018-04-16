@@ -166,7 +166,7 @@ class BuildingSearch
        year_earliest year_latest
        description annotations stories block_number
        building_type lining_type frame_type
-       architects notes
+       architects notes latitude longitude
     }
   end
 
