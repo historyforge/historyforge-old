@@ -43,6 +43,9 @@ class BuildingPresenter < Struct.new(:model, :user)
   end
 
   def field_for(field)
+    method = field.to_s
+    method << "_name" if method.ends_with?('type')
+    field = method.to_sym
     return public_send(field) if respond_to?(field)
     return model.public_send(field) if model.respond_to?(field)
     '?'
