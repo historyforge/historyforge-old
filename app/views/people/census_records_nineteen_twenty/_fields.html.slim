@@ -7,12 +7,12 @@
 
 .row
   .col-xs-4= form.input :relation_to_head
-  .col-xs-4= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
-  .col-xs-4= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
+  .col-xs-4= form.input :owned_or_rented, as: :select, collection: Census1920Record.owned_or_rented_choices
+  .col-xs-4= form.input :mortgage, as: :select, collection: Census1920Record.mortgage_choices
 
 .row
-  .col-xs-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
-  .col-xs-3= form.input :race, as: :select, collection: CensusRecord.race_choices
+  .col-xs-3= form.input :sex, as: :select, collection: Census1920Record.sex_choices
+  .col-xs-3= form.input :race, as: :select, collection: Census1920Record.race_choices
   .col-xs-3= form.input :age
   .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
 

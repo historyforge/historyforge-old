@@ -8,12 +8,12 @@
 
 .row
   .col-xs-3= form.input :relation_to_head
-  .col-xs-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
-  .col-xs-3= form.input :race, as: :select, collection: CensusRecord.race_choices
+  .col-xs-3= form.input :sex, as: :select, collection: Census1910Record.sex_choices
+  .col-xs-3= form.input :race, as: :select, collection: Census1910Record.race_choices
   .col-xs-3= form.input :age
 
 .row
-  .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
+  .col-xs-3= form.input :marital_status, as: :select, collection: Census1910Record.marital_status_choices
   .col-xs-3= form.input :years_married, as: :integer, input_html: { min: 0 }
   .col-xs-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
   .col-xs-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
@@ -26,7 +26,7 @@
 
 .row
   .col-xs-4= form.input :year_immigrated, as: :integer
-  .col-xs-4= form.input :naturalized_alien, as: :select, collection: select_options_for(CensusRecord.naturalized_alien_choices)
+  .col-xs-4= form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
   .col-xs-4= form.input :language_spoken
 
 .row
