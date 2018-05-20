@@ -5,4 +5,4 @@ echo "--> Precompiling assets"
 bundle exec rake assets:precompile
 
 echo "--> Migrating database"
-bundle exec rails db:migrate
+bundle exec rake db:migrate
