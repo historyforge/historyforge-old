@@ -10,6 +10,7 @@ TILEINDEX_DIR = Rails.root.join('db/maptileindex')
 #if gdal is not on the normal path
 GDAL_PATH = ""
 
+APP_CONFIG={}
 #
 # Uncomment and populate the config file if you want to enable:
 # MAX_DIMENSION = will reduce the dimensions of the image when uploaded
