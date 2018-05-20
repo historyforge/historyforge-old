@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  db:
+    image: mdillon/postgis
+    restart: always
+    environment:
+      - POSTGRES_USER=historyforge
+      - POSTGRES_PASSWORD=!mapsRus1920!
+      - POSTGRES_DB=historyforge
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./historyforge.sql:/docker-entrypoint-initdb.d/init.sql
+  web:
+    container_name: historyforge_web
+    restart: always
+    build:
+      context: .
+      args:
+        - RAILS_ENV=${RAILS_ENV}
+    volumes:
+      - bundle:/bundle
+      - .:/app
+      - ../mapimages:/app/public/mapimages
+      - ../photos:/app/public/photos
+      - ../uploads:/app/public/uploads
+    ports:
+      - "5000:3000"
+    env_file: ".env"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+    driver: local
+  bundle:
+    driver: local
