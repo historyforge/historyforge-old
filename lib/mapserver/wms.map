@@ -1,10 +1,12 @@
-MAP 
+MAP
   NAME "MapWarper"
   SIZE 256 256
   EXTENT -180 -90 180 90
   IMAGETYPE png
   #INTERLACE OFF
   UNITS DD
+
+  MAXSIZE 4096
 
   CONFIG "CGI_CONTEXT_URL" "1"
 
@@ -15,20 +17,14 @@ MAP
   WEB
     IMAGEPATH "/tmp"
     METADATA
-      "wms_title"     "Map Warper WMS"	
+      "wms_title"     "Map Warper WMS"
       "wms_srs"       "EPSG:4269 EPSG:4326 EPSG:900913"
       "wms_enable_request" "*"
     END
-   
+
   END
-    
-  OUTPUTFORMAT
-    NAME GEOTIFF
-    DRIVER "GDAL/GTiff"
-    MIMETYPE "image/tiff"
-    IMAGEMODE "BYTE"
-    EXTENSION "tif"
-  END
+
+
   OUTPUTFORMAT
     NAME "png"
     DRIVER "AGG/PNG"
@@ -56,5 +52,12 @@ MAP
     IMAGEMODE PC256
     EXTENSION "gif"
     TRANSPARENT ON
+  END
+  OUTPUTFORMAT
+    NAME GEOTIFF
+    DRIVER "GDAL/GTiff"
+    MIMETYPE "image/tiff"
+    IMAGEMODE "BYTE"
+    EXTENSION "tif"
   END
 END

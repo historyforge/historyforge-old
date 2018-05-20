@@ -50,8 +50,7 @@ class Wms::BaseController < ActionController::Metal
     map.OWSDispatch(ows)
     content_type = Mapscript.msIO_stripStdoutBufferContentType || "text/plain"
     result_data = Mapscript.msIO_getStdoutBufferBytes
-
-    send_data result_data, :type => content_type, :disposition => "inline"
+    send_data result_data, type: content_type, disposition: "inline"
   rescue Mapscript::MapserverError
     render nothing: true, status: 404
   ensure

@@ -38,4 +38,5 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { :host => ENV['BASE_URL'] }
 
+  config.web_console.whiny_requests = false
 end
