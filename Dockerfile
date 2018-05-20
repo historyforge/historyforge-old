@@ -21,6 +21,8 @@ COPY . .
 
 ADD lib/docker/database.yml ./config/database.yml
 
+ADD lib/docker/secrets.yml ./config/secrets.yml
+
 RUN chown -R nobody:nogroup /app
 
 USER nobody
