@@ -1,14 +1,14 @@
 p
-  | Welcome 
+  | Welcome
   = @email
   | !
 p
-  | Thanks for signing up to use 
-  = APP_CONFIG['site_name']
-  | . Please confirm your email to continue the sign up process. 
+  | Thanks for signing up to use
+  = ENV['APP_NAME']
+  | . Please confirm your email to continue the sign up process.
 p
-  = APP_CONFIG['site_name']
-  |  is a site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS and Tiles. 
+  = ENV['APP_NAME']
+  |  is a site where you can discover, georeference and upload your own maps and imagery. You can georectify or warp the map to base map to be able to use the map in new ways. You can download the georeferenced image in a number of formats including KML, WMS and Tiles.
 p
   | You can confirm your account email through the link below:
 p
