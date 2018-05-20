@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+# set -e
 
 echo "--> Precompiling assets"
 bundle exec rake assets:precompile
