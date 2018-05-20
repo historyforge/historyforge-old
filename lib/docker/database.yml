@@ -1,0 +1,23 @@
+development:
+  adapter: postgis
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: postgis
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: postgis
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5
+  timeout: 5000
+
+staging:
+  adapter: postgis
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: 5
+  timeout: 5000
