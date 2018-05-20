@@ -19,11 +19,13 @@ RUN bundle config build.nokogiri --use-system-libraries \
 # Copy the main application.
 COPY . .
 
+ADD lib/docker/database.yml ./config/database.yml
+
 RUN chown -R nobody:nogroup /app
 
 USER nobody
 
-# Expose port 3000 to the Docker host, so we can access it
+# Expose port 5000 to the Docker host, so we can access it
 # from the outside.
 EXPOSE 5000
 
