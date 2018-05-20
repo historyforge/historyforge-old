@@ -23,7 +23,7 @@ ADD lib/docker/database.yml ./config/database.yml
 
 ADD lib/docker/secrets.yml ./config/secrets.yml
 
-RUN bundle exec rake assets:precomile
+RUN bundle exec rake assets:precompile
 
 RUN chown -R nobody:nogroup /app
 
