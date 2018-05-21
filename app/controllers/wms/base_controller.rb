@@ -94,8 +94,4 @@ class Wms::BaseController < ActionController::Metal
       @raster
     end
   end
-
-
-
-
 end

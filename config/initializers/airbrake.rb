@@ -1,7 +1,8 @@
 if defined?(Airbrake)
 
   Airbrake.configure do |config|
-    config.api_key = ENV['AIRBRAKE_KEY']
+    config.project_id = ENV['AIRBRAKE_ID'] || 1
+    config.project_key = ENV['AIRBRAKE_KEY']
     config.host    = ENV['AIRBRAKE_URL']
     config.port    = 80
     config.secure  = config.port == 443
