@@ -4,9 +4,11 @@ if defined?(Airbrake)
     config.project_id = ENV['AIRBRAKE_ID'] || 1
     config.project_key = ENV['AIRBRAKE_KEY']
     config.host    = ENV['AIRBRAKE_URL']
-    config.port    = 80
-    config.secure  = config.port == 443
-    config.ignore << 'Net::ReadTimeout' << 'Net::OpenTimeout'
+    # config.port    = 80
+    # config.secure  = config.port == 443
+    config.environment = Rails.env
+    config.ignore_environments = %w(development test)
+    # config.ignore << 'Net::ReadTimeout' << 'Net::OpenTimeout'
   end
 
   if Airbrake.const_defined?('SENSITIVE_RACK_VARS')
