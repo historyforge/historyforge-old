@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.10'
+gem 'rails' #, '4.2.10'
 # Use sqlite3 as the database for Active Record
 #gem 'sqlite3'
 # Use SCSS for stylesheets
@@ -18,12 +18,13 @@ gem 'coffee-rails' #, '~> 4.0.0'
 # Use jquery as the JavaScript library
 gem 'jquery-rails' #, '>=4.0.5'
 gem "jquery-ui-rails", '3.0.1'  #loads jquery ui v 1.9.2
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0',          group: :doc
+# gem 'sdoc', '~> 0.4.0',          group: :doc
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
@@ -42,7 +43,7 @@ gem 'mini_magick'
 gem 'geocoder'
 gem 'non-stupid-digest-assets'
 
-gem 'nokogiri', '1.6.8.1' # Because 1.8 won't compile with Ruby 2.0
+# gem 'nokogiri', '1.6.8.1' # Because 1.8 won't compile with Ruby 2.0
 # Use unicorn as the app server
 # gem 'unicorn'
 
@@ -55,15 +56,16 @@ gem 'devise-encryptable'
 gem 'pg'
 gem 'activerecord-postgis-adapter'
 
-gem 'acts-as-taggable-on', '~> 3.4'
-gem 'paperclip', '~> 4.2.0'
+gem 'acts-as-taggable-on' #, '~> 3.4'
+gem 'paperclip' #, '~> 4.2.0'
 gem 'kaminari'
-gem 'spawnling', '~>2.1'
+gem 'spawnling' #, '~>2.1'
 
 gem 'ruby_mapscript' #, group: :production
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
-gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
+# gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
+gem 'audited'
 
 gem 'gdal'
 gem 'georuby'
