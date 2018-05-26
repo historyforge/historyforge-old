@@ -31,13 +31,21 @@ ng-map {
   }
 }
 
-#layer-slider {
+#layer-pickers {
   position:absolute;
-  top:90%;
+  bottom:0;
   left:10%;
   right:10%;
   width:80%;
+  height:100px;
   z-index:120;
+  padding:15px;
+  background-color:rgba(255, 255, 255, 0.7);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 4px 4px 4px #888;
+}
+
+#layer-slider {
 }
 
 #miniforge {

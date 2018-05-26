@@ -1,12 +1,12 @@
 class LayersController < ApplicationController
-  layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_action :authenticate_user! , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :tile, :trace, :id]
-  before_action :check_administrator_role, :only => [:publish, :toggle_visibility, :merge, :trace, :id]
+  layout 'layerdetail', only: [:show,  :edit, :export, :metadata]
+  before_action :authenticate_user! , except: [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :tile, :trace, :id]
+  before_action :check_administrator_role, only: [:publish, :toggle_visibility, :merge, :trace, :id]
 
-  before_action :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :trace, :id]
-  before_action :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
+  before_action :find_layer, only: [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :trace, :id]
+  before_action :check_if_layer_is_editable, only: [:edit, :update, :remove_map, :update_year, :update, :destroy]
 
-  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+  rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
   def thumb
     redirect_to @layer.thumb
@@ -14,7 +14,7 @@ class LayersController < ApplicationController
 
 
   def index
-    # sort_init('created_at', {:default_order => "desc"})
+    # sort_init('created_at', {default_order: "desc"})
     # session[@sort_name] = nil  #remove the session sort as we have percent
     # sort_update
     @query = params[:query]
@@ -62,18 +62,18 @@ class LayersController < ApplicationController
 
     if request.xhr?
       # for pageless :
-      # #render :partial => 'layer', :collection => @layers
-      render :action => 'index.rjs'
+      # #render partial: 'layer', collection: @layers
+      render action: 'index.rjs'
     else
       respond_to do |format|
-        format.html {render :layout => "application"}
+        format.html {render layout: "application"}
 
-        format.xml { render :xml => @layers.to_xml(:root => "layers", :except => [:uuid, :parent_uuid, :description]) {|xml|
+        format.xml { render xml: @layers.to_xml(root: "layers", except: [:uuid, :parent_uuid, :description]) {|xml|
             xml.tag!'total-entries', @layers.total_entries
             xml.tag!'per-page', @layers.per_page
             xml.tag!'current-page',@layers.current_page}
         }
-        format.json {render :json => {:stat => "ok", :items => @layers.to_a}.to_json(:except => [:uuid, :parent_uuid, :description]), :callback => params[:callback] }
+        format.json {render json: {stat: "ok", items: @layers.to_a}.to_json(except: [:uuid, :parent_uuid, :description]), callback: params[:callback] }
       end
     end
   end
@@ -88,15 +88,15 @@ class LayersController < ApplicationController
       lmaps = @layer.maps.order(:map_type).pagee(params[:page] || 1).per(50)
     end
     respond_to do |format|
-      #format.json {render :json =>lmaps.to_json(:stat => "ok",:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])}
-      format.json {render :json =>{:stat => "ok",
-          :current_page => lmaps.current_page,
-          :per_page => lmaps.per_page,
-          :total_entries => lmaps.total_entries,
-          :total_pages => lmaps.total_pages,
-          :items => lmaps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback] }
+      #format.json {render json: lmaps.to_json(stat: "ok",except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])}
+      format.json {render json: {stat: "ok",
+          current_page: lmaps.current_page,
+          per_page: lmaps.per_page,
+          total_entries: lmaps.total_entries,
+          total_pages: lmaps.total_pages,
+          items: lmaps.to_a}.to_json(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), callback: params[:callback] }
 
-      format.xml {render :xml => lmaps.to_xml(:root => "maps",:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])  {|xml|
+      format.xml {render xml: lmaps.to_xml(root: "maps",except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail])  {|xml|
           xml.tag!'total-entries', lmaps.total_entries
           xml.tag!'per-page', lmaps.per_page
           xml.tag!'current-page',lmaps.current_page} }
@@ -122,17 +122,17 @@ class LayersController < ApplicationController
     if request.xhr?
       unless params[:page]
         @xhr_flag = "xhr"
-        render :action => "show", :layout => "layer_tab_container"
+        render action: "show", layout: "layer_tab_container"
       else
-        render :action =>  "show_maps.rjs"
+        render action:  "show_maps.rjs"
       end
     else
       respond_to do |format|
-        format.html {render :layout => "layerdetail"}# show.html.erb
-        #format.json {render :json => @layer.to_json(:except => [:uuid, :parent_uuid, :description])}
-        format.json {render :json => {:stat => "ok", :items => @layer}.to_json(:except => [:uuid, :parent_uuid, :description]), :callback => params[:callback] }
-        format.xml {render :xml => @layer.to_xml(:except => [:uuid, :parent_uuid, :description])}
-        format.kml {render :action => "show_kml", :layout => false}
+        format.html {render layout: "layerdetail"}# show.html.erb
+        #format.json {render json: @layer.to_json(except: [:uuid, :parent_uuid, :description])}
+        format.json {render json: {stat: "ok", items: @layer}.to_json(except: [:uuid, :parent_uuid, :description]), callback: params[:callback] }
+        format.xml {render xml: @layer.to_xml(except: [:uuid, :parent_uuid, :description])}
+        format.kml {render action: "show_kml", layout: false}
       end
     end
   end
@@ -144,7 +144,7 @@ class LayersController < ApplicationController
     @layer = Layer.new
     @maps = current_user.maps
     respond_to do |format|
-      format.html {render :layout => "application"}# show.html.erb
+      format.html {render layout: "application"}# show.html.erb
     end
   end
 
@@ -182,10 +182,10 @@ class LayersController < ApplicationController
 
     if request.xhr?
       @xhr_flag = "xhr"
-      render :action => "edit", :layout => "layer_tab_container"
+      render action: "edit", layout: "layer_tab_container"
     else
       respond_to do |format|
-        format.html {render :layout => "layerdetail"}# show.html.erb
+        format.html {render layout: "layerdetail"}# show.html.erb
       end
     end
   end
@@ -205,10 +205,10 @@ class LayersController < ApplicationController
     end
     if request.xhr?
       @xhr_flag = "xhr"
-      render :action => "edit", :layout => "layer_tab_container"
+      render action: "edit", layout: "layer_tab_container"
     else
       respond_to do |format|
-        format.html { render :action => "edit",:layout => "layerdetail" }
+        format.html { render action: "edit",layout: "layerdetail" }
       end
     end
   end
@@ -216,7 +216,7 @@ class LayersController < ApplicationController
   def delete
     @layer = Layer.find(params[:id])
     respond_to do |format|
-      format.html {render :layout => "application"}
+      format.html {render layout: "application"}
     end
   end
 
@@ -242,10 +242,10 @@ class LayersController < ApplicationController
     @html_title = "Export Map Layer "+ @layer.id.to_s
     if request.xhr?
       @xhr_flag = "xhr"
-      render :layout => "layer_tab_container"
+      render layout: "layer_tab_container"
     else
       respond_to do |format|
-        format.html {render :layout => "layerdetail"}
+        format.html {render layout: "layerdetail"}
       end
     end
   end
@@ -268,12 +268,12 @@ class LayersController < ApplicationController
     else
       update_text = "(Not Visible)"
     end
-    render :json => {:message => update_text}
+    render json: {message: update_text}
   end
 
   def update_year
     @layer.update_attributes(params[:layer])
-    render :json => {:message => "Depicts : " + @layer.depicts_year.to_s }
+    render json: {message: "Depicts : " + @layer.depicts_year.to_s }
   end
 
   #merge this layer with another one
@@ -281,12 +281,12 @@ class LayersController < ApplicationController
   def merge
     if request.get?
       #just show form
-      render :layout => 'application'
+      render layout: 'application'
     elsif request.put?
       @dest_layer = Layer.find(params[:dest_id])
 
       @layer.merge(@dest_layer.id)
-      render :text  => "Map layer has been merged into new layer - all maps copied across! (functionality disabled at the moment)"
+      render text:  "Map layer has been merged into new layer - all maps copied across! (functionality disabled at the moment)"
     end
   end
 
@@ -295,16 +295,16 @@ class LayersController < ApplicationController
     @map = Map.find(params[:map_id])
 
     @layer.remove_map(@map.id)
-    render :text =>  "Dummy text - Map removed from this map layer "
+    render text:  "Dummy text - Map removed from this map layer "
   end
 
   def publish
     if @layer.rectified_percent < 100
-      render :text => "Map layer has less than 100% of its maps rectified"
-      #redirect_to :action => 'index'
+      render text: "Map layer has less than 100% of its maps rectified"
+      #redirect_to action: 'index'
     else
       @layer.publish
-      render :text => "Map layer will be published (this functionality is disabled at the moment)"
+      render text: "Map layer will be published (this functionality is disabled at the moment)"
     end
   end
 
@@ -312,18 +312,18 @@ class LayersController < ApplicationController
   def trace
     redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
-    render "maps/trace", :layout => "application"
+    render "maps/trace", layout: "application"
   end
 
   def id
     redirect_to layer_path unless @layer.is_visible? && @layer.rectified_maps_count > 0
     @overlay = @layer
-    render "maps/id", :layout => false
+    render "maps/id", layout: false
   end
 
   # called by id JS oauth
   def idland
-    render "maps/idland", :layout => false
+    render "maps/idland", layout: false
   end
 
 
@@ -346,7 +346,7 @@ class LayersController < ApplicationController
   def choose_layout_if_ajax
     if request.xhr?
       @xhr_flag = "xhr"
-      render :layout => "layer_tab_container"
+      render layout: "layer_tab_container"
     end
   end
 
@@ -355,9 +355,9 @@ class LayersController < ApplicationController
     respond_to do | format |
       format.html do
         flash[:notice] = "Map layer not found"
-        redirect_to :action => :index
+        redirect_to action: :index
       end
-      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+      format.json {render json: {stat: "not found", items: []}.to_json, status: 404}
     end
   end
 
@@ -371,7 +371,7 @@ class LayersController < ApplicationController
       anchor = ""
     end
     if request.parameters[:action] &&  request.parameters[:id]
-      session[:return_to] = layer_path(:id => request.parameters[:id], :anchor => anchor)
+      session[:return_to] = layer_path(id: request.parameters[:id], anchor: anchor)
     else
       session[:return_to] = request.request_uri
     end

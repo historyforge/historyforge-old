@@ -14,14 +14,6 @@
     </div>
 
     <div class="col-xs-12">
-      <div class="row">
-        <div class="col-lg-4 col-sm-4">
-          <label for="layer-select" class="control-label">Map Layer</label>
-        </div>
-        <div class="col-lg-8 col-sm-8">
-          <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer as layer.name for layer in layers track by layer.id"></select>
-        </div>
-      </div>
       <% if params[:buildings].blank? %>
         <div class="row">
           <div class="col-lg-4 col-sm-4">

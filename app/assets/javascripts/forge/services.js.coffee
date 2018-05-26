@@ -53,15 +53,19 @@ forgeApp.LayerService = ($http, $rootScope) ->
   $http.defaults.headers.common.Accept = 'application/json'
   return {
     layers: null
-    layer: null
+    topLayer: null
+    bottomLayer: null
     load: ->
       $http.get('/layers.json').then (response) =>
         @layers = response.data?.items or []
         $rootScope.$broadcast 'layers:updated', @layers
-        @select(layer) for layer in @layers when layer.id is 10
+        @selectTop(layer) for layer in @layers when layer.id is 10
 
-    select: (layer) ->
-      @layer = layer
-      $rootScope.$broadcast 'layers:selected', @layer
+    selectTop: (layer) ->
+      @topLayer = layer
+      $rootScope.$broadcast 'layers:selected:top', @topLayer
+    selectBottom: (layer) ->
+      @bottomLayer = layer
+      $rootScope.$broadcast 'layers:selected:bottom', @bottomLayer
   }
 forgeApp.LayerService.$inject = ['$http', '$rootScope']

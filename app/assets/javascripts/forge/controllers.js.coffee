@@ -17,13 +17,19 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.buildingTypes.unshift name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form
-  $scope.selectLayer  = -> LayerService.select $scope.layer
+  $scope.selectLayer  = -> LayerService.selectTop $scope.layer
+  $scope.selectLayer2  = -> LayerService.selectBottom $scope.layer2
 
   $rootScope.$on 'layers:updated', (event, layers) ->
+    if layers[0].id isnt null
+      layers.unshift id: null, name: 'None'
     $scope.layers = layers
 
-  $rootScope.$on 'layers:selected', (event, layer) ->
+  $rootScope.$on 'layers:selected:top', (event, layer) ->
     $scope.layer = layer
+
+  $rootScope.$on 'layers:selected:bottom', (event, layer) ->
+    $scope.layer2 = layer
 
   $rootScope.$on 'buildings:updated', (event) ->
     $scope.meta = BuildingService.meta
@@ -42,22 +48,35 @@ forgeApp.LayersController.$inject = ['$rootScope', '$scope', 'BuildingService', 
 forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
 
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
-  wmslayer = null
+  wmslayerTop = null
+  wmslayerBottom = null
 
-  $rootScope.$on 'layers:selected', (event, layer) ->
+  $rootScope.$on 'layers:selected:top', (event, layer) ->
     $scope.layer = layer
     NgMap.getMap().then (map) ->
-      map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
-      url = "/layers/#{$scope.layer.id}/wms?"
-      fitToBoundingBox(map, $scope.layer.bbox)
-      wmslayer = loadWMS map, url
-
+      map.overlayMapTypes.removeAt(0)# if map.overlayMapTypes.length > 0
+      if layer.id
+        url = "/layers/#{$scope.layer.id}/wms?"
+        # fitToBoundingBox(map, $scope.layer.bbox)
+        wmslayerTop = loadWMS map, url, null, 0
+      else
+        wmsLayerTop = null
+  $rootScope.$on 'layers:selected:bottom', (event, layer) ->
+    $scope.layer2 = layer
+    NgMap.getMap().then (map) ->
+      map.overlayMapTypes.removeAt(1) #if map.overlayMapTypes.length > 0
+      if layer.id
+        url = "/layers/#{$scope.layer.id}/wms?"
+        # fitToBoundingBox(map, $scope.layer.bbox)
+        wmslayerBottom = loadWMS map, url, null, 1
+      else
+        wmsLayerBottom = null
   $rootScope.$on 'buildings:updated', (event) ->
     $scope.buildings = BuildingService.buildings
     $scope.meta = BuildingService.meta
 
   $rootScope.$on 'viewMode:changed', (event, viewMode) ->
-    if $scope.layer
+    if $scope.layer or $scope.layer2
       NgMap.getMap().then (map) ->
         fn = ->
           map.hideInfoWindow('building-iw')
@@ -102,22 +121,17 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.unhighlightBuilding = (event, building) ->
     BuildingService.highlight(null) if building.highlighted
 
-  # dragTimeout = null
-  # $scope.moveBuilding = (event, building) ->
-  #   point = event.latLng
-  #   building.lat = point.lat()
-  #   building.lon = point.lng()
-  #   saveBuilding = ->
-  #     BuildingService.save(building)
-  #   $timeout.cancel(dragTimeout) if dragTimeout
-  #   dragTimeout = $timeout saveBuilding, 1000
-  #   return
-
-  jQuery("#layer-slider").slider
+  jQuery(".layer-slider-top").slider
       value: 100,
       range: "min",
       slide: (e, ui) ->
-        wmslayer.setOpacity(ui.value / 100)
+        wmslayerTop.setOpacity(ui.value / 100)
+
+  jQuery(".layer-slider-bottom").slider
+      value: 100,
+      range: "min",
+      slide: (e, ui) ->
+        wmslayerButtom.setOpacity(ui.value / 100)
 
   jQuery('#forge-right-col').draggable()
 
@@ -127,8 +141,6 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     box.extend new google.maps.LatLng(parseFloat(boxValues[1]), parseFloat(boxValues[0]))
     box.extend new google.maps.LatLng(parseFloat(boxValues[3]), parseFloat(boxValues[2]))
     console.log 'center map to layer bounds!'
-    # map.setCenter box.getCenter()
-    # map.setZoom 18
     map.fitBounds(box)
 
   return
