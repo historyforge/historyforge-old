@@ -21,7 +21,7 @@ class Wms::LayerController < Wms::BaseController
     send_map_data(map, ows)
   rescue RuntimeError => e
     @e = e
-    render text: 'There was an error. Check the logs.'
+    render plain: 'There was an error. Check the logs.', status: 404
   end
 
 

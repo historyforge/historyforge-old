@@ -1,4 +1,4 @@
-class Layer < ActiveRecord::Base
+class Layer < ApplicationRecord
   has_many :layers_maps, :dependent => :destroy
   has_many :maps,:through => :layers_maps
   belongs_to :user

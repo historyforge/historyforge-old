@@ -1,4 +1,4 @@
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   has_one :census_1900_record, dependent: :nullify
   has_one :census_1910_record, dependent: :nullify
   has_one :census_1920_record, dependent: :nullify

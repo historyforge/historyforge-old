@@ -11,10 +11,10 @@ apt-get install -y ruby libruby ruby-dev \
     build-essential git-core \
     libxml2-dev libxslt-dev imagemagick libmapserver2 gdal-bin libgdal-dev ruby-mapscript nodejs
 
-gem install bundler
+gem install bundler -v=1.16.1
 
 ## install the bundle necessary for mapwarper
-pushd /srv/mapwarper
+pushd /app
 
 # do bundle install as a convenience
 sudo -u vagrant -H bundle install

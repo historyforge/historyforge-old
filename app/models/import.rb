@@ -1,4 +1,4 @@
-class Import < ActiveRecord::Base
+class Import < ApplicationRecord
   has_many :maps
   accepts_nested_attributes_for :maps,  :allow_destroy => true
   belongs_to :user, :class_name => "User"

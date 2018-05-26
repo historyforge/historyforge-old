@@ -1,4 +1,4 @@
-class CensusRecord < ActiveRecord::Base
+class CensusRecord < ApplicationRecord
 
   self.abstract_class = true
 

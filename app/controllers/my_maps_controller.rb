@@ -1,6 +1,6 @@
 class MyMapsController < ApplicationController
-  before_filter :get_user
-  before_filter :authenticate_user!, :only => [:list, :show, :create, :destroy]
+  before_action :get_user
+  before_action :authenticate_user!, :only => [:list, :show, :create, :destroy]
 
   def list
     @mymaps = @user.maps.order("updated_at DESC").page(params[:page] || 1).per(8)

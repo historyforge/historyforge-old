@@ -3,21 +3,19 @@ source 'https://rubygems.org'
 ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails' #, '4.2.10'
-# Use sqlite3 as the database for Active Record
-#gem 'sqlite3'
+gem 'rails', '5.2.0' #, '4.2.10'
+gem 'bootsnap'
+
 # Use SCSS for stylesheets
 gem 'sass-rails' #, '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails' #, '~> 4.0.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails' #, '>=4.0.5'
-gem "jquery-ui-rails", '3.0.1'  #loads jquery ui v 1.9.2
+gem "jquery-ui-rails" #, '3.0.1'  #loads jquery ui v 1.9.2
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
@@ -28,7 +26,7 @@ gem 'jbuilder', '~> 2.0'
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt'
-
+gem 'actionpack-action_caching'
 gem 'slim'
 gem 'autoprefixer-rails'
 gem 'bootstrap-sass'
@@ -65,20 +63,20 @@ gem 'ruby_mapscript' #, group: :production
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
 # gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
-gem 'audited'
+gem "audited", "~> 4.7"
 
 gem 'gdal'
 gem 'georuby'
 gem 'yql', '0.0.2'
 
-gem 'quiet_assets'
 gem 'dotenv'
 
 gem 'rubyXL', require: false
 
 group :development do
-   gem 'web-console', '~> 2.0'
-   gem 'spring'
+  gem 'byebug'
+  gem 'web-console' #, '~> 2.0'
+  gem 'spring'
 end
 
 gem 'puma'

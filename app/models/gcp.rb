@@ -1,4 +1,4 @@
-class Gcp < ActiveRecord::Base
+class Gcp < ApplicationRecord
   belongs_to :map
   audited :allow_mass_assignment => true
   

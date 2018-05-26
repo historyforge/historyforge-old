@@ -3,7 +3,7 @@ module RestoreSearch
   extend ActiveSupport::Concern
 
   included do
-    before_filter :restore_search, :only => :index, unless: :is_json_request?
+    before_action :restore_search, :only => :index, unless: :is_json_request?
   end
 
   private

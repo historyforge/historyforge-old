@@ -1,4 +1,4 @@
-class LayersMap < ActiveRecord::Base
+class LayersMap < ApplicationRecord
   belongs_to :layer
   belongs_to :map
 

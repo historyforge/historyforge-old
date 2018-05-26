@@ -54,12 +54,6 @@
         populate_gcps(<%=gcp.id-%>, <%= gcp.x -%>, <%= gcp.y -%>, <%= gcp.lon -%>, <%= gcp.lat -%>, <%=gcp.error -%>);
   <% end -%>
       update_row_numbers();
-
-  <% if @bestguess_places -%>
-        var bestGuessResult = <%= @bestguess_places.to_json.html_safe -%>;
-        bestGuess(bestGuessResult);
-  <% end -%>
-
     }
   </script>
 

@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Host only network so that NFS will work
   config.vm.network :private_network, ip: "192.168.44.44"
 
-  config.vm.synced_folder '.', '/srv/mapwarper', type: "nfs"
+  config.vm.synced_folder '.', '/app', type: "nfs"
   # This uses uid and gid of the user that started vagrant.
   config.nfs.map_uid = Process.uid
   config.nfs.map_gid = Process.gid

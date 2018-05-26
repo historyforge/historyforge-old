@@ -1,4 +1,5 @@
-#= require jquery.ui.all
+#= require jquery
+#= require jquery-ui
 #= require jquery_ujs
 
 #= require jquery-bramus-progressbar/jquery-bramus-progressbar

@@ -16,8 +16,7 @@ services:
     restart: always
     build:
       context: .
-      args:
-        - RAILS_ENV=${RAILS_ENV}
+    command: ["bundle", "exec", "rails", "server"]
     volumes:
       - bundle:/bundle
       - .:/app

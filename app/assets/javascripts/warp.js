@@ -796,34 +796,6 @@ function lonLatToMercatorBounds(llbounds) {
 
 }
 
-//this function is called is a map has no gcps, and fuzzy best guess
-//locations are found. This uses Yahoo's Placemaker service.
-function bestGuess(guessObj) {
-  jQuery("#to_map_notification").hide();
-  if (guessObj["status"] == "ok" && guessObj["count"] > 0) {
-    var siblingExtent = guessObj["sibling_extent"];
-    zoom = 10;
-    if (siblingExtent) {
-      sibBounds = new OpenLayers.Bounds.fromString(siblingExtent);
-      zoom = to_map.getZoomForExtent(sibBounds.transform(to_map.displayProjection, to_map.projection));
-    }
-    var places = guessObj["places"];
-    var message = "Map zoomed to best guess: " +
-            "<a href='#' onclick='centerToMap(" + places[0].lon + "," + places[0].lat + "," + zoom + ");return false;'>" + places[0].name + "</a><br />";
-    centerToMap(places[0].lon, places[0].lat, zoom);
-
-    if (places.length > 1) {
-      message = message + "Other places:<br />";
-      for (var i = 1; i < places.length; i++) {
-        var place = places[i];
-        message = message + "<a href='#' onclick='centerToMap(" + place.lon + "," + place.lat + "," + zoom + ");return false;'>" + place.name + "</a><br />"
-      }
-    }
-    jQuery("#to_map_notification_inner").html(message);
-    jQuery("#to_map_notification").show('slow');
-  }
-
-}
 function centerToMap(lon, lat, zoom) {
   var newCenter = new OpenLayers.LonLat(lon, lat).transform(to_map.displayProjection, to_map.projection);
   to_map.setCenter(newCenter, zoom);

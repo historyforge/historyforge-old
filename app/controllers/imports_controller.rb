@@ -1,10 +1,10 @@
 class ImportsController < ApplicationController
 
-  before_filter :authenticate_user!
-  before_filter :check_administrator_role
+  before_action :authenticate_user!
+  before_action :check_administrator_role
 
-  before_filter :find_import, :except => [:index, :new, :create]
-  before_filter :check_imported, :only => [:start]
+  before_action :find_import, :except => [:index, :new, :create]
+  before_action :check_imported, :only => [:start]
 
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
 

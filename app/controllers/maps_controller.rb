@@ -1,22 +1,21 @@
 class MapsController < ApplicationController
 
-  layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata]
+  layout 'mapdetail', only: %i[show edit preview warp clip align activity warped export metadata]
 
-  before_filter :store_location, :only => [:warp, :align, :clip, :export, :edit ]
+  before_action :store_location, only: %i[warp align clip export edit ]
 
-  before_filter :authenticate_user!, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align, :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid, :publish, :trace, :id, :map_type]
+  before_action :authenticate_user!, only: %i[new create edit update destroy delete warp rectify clip align warp_align mask_map delete_mask save_mask save_mask_and_warp set_rough_state set_rough_centroid publish trace id map_type]
 
-  before_filter :check_administrator_role, :only => [:publish]
+  before_action :check_administrator_role, only: :publish
 
-  before_filter :find_map_if_available,
-    :except => [:show, :index, :warp_aligned, :status, :new, :create, :update, :edit, :tag]
+  before_action :find_map_if_available,
+    except: %i[show index warp_aligned status new create update edit tag]
 
-  before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
-  before_filter :check_if_map_is_editable, :only => [:edit, :update, :map_type]
-  before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
-  #skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
+  before_action :check_link_back, only: %i[show warp clip align warped export activity]
+  before_action :check_if_map_is_editable, only: %i[edit update map_type]
+  before_action :check_if_map_can_be_deleted, only: %i[destroy delete]
 
-  rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
+  rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
   ###############
   #
@@ -35,8 +34,8 @@ class MapsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html{ render :layout =>'application' }  # new.html.erb
-      format.xml  { render :xml => @map }
+      format.html{ render layout: 'application' }  # new.html.erb
+      format.xml  { render xml: @map }
     end
   end
 
@@ -52,10 +51,10 @@ class MapsController < ApplicationController
       if @map.save
         flash[:notice] = 'Map was successfully created.'
         format.html { redirect_to(@map) }
-        format.xml  { render :xml => @map, :status => :created, :location => @map }
+        format.xml  { render xml: @map, status: :created, location: @map }
       else
-        format.html { render :action => "new", :layout =>'application' }
-        format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
+        format.html { render action: "new", layout: 'application' }
+        format.xml  { render xml: @map.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,8 +65,8 @@ class MapsController < ApplicationController
     @html_title = "Editing Map #{@map.title} on"
     choose_layout_if_ajax
     respond_to do |format|
-      format.html {} #{ render :layout =>'application' }  # new.html.erb
-      format.xml  { render :xml => @map }
+      format.html {} #{ render layout: 'application' }  # new.html.erb
+      format.xml  { render xml: @map }
     end
   end
 
@@ -80,11 +79,11 @@ class MapsController < ApplicationController
 
     if request.xhr?
       @xhr_flag = "xhr"
-      render :action => "edit", :layout => "tab_container"
+      render action: "edit", layout: "tab_container"
     else
       respond_to do |format|
         format.html { redirect_to map_path }
-        format.xml  { render :xml => @map.errors, :status => :unprocessable_entity }
+        format.xml  { render xml: @map.errors, status: :unprocessable_entity }
       end
     end
 
@@ -92,7 +91,7 @@ class MapsController < ApplicationController
 
   def delete
     respond_to do |format|
-      format.html {render :layout => 'application'}
+      format.html {render layout: 'application'}
     end
   end
 
@@ -115,13 +114,13 @@ class MapsController < ApplicationController
   #
   ###############
   def index
-    # sort_init('updated_at', {:default_order => "desc"})
+    # sort_init('updated_at', {default_order: "desc"})
 
     # sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
 
-    set_session_link_back url_for(:controller=> 'maps', :action => 'index',:skip_relative_url_root => false, :only_path => false )+ qstring
+    set_session_link_back url_for(controller: 'maps', action: 'index',skip_relative_url_root: false, only_path: false )+ qstring
 
     @query = params[:query]
 
@@ -162,41 +161,41 @@ class MapsController < ApplicationController
 
       @html_title = "Browse Maps"
       if request.xhr?
-        render :action => 'index.rjs'
+        render action: 'index.rjs'
       else
         respond_to do |format|
-          format.html{ render :layout =>'application' }  # index.html.erb
-          format.xml  { render :xml => @maps.to_xml(:root => "maps", :except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) {|xml|
+          format.html{ render layout: 'application' }  # index.html.erb
+          format.xml  { render xml: @maps.to_xml(root: "maps", except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) {|xml|
               xml.tag!'stat', "ok"
               xml.tag!'total-entries', @maps.total_entries
               xml.tag!'per-page', @maps.per_page
               xml.tag!'current-page',@maps.current_page} }
 
-          format.json { render :json => {:stat => "ok",
-              :current_page => @maps.current_page,
-              :per_page => @maps.per_page,
-              :total_entries => @maps.total_entries,
-              :total_pages => @maps.total_pages,
-              :items => @maps.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid], :methods => :depicts_year) , :callback => params[:callback]
+          format.json { render json: {stat: "ok",
+              current_page: @maps.current_page,
+              per_page: @maps.per_page,
+              total_entries: @maps.total_entries,
+              total_pages: @maps.total_pages,
+              items: @maps.to_a}.to_json(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid], methods: :depicts_year) , callback: params[:callback]
           }
         end
       end
     else
-      redirect_to :action => 'tag', :id => @query
+      redirect_to action: 'tag', id: @query
     end
   end
 
 
   def tag
-    # sort_init('updated_at', {:default_order => "desc"})
+    # sort_init('updated_at', {default_order: "desc"})
     # sort_update
     @tags = params[:id] || @query
     @html_title = "Maps tagged with #{@tags} on "
     @maps = Map.are_public.order('title asc').tagged_with(@tags).page(params[:page] || 1).per(20)
     respond_to do |format|
-      format.html { render :layout =>'application' }  # index.html.erb
-      format.xml  { render :xml => @maps }
-      format.rss  { render  :layout => false }
+      format.html { render layout: 'application' }  # index.html.erb
+      format.xml  { render xml: @maps }
+      format.rss  { render  layout: false }
     end
   end
 
@@ -237,14 +236,14 @@ class MapsController < ApplicationController
 
       if request.xhr?
         @xhr_flag = "xhr"
-        render :layout => "tab_container"
+        render layout: "tab_container"
       else
         respond_to do |format|
           format.html
-          format.kml {render :action => "show_kml", :layout => false}
-          #format.rss {render :action=> 'show'}
-          # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) }
-          format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+          format.kml {render action: "show_kml", layout: false}
+          #format.rss {render action: 'show'}
+          # format.xml {render xml: @map.to_xml(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]) }
+          format.json {render json: {stat: "ok", items: @map}.to_json(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), callback: params[:callback] }
         end
       end
 
@@ -269,9 +268,9 @@ class MapsController < ApplicationController
 
     respond_to do |format|
       format.html
-       format.kml {render :action => "show_kml", :layout => false}
-      # format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
-        format.json {render :json =>{:stat => "ok", :items => @map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback] }
+       format.kml {render action: "show_kml", layout: false}
+      # format.xml {render xml: @map.to_xml(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])  }
+        format.json {render json: {stat: "ok", items: @map}.to_json(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), callback: params[:callback] }
     end
 
 
@@ -288,9 +287,9 @@ class MapsController < ApplicationController
     choose_layout_if_ajax
     respond_to do | format |
       format.html {}
-      format.tif     { send_file @map.warped_filename, :x_sendfile => (Rails.env != "development") }
-      format.png     { send_file @map.warped_png, :x_sendfile => (Rails.env != "development") }
-      format.aux_xml { send_file @map.warped_png_aux_xml,:x_sendfile => (Rails.env != "development") }
+      format.tif     { send_file @map.warped_filename, x_sendfile: (Rails.env != "development") }
+      format.png     { send_file @map.warped_png, x_sendfile: (Rails.env != "development") }
+      format.aux_xml { send_file @map.warped_png_aux_xml,x_sendfile: (Rails.env != "development") }
     end
   end
 
@@ -335,8 +334,7 @@ class MapsController < ApplicationController
     @current_tab = "warp"
     @selected_tab = 2
     @html_title = "Rectifying Map "+ @map.id.to_s
-    @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
-    @other_layers = Array.new
+    @other_layers = []
     @map.layers.visible.each do |layer|
       @other_layers.push(layer.id)
     end
@@ -359,12 +357,12 @@ class MapsController < ApplicationController
   def id
     redirect_to map_path unless @map.published?
     @overlay = @map
-    render "id", :layout => false
+    render "id", layout: false
   end
 
   # called by id JS oauth
   def idland
-    render "idland", :layout => false
+    render "idland", layout: false
   end
 
   ###############
@@ -391,7 +389,7 @@ class MapsController < ApplicationController
       @maps = @layer.maps.per(30).page(1).order(:map_type)
     end
 
-    render :text => "Map has changed. Map type: "+@map.map_type.to_s
+    render text: "Map has changed. Map type: "+@map.map_type.to_s
   end
 
   #pass in soft true to get soft gcps
@@ -399,9 +397,9 @@ class MapsController < ApplicationController
     @map = Map.find(params[:id])
     gcps = @map.gcps_with_error(params[:soft])
     respond_to do |format|
-      format.html { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
-      format.json { render :json => {:stat => "ok", :items => gcps.to_a}.to_json(:methods => :error), :callback => params[:callback]}
-      format.xml { render :xml => gcps.to_xml(:methods => :error)}
+      format.html { render json: {stat: "ok", items: gcps.to_a}.to_json(methods: :error), callback: params[:callback]}
+      format.json { render json: {stat: "ok", items: gcps.to_a}.to_json(methods: :error), callback: params[:callback]}
+      format.xml { render xml: gcps.to_xml(methods: :error)}
     end
   end
 
@@ -410,7 +408,7 @@ class MapsController < ApplicationController
   def get_rough_centroid
     map = Map.find(params[:id])
     respond_to do |format|
-      format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), :callback => params[:callback]  }
+      format.json {render json: {stat: "ok", items: map}.to_json(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail]), callback: params[:callback]  }
     end
   end
 
@@ -420,12 +418,12 @@ class MapsController < ApplicationController
     lat = params[:lat]
     zoom = params[:zoom]
     respond_to do |format|
-      if map.update_attributes(:rough_lon  => lon, :rough_lat => lat, :rough_zoom => zoom ) && lat && lon
+      if map.update_attributes(rough_lon:  lon, rough_lat: lat, rough_zoom: zoom ) && lat && lon
         map.save_rough_centroid(lon, lat)
-        format.json {render :json =>{:stat => "ok", :items => map}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]
+        format.json {render json: {stat: "ok", items: map}.to_json(except: [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), callback: params[:callback]
         }
       else
-        format.json { render :json => {:stat => "fail", :message => "Rough centroid not set", :items => [], :errors => map.errors.to_a}.to_json, :callback => params[:callback]}
+        format.json { render json: {stat: "fail", message: "Rough centroid not set", items: [], errors: map.errors.to_a}.to_json, callback: params[:callback]}
       end
     end
   end
@@ -434,9 +432,9 @@ class MapsController < ApplicationController
     map = Map.find(params[:id])
     respond_to do |format|
       if map.rough_state
-        format.json { render :json => {:stat => "ok", :items => ["id" => map.id, "rough_state" => map.rough_state]}.to_json, :callback => params[:callback]}
+        format.json { render json: {stat: "ok", items: ["id" => map.id, "rough_state" => map.rough_state]}.to_json, callback: params[:callback]}
       else
-        format.json { render :json => {:stat => "fail", :message => "Rough state is null", :items => map.rough_state}.to_json, :callback => params[:callback]}
+        format.json { render json: {stat: "fail", message: "Rough state is null", items: map.rough_state}.to_json, callback: params[:callback]}
       end
     end
   end
@@ -444,10 +442,10 @@ class MapsController < ApplicationController
   def set_rough_state
     map = Map.find(params[:id])
     respond_to do |format|
-      if map.update_attributes(:rough_state => params[:rough_state]) && Map::ROUGH_STATE.include?(params[:rough_state].to_sym)
-        format.json { render :json => {:stat => "ok", :items => ["id" => map.id, "rough_state" => map.rough_state]}.to_json, :callback => params[:callback] }
+      if map.update_attributes(rough_state: params[:rough_state]) && Map::ROUGH_STATE.include?(params[:rough_state].to_sym)
+        format.json { render json: {stat: "ok", items: ["id" => map.id, "rough_state" => map.rough_state]}.to_json, callback: params[:callback] }
       else
-        format.json { render :json => {:stat => "fail", :message =>"Could not update state", :errors => map.errors.to_a, :items => []}.to_json , :callback => params[:callback]}
+        format.json { render json: {stat: "fail", message: "Could not update state", errors: map.errors.to_a, items: []}.to_json , callback: params[:callback]}
       end
     end
   end
@@ -460,7 +458,7 @@ class MapsController < ApplicationController
     else
       sta = map.status.to_s
     end
-    render :text =>  sta
+    render text:  sta
   end
 
   #should check for admin only
@@ -478,18 +476,18 @@ class MapsController < ApplicationController
   def save_mask
     message = @map.save_mask(params[:output])
     respond_to do | format |
-      format.html {render :text => message}
-      format.js { render :text => message} if request.xhr?
-      format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+      format.html {render text: message}
+      format.js { render text: message} if request.xhr?
+      format.json {render json: {stat: "ok", message: message}.to_json , callback: params[:callback]}
     end
   end
 
   def delete_mask
     message = @map.delete_mask
     respond_to do | format |
-      format.html { render :text => message}
-      format.js { render :text => message} #if request.xhr?
-      format.json {render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+      format.html { render text: message}
+      format.js { render text: message} #if request.xhr?
+      format.json {render json: {stat: "ok", message: message}.to_json , callback: params[:callback]}
     end
   end
 
@@ -497,14 +495,14 @@ class MapsController < ApplicationController
     respond_to do | format |
       if File.exists?(@map.masking_file_gml)
         message = @map.mask!
-        format.html { render :text => message }
-        format.js { render :text => message} #if request.xhr?
-        format.json { render :json => {:stat =>"ok", :message => message}.to_json , :callback => params[:callback]}
+        format.html { render text: message }
+        format.js { render text: message} #if request.xhr?
+        format.json { render json: {stat: "ok", message: message}.to_json , callback: params[:callback]}
       else
         message = "Mask file not found"
-        format.html { render :text => message  }
-        format.js { render :text => message} #if request.xhr?
-        format.json { render :json => {:stat =>"fail", :message => message}.to_json , :callback => params[:callback]}
+        format.html { render text: message  }
+        format.js { render text: message} #if request.xhr?
+        format.json { render json: {stat: "fail", message: message}.to_json , callback: params[:callback]}
       end
     end
   end
@@ -529,8 +527,8 @@ class MapsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json {render :json => {:stat => stat, :message => msg}.to_json , :callback => params[:callback]}
-      format.js { render :text => msg } if request.xhr?
+      format.json {render json: {stat: stat, message: msg}.to_json , callback: params[:callback]}
+      format.js { render text: msg } if request.xhr?
     end
   end
 
@@ -545,7 +543,7 @@ class MapsController < ApplicationController
 
     if destmap.status.nil? or destmap.status == :unloaded or destmap.status == :loading
       flash.now[:notice] = "Sorry the destination map is not available to be aligned."
-      redirect_to :action => "show", :id=> params[:destmap]
+      redirect_to action: "show", id: params[:destmap]
     elsif align != "other"
 
       if params[:align_type]  == "original"
@@ -554,10 +552,10 @@ class MapsController < ApplicationController
         destmap.align_with_warped(params[:srcmap], align, append )
       end
       flash.now[:notice] = "Map aligned. You can now rectify it!"
-      redirect_to :action => "warp", :id => destmap.id
+      redirect_to action: "warp", id: destmap.id
     else
       flash.now[:notice] = "Sorry, only horizontal and vertical alignment are available at the moment."
-      redirect_to :action => "align", :id=> params[:srcmap]
+      redirect_to action: "align", id: params[:srcmap]
     end
   end
 
@@ -569,12 +567,12 @@ class MapsController < ApplicationController
     respond_to do |format|
       unless @too_few || @fail
         format.js
-        format.html { render :text => @notice_text }
-        format.json { render :json=> {:stat => "ok", :message => @notice_text}.to_json, :callback => params[:callback] }
+        format.html { render text: @notice_text }
+        format.json { render json: {stat: "ok", message: @notice_text}.to_json, callback: params[:callback] }
       else
         format.js
-        format.html { render :text => @notice_text }
-        format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
+        format.html { render text: @notice_text }
+        format.json { render json: {stat: "fail", message: @notice_text}.to_json , callback: params[:callback]}
       end
     end
 
@@ -630,7 +628,7 @@ class MapsController < ApplicationController
       @output = @notice_text
     else
       if user_signed_in?
-        um  = current_user.my_maps.new(:map => @map)
+        um  = current_user.my_maps.new(map: @map)
         um.save
 
         # two ways of creating the relationship
@@ -649,7 +647,7 @@ class MapsController < ApplicationController
   def check_link_back
     @link_back = session[:link_back]
     if @link_back.nil?
-      @link_back = url_for(:action => 'index')
+      @link_back = url_for(action: 'index')
     end
 
     session[:link_back] = @link_back
@@ -670,9 +668,9 @@ class MapsController < ApplicationController
     respond_to do | format |
       format.html do
         flash[:notice] = "Map not found"
-        redirect_to :action => :index
+        redirect_to action: :index
       end
-      format.json {render :json => {:stat => "not found", :items =>[]}.to_json, :status => 404}
+      format.json {render json: {stat: "not found", items: []}.to_json, status: 404}
     end
   end
 
@@ -707,7 +705,7 @@ class MapsController < ApplicationController
   def choose_layout_if_ajax
     if request.xhr?
       @xhr_flag = "xhr"
-      render :layout => "tab_container"
+      render layout: "tab_container"
     end
   end
 
@@ -730,7 +728,7 @@ class MapsController < ApplicationController
     return if anchor.blank?
 
     if request.parameters[:action] &&  request.parameters[:id]
-      session[:user_return_to] = map_path(:id => request.parameters[:id], :anchor => anchor)
+      session[:user_return_to] = map_path(id: request.parameters[:id], anchor: anchor)
     else
       session[:user_return_to] = request.url
     end

@@ -3,14 +3,15 @@
 # APP_CONFIG = YAML.load_file(CONFIG_PATH)[Rails.env]
 
 #directories for maps and layer tileindex shapefiles
-DST_MAPS_DIR = Rails.root.join('public/mapimages/dst/')
-SRC_MAPS_DIR = Rails.root.join('public/mapimages/src/')
-TILEINDEX_DIR = Rails.root.join('db/maptileindex')
+DST_MAPS_DIR = Rails.root.join('public', 'mapimages', 'dst').to_s
+SRC_MAPS_DIR = Rails.root.join('public', 'mapimages', 'src').to_s
+TILEINDEX_DIR = Rails.root.join('db/maptileindex').to_s
 
 #if gdal is not on the normal path
-GDAL_PATH = ""
+GDAL_PATH = ''
 
-APP_CONFIG={}
+# To prevent legacy errors looking to obsolete APP_CONFIG constant
+APP_CONFIG = {}
 
 #
 # Uncomment and populate the config file if you want to enable:

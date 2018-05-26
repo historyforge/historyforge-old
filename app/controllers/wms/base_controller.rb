@@ -1,10 +1,24 @@
-class Wms::BaseController < ActionController::Metal
+require 'mapscript'
+require 'digest/sha1'
 
-  require 'mapscript'
+class Wms::BaseController < ActionController::Base
   include Mapscript
-  include ActionController::RackDelegation
-  include AbstractController::Rendering
-  include ActionController::DataStreaming
+
+  caches_action :wms, if: Proc.new {|c|
+    c.params["status"]  == "warped" || c.params["STATUS"] == "warped"
+  }, cache_path: Proc.new { |c|
+    string =  c.params.to_s
+    { status: c.params["status"] || c.params["STATUS"], tag: Digest::SHA1.hexdigest(string) }
+  }
+
+  caches_action :tile, cache_path: Proc.new { |c|
+    string =  c.params.to_s
+    { tag: Digest::SHA1.hexdigest(string) }
+  }
+
+  def wms
+    raise "You need to implement wms action in subclass."
+  end
 
   private
 
@@ -52,7 +66,7 @@ class Wms::BaseController < ActionController::Metal
     result_data = Mapscript.msIO_getStdoutBufferBytes
     send_data result_data, type: content_type, disposition: "inline"
   rescue Mapscript::MapserverError
-    render nothing: true, status: 404
+    render plain: 'map not found', status: 404
   ensure
     Mapscript.msIO_resetHandlers
   end
@@ -77,8 +91,8 @@ class Wms::BaseController < ActionController::Metal
 
   def map
     @map2 || begin
-      @map2 = Mapscript::MapObj.new(File.join(Rails.root, '/lib/mapserver/wms.map'))
-      projfile = File.join(Rails.root, '/lib/proj')
+      @map2 = Mapscript::MapObj.new(Rails.root.join('lib', 'mapserver', 'wms.map').to_s)
+      projfile = Rails.root.join('lib', 'proj').to_s
       @map2.setConfigOption("PROJ_LIB", projfile)
       @map2.applyConfigOptions
       @map2

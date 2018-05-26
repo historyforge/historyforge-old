@@ -26,6 +26,10 @@ Rails.application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+  config.assets.quiet = true
+
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+  config.log_level = :debug
 
   # Adds additional error checking when serving assets at runtime.
   # Checks for improperly declared sprockets dependencies.
@@ -34,7 +38,6 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  config.active_record.raise_in_transactional_callbacks = true
 
   config.action_mailer.default_url_options = { :host => ENV['BASE_URL'] }
 

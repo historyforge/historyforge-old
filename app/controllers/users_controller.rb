@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   layout 'application'
 
-  before_filter :authenticate_user!, only: [:show, :edit, :update]
+  before_action :authenticate_user!, only: [:show, :edit, :update]
 
-  before_filter :check_super_user_role, only: [:index, :new, :create, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
+  before_action :check_super_user_role, only: [:index, :new, :create, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
 
   rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
