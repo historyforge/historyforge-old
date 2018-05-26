@@ -66,7 +66,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(1) #if map.overlayMapTypes.length > 0
       if layer.id
-        url = "/layers/#{$scope.layer.id}/wms?"
+        url = "/layers/#{$scope.layer2.id}/wms?"
         # fitToBoundingBox(map, $scope.layer.bbox)
         wmslayerBottom = loadWMS map, url, null, 1
       else
@@ -131,7 +131,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       value: 100,
       range: "min",
       slide: (e, ui) ->
-        wmslayerButtom.setOpacity(ui.value / 100)
+        wmslayerBottom.setOpacity(ui.value / 100)
 
   jQuery('#forge-right-col').draggable()
 
