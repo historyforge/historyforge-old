@@ -4,23 +4,39 @@ require 'digest/sha1'
 class Wms::BaseController < ActionController::Base
   include Mapscript
 
-  caches_action :wms, cache_path: proc { |c|
-    string =  c.params.to_s
-    { status: c.params["status"] || c.params["STATUS"], tag: Digest::SHA1.hexdigest(string) }
-  }
+  # caches_action :wms, cache_path: proc { |c|
+  #   string =  c.params.to_s
+  #   { tag: Digest::SHA1.hexdigest(string) }
+  # }
+  #
+  # caches_action :tile, cache_path: proc { |c|
+  #   string =  c.params.to_s
+  #   { tag: Digest::SHA1.hexdigest(string) }
+  # }
 
-  caches_action :tile, cache_path: proc { |c|
-    string =  c.params.to_s
-    { tag: Digest::SHA1.hexdigest(string) }
-  }
+  def tile
+    Rails.cache.fetch(cache_path) do
+      generate_tile
+    end
+  end
 
   def wms
-    raise "You need to implement wms action in subclass."
+    Rails.cache.fetch(cache_path) do
+      generate_wms
+    end
   end
 
   private
 
-  def tile
+  def cache_path
+    @cache_path ||= Digest::SHA1.hexdigest(params.to_s)
+  end
+
+  def generate_wms
+    raise "You need to implement wms action in subclass."
+  end
+
+  def generate_tile
     x = params[:x].to_i
     y = params[:y].to_i
     z = params[:z].to_i
@@ -39,7 +55,6 @@ class Wms::BaseController < ActionController::Base
     params[:height] = "256"
     wms
   end
-
   # tile utility methods. calculates the bounding box for a given TMS tile.
   # Based on http://www.maptiler.org/google-maps-coordinates-tile-bounds-projection/
   # GDAL2Tiles, Google Summer of Code 2007 & 2008

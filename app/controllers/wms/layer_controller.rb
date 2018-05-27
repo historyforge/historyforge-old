@@ -1,6 +1,6 @@
 class Wms::LayerController < Wms::BaseController
 
-  def wms
+  def generate_wms
     @layer = Layer.find(params[:id])
 
     map.setMetaData("wms_onlineresource",

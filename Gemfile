@@ -2,54 +2,46 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'rails', '5.2.0'
-gem 'bootsnap'
-gem 'sass-rails'
-gem 'uglifier'
-gem 'coffee-rails'
-gem 'jquery-rails'
-gem "jquery-ui-rails"
-gem 'jbuilder', '~> 2.0'
-gem 'bcrypt'
-gem 'actionpack-action_caching'
-gem 'slim'
-gem 'autoprefixer-rails'
-gem 'bootstrap-sass'
-gem 'simple_form'
-gem 'cancancan'
-gem 'andand'
 gem 'active_model_serializers'
-gem 'ransack'
+gem 'activerecord-postgis-adapter'
 gem 'acts_as_list'
-gem 'mini_magick'
-gem 'geocoder'
-gem 'non-stupid-digest-assets'
+gem 'acts-as-taggable-on'
+gem 'airbrake'
+gem 'andand'
+gem "audited", "~> 4.7"
+gem 'autoprefixer-rails'
+gem 'bcrypt'
+gem 'bootsnap'
+gem 'bootstrap-sass'
+gem 'cancancan'
+gem 'coffee-rails'
 gem 'devise'
 gem 'devise-encryptable'
-gem 'pg'
-gem 'activerecord-postgis-adapter'
-gem 'acts-as-taggable-on' #, '~> 3.4'
-gem 'paperclip' #, '~> 4.2.0'
-gem 'kaminari'
-gem 'spawnling' #, '~>2.1'
-gem 'ruby_mapscript', require: false
-gem "audited", "~> 4.7"
-
-gem 'gdal'
-gem 'georuby'
-
 gem 'dotenv'
-
+gem 'gdal'
+gem 'geocoder'
+gem 'georuby'
+gem 'jbuilder', '~> 2.0'
+gem 'jquery-rails'
+gem "jquery-ui-rails"
+gem 'kaminari'
+gem 'mini_magick'
+gem 'non-stupid-digest-assets'
+gem 'paperclip' #, '~> 4.2.0'
+gem 'pg'
+gem 'puma'
+gem 'rails', '5.2.0'
+gem 'ransack'
 gem 'rubyXL', require: false
+gem 'ruby_mapscript'
+gem 'sass-rails'
+gem 'simple_form'
+gem 'slim'
+gem 'spawnling' #, '~>2.1'
+gem 'uglifier'
 
 group :development do
   gem 'byebug'
   gem 'web-console' #, '~> 2.0'
   gem 'spring'
-end
-
-gem 'puma'
-group :production do
-  gem 'airbrake'
-  gem 'rails_12factor'
 end

@@ -18,8 +18,6 @@ GEM
       rack-test (>= 0.6.3)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionpack-action_caching (1.2.0)
-      actionpack (>= 4.0.0, < 6)
     actionview (5.2.0)
       activesupport (= 5.2.0)
       builder (~> 3.1)
@@ -183,11 +181,6 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.4)
       loofah (~> 2.2, >= 2.2.2)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_serve_static_assets (0.0.5)
-    rails_stdout_logging (0.0.5)
     railties (5.2.0)
       actionpack (= 5.2.0)
       activesupport (= 5.2.0)
@@ -268,7 +261,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  actionpack-action_caching
   active_model_serializers
   activerecord-postgis-adapter
   acts-as-taggable-on
@@ -299,7 +291,6 @@ DEPENDENCIES
   pg
   puma
   rails (= 5.2.0)
-  rails_12factor
   ransack
   rubyXL
   ruby_mapscript

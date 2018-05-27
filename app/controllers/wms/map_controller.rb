@@ -1,6 +1,6 @@
 class Wms::MapController < Wms::BaseController
 
-  def wms
+  def generate_wms
 
     @map = Map.find(params[:id])
     #status is additional query param to show the unwarped wms
