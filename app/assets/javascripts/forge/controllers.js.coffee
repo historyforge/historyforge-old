@@ -12,7 +12,7 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.form = {}
   $scope.form.buildingType = null
   $scope.form.buildingYear = null
-  $scope.selectedLayers = top: 10, bottom: null
+  $scope.selectedLayers = top: null, bottom: null
   $scope.buildingTypes = window.buildingTypes
   $scope.buildingYears = [null, 1900, 1910, 1920, 1930]
   $scope.buildingTypes.unshift name: 'all buildings'
@@ -53,7 +53,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   wmslayerTop = null
   wmslayerBottom = null
 
-  $scope.selectedLayers = top: 10, bottom: null
+  $scope.selectedLayers = top: null, bottom: null
 
   $scope.$on 'layers:selected:top', (event, id) ->
     $scope.selectedLayers.top = id
