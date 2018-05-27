@@ -4,5 +4,5 @@ libxslt-dev
 libmapserver2
 gdal-bin
 libgdal-dev
-ruby-mapscript
+libmapscript-ruby
 nodejs
