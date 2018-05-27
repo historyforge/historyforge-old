@@ -9,7 +9,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Rails4Mapwarper
+module HistoryForge
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -37,5 +37,7 @@ module Rails4Mapwarper
 
     config.assets.precompile += %w{forge.js miniforge.js}
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+
+    config.action_controller.page_cache_directory = Rails.root.join("tmp", "cached_pages").to_s
   end
 end
