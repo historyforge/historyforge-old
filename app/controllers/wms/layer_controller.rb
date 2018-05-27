@@ -20,8 +20,9 @@ class Wms::LayerController < Wms::BaseController
     raster.debug = Mapscript::MS_TRUE
     send_map_data(map, ows)
   rescue RuntimeError => e
-    @e = e
-    render plain: 'There was an error. Check the logs.', status: 404
+    [nil, nil]
+    # @e = e
+    # render plain: 'There was an error. Check the logs.', status: 404
   end
 
 
