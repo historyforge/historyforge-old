@@ -2,29 +2,14 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '5.2.0' #, '4.2.10'
+gem 'rails', '5.2.0'
 gem 'bootsnap'
-
-# Use SCSS for stylesheets
-gem 'sass-rails' #, '~> 4.0.3'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
-# Use CoffeeScript for .js.coffee assets and views
-gem 'coffee-rails' #, '~> 4.0.0'
-
-# Use jquery as the JavaScript library
-gem 'jquery-rails' #, '>=4.0.5'
-gem "jquery-ui-rails" #, '3.0.1'  #loads jquery ui v 1.9.2
-
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-# gem 'turbolinks'
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem 'sass-rails'
+gem 'uglifier'
+gem 'coffee-rails'
+gem 'jquery-rails'
+gem "jquery-ui-rails"
 gem 'jbuilder', '~> 2.0'
-# bundle exec rake doc:rails generates the API under doc/api.
-# gem 'sdoc', '~> 0.4.0',          group: :doc
-
-# Use ActiveModel has_secure_password
 gem 'bcrypt'
 gem 'actionpack-action_caching'
 gem 'slim'
@@ -37,28 +22,16 @@ gem 'active_model_serializers'
 gem 'ransack'
 gem 'acts_as_list'
 gem 'mini_magick'
-# gem 'ar_doc_store'
 gem 'geocoder'
 gem 'non-stupid-digest-assets'
-
-# gem 'nokogiri', '1.6.8.1' # Because 1.8 won't compile with Ruby 2.0
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
-
 gem 'devise'
 gem 'devise-encryptable'
-
 gem 'pg'
 gem 'activerecord-postgis-adapter'
-
 gem 'acts-as-taggable-on' #, '~> 3.4'
 gem 'paperclip' #, '~> 4.2.0'
 gem 'kaminari'
 gem 'spawnling' #, '~>2.1'
-
 gem 'ruby_mapscript' #, group: :production
 
 #Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166

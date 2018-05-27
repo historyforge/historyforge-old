@@ -1,6 +1,3 @@
-ruby
-libruby
-ruby-dev
 build-essential
 git-core
 libxml2-dev
@@ -8,4 +5,4 @@ libxslt-dev
 libmapserver2
 gdal-bin
 libgdal-dev
-ruby-mapscript
+libmapscript-ruby
