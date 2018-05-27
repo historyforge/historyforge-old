@@ -40,7 +40,6 @@ gem "audited", "~> 4.7"
 
 gem 'gdal'
 gem 'georuby'
-gem 'yql', '0.0.2'
 
 gem 'dotenv'
 
