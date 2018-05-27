@@ -51,23 +51,24 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   wmslayerTop = null
   wmslayerBottom = null
 
-  $rootScope.$on 'layers:selected:top', (event, layer) ->
-    $scope.layer = layer
+  $scope.selectedLayers = top: null, bottom: null
+
+  $rootScope.$on 'layers:selected:top', (event, id) ->
+    $scope.selectedLayers.top = id
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(1)# if map.overlayMapTypes.length > 0
-      if $scope.layer.id
-        url = "/layers/#{$scope.layer.id}/wms?"
+      if id
+        url = "/layers/#{id}/wms?"
         # fitToBoundingBox(map, $scope.layer.bbox)
         wmslayerTop = loadWMS map, url, null, 1
       else
         wmsLayerTop = null
-  $rootScope.$on 'layers:selected:bottom', (event, layer2) ->
-    debugger
-    $scope.layer2 = layer2
+  $rootScope.$on 'layers:selected:bottom', (event, id) ->
+    $scope.selectedLayers.bottom = id
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(0) #if map.overlayMapTypes.length > 0
-      if $scope.layer2.id
-        url = "/layers/#{$scope.layer2.id}/wms?"
+      if id
+        url = "/layers/#{id}/wms?"
         # fitToBoundingBox(map, $scope.layer.bbox)
         wmslayerBottom = loadWMS map, url, null, 0
       else
@@ -77,7 +78,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     $scope.meta = BuildingService.meta
 
   $rootScope.$on 'viewMode:changed', (event, viewMode) ->
-    if $scope.layer or $scope.layer2
+    if $scope.selectedLayers.top or $scope.selectLayers.bottom
       NgMap.getMap().then (map) ->
         fn = ->
           map.hideInfoWindow('building-iw')

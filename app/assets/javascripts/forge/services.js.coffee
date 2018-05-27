@@ -61,14 +61,14 @@ forgeApp.LayerService = ($http, $rootScope) ->
         @layers = response.data?.items or []
         @layerDictionary[layer.id] = layer for layer in @layers
         $rootScope.$broadcast 'layers:updated', @layers
-        @selectTop(layer.id) for layer in @layers when layer.id is 10
+        @selectTop(10)
 
     selectTop: (id) ->
       @topLayer = @getLayerById(id)
-      $rootScope.$broadcast 'layers:selected:top', @topLayer
+      $rootScope.$broadcast 'layers:selected:top', id
     selectBottom: (id) ->
       @bottomLayer = @getLayerById(id)
-      $rootScope.$broadcast 'layers:selected:bottom', @bottomLayer
+      $rootScope.$broadcast 'layers:selected:bottom', id
     getLayerById: (id) ->
       @layerDictionary[id]
   }
