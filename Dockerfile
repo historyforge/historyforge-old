@@ -23,6 +23,9 @@ ADD lib/docker/database.yml ./config/database.yml
 
 ADD lib/docker/secrets.yml ./config/secrets.yml
 
+# Provide dummy data to Rails so it can pre-compile assets.
+RUN bundle exec rails RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_TOKEN=pickasecuretoken assets:precompile
+
 RUN chown -R nobody:nogroup /app
 
 USER nobody
