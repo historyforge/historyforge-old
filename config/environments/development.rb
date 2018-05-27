@@ -40,6 +40,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.default_url_options = { :host => ENV['BASE_URL'] }
+  config.action_mailer.delivery_method = :letter_opener
 
   config.web_console.whiny_requests = false
 end

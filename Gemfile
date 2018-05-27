@@ -41,7 +41,11 @@ gem 'spawnling' #, '~>2.1'
 gem 'uglifier'
 
 group :development do
-  gem 'byebug'
-  gem 'web-console' #, '~> 2.0'
-  gem 'spring'
+  gem "byebug"
+  gem "letter_opener"
+  gem "pry"
+  gem "rubocop", require: false
+  gem "rubocop-rails"
+  gem "spring"
+  gem "web-console" #, "~> 2.0"
 end
