@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1', patchlevel: '112'
+# ruby '2.3.1'
 
 gem 'rails', '5.2.0'
 gem 'bootsnap'
@@ -32,10 +32,7 @@ gem 'acts-as-taggable-on' #, '~> 3.4'
 gem 'paperclip' #, '~> 4.2.0'
 gem 'kaminari'
 gem 'spawnling' #, '~>2.1'
-gem 'ruby_mapscript' #, group: :production
-
-#Rails 4 support for the audited (acts_as_audited gem) is not quite rails4 worthy - see #https://github.com/collectiveidea/audited/pull/166
-# gem 'audited-activerecord', github: 'timwaters/audited', branch: 'rails4'
+gem 'ruby_mapscript'
 gem "audited", "~> 4.7"
 
 gem 'gdal'
