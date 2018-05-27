@@ -9,6 +9,10 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+if ENV['DATABASE_URL']
+  POSTGIS_URL = ENV['DATABASE_URL'].sub(/postgres:\/\//, "postgis://")
+end
+
 module HistoryForge
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

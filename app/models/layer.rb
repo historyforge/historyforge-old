@@ -91,7 +91,7 @@ class Layer < ApplicationRecord
     command = "gdaltindex -write_absolute_path #{tileindex} #{map_list}"
     logger.info(command)
 
-    stdin, stdout, stderr = Open3::popen3(command)
+    stdin, stdout, stderr = Open3.popen3(command)
     out = stdout.readlines.to_s
     err = stderr.readlines.to_s
 
@@ -119,8 +119,7 @@ class Layer < ApplicationRecord
     tileindex = custom_path || tileindex_path
     command = "ogrinfo #{tileindex} -al -so -ro"
     logger.info command
-    #stdin, stdout, stderr = Open3::popen3(command)
-    stdout, stderr = Open3.capture3( command )
+    stdout, stderr = Open3.capture3(command)
     sout = stdout
     serr = stderr
     if !serr.blank?

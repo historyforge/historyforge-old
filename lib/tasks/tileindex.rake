@@ -22,7 +22,7 @@ namespace :warper do
         count += 1
       end
         sleep(0.2)
-      end 
+      end
     puts "\n Count = #{count} layers done"
     end
 end

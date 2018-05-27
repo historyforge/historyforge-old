@@ -20,6 +20,11 @@ class Map < ApplicationRecord
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, allow_nil: true
   validates_numericality_of :metadata_lat, :metadata_lon, allow_nil: true
+  validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
+  validates_length_of :date_depicted, :maximum => 4,:allow_nil => true, :allow_blank => true
+  validates_numericality_of :date_depicted, :if => Proc.new {|c| not c.date_depicted.blank?}
+  validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true
+  validate :unique_filename, :on => :create
 
   acts_as_taggable
   acts_as_enum :map_type, [:index, :is_map, :not_map ]
@@ -742,4 +747,10 @@ class Map < ApplicationRecord
       logger.info "end, converted to png -> #{warped_png_filename}"
     end
   end
+
+  def unique_filename
+   if upload.original_filename
+     errors.add(:filename, :filename_not_unique) if Map.find_by(upload_file_name: upload.original_filename)
+   end
+ end
 end
