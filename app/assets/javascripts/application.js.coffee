@@ -1,6 +1,5 @@
-#= require jquery
 #= require jquery-ui
-#= require jquery_ujs
+#= require rails-ujs
 
 #= require jquery-bramus-progressbar/jquery-bramus-progressbar
 #= require general
@@ -9,12 +8,11 @@
 #= require layers
 #= require unwarped
 #= require SelectFeatureNoClick
-#= require querystring
 #= require alertify.min
 #= require advanced_search
 #= require census_form
 
-querystring = require('querystring-component')
+#querystring = require('querystring-component')
 
 pageLoad = ->
   window.alerts or= []
