@@ -61,16 +61,15 @@ forgeApp.LayerService = ($http, $rootScope) ->
         @layers = response.data?.items or []
         @layerDictionary[layer.id] = layer for layer in @layers
         $rootScope.$broadcast 'layers:updated', @layers
-        @selectTop(id: layer.id) for layer in @layers when layer.id is 10
+        @selectTop(layer.id) for layer in @layers when layer.id is 10
 
-    selectTop: (layer) ->
-      @topLayer = @getLayerById(layer)
+    selectTop: (id) ->
+      @topLayer = @getLayerById(id)
       $rootScope.$broadcast 'layers:selected:top', @topLayer
-    selectBottom: (layer) ->
-      @bottomLayer = @getLayerById(layer)
+    selectBottom: (id) ->
+      @bottomLayer = @getLayerById(id)
       $rootScope.$broadcast 'layers:selected:bottom', @bottomLayer
-    getLayerById: (layer) ->
-      id = layer.id or layer
+    getLayerById: (id) ->
       @layerDictionary[id]
   }
 forgeApp.LayerService.$inject = ['$http', '$rootScope']

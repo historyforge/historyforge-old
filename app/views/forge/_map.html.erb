@@ -68,7 +68,7 @@
           <label for="layer-select" class="control-label">Top Map</label>
         </div>
         <div class="col-lg-4 col-sm-4">
-          <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer()" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
+          <select id="layer-select" class="form-control" ng-model="layer" ng-change="selectLayer(layer.id)" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
         </div>
         <div class="col-lg-6 col-sm-6" ng-show="layer">
           <div class="layer-slider-top">
@@ -81,7 +81,7 @@
           <label for="layer2-select" class="control-label">Bottom Map</label>
         </div>
         <div class="col-lg-4 col-sm-4">
-          <select id="layer2-select" class="form-control" ng-model="layer2.id" ng-change="selectLayer2()" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
+          <select id="layer2-select" class="form-control" ng-model="layer2.id" ng-change="selectLayer2(layer2.id)" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
         </div>
         <div class="col-lg-6 col-sm-6" ng-show="layer2.id">
           <div class="layer-slider-bottom">

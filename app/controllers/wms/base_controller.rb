@@ -15,12 +15,22 @@ class Wms::BaseController < ActionController::Base
   # }
 
   def tile
+    content_type, result_data = fetch_tile
+    send_data result_data, type: content_type, disposition: "inline"
+  end
+
+  def wms
+    content_type, result_data = fetch_wms
+    send_data result_data, type: content_type, disposition: "inline"
+  end
+
+  def fetch_tile
     Rails.cache.fetch(cache_path) do
       generate_tile
     end
   end
 
-  def wms
+  def fetch_wms
     Rails.cache.fetch(cache_path) do
       generate_wms
     end
@@ -77,9 +87,10 @@ class Wms::BaseController < ActionController::Base
     map.OWSDispatch(ows)
     content_type = Mapscript.msIO_stripStdoutBufferContentType || "text/plain"
     result_data = Mapscript.msIO_getStdoutBufferBytes
-    send_data result_data, type: content_type, disposition: "inline"
+    # send_data result_data, type: content_type, disposition: "inline"
+    [content_type, result_data]
   rescue Mapscript::MapserverError
-    render plain: 'map not found', status: 404
+    nil
   ensure
     Mapscript.msIO_resetHandlers
   end

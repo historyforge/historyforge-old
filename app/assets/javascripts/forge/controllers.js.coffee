@@ -17,8 +17,8 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.buildingTypes.unshift name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form
-  $scope.selectLayer  = -> LayerService.selectTop $scope.layer
-  $scope.selectLayer2  = -> LayerService.selectBottom $scope.layer2
+  $scope.selectLayer  = (id) -> LayerService.selectTop id
+  $scope.selectLayer2  = (id) -> LayerService.selectBottom id
 
   $rootScope.$on 'layers:updated', (event, layers) ->
     if layers[0].id isnt null
@@ -62,6 +62,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       else
         wmsLayerTop = null
   $rootScope.$on 'layers:selected:bottom', (event, layer2) ->
+    debugger
     $scope.layer2 = layer2
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(0) #if map.overlayMapTypes.length > 0
