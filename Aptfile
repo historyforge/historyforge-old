@@ -5,4 +5,3 @@ libmapserver2
 gdal-bin
 libgdal-dev
 libmapscript-ruby
-nodejs
