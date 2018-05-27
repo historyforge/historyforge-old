@@ -1,16 +1,15 @@
 class Layer < ApplicationRecord
-  has_many :layers_maps, :dependent => :destroy
-  has_many :maps,:through => :layers_maps
+  has_many :layers_maps, dependent: :destroy
+  has_many :maps,through: :layers_maps
   belongs_to :user
 
   validates_presence_of :name
-  validates_length_of :depicts_year, :maximum => 4,:allow_nil => true, :allow_blank => true
-  validates_numericality_of :depicts_year, :if => Proc.new {|c| not c.depicts_year.blank?}
+  validates_length_of :depicts_year, maximum: 4,allow_nil: true, allow_blank: true
+  validates_numericality_of :depicts_year, if: Proc.new {|c| not c.depicts_year.blank? }
 
-  scope :with_year, -> { where(:depicts_year =>  'is not null').order(:maps_count) }
-  scope :visible, -> {where(:is_visible => true).order(:id)}
-  scope :with_maps, -> {where('rectified_maps_count >= 1').order(:rectified_maps_count)}
-
+  scope :with_year, -> { where(depicts_year:  'is not null').order(:maps_count) }
+  scope :visible, -> { where(is_visible: true).order(:id) }
+  scope :with_maps, -> { where('rectified_maps_count >= 1').order(:rectified_maps_count) }
 
   after_create :update_layer
   after_destroy :delete_tileindex
@@ -43,8 +42,6 @@ class Layer < ApplicationRecord
     update_attribute(:maps_count, self.maps.real_maps.length)
     update_attribute(:rectified_maps_count, self.maps.warped.count)
   end
-
-
 
   def rectified_percent
     percent = ((self.rectified_maps_count.to_f / self.maps_count.to_f) * 100).to_f
@@ -85,33 +82,26 @@ class Layer < ApplicationRecord
   # gdaltindex [-tileindex field_name] [-write_absolute_path] [-skip_different_projection] index_file [gdal_file]*
   def create_tileindex(custom_path=nil)
     logger.info("create tileindex")
+    return false if maps.warped.empty?
+    #only make a tileindex if the maps are warped.
     tileindex = custom_path || tileindex_path
-    unless self.maps.warped.empty?
-      delete_tileindex(tileindex)
-      map_list = ""
-      #only make a tileindex if the maps are warped.
-      self.maps.warped.each {|map| map_list += (map.warped_filename + " ")}
-      command = "gdaltindex -write_absolute_path #{tileindex} #{map_list}"
-      logger.info(command)
+    delete_tileindex(tileindex)
+    map_list = ""
+    maps.warped.each {|map| map_list += (map.warped_filename + " ")}
+    command = "gdaltindex -write_absolute_path #{tileindex} #{map_list}"
+    logger.info(command)
 
-      stdin, stdout, stderr = Open3::popen3(command)
-      out = stdout.readlines.to_s
-      err = stderr.readlines.to_s
+    stdin, stdout, stderr = Open3::popen3(command)
+    out = stdout.readlines.to_s
+    err = stderr.readlines.to_s
 
-      if !err.match("ERROR 4: Unable to open #{tileindex}").nil? || err.size <= 0  #error saying "Unable to open spec/fixtures/maps/deleteme.shp" is actually okay!!
-        result= true
-      else
-        logger.error("ERROR with gdaltindex "+ err)
-        result= false
-      end
+    if !err.match("ERROR 4: Unable to open #{tileindex}").nil? || err.size <= 0  #error saying "Unable to open spec/fixtures/maps/deleteme.shp" is actually okay!!
+      true
     else
-      result= false
+      logger.error("ERROR with gdaltindex "+ err)
+      false
     end
-
-    result
   end
-
-
 
   def get_bounds
     if self.bbox.blank?
@@ -125,43 +115,37 @@ class Layer < ApplicationRecord
   #sets bbox
   def set_bounds(custom_path=nil)
     logger.debug "set_bounds in layer"
+    return if maps.warped.empty?
     tileindex = custom_path || tileindex_path
-    unless self.maps.warped.empty?
-      command = "ogrinfo #{tileindex} -al -so -ro"
-      logger.info command
-      #stdin, stdout, stderr = Open3::popen3(command)
-      stdout, stderr = Open3.capture3( command )
-      sout = stdout
-      serr = stderr
-      if !serr.blank?
-        logger.error "Error set bounds with layer get extent "+ serr
-      else
-        extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
-
-        self.bbox = extent.to_s
-        extents =  extent.split(",").collect{|f| f.to_f}
-        poly_array = [
-          [ extents[0], extents[1] ],
-          [ extents[2], extents[1] ],
-          [ extents[2], extents[3] ],
-          [ extents[0], extents[3] ],
-          [ extents[0], extents[1] ]
-        ]
-        logger.error poly_array.inspect
-        self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1).as_ewkt
-
-        @bounds = extent
-        save!
-      end
-
+    command = "ogrinfo #{tileindex} -al -so -ro"
+    logger.info command
+    #stdin, stdout, stderr = Open3::popen3(command)
+    stdout, stderr = Open3.capture3( command )
+    sout = stdout
+    serr = stderr
+    if !serr.blank?
+      logger.error "Error set bounds with layer get extent "+ serr
+      return
     else
-      extent = nil
+      extent = sout.scan(/^\w+: \(([0-9\-.]+), ([0-9\-.]+)\) \- \(([0-9\-.]+), ([0-9\-.]+)\)$/).flatten.join(",")
+
+      self.bbox = extent.to_s
+      extents =  extent.split(",").collect{|f| f.to_f}
+      poly_array = [
+        [ extents[0], extents[1] ],
+        [ extents[2], extents[1] ],
+        [ extents[2], extents[3] ],
+        [ extents[0], extents[3] ],
+        [ extents[0], extents[1] ]
+      ]
+      logger.error poly_array.inspect
+      self.bbox_geom = GeoRuby::SimpleFeatures::Polygon.from_coordinates([poly_array], -1).as_ewkt
+
+      @bounds = extent
+      save!
+      extent
     end
-    extent
   end
-
-
-
 
   ##################
   #PRIVATE

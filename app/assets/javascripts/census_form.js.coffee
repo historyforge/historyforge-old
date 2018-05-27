@@ -1,7 +1,6 @@
 $(document).ready ->
-  $('form.edit_census1910_record, form.new_census1910_record').each ->
 
-    $('#census1910_record_page_side').on 'change', ->
+    $(document).on 'change', '#census1910_record_page_side', ->
       value = $(this).val()
       $line = $('#census1910_record_line_number')
       if value is 'A'
@@ -11,7 +10,7 @@ $(document).ready ->
         $line.attr('min', 51)
         $line.attr('max', 100)
 
-    $('#census1910_record_relation_to_head').on 'change', ->
+    $(document).on 'change', '#census1910_record_relation_to_head', ->
       value = $(this).val()
       value = value.replace /\b\w/g, (l) -> l.toUpperCase()
       $(this).val(value)
@@ -24,7 +23,7 @@ $(document).ready ->
         $('input[name="census1910_record[mortgage]"]').prop('checked', no).prop('disabled', yes)
         $('input[name="census1910_record[farm_or_house]"]').prop('checked', no).prop('disabled', yes)
 
-    $('#census1910_record_sex').on 'change', ->
+    $(document).on 'change', '#census1910_record_sex', ->
       value = $(this).val()
       if value is 'M'
         $('#census1910_record_num_children_born').val(null).prop('disabled', yes)
@@ -33,7 +32,7 @@ $(document).ready ->
         $('#census1910_record_num_children_born').prop('disabled', no)
         $('#census1910_record_num_children_alive').prop('disabled', no)
 
-    $('#census1910_record_age').on 'change', ->
+    $(document).on 'change', '#census1910_record_age', ->
       value = $(this).val()
       if value and parseInt(value) < 10
         $('input[name="census1910_record[can_read]"]').val(null).prop('disabled', yes)
@@ -44,16 +43,9 @@ $(document).ready ->
         $('input[name="census1910_record[can_write]"]').prop('disabled', no)
         $('#census1910_record_language_spoken').val('English').prop('disabled', no)
 
-    $('#census1910_record_marital_status').on 'change', ->
+    $(document).on 'change', '#census1910_record_marital_status', ->
       value = $(this).val()
       if value is 'S' or value is 'D'
         $('#census1910_record_years_married').val(null).prop('disabled', yes)
       else
         $('#census1910_record_years_married').val(null).prop('disabled', no)
-
-
-    # $('#census1910_record_page_side').trigger 'change'
-    # $('#census1910_record_sex').trigger 'change'
-    # $('#census1910_record_age').trigger 'change'
-    # $('#census1910_record_marital_status').trigger 'change'
-    # $('#census1910_record_relation_to_head').trigger 'change'
