@@ -23,12 +23,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.for(:sign_up) do |u|
-      u.permit :login, :description, :email, :password, :password_confirmation
-    end
-    devise_parameter_sanitizer.for(:account_update) do |u|
-      u.permit :login, :description, :email, :password, :password_confirmation, :current_password
-    end
+    devise_parameter_sanitizer.permit :sign_up, keys: %i[login description email password password_confirmation]
+    devise_parameter_sanitizer.permit :account_update, keys: %i[login description email password password_confirmation current_password]
   end
 
   def check_role(role)

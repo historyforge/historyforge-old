@@ -28,29 +28,29 @@
       <% if !admin_authorized? && map.published? %>
         <strong title ="This map has been published by an admin and no further editing is possible">Published</strong>
       <%  elsif can?(:rectify, map) %>
-        <%= link_to("Rectify Map", map_path(:id=> map.id,:anchor=>"Rectify_tab")) -%>
+        <%= link_to("Rectify Map", map_path(id: map.id,anchor: "Rectify_tab")) -%>
       <% end %>
       <% if user_signed_in? -%>
         <% current_user_maps = current_user.maps %>
         <% if current_user_maps.to_a.include?(map) -%>
-          | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post, :data => {:confirm => "really remove this map from your list?"} ) -%>
+          | <%= link_to('Remove from My Maps', destroy_my_map_path(user_id: current_user, map_id: map.id), method: :post, data: {confirm: "really remove this map from your list?"} ) -%>
         <% else -%>
-          | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map.id), :method => :post) -%>
+          | <%= link_to('Save to My Maps', add_my_map_path(user_id: current_user, map_id: map.id), method: :post) -%>
         <% end -%>
       <% end -%>
 
 
       <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this map layer", remove_layer_map_path(:id => @layer.id, :map_id => map.id), :method => :put %>
+        | <%= link_to "remove map from this map layer", remove_layer_map_path(id: @layer.id, map_id: map.id), method: :put %>
       <%end -%>
 
       <% if admin_authorized? -%>
         <% @map = map-%>
-        | <%= render :partial  => 'maps/map_type', :object => @map -%>
+        | <%= render partial:  'maps/map_type', object: @map -%>
       <% end -%>
 
       <%if map.warped_or_published?-%> |
-        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
+        <%= link_to("Download KML", map_url(id: map, format: :kml)) -%>
       <% end -%>
     </div>
     <div class="map_links">
