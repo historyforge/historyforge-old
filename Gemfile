@@ -32,7 +32,7 @@ gem 'acts-as-taggable-on' #, '~> 3.4'
 gem 'paperclip' #, '~> 4.2.0'
 gem 'kaminari'
 gem 'spawnling' #, '~>2.1'
-gem 'ruby_mapscript'
+gem 'ruby_mapscript', require: false
 gem "audited", "~> 4.7"
 
 gem 'gdal'
