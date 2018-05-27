@@ -1,9 +1,7 @@
 #!/bin/bash
 
 echo "--> Installing geo packages"
-apt-get update -qq && apt-get install -y \
-    build-essential libxml2-dev libxslt-dev \
-    libmapserver2 gdal-bin libgdal-dev ruby-mapscript  \
+apt-get update -qq && apt-get install -y ruby-mapscript  \
      && rm -rf /var/lib/apt/lists/*
 
 echo "--> Compiling assets"
