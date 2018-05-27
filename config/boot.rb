@@ -3,7 +3,7 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 if ENV['RUBY_MAPSCRIPT_PATH']
   $: << ENV['RUBY_MAPSCRIPT_PATH']
 else
-  $: << '/app/bin/mapscript.so'
+  $: << '/app/bin/'
   # $: << '/usr/lib/x86_64-linux-gnu/ruby/vendor_ruby/2.3.0/'
 end
 
