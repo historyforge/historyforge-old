@@ -25,12 +25,16 @@ ADD lib/docker/database.yml ./config/database.yml
 
 ADD lib/docker/secrets.yml ./config/secrets.yml
 
+COPY lib/docker/default_user.bash ./default_user.bash
+
+RUN bash default_user.bash && rm -f default_user.bash
+
 # Provide dummy data to Rails so it can pre-compile assets.
 # RUN bundle exec rails RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_KEY_BASE=funkytown assets:precompile
 
-# RUN chown -R nobody:nogroup /app
+RUN chown -R herokuishuser /app
 
-# USER nobody
+USER herokuishuser
 
 # Expose port 5000 to the Docker host, so we can access it
 # from the outside.
