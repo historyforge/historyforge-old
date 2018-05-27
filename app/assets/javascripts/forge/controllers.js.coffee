@@ -12,6 +12,7 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.form = {}
   $scope.form.buildingType = null
   $scope.form.buildingYear = null
+  $scope.selectedLayers = top: 10, bottom: null
   $scope.buildingTypes = window.buildingTypes
   $scope.buildingYears = [null, 1900, 1910, 1920, 1930]
   $scope.buildingTypes.unshift name: 'all buildings'
@@ -20,18 +21,19 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.selectLayer  = (id) -> LayerService.selectTop id
   $scope.selectLayer2  = (id) -> LayerService.selectBottom id
 
-  $rootScope.$on 'layers:updated', (event, layers) ->
+
+  $scope.$on 'layers:updated', (event, layers) ->
     if layers[0].id isnt null
       layers.unshift id: null, name: 'None'
     $scope.layers = layers
 
-  $rootScope.$on 'layers:selected:top', (event, layer) ->
-    $scope.layer = layer
+  $scope.$on 'layers:selected:top', (event, layer) ->
+    $scope.selectedLayers.top = layer
 
-  $rootScope.$on 'layers:selected:bottom', (event, layer2) ->
-    $scope.layer2 = layer2
+  $scope.$on 'layers:selected:bottom', (event, layer2) ->
+    $scope.selectedLayers.bottom = layer2
 
-  $rootScope.$on 'buildings:updated', (event) ->
+  $scope.$on 'buildings:updated', (event) ->
     $scope.meta = BuildingService.meta
 
   $scope.setPage = (page) =>
@@ -51,9 +53,9 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   wmslayerTop = null
   wmslayerBottom = null
 
-  $scope.selectedLayers = top: null, bottom: null
+  $scope.selectedLayers = top: 10, bottom: null
 
-  $rootScope.$on 'layers:selected:top', (event, id) ->
+  $scope.$on 'layers:selected:top', (event, id) ->
     $scope.selectedLayers.top = id
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(1)# if map.overlayMapTypes.length > 0
@@ -63,7 +65,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         wmslayerTop = loadWMS map, url, null, 1
       else
         wmsLayerTop = null
-  $rootScope.$on 'layers:selected:bottom', (event, id) ->
+  $scope.$on 'layers:selected:bottom', (event, id) ->
     $scope.selectedLayers.bottom = id
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.removeAt(0) #if map.overlayMapTypes.length > 0
@@ -73,11 +75,11 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         wmslayerBottom = loadWMS map, url, null, 0
       else
         wmsLayerBottom = null
-  $rootScope.$on 'buildings:updated', (event) ->
+  $scope.$on 'buildings:updated', (event) ->
     $scope.buildings = BuildingService.buildings
     $scope.meta = BuildingService.meta
 
-  $rootScope.$on 'viewMode:changed', (event, viewMode) ->
+  $scope.$on 'viewMode:changed', (event, viewMode) ->
     if $scope.selectedLayers.top or $scope.selectLayers.bottom
       NgMap.getMap().then (map) ->
         fn = ->

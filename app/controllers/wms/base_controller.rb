@@ -15,13 +15,19 @@ class Wms::BaseController < ActionController::Base
   # }
 
   def tile
-    content_type, result_data = fetch_tile
-    send_data result_data, type: content_type, disposition: "inline"
+    send_wms *fetch_tile
   end
 
   def wms
-    content_type, result_data = fetch_wms
-    send_data result_data, type: content_type, disposition: "inline"
+    send_wms *fetch_wms
+  end
+
+  def send_wms(content_type, result_data)
+    if content_type
+      send_data result_data, type: content_type, disposition: "inline"
+    else
+      render plain: 'File not found', status: 404
+    end
   end
 
   def fetch_tile
