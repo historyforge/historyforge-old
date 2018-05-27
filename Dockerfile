@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 
+ENV DEBIAN_FRONTEND noninteractive
+
 RUN apt-get update -qq && apt-get install -y ruby libruby ruby-dev \
     build-essential git-core libxml2-dev libxslt-dev imagemagick \
     libmapserver2 gdal-bin libgdal-dev ruby-mapscript nodejs \
@@ -24,15 +26,15 @@ ADD lib/docker/database.yml ./config/database.yml
 ADD lib/docker/secrets.yml ./config/secrets.yml
 
 # Provide dummy data to Rails so it can pre-compile assets.
-RUN bundle exec rails RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_KEY_BASE=funkytown assets:precompile
+# RUN bundle exec rails RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_KEY_BASE=funkytown assets:precompile
 
-RUN chown -R nobody:nogroup /app
+# RUN chown -R nobody:nogroup /app
 
-USER nobody
+# USER nobody
 
 # Expose port 5000 to the Docker host, so we can access it
 # from the outside.
-EXPOSE 5000
+# EXPOSE 5000
 
 # The main command to run when the container starts. Also
 # tell the Rails dev server to bind to all interfaces by
