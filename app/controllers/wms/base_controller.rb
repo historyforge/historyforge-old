@@ -4,14 +4,12 @@ require 'digest/sha1'
 class Wms::BaseController < ActionController::Base
   include Mapscript
 
-  caches_action :wms, if: Proc.new {|c|
-    c.params["status"]  == "warped" || c.params["STATUS"] == "warped"
-  }, cache_path: Proc.new { |c|
+  caches_action :wms, cache_path: proc { |c|
     string =  c.params.to_s
     { status: c.params["status"] || c.params["STATUS"], tag: Digest::SHA1.hexdigest(string) }
   }
 
-  caches_action :tile, cache_path: Proc.new { |c|
+  caches_action :tile, cache_path: proc { |c|
     string =  c.params.to_s
     { tag: Digest::SHA1.hexdigest(string) }
   }
