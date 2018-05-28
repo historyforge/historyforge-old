@@ -65,7 +65,7 @@ MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, z
     return new google.maps.Point(x,y);
 };
 
-function loadWMS(map, baseURL, customParams, index=0){
+function loadWMS(id, map, baseURL, customParams, index=0){
     var tileHeight = 256;
     var tileWidth = 256;
     var opacityLevel = 1; //0.75;
@@ -122,7 +122,9 @@ function loadWMS(map, baseURL, customParams, index=0){
 
         opacity: opacityLevel,
 
-        isPng: isPng
+        isPng: isPng,
+
+        name: id
     };
 
     overlayWMS = new google.maps.ImageMapType(overlayOptions);

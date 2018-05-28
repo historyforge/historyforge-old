@@ -58,21 +58,25 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.$on 'layers:selected:top', (event, id) ->
     $scope.selectedLayers.top = id
     NgMap.getMap().then (map) ->
-      map.overlayMapTypes.removeAt(1)# if map.overlayMapTypes.length > 0
+      if map.overlayMapTypes.getLength() > 0
+        map.overlayMapTypes.forEach (layer, index) ->
+          map.overlayMapTypes.removeAt(index) if layer is id
       if id
         url = "/layers/#{id}/wms?"
         # fitToBoundingBox(map, $scope.layer.bbox)
-        wmslayerTop = loadWMS map, url, null, 1
+        wmslayerTop = loadWMS id, map, url, null, 1
       else
         wmsLayerTop = null
   $scope.$on 'layers:selected:bottom', (event, id) ->
     $scope.selectedLayers.bottom = id
     NgMap.getMap().then (map) ->
-      map.overlayMapTypes.removeAt(0) #if map.overlayMapTypes.length > 0
+      if map.overlayMapTypes.getLength() > 0
+        map.overlayMapTypes.forEach (layer, index) ->
+          map.overlayMapTypes.removeAt(index) if layer is id
       if id
         url = "/layers/#{id}/wms?"
         # fitToBoundingBox(map, $scope.layer.bbox)
-        wmslayerBottom = loadWMS map, url, null, 0
+        wmslayerBottom = loadWMS id, map, url, null, 0
       else
         wmsLayerBottom = null
   $scope.$on 'buildings:updated', (event) ->
