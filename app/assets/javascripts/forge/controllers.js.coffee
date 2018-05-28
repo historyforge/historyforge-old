@@ -50,33 +50,43 @@ forgeApp.LayersController.$inject = ['$rootScope', '$scope', 'BuildingService', 
 forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
 
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
-  wmslayerTop = null
-  wmslayerBottom = null
+  wmsLayerTop = null
+  wmsLayerBottom = null
 
   $scope.selectedLayers = top: null, bottom: null
 
   $scope.$on 'layers:selected:top', (event, id) ->
     $scope.selectedLayers.top = id
+    debugger
     NgMap.getMap().then (map) ->
-      if map.overlayMapTypes.getLength() > 0
+      if wmsLayerTop #and map.overlayMapTypes.getLength() > 0
         map.overlayMapTypes.forEach (layer, index) ->
-          map.overlayMapTypes.removeAt(index) if layer is id
+          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerTop.name
       if id
-        url = "/layers/#{id}/wms?"
-        # fitToBoundingBox(map, $scope.layer.bbox)
-        wmslayerTop = loadWMS id, map, url, null, 1
+        wmsLayerTop = loadWMS map, id, 'top'
+        # debugger
+        # map.overlayMapTypes.push wmsLayerTop
+        jQuery(".layer-slider-top").slider
+            value: 100,
+            range: "min",
+            slide: (e, ui) ->
+              wmsLayerTop.setOpacity(ui.value / 100)
       else
         wmsLayerTop = null
   $scope.$on 'layers:selected:bottom', (event, id) ->
     $scope.selectedLayers.bottom = id
     NgMap.getMap().then (map) ->
-      if map.overlayMapTypes.getLength() > 0
+      if wmsLayerBottom and map.overlayMapTypes.getLength() > 0
         map.overlayMapTypes.forEach (layer, index) ->
-          map.overlayMapTypes.removeAt(index) if layer is id
+          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerBottom.name
       if id
-        url = "/layers/#{id}/wms?"
-        # fitToBoundingBox(map, $scope.layer.bbox)
-        wmslayerBottom = loadWMS id, map, url, null, 0
+        wmslayerBottom = loadWMS map, id, 'bottom'
+        # map.overlayMapTypes.insertAt(0, wmsLayerBottom)
+        jQuery(".layer-slider-bottom").slider
+            value: 100,
+            range: "min",
+            slide: (e, ui) ->
+              wmsLayerBottom.setOpacity(ui.value / 100)
       else
         wmsLayerBottom = null
   $scope.$on 'buildings:updated', (event) ->
@@ -128,18 +138,6 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     BuildingService.highlight building.id
   $scope.unhighlightBuilding = (event, building) ->
     BuildingService.highlight(null) if building.highlighted
-
-  jQuery(".layer-slider-top").slider
-      value: 100,
-      range: "min",
-      slide: (e, ui) ->
-        wmslayerTop.setOpacity(ui.value / 100)
-
-  jQuery(".layer-slider-bottom").slider
-      value: 100,
-      range: "min",
-      slide: (e, ui) ->
-        wmslayerBottom.setOpacity(ui.value / 100)
 
   jQuery('#forge-right-col').draggable()
 

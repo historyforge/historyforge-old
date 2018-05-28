@@ -65,7 +65,8 @@ MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, z
     return new google.maps.Point(x,y);
 };
 
-function loadWMS(id, map, baseURL, customParams, index=0){
+function loadWMS(map, id, position, customParams){
+    var baseURL = "/layers/"+id+"/wms?";
     var tileHeight = 256;
     var tileWidth = 256;
     var opacityLevel = 1; //0.75;
@@ -127,9 +128,13 @@ function loadWMS(id, map, baseURL, customParams, index=0){
         name: id
     };
 
-    overlayWMS = new google.maps.ImageMapType(overlayOptions);
+    var overlayWMS = new google.maps.ImageMapType(overlayOptions);
 
-    map.overlayMapTypes.insertAt(index, overlayWMS);
+    if (position == 'top') {
+      map.overlayMapTypes.push(overlayWMS);
+    } else {
+      map.overlayMapTypes.insertAt(0, overlayWMS);
+    }
 
     map.setOptions({
         mapTypeControlOptions: {

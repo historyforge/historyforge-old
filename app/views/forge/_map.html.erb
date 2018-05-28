@@ -62,34 +62,37 @@
       </div>
     </info-window>
 
-    <div id="layer-pickers" ng-controller="LayersCtrl">
-      <div class="row">
-        <div class="col-lg-2 col-sm-2">
-          <label for="layer-select" class="control-label">Top Map</label>
-        </div>
-        <div class="col-lg-4 col-sm-4">
-          <select id="layer-select" class="form-control" ng-model="selectedLayers.top" ng-change="selectLayer(selectedLayers.top)" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
-        </div>
-        <div class="col-lg-6 col-sm-6" ng-show="selectedLayers.top">
-          <div class="layer-slider-top">
-            <div class="ui-slider-handle"></div>
-          </div>
-        </div>
+
+  </ng-map>
+</div>
+
+<div ng-controller="LayersCtrl">
+    <div id="layer-pickers" ng-show="layers.length">
+    <div class="row">
+      <div class="col-lg-2 col-sm-2">
+        <label for="layer-select" class="control-label">Top Map</label>
       </div>
-      <div class="row">
-        <div class="col-lg-2 col-sm-2">
-          <label for="layer2-select" class="control-label">Bottom Map</label>
-        </div>
-        <div class="col-lg-4 col-sm-4">
-          <select id="layer2-select" class="form-control" ng-model="selectedLayers.bottom" ng-change="selectLayer2(selectedLayers.bottom)" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
-        </div>
-        <div class="col-lg-6 col-sm-6" ng-show="selectedLayers.bottom">
-          <div class="layer-slider-bottom">
-            <div class="ui-slider-handle"></div>
-          </div>
+      <div class="col-lg-4 col-sm-4">
+        <select id="layer-select" class="form-control" ng-model="selectedLayers.top" ng-change="selectLayer(selectedLayers.top)" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
+      </div>
+      <div class="col-lg-6 col-sm-6" ng-show="selectedLayers.top">
+        <div class="layer-slider-top">
+          <div class="ui-slider-handle"></div>
         </div>
       </div>
     </div>
-
-  </ng-map>
+    <div class="row">
+      <div class="col-lg-2 col-sm-2">
+        <label for="layer2-select" class="control-label">Bottom Map</label>
+      </div>
+      <div class="col-lg-4 col-sm-4">
+        <select id="layer2-select" class="form-control" ng-model="selectedLayers.bottom" ng-change="selectLayer2(selectedLayers.bottom)" ng-options="layer.id as layer.name for layer in layers track by layer.id"></select>
+      </div>
+      <div class="col-lg-6 col-sm-6" ng-show="selectedLayers.bottom">
+        <div class="layer-slider-bottom">
+          <div class="ui-slider-handle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
