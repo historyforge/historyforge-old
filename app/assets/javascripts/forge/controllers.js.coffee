@@ -80,7 +80,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         map.overlayMapTypes.forEach (layer, index) ->
           map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerBottom.name
       if id
-        wmslayerBottom = loadWMS map, id, 'bottom'
+        wmsLayerBottom = loadWMS map, id, 'bottom'
         # map.overlayMapTypes.insertAt(0, wmsLayerBottom)
         jQuery(".layer-slider-bottom").slider
             value: 100,
