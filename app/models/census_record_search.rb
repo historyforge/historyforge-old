@@ -17,8 +17,8 @@ class CensusRecordSearch
   end
 
   def ransack_params
-    params = @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
-    params
+    @s = @s.to_unsafe_hash if @s.respond_to?(:to_unsafe_hash)
+    @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
   end
 
   def sorts
@@ -145,5 +145,4 @@ class CensusRecordSearch
   def location_fields
     %w{county city ward enum_dist}
   end
-
 end
