@@ -8,7 +8,7 @@ class People::CensusRecordsController < ApplicationController
   def index
     @page_title = page_title
     load_census_records
-    respond_with @records
+    respond_with @records, each_serializer: CensusRecordSerializer
   end
 
   def unreviewed
