@@ -94,8 +94,8 @@ class People::CensusRecordsController < ApplicationController
       flash[:notice] = 'Census Record deleted.'
       redirect_to action: :index
     else
-      flash[:errors] = 'Unable to delete building.'
-      redirect_to :back
+      flash[:errors] = 'Unable to delete census record.'
+      redirect_back fallback_location: { action: :index }
     end
   end
 
@@ -112,7 +112,7 @@ class People::CensusRecordsController < ApplicationController
     @record.reviewed_at ||= Time.now
     @record.save
     flash[:notice] = 'The census record is marked as reviewed and available for public view.'
-    redirect_to :back
+    redirect_back fallback_location: { action: :index }
   end
 
   private

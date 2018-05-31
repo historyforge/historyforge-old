@@ -9,7 +9,7 @@ class BuildingsController < ApplicationController
   def index
     @page_title = 'Buildings'
     load_buildings
-    respond_with @buildings
+    respond_with @buildings, each_serializer: BuildingSerializer
   end
 
   def unpeopled
