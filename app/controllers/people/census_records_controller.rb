@@ -127,7 +127,7 @@ class People::CensusRecordsController < ApplicationController
 
   def resource_params
     params[:census_record].each do |key2, value|
-      params[key][key2] = nil if value == 'on' || value == 'nil'
+      params[:census_record][key2] = nil if value == 'on' || value == 'nil'
     end
     params.require(:census_record).permit!
   end
