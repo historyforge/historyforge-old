@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(current_user)
+    @user = current_user
     @user = params[:id] ? User.find(params[:id]) : current_user
     authorize! :update, @user
     if @user.update_attributes(user_params)
