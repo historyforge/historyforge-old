@@ -20,7 +20,7 @@ class Map < ApplicationRecord
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, allow_nil: true
   validates_numericality_of :metadata_lat, :metadata_lon, allow_nil: true
-  validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
+  validates_numericality_of :published_date, :if => Proc.new {|c| not c.published_date.blank?}
   validates_length_of :date_depicted, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :date_depicted, :if => Proc.new {|c| not c.date_depicted.blank?}
   validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true

@@ -20,6 +20,13 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    errors:
+      models:
+        map:
+          attributes:
+            filename:
+              filename_not_unique: 'has already been uploaded.'
   simple_form:
     labels:
       building:
