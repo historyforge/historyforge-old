@@ -11,6 +11,14 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
     # config.ignore << 'Net::ReadTimeout' << 'Net::OpenTimeout'
   end
 
+  IGNORED_ERRORS = %w{
+    ActiveRecord::RecordNotFound
+    SIGTERM
+  }
+  Airbrake.add_filter do |notice|
+    notice.ignore! if notice[:errors].any? { |error| IGNORED_ERRORS.include? error[:type] }
+  end
+
   if Airbrake.const_defined?('SENSITIVE_RACK_VARS')
     %w{
       SENSITIVE_RACK_VARS
