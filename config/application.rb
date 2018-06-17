@@ -2,15 +2,15 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-# require 'dotenv'
-# Dotenv.load('.env', ".env.#{Rails.env}")
-
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
 if ENV['DATABASE_URL']
   POSTGIS_URL = ENV['DATABASE_URL'].sub(/postgres:\/\//, "postgis://")
+else
+  require 'dotenv'
+  Dotenv.load('.env', ".env.#{Rails.env}")
 end
 
 module HistoryForge

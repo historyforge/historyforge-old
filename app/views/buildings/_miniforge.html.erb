@@ -15,12 +15,12 @@
             <% end -%>></marker>
 
     <marker ng-repeat="item in buildings track by $index"
-            position="{{item.building.latitude}}, {{item.building.longitude}}"
-            z-index="{{ zIndexFor(item.building) }}"
-            icon="{{ markerIcon(item.building) }}"
-            on-mouseover="highlightBuilding(item.building)"
-            on-click="showBuilding(item.building)"
-            ng-if="item.building.latitude"></marker>
+            position="{{item.latitude}}, {{item.longitude}}"
+            z-index="{{ zIndexFor(item) }}"
+            icon="{{ markerIcon(item) }}"
+            on-mouseover="highlightBuilding(item)"
+            on-click="showBuilding(item)"
+            ng-if="item.latitude"></marker>
 
 
     <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>

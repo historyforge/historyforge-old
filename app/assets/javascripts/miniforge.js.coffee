@@ -10,8 +10,7 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
 
   NgMap.getMap().then (map) ->
     map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
-    url = "/layers/#{$scope.layer.id}/wms?"
-    wmslayer = loadWMS map, url
+    wmslayer = loadWMS map, $scope.layer.id
 
   $scope.markerIcon = (building) ->
     return {
@@ -64,10 +63,10 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
 MiniMapController.$inject = ['$scope', 'NgMap', '$rootScope', '$http']
 
 MiniBuildingListController = ($scope) ->
-  $scope.buildings = []
-  for building in window.buildings
-    $scope.buildings.push building.building
-  return
+  $scope.buildings = window.buildings
+  # # for building in window.buildings
+  # #   $scope.buildings.push building.building
+  # return
 MiniBuildingListController.$inject = ['$scope']
 
 MiniBuildingController = ($scope, $rootScope) ->
