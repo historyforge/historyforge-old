@@ -13,6 +13,7 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
 
   IGNORED_ERRORS = %w{
     ActiveRecord::RecordNotFound
+    AbstractController::ActionNotFound
     SIGTERM
   }
   Airbrake.add_filter do |notice|
