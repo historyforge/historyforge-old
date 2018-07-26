@@ -60,7 +60,7 @@
           = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
         .col-xs-3
           = form.input :block_number
-      = form.input :annotations
+      = form.input :annotations, input_html: { rows: 6 }
 
   .panel.panel-default
     .panel-heading

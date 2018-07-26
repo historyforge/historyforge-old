@@ -49,7 +49,7 @@ h1.page-title= @building.name
           dd= @building.address_parts.join("<br>").html_safe
           - if @building.annotations.present?
             dt Annotations
-            dd= @building.annotations
+            dd= simple_format @building.annotations
           - if @building.block_number?
             dt Block Number
             dd= @building.block_number
