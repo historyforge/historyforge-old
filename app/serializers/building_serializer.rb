@@ -12,7 +12,8 @@ class BuildingSerializer < ActiveModel::Serializer
   end
 
   def building_type
-    object.building_type.andand.name || 'unspecified'
+    t = object.building_type
+    t.is_a?(String) ? t : (t.andand.name || 'unspecified')
   end
 
   def latitude

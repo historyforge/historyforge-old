@@ -196,7 +196,7 @@ class BuildingsController < ApplicationController
         params[:q][key] = value unless %w{controller action page format q}.include?(key)
       end
     end
-    unless params[:q].andand[:s]
+    if params[:q][:s].blank?
       params[:q][:s] = 'name asc'
     end
   end
