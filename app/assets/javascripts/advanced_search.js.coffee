@@ -100,7 +100,7 @@ addAttributeFilter = (scope, scopeValue) ->
   closeButton.type = 'button'
   closeButton.className = 'close'
   closeButton.innerHTML = "&times;"
-  closeButton.onclick = -> $(html).remove()
+  closeButton.onclick = -> jQuery(html).remove()
   html.appendChild closeButton
 
   desc = document.createElement 'P'
@@ -109,18 +109,18 @@ addAttributeFilter = (scope, scopeValue) ->
     desc.innerText += field_config.append
   html.appendChild desc
 
-  $('#attribute-filters').append html
+  jQuery('#attribute-filters').append html
 
-$(document).on 'submit', '#new_s', ->
-  shownFields = $('#showFieldsForm').find('input:checked')
+jQuery(document).on 'submit', '#new_s', ->
+  shownFields = jQuery('#showFieldsForm').find('input:checked')
   if (shownFields.size() > 0)
-    showFilters = $('#show-filters')
+    showFilters = jQuery('#show-filters')
     showFilters.html(null)
 
-$(document).on 'change', 'select.scope', ->
-  scope = $(this).val()
+jQuery(document).on 'change', 'select.scope', ->
+  scope = jQuery(this).val()
   name = 's[' + scope + ']'
-  form = $(this).closest('.modal-body').find('.value-input-container')
+  form = jQuery(this).closest('.modal-body').find('.value-input-container')
   inputs = form.find('input, select')
   if scope.match /null$/
     if (form.find('input.null-choice').size() > 0)
@@ -136,9 +136,9 @@ $(document).on 'change', 'select.scope', ->
       name += '[]'
     inputs.attr 'name', name
 
-$(document).on 'change', 'select.attribute', ->
-  attribute = $(this).val()
-  form = $(this).closest('.modal-body')
+jQuery(document).on 'change', 'select.attribute', ->
+  attribute = jQuery(this).val()
+  form = jQuery(this).closest('.modal-body')
   field_config = getFieldConfig(attribute)
   if field_config
 
@@ -147,13 +147,13 @@ $(document).on 'change', 'select.attribute', ->
 
     scopeSelect = document.createElement('SELECT')
     scopeSelect.className = 'scope'
-    scopeSelect = $ scopeSelect
+    scopeSelect = jQuery scopeSelect
     for key, value of field_config.scopes
       scopeSelect.append "<option value=\"#{key}\">#{value}</option>"
     scopeSelect.find('option:first').prop('selected', true)
     if scopeSelect.find('option').size() is 1
       scopeSelect.hide()
-      scopeSelectContainer.append $('<span>' + scopeSelect.find('option:first').text() + '</span>')
+      scopeSelectContainer.append jQuery('<span>' + scopeSelect.find('option:first').text() + '</span>')
     scopeSelectContainer.append(scopeSelect).css('display', 'inline')
 
     valueBox = form.find('.value-input-container')
@@ -225,7 +225,7 @@ $(document).on 'change', 'select.attribute', ->
         input.setAttribute 'type', 'number'
         appendToValueBox(input)
         scopeSelect.bind 'change', ->
-          val = $(this).val()
+          val = jQuery(this).val()
           if val.match(/null/)
             if input.getAttribute('type') is 'number'
               input.setAttribute('type', 'hidden')
@@ -243,16 +243,16 @@ $(document).on 'change', 'select.attribute', ->
         for choice in choices
           label = value = choice
           option = document.createElement 'OPTION'
-          $(option).val value
-          $(option).text label
+          jQuery(option).val value
+          jQuery(option).text label
           input.appendChild option
         appendToValueBox(input)
 
       when 'daterange'
         startDate = moment().startOf('month')
         endDate = moment().endOf('month')
-        div = $('<div class="picker"></div>')
-        div.append $('<i class="icon-calendar.icon-large"></i>')
+        div = jQuery('<div class="picker"></div>')
+        div.append jQuery('<i class="icon-calendar.icon-large"></i>')
         div.append "<span>#{startDate.format('M/D/YY')} - #{endDate.format('M/D/YY')}</span><b class=\"caret\"></b>"
         div.css('display', 'inline')
 
@@ -276,7 +276,7 @@ $(document).on 'change', 'select.attribute', ->
 
     return
 
-$.fn.advancedSearch = (options={}) ->
+jQuery.fn.advancedSearch = (options={}) ->
   @each ->
     url = options.url
     timestamp = options.timestamp
@@ -296,17 +296,17 @@ $.fn.advancedSearch = (options={}) ->
           addAttributeFilter scope, value
       c = sorts.c
       d = sorts.d
-      $('#c').each ->
+      jQuery('#c').each ->
         fields = getSortableFields()
         for value, label of fields
           option = document.createElement 'OPTION'
-          $(option).val value
-          $(option).text label
+          jQuery(option).val value
+          jQuery(option).text label
           this.appendChild option
-        $(this).val c
-      $('#d').each ->
-        $(this).append '<option value="asc">up</option><option value="desc">down</option>'
-        $(this).val d
+        jQuery(this).val c
+      jQuery('#d').each ->
+        jQuery(this).append '<option value="asc">up</option><option value="desc">down</option>'
+        jQuery(this).val d
 
     if window.localStorage && useCached
       json = null
@@ -318,18 +318,18 @@ $.fn.advancedSearch = (options={}) ->
       if json
         attributeFiltersCallback(JSON.parse(json))
       else
-        $.getJSON url, (json) ->
+        jQuery.getJSON url, (json) ->
           window.localStorage.setItem(url, JSON.stringify(json))
           window.localStorage.setItem('attributes_last_load', (new Date).getTime() / 1000)
           attributeFiltersCallback(json)
     else
-      $.getJSON url, (json) ->
+      jQuery.getJSON url, (json) ->
         attributeFiltersCallback(json)
 
-    $(document).on 'shown.bs.modal', '#newAttributeFilter', ->
-      $(this).find('select.scope').hide()
-      $(this).find('.value-input-container').empty()
-      attrSelect = $(this).find('select.attribute')
+    jQuery(document).on 'shown.bs.modal', '#newAttributeFilter', ->
+      jQuery(this).find('select.scope').hide()
+      jQuery(this).find('.value-input-container').empty()
+      attrSelect = jQuery(this).find('select.attribute')
       attrSelect.html "<option>Select field name</option>"
 
       for key in window.sortedAttributeFilters
@@ -338,7 +338,7 @@ $.fn.advancedSearch = (options={}) ->
           attrSelect.append '<option value="' + key.key + '">' + value.label + '</option>'
     return
 
-$.fn.searchDateRange = (from, to) ->
+jQuery.fn.searchDateRange = (from, to) ->
   this.each ->
     dateRangeOptions =
       startDate: from
@@ -354,9 +354,9 @@ $.fn.searchDateRange = (from, to) ->
         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
         'This Year': [moment().startOf('year'), moment()]
         'Last Year': [moment().subtract('years', 1).startOf('year'), moment().subtract('years', 1).endOf('year')]
-    fromInput = $(this).find('.from')
-    toInput = $(this).find('.to')
-    picker = $(this).find('.picker')
+    fromInput = jQuery(this).find('.from')
+    toInput = jQuery(this).find('.to')
+    picker = jQuery(this).find('.picker')
     picker.daterangepicker dateRangeOptions, (start, end) ->
       start = moment(start)
       end = moment(end)

@@ -23,29 +23,29 @@ pageLoad = ->
   window.alerts = []
   return
 
-$(document).ready ->
+jQuery(document).ready ->
   window.alertifyInit = alertify.init
   do pageLoad
 
-$(document).on 'click', '#search-map', ->
-  $form = $(this).closest('form')
+jQuery(document).on 'click', '#search-map', ->
+  $form = j(this).closest('form')
   if document.location.toString().match(/building/)
     $form.append "<input type=\"hidden\" name=\"buildings\" value=\"1\">"
   else
-    year = $(this).data('year')
+    year = j(this).data('year')
     $form.append "<input type=\"hidden\" name=\"people\" value=\"#{year}\">"
   $form.attr 'action', '/forge'
   $form.submit()
 
-$(document).on 'blur', '#city, #street_name', ->
-  city = $('#city').val()
+j(document).on 'blur', '#city, #street_name', ->
+  city = j('#city').val()
   city = null if city is ''
-  street = $('#street_name').val()
+  street = j('#street_name').val()
   street = null if street is ''
   if city and street
     params = city: city, street: street
-    $.getJSON '/census/1910/building_autocomplete', params, (json) ->
-      building = $('#building_id')
+    j.getJSON '/census/1910/building_autocomplete', params, (json) ->
+      building = j('#building_id')
       current_value = building.val()
       html = '<option value="">Select a building</option>'
       for item in json
@@ -54,9 +54,9 @@ $(document).on 'blur', '#city, #street_name', ->
       building.val current_value
 
 buildingNamed = no
-$(document).on 'ready', ->
-  buildingNamed = $('#building_name').val()
-$(document).on 'change', '#building_address_house_number, #building_address_street_prefix, #building_address_street_name, #building_address_street_suffix', ->
+j(document).on 'ready', ->
+  buildingNamed = j('#building_name').val()
+j(document).on 'change', '#building_address_house_number, #building_address_street_prefix, #building_address_street_name, #building_address_street_suffix', ->
   unless buildingNamed
-    buildingName = [$('#building_address_house_number').val(), $('#building_address_street_prefix').val(), $('#building_address_street_name').val(), $('#building_address_street_suffix').val()].join(' ')
-    $('#building_name').val(buildingName)
+    buildingName = [j('#building_address_house_number').val(), j('#building_address_street_prefix').val(), j('#building_address_street_name').val(), j('#building_address_street_suffix').val()].join(' ')
+    j('#building_name').val(buildingName)
