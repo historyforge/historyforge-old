@@ -37,7 +37,7 @@ jQuery(document).on 'click', '#search-map', ->
   $form.attr 'action', '/forge'
   $form.submit()
 
-j(document).on 'blur', '#city, #street_name', ->
+jQuery(document).on 'blur', '#city, #street_name', ->
   city = j('#city').val()
   city = null if city is ''
   street = j('#street_name').val()
@@ -54,9 +54,9 @@ j(document).on 'blur', '#city, #street_name', ->
       building.val current_value
 
 buildingNamed = no
-j(document).on 'ready', ->
+jQuery(document).on 'ready', ->
   buildingNamed = j('#building_name').val()
-j(document).on 'change', '#building_address_house_number, #building_address_street_prefix, #building_address_street_name, #building_address_street_suffix', ->
+jQuery(document).on 'change', '#building_address_house_number, #building_address_street_prefix, #building_address_street_name, #building_address_street_suffix', ->
   unless buildingNamed
     buildingName = [j('#building_address_house_number').val(), j('#building_address_street_prefix').val(), j('#building_address_street_name').val(), j('#building_address_street_suffix').val()].join(' ')
     j('#building_name').val(buildingName)
