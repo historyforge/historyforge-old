@@ -10,7 +10,7 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
 
   NgMap.getMap().then (map) ->
     map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
-    wmslayer = loadWMS map, $scope.layer.id
+    wmslayer = loadWMS map, $scope.layer.id, 'top'
 
   $scope.markerIcon = (building) ->
     return {

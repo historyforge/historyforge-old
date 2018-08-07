@@ -7,7 +7,7 @@
 
 - content_for :head do
   = javascript_tag "window.googleApiKey = '#{ENV['GOOGLE_API_KEY']}';"
-  script src="https://maps.googleapis.com/maps/api/js?libraries="
+  script src="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_API_KEY']}"
   script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"
   = javascript_tag "window.layer=#{@layer.to_json};"
 

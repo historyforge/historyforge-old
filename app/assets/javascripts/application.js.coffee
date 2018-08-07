@@ -28,24 +28,24 @@ jQuery(document).ready ->
   do pageLoad
 
 jQuery(document).on 'click', '#search-map', ->
-  $form = j(this).closest('form')
+  $form = jQuery(this).closest('form')
   if document.location.toString().match(/building/)
     $form.append "<input type=\"hidden\" name=\"buildings\" value=\"1\">"
   else
-    year = j(this).data('year')
+    year = jQuery(this).data('year')
     $form.append "<input type=\"hidden\" name=\"people\" value=\"#{year}\">"
   $form.attr 'action', '/forge'
   $form.submit()
 
 jQuery(document).on 'blur', '#city, #street_name', ->
-  city = j('#city').val()
+  city = jQuery('#city').val()
   city = null if city is ''
-  street = j('#street_name').val()
+  street = jQuery('#street_name').val()
   street = null if street is ''
   if city and street
     params = city: city, street: street
-    j.getJSON '/census/1910/building_autocomplete', params, (json) ->
-      building = j('#building_id')
+    jQuery.getJSON '/census/1910/building_autocomplete', params, (json) ->
+      building = jQuery('#building_id')
       current_value = building.val()
       html = '<option value="">Select a building</option>'
       for item in json
@@ -55,8 +55,8 @@ jQuery(document).on 'blur', '#city, #street_name', ->
 
 buildingNamed = no
 jQuery(document).on 'ready', ->
-  buildingNamed = j('#building_name').val()
+  buildingNamed = jQuery('#building_name').val()
 jQuery(document).on 'change', '#building_address_house_number, #building_address_street_prefix, #building_address_street_name, #building_address_street_suffix', ->
   unless buildingNamed
-    buildingName = [j('#building_address_house_number').val(), j('#building_address_street_prefix').val(), j('#building_address_street_name').val(), j('#building_address_street_suffix').val()].join(' ')
-    j('#building_name').val(buildingName)
+    buildingName = [jQuery('#building_address_house_number').val(), jQuery('#building_address_street_prefix').val(), jQuery('#building_address_street_name').val(), jQuery('#building_address_street_suffix').val()].join(' ')
+    jQuery('#building_name').val(buildingName)
