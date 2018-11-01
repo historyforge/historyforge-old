@@ -255,21 +255,20 @@ class Map < ApplicationRecord
     DST_MAPS_DIR
   end
 
-
   def warped_dir
     dest_dir
   end
 
   def unwarped_filename
-    filename && File.join(maps_dir, filename) || ""
+    @unwarped_filename ||= filename && File.join(maps_dir, filename) || ""
   end
 
   def warped_filename
-    File.join(warped_dir, id.to_s) + ".tif"
+    @warped_filename ||= File.join(warped_dir, id.to_s) + ".tif"
   end
 
   def warped_png_dir
-    File.join(dest_dir, "/png/")
+    @warped_png_dir ||= File.join(dest_dir, "/png/")
   end
 
   def warped_png
@@ -278,7 +277,7 @@ class Map < ApplicationRecord
   end
 
   def warped_png_filename
-    File.join(warped_png_dir, id.to_s) + ".png"
+    @warped_png_filename ||= File.join(warped_png_dir, id.to_s) + ".png"
   end
 
   def warped_png_aux_xml
@@ -286,11 +285,11 @@ class Map < ApplicationRecord
   end
 
   def public_warped_tif_url
-    "mapimages/dst/"+id.to_s + ".tif"
+    @public_warped_tif_url ||= "mapimages/dst/"+id.to_s + ".tif"
   end
 
   def public_warped_png_url
-    public_warped_tif_url + ".png"
+    @public_warped_png_url ||= public_warped_tif_url + ".png"
   end
 
   def mask_file_format
@@ -298,20 +297,20 @@ class Map < ApplicationRecord
   end
 
   def temp_filename
-    File.join(warped_dir, id.to_s) + "_temp"
+    @temp_filename ||= File.join(warped_dir, id.to_s) + "_temp"
   end
 
   def masking_file_gml
-    File.join(Rails.root, "/public/mapimages/",  self.id.to_s) + ".gml"
+    @masking_file_gml ||= File.join(Rails.root, "/public/mapimages/",  self.id.to_s) + ".gml"
   end
 
   #file made when rasterizing
   def masking_file_gfs
-    File.join(Rails.root, "/public/mapimages/",  self.id.to_s) + ".gfs"
+    @masking_file_gfs ||= File.join(Rails.root, "/public/mapimages/",  self.id.to_s) + ".gfs"
   end
 
   def masked_src_filename
-    self.unwarped_filename + "_masked";
+    @masked_src_filename ||= self.unwarped_filename + "_masked";
   end
 
 
@@ -566,7 +565,7 @@ class Map < ApplicationRecord
     end
 
     dest_filename = warped_filename
-    temp_filename = temp_filename
+    # temp_filename = temp_filename
 
     #delete existing temp images @map.delete_images
     if File.exist?(dest_filename)
