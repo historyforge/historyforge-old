@@ -122,6 +122,8 @@ class CensusRecord < ApplicationRecord
   def convert_street_name
     if street_name == 'Mill'
       'Court'
+    elsif street_name == 'Railroad' || street_name == 'Neahga'
+      'Lincoln'
     elsif street_name == 'Boulevard' || street_name == 'Glenwood'
       'Old Taughannock'
     elsif street_name == 'Humboldt'
@@ -138,7 +140,9 @@ class CensusRecord < ApplicationRecord
   end
 
   def convert_street_suffix
-    if street_name == 'Boulevard' || street_name == 'Glenwood'
+    if street_name == 'Railroad'
+      'Ave'
+    elsif street_name == 'Boulevard' || street_name == 'Glenwood'
       'Blvd'
     elsif street_name == 'Mechanic' || (street_name == 'Tioga' && street_prefix == 'S')
       'Pl'

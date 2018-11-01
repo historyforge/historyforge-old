@@ -29,9 +29,9 @@ json.filters do
     json.type 'text'
     json.label 'Profession'
     json.scopes do
-      json.occupation_cont 'contains'
-      json.occupation_not_cont 'does not contain'
-      json.occupation_eq 'equals'
+      json.profession_cont 'contains'
+      json.profession_not_cont 'does not contain'
+      json.profession_eq 'equals'
     end
     json.sortable 'occupation'
   end
