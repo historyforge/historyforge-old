@@ -44,8 +44,8 @@ group :development do
   gem "byebug"
   gem "letter_opener"
   gem "pry"
-  gem "rubocop", require: false
-  gem "rubocop-rails"
+  # gem "rubocop", require: false
+  # gem "rubocop-rails"
   gem "spring"
   gem "web-console" #, "~> 2.0"
 end
