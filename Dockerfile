@@ -1,5 +1,7 @@
 FROM ubuntu:16.04
 
+ENV HF_VERSION 1
+
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq && apt-get install -y ruby libruby ruby-dev \
