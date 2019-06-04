@@ -10,7 +10,7 @@ class Map < ApplicationRecord
   has_many :users, through: :my_maps
   belongs_to :owner, class_name: "User"
 
-  has_attached_file :upload, styles: {thumb: ["100x100>", :png]} ,
+  has_attached_file :upload, style: {thumb: ["100x100>", :png]} ,
     url: '/:attachment/:id/:style/:basename.:extension',
     default_url: "/assets/missing.png"
   validates_attachment_size(:upload, less_than: MAX_ATTACHMENT_SIZE) if defined?(MAX_ATTACHMENT_SIZE)
