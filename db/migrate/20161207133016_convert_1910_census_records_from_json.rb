@@ -1,4 +1,4 @@
-class Convert1910CensusRecordsFromJson < ActiveRecord::Migration
+class Convert1910CensusRecordsFromJson < ActiveRecord::Migration[4.2]
   def change
     change_table :census_1910_records do |t|
 

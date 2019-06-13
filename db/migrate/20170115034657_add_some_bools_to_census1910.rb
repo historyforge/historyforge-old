@@ -1,4 +1,4 @@
-class AddSomeBoolsToCensus1910 < ActiveRecord::Migration
+class AddSomeBoolsToCensus1910 < ActiveRecord::Migration[4.2]
   def change
     add_column :census_1910_records, :provisional, :boolean, default: false
     add_column :census_1910_records, :foreign_born, :boolean, default: false

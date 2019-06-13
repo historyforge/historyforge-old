@@ -1,5 +1,5 @@
 
-class AddUploadToMap < ActiveRecord::Migration
+class AddUploadToMap < ActiveRecord::Migration[4.2]
   def self.up
     add_column :maps, :upload_file_name, :string
     add_column :maps, :upload_content_type, :string

@@ -1,4 +1,4 @@
-class AddOwnerToMap < ActiveRecord::Migration
+class AddOwnerToMap < ActiveRecord::Migration[4.2]
   def self.up
     add_column :maps, :owner_id, :integer
   end

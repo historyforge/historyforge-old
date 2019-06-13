@@ -1,4 +1,4 @@
-class AddProfileToUser < ActiveRecord::Migration
+class AddProfileToUser < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :description, :text, :default => ""
   end

@@ -1,4 +1,4 @@
-class AddFieldsTo1920Census < ActiveRecord::Migration
+class AddFieldsTo1920Census < ActiveRecord::Migration[4.2]
   def change
     change_table :census_1900_records do |t|
       t.string :name_prefix, after: :middle_name

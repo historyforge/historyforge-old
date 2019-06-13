@@ -1,4 +1,4 @@
-class AddSomeMoreMapMetadataFields < ActiveRecord::Migration
+class AddSomeMoreMapMetadataFields < ActiveRecord::Migration[4.2]
   def self.up
     add_column :maps, :date_depicted, :string, :limit => 4, :default => ""
     add_column :maps, :call_number, :string

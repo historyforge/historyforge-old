@@ -1,4 +1,4 @@
-class AddUserIdToLayer < ActiveRecord::Migration
+class AddUserIdToLayer < ActiveRecord::Migration[4.2]
   def self.up
       add_column :layers, :user_id, :integer
   end

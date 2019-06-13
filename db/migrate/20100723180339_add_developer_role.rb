@@ -1,4 +1,4 @@
-class AddDeveloperRole < ActiveRecord::Migration
+class AddDeveloperRole < ActiveRecord::Migration[4.2]
   def self.up
     Role.create(:name => 'developer')
   end

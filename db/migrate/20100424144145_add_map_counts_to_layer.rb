@@ -1,4 +1,4 @@
-class AddMapCountsToLayer < ActiveRecord::Migration
+class AddMapCountsToLayer < ActiveRecord::Migration[4.2]
  def self.up
     add_column :layers, :maps_count, :integer, :default => 0
     add_column :layers, :rectified_maps_count, :integer, :default=> 0

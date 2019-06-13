@@ -1,4 +1,4 @@
-class PeopleAndPhotos < ActiveRecord::Migration
+class PeopleAndPhotos < ActiveRecord::Migration[4.2]
   def change
     create_table :buildings_photos, id: false do |t|
       t.references :building, foreign_key: true

@@ -1,4 +1,4 @@
-class AddDepictsYearToLayer < ActiveRecord::Migration
+class AddDepictsYearToLayer < ActiveRecord::Migration[4.2]
   def self.up
      add_column :layers, :depicts_year, :string, :limit => 4, :default => ""
   end

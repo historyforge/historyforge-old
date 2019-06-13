@@ -1,4 +1,4 @@
-class FleshOutPeople < ActiveRecord::Migration
+class FleshOutPeople < ActiveRecord::Migration[4.2]
   def change
     remove_column :people, :data, :jsonb
     change_table :people do |t|

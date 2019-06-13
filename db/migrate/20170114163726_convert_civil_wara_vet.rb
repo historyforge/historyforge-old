@@ -1,4 +1,4 @@
-class ConvertCivilWaraVet < ActiveRecord::Migration
+class ConvertCivilWaraVet < ActiveRecord::Migration[4.2]
   def up
     rename_column :census_1910_records, :civil_war_vet, :civil_war_vet_old
     add_column :census_1910_records, :civil_war_vet, :string, limit: 2, default: nil

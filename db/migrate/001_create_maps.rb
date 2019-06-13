@@ -1,4 +1,4 @@
-class CreateMaps < ActiveRecord::Migration
+class CreateMaps < ActiveRecord::Migration[4.2]
   def self.up
     create_table :maps do |t|
       t.string :title
@@ -9,7 +9,7 @@ class CreateMaps < ActiveRecord::Migration
       t.integer :status
       t.integer :mask_status
 
-        
+
 
       t.timestamps
     end

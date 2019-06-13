@@ -1,4 +1,4 @@
-class UpdateTagsAndTaggings < ActiveRecord::Migration
+class UpdateTagsAndTaggings < ActiveRecord::Migration[4.2]
   def up
     #taggings
     add_column :taggings, :context, :string, :limit => 128

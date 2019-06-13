@@ -1,4 +1,4 @@
-class Create1930CensusTable < ActiveRecord::Migration
+class Create1930CensusTable < ActiveRecord::Migration[4.2]
   def change
     create_table :census_1930_records, force: :cascade do |t|
       t.references :building, foreign_key: true, index: true

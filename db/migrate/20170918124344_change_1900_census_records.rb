@@ -1,4 +1,4 @@
-class Change1900CensusRecords < ActiveRecord::Migration
+class Change1900CensusRecords < ActiveRecord::Migration[4.2]
   def change
 
     change_table "census_1900_records", force: :cascade do |t|

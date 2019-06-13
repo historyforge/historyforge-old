@@ -1,4 +1,4 @@
-class CreateGroupsMaps < ActiveRecord::Migration
+class CreateGroupsMaps < ActiveRecord::Migration[4.2]
   def self.up
     create_table :groups_maps do |t|
       t.references :group, :map

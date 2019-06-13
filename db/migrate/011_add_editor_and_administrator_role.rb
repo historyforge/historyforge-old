@@ -1,4 +1,4 @@
-class AddEditorAndAdministratorRole < ActiveRecord::Migration
+class AddEditorAndAdministratorRole < ActiveRecord::Migration[4.2]
   def self.up
     Role.create(:name => 'editor')
     Role.create(:name => 'administrator')

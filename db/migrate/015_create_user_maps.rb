@@ -1,4 +1,4 @@
-class CreateUserMaps < ActiveRecord::Migration
+class CreateUserMaps < ActiveRecord::Migration[4.2]
   def self.up
     create_table :my_maps do  |t|
       t.integer :map_id

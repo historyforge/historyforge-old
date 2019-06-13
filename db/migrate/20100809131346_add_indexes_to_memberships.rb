@@ -1,4 +1,4 @@
-class AddIndexesToMemberships < ActiveRecord::Migration
+class AddIndexesToMemberships < ActiveRecord::Migration[4.2]
   def self.up
     add_index :memberships, [:user_id, :group_id], :unique =>true
     add_index :memberships, :user_id

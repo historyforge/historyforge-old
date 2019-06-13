@@ -1,4 +1,4 @@
-class AddGcpTouchedAtAndLastRectifiedToMap < ActiveRecord::Migration
+class AddGcpTouchedAtAndLastRectifiedToMap < ActiveRecord::Migration[4.2]
   def self.up
     add_column :maps, :rectified_at, :datetime
     add_column :maps, :gcp_touched_at, :datetime

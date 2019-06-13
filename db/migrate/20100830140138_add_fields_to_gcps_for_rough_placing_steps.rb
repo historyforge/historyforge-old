@@ -1,4 +1,4 @@
-class AddFieldsToGcpsForRoughPlacingSteps < ActiveRecord::Migration
+class AddFieldsToGcpsForRoughPlacingSteps < ActiveRecord::Migration[4.2]
   def self.up
     add_column :gcps, :soft, :boolean, :default => false
     add_column :gcps, :name, :string

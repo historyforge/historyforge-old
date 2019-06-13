@@ -1,4 +1,4 @@
-class AddExtraColumnsToMap < ActiveRecord::Migration
+class AddExtraColumnsToMap < ActiveRecord::Migration[4.2]
   def self.up
   	add_column :maps, :bbox, :string
   	add_column :maps, :publisher, :string

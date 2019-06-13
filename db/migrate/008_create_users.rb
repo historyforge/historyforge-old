@@ -1,4 +1,4 @@
-class CreateUsers < ActiveRecord::Migration
+class CreateUsers < ActiveRecord::Migration[4.2]
   def self.up
     create_table "users", :force => true do |t|
       t.column :login,                     :string
@@ -14,7 +14,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :password_reset_code, :string,  :limit => 40
       t.column :enabled, :boolean, :default => true
       t.column :updated_by, :integer
-      
+
     end
   end
 

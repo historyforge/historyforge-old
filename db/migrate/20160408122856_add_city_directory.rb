@@ -1,4 +1,4 @@
-class AddCityDirectory < ActiveRecord::Migration
+class AddCityDirectory < ActiveRecord::Migration[4.2]
   def change
 
     rename_table :census_records, :census_1910_records

@@ -1,4 +1,4 @@
-class ReformatPageNumber < ActiveRecord::Migration
+class ReformatPageNumber < ActiveRecord::Migration[4.2]
   def change
     Census1910Record.find_each do |record|
       page = record.page_number

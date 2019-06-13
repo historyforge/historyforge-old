@@ -1,4 +1,4 @@
-class AddExtraMetadataFieldsToMap < ActiveRecord::Migration
+class AddExtraMetadataFieldsToMap < ActiveRecord::Migration[4.2]
   def self.up
      add_column :maps, :publication_place, :string
      add_column :maps, :subject_area, :string

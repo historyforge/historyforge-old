@@ -1,4 +1,4 @@
-class AddSourceUrlToMapAndLayer < ActiveRecord::Migration
+class AddSourceUrlToMapAndLayer < ActiveRecord::Migration[4.2]
   def self.up
     add_column :maps, :source_uri, :string
     add_column :layers, :source_uri, :string

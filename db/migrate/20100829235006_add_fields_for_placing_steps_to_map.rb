@@ -1,4 +1,4 @@
-class AddFieldsForPlacingStepsToMap < ActiveRecord::Migration
+class AddFieldsForPlacingStepsToMap < ActiveRecord::Migration[4.2]
   def self.up
     add_column :maps, :rough_lat, :decimal, :precision => 15, :scale => 10
     add_column :maps,  :rough_lon, :decimal, :precision => 15, :scale => 10

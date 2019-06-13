@@ -1,4 +1,4 @@
-class AddModerationQueue < ActiveRecord::Migration
+class AddModerationQueue < ActiveRecord::Migration[4.2]
   def change
 
     Role.where(name: 'census taker').first_or_create

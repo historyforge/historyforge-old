@@ -1,4 +1,4 @@
-class AddDownloadableToMap < ActiveRecord::Migration
+class AddDownloadableToMap < ActiveRecord::Migration[4.2]
   def self.up
     	add_column :maps, :downloadable,  :boolean, :default => true
   end

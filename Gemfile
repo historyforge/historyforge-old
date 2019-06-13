@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
+gem 'actionpack-action_caching'
 gem 'active_model_serializers'
 gem 'activerecord-postgis-adapter'
 gem 'acts_as_list'

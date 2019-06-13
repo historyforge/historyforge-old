@@ -1,4 +1,4 @@
-class CreateLayerMaps < ActiveRecord::Migration
+class CreateLayerMaps < ActiveRecord::Migration[4.2]
   def self.up
     
     create_table :layers_maps, :id => false do |t|
