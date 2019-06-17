@@ -729,8 +729,8 @@ class Map < ApplicationRecord
 
   def delete_mask_files
     File.delete(masking_file_gml) if File.exist?(masking_file_gml)
-    File.delete(masking_file_gml+".ol") if File.exis?(masking_file_gml+".ol")
-    File.delete(masking_file_gfs) if File.exists?(masking_file_gfs)
+    File.delete(masking_file_gml+".ol") if File.exist?(masking_file_gml+".ol")
+    File.delete(masking_file_gfs) if File.exist?(masking_file_gfs)
   end
 
   def convert_to_png
