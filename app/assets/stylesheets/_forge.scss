@@ -31,6 +31,24 @@ ng-map {
   }
 }
 
+#building-iw {
+  position: fixed;
+  left: 50%;
+  top: 25%;
+  margin-left: -350px;
+  width:700px;
+  font-size: 12px;
+  padding:15px;
+  background-color:rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  box-shadow: 4px 4px 4px #888;
+  button.close {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+  }
+}
+
 #layer-pickers {
   position:absolute;
   bottom:0;

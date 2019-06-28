@@ -33,15 +33,15 @@ class Wms::BaseController < ActionController::Base
   end
 
   def fetch_tile
-    Rails.cache.fetch(cache_path) do
+    # Rails.cache.fetch(cache_path) do
       generate_tile
-    end
+    # end
   end
 
   def fetch_wms
-    Rails.cache.fetch(cache_path) do
+    # Rails.cache.fetch(cache_path) do
       generate_wms
-    end
+    # end
   end
 
   private

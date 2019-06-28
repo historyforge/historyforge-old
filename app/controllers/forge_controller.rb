@@ -4,4 +4,7 @@ class ForgeController < ApplicationController
 
   end
 
+  def list
+    render action: :index
+  end
 end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/photos/:id/:style/:device' => 'buildings#photo', as: 'photo'
 
   get '/forge' => 'forge#index', as: 'forge'
+  get '/forge/list' => 'forge#list', as: 'forge_list'
 
   devise_for :users,
              path: 'u',

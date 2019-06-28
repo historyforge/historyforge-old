@@ -21,7 +21,6 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.selectLayer  = (id) -> LayerService.selectTop id
   $scope.selectLayer2  = (id) -> LayerService.selectBottom id
 
-
   $scope.$on 'layers:updated', (event, layers) ->
     if layers[0].id isnt null
       layers.unshift id: null, name: 'None'
@@ -57,7 +56,6 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
 
   $scope.$on 'layers:selected:top', (event, id) ->
     $scope.selectedLayers.top = id
-    debugger
     NgMap.getMap().then (map) ->
       if wmsLayerTop #and map.overlayMapTypes.getLength() > 0
         map.overlayMapTypes.forEach (layer, index) ->
@@ -89,9 +87,13 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
               wmsLayerBottom.setOpacity(ui.value / 100)
       else
         wmsLayerBottom = null
+
   $scope.$on 'buildings:updated', (event) ->
     $scope.buildings = BuildingService.buildings
     $scope.meta = BuildingService.meta
+
+  $scope.$on 'building:infoWindow', (event, building, e) ->
+    $scope.currentBuilding = building
 
   $scope.$on 'viewMode:changed', (event, viewMode) ->
     if $scope.selectedLayers.top or $scope.selectLayers.bottom
@@ -120,10 +122,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   currentWindowId = null
   $scope.showBuilding = (event, selectedBuilding) ->
     if $scope.viewMode is 'map'
-      NgMap.getMap().then (map) =>
-        map.hideInfoWindow('building-iw')
-        $scope.currentBuilding = selectedBuilding
-        map.showInfoWindow.apply this, [event, "building-iw"] #"building-marker-#{selectedBuilding.id}"
+      BuildingService.loadOne(selectedBuilding.id, event)
     else if $scope.viewMode is 'list'
       $anchorScroll.yOffset = 100
       $anchorScroll "building-#{selectedBuilding.id}"
@@ -133,6 +132,9 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       else
         building.current = no
     return
+
+  $scope.hideBuilding = ->
+    $scope.currentBuilding = null
 
   $scope.highlightBuilding = (event, building) ->
     BuildingService.highlight building.id

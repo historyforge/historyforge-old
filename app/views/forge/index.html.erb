@@ -1,12 +1,14 @@
 <div id="forge" ng-app="forge" ng-controller="MainCtrl" class="{{viewMode}}" ng-cloak>
 
-  <%= render 'map' %>
+  <div ng-controller="LayersCtrl">
+    <%= render 'map' %>
 
-  <div id="forge-right-col">
-    <%= render 'form' %>
+    <div id="forge-right-col">
+      <%= render 'form' %>
+    </div>
   </div>
 
-  <%= render 'list' %>
+  <%#= render 'list' %>
 
 </div>
 

@@ -31,7 +31,7 @@ gem 'non-stupid-digest-assets'
 gem 'paperclip' #, '~> 4.2.0'
 gem 'pg'
 gem 'puma'
-gem 'rails', '5.2.0'
+gem 'rails', '5.2.3'
 gem 'ransack'
 gem 'rubyXL', require: false
 gem 'ruby_mapscript'

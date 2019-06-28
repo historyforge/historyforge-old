@@ -14,59 +14,57 @@
               id="building-marker-{{building.id}}"
               ng-if="building.latitude"></marker>
     </div>
-
-    <info-window id="building-iw">
-      <div ng-non-bindable="">
-        <h5>{{ currentBuilding.name }}</h5>
-        <div style="width:700px" class="row">
-          <div class="col-xs-3">
-            <picture ng-if="currentBuilding.photo">
-              <!--[if IE 9]><video style="display: none;"><![endif]-->
-              <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
-              <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
-              <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
-              <!--[if IE 9]></video><![endif]-->
-              <img src class="img-responsive img-thumbnail">
-            </picture>
-            <p ng-if="!currentBuilding.photo">
-              No photo :(
-            </p>
-          </div>
-          <div class="col-xs-3">
-            <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
-            <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
-          </div>
-          <div class="col-xs-6">
-            <table class="table table-condensed">
-              <thead>
-                <tr>
-                  <th>Year</th>
-                  <th>Name</th>
-                  <th>Age</th>
-                  <th>Race</th>
-                  <th>Sex</th>
-                </tr>
-              </thead>
-              <tbody ng-repeat="year in [1900, 1910, 1920, 1930]">
-                <tr ng-repeat="person in currentBuilding.census_records[year]">
-                  <td>{{ year }}</td>
-                  <td><a href="/census/{{year}}/{{person.id}}" target="_blank">{{ person.name }}</a></td>
-                  <td>{{ person.age }}</td>
-                  <td>{{ person.race }}</td>
-                  <td>{{ person.sex }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </info-window>
-
-
   </ng-map>
+
+  <div id="building-iw" ng-if="currentBuilding">
+    <button type="button" class="close" ng-click="hideBuilding()">&times;</button>
+    <h5>{{ currentBuilding.name }}</h5>
+    <div style="width:700px" class="row">
+      <div class="col-xs-3">
+        <picture ng-if="currentBuilding.photo">
+          <!--[if IE 9]><video style="display: none;"><![endif]-->
+          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
+          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
+          <source ng-srcset="/photos/{{currentBuilding.photo}}/15/desktop.jpg" media="(min-width:1025px)">
+          <!--[if IE 9]></video><![endif]-->
+          <img src class="img-responsive img-thumbnail">
+        </picture>
+        <p ng-if="!currentBuilding.photo">
+          No photo :(
+        </p>
+      </div>
+      <div class="col-xs-3">
+        <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
+        <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
+      </div>
+      <div class="col-xs-6">
+        <table class="table table-condensed">
+          <thead>
+          <tr>
+            <th>Year</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Race</th>
+            <th>Sex</th>
+          </tr>
+          </thead>
+          <tbody ng-repeat="year in [1900, 1910, 1920, 1930]">
+          <tr ng-repeat="person in currentBuilding.census_records[year]">
+            <td>{{ year }}</td>
+            <td><a href="/census/{{year}}/{{person.id}}" target="_blank">{{ person.name }}</a></td>
+            <td>{{ person.age }}</td>
+            <td>{{ person.race }}</td>
+            <td>{{ person.sex }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<div ng-controller="LayersCtrl">
+<div>
     <div id="layer-pickers" ng-show="layers.length">
     <div class="row">
       <div class="col-lg-2 col-sm-2">

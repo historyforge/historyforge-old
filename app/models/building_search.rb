@@ -25,7 +25,7 @@ class BuildingSearch
 
   def as_json
     {
-      buildings: to_a.map { |building| BuildingSerializer.new(building, root: false) },
+      buildings: to_a.map { |building| BuildingListingSerializer.new(building, root: false) },
       meta: pagination_dict(scoped)
     }
   end
@@ -52,12 +52,12 @@ class BuildingSearch
       @f << 'investigate_reason' if uninvestigated
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
-      @scoped = entity_class.includes(:building_type, :architects).ransack(rp).result
+      @scoped = entity_class.ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
       add_order_clause
       @scoped = @scoped.without_residents if unpeopled
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed
       @scoped = @scoped.where(investigate: true) if uninvestigated
-      @scoped = @scoped.page(page).per(per) if paged
+      @scoped = @scoped.page(page).per(per).includes(:building_type, :architects) if paged
       if expanded
         @scoped = @scoped.includes(:photos, :census_1900_records, :census_1910_records, :census_1920_records, :census_1930_records)
         if people.present?

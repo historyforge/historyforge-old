@@ -2,7 +2,7 @@ class BuildingsController < ApplicationController
 
   include RestoreSearch
 
-  respond_to :json, only: :index
+  respond_to :json, only: %i[index show]
   respond_to :csv, only: :index
   respond_to :html
 
@@ -56,8 +56,12 @@ class BuildingsController < ApplicationController
   def show
     @building = Building.includes(:architects, :building_type).find params[:id]
     authorize! :read, @building
-    @neighbors = @building.neighbors.map { |building| BuildingSerializer.new(building) }
-    @layer = Layer.where(depicts_year: 1910).first
+    if request.format.html?
+      @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
+      @layer = Layer.where(depicts_year: 1910).first
+    elsif request.format.json?
+      render json: BuildingSerializer.new(@building).as_json
+    end
   end
 
   def edit
@@ -179,9 +183,9 @@ class BuildingsController < ApplicationController
                                       paged: request.format.html?,
                                       per: 50
     if request.format.json?
-      @search.expanded = true
-      @search.paged = true #params[:s].blank?
-      @search.per = params[:s] ? 500 : 50
+      # @search.expanded = true
+      # @search.paged = true #params[:s].blank?
+      # @search.per = params[:s] ? 500 : 50
       @buildings = @search.as_json
     else
       @buildings = @search.to_a.map {|building| BuildingPresenter.new(building, current_user) }

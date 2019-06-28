@@ -45,6 +45,9 @@ forgeApp.BuildingService = ($http, $rootScope) ->
       else
         building.highlighted = no for building in @buildings
       $rootScope.$broadcast 'building:highlighted', id
+    loadOne: (id) ->
+      $http.get("/buildings/#{id}.json").then (response) =>
+        $rootScope.$broadcast 'building:infoWindow', response.data
   }
 
 forgeApp.BuildingService.$inject = ['$http', '$rootScope']
