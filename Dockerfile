@@ -5,7 +5,7 @@ ENV HF_VERSION 2
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq && apt-get install -y build-essential libxml2-dev \
-    ruby-dev imagemagick gdal-bin ruby-mapscript nodejs imagemagick tzdata
+    ruby-dev imagemagick gdal-bin ruby-mapscript nodejs imagemagick tzdata \
      && rm -rf /var/lib/apt/lists/*
 
 ENV BUNDLE_PATH /bundle
