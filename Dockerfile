@@ -18,7 +18,7 @@ ADD Gemfile.lock ./Gemfile.lock
 RUN gem install bundler --no-rdoc --no-ri
 RUN gem update --system --no-user-install
 RUN bundle config build.nokogiri --use-system-libraries \
-    && bundle install --jobs 20 --retry 5
+    && bundle install --jobs 20 --retry 5 --without development:test
 
 # Copy the main application.
 COPY . .
