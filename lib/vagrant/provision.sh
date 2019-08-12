@@ -5,13 +5,12 @@ apt-get update
 # upgrade all packages
 apt-get upgrade -y
 
-# install packages as explained in INSTALL.md
-apt-get install -y ruby libruby ruby-dev \
-    postgresql-9.5-postgis-2.2  postgresql-server-dev-all postgresql-contrib \
-    build-essential git-core \
-    libxml2-dev libxslt-dev imagemagick libmapserver2 gdal-bin libgdal-dev ruby-mapscript nodejs
+apt install -y postgresql-10-postgis-2.4 postgresql-server-dev-all libxml2-dev ruby-dev imagemagick gdal-bin ruby-mapscript nodejs imagemagick
 
-gem install bundler -v=1.16.1
+gem install bundler
+gem update --system --no-user-install
+
+sudo -u vagrant -H bundle install --path ~/.gem
 
 ## install the bundle necessary for mapwarper
 pushd /app

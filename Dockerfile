@@ -1,13 +1,11 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-ENV HF_VERSION 1
+ENV HF_VERSION 2
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -qq && apt-get install -y ruby libruby ruby-dev \
-    build-essential git-core libxml2-dev libxslt-dev imagemagick \
-    libmapserver2 gdal-bin libgdal-dev ruby-mapscript nodejs \
-    tzdata \
+RUN apt-get update -qq && apt-get install -y build-essential libxml2-dev \
+    ruby-dev imagemagick gdal-bin ruby-mapscript nodejs imagemagick tzdata
      && rm -rf /var/lib/apt/lists/*
 
 ENV BUNDLE_PATH /bundle
@@ -17,6 +15,7 @@ WORKDIR /app
 ADD Gemfile ./Gemfile
 ADD Gemfile.lock ./Gemfile.lock
 RUN gem install bundler
+RUN gem update --system --no-user-install
 RUN bundle config build.nokogiri --use-system-libraries \
     && bundle install --jobs 20 --retry 5
 
