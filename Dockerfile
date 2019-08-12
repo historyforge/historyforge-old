@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update -qq && apt-get install -y build-essential libxml2-dev \
     ruby-dev imagemagick gdal-bin ruby-mapscript nodejs imagemagick tzdata \
-    libpq-dev \
+    libpq-dev libxslt-dev \
      && rm -rf /var/lib/apt/lists/*
 
 ENV BUNDLE_PATH /bundle
