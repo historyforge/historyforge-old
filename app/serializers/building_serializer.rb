@@ -3,31 +3,26 @@ class BuildingSerializer
 
   attributes :id, :name, :year_earliest, :year_latest, :description,
              :street_address, :city, :state, :postal_code, :building_type_id,
-             :latitude, :longitude, :photo, :census_records
+             :latitude, :longitude
 
   has_many :architects, serializer: ArchitectSerializer
   has_many :photos, serializer: PhotoSerializer
 
   # has_many :census_records #, serializer: CensusRecordSerializer
 
-  def photo
+  attribute :photo do |object|
     object.photos.andand.first.andand.id
   end
 
-  def building_type
-    t = object.building_type
-    t.is_a?(String) ? t : (t.andand.name || 'unspecified')
-  end
-
-  def latitude
+  attribute :latitude do |object|
     object.lat
   end
 
-  def longitude
+  attribute :longitude do |object|
     object.lon
   end
 
-  def census_records
+  attribute :census_records do |object|
     if object.residents
       object
         .residents

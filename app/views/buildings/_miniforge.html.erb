@@ -15,12 +15,12 @@
             <% end -%>></marker>
 
     <marker ng-repeat="item in buildings track by $index"
-            position="{{item.latitude}}, {{item.longitude}}"
-            z-index="{{ zIndexFor(item) }}"
-            icon="{{ markerIcon(item) }}"
-            on-mouseover="highlightBuilding(item)"
-            on-click="showBuilding(item)"
-            ng-if="item.latitude"></marker>
+            position="{{item.data.attributes.latitude}}, {{item.data.attributes.longitude}}"
+            z-index="{{ zIndexFor(item.data.attributes) }}"
+            icon="{{ markerIcon(item.data.attributes) }}"
+            on-mouseover="highlightBuilding(item.data.attributes)"
+            on-click="showBuilding(item.data.attributes)"
+            ng-if="item.data.attributes.latitude"></marker>
 
 
     <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>
@@ -39,8 +39,8 @@
        id="building-{{building.id}}">
     <div class="pull-left">
       <p>
-        <a href="/buildings/{{ building.id }}" target="_blank">{{ building.name }}</a><br>
-        {{ building.street_address }}<br>{{ building.city }}, {{ building.state }}
+        <a href="/buildings/{{ building.id }}" target="_blank">{{ building.data.attributes.name }}</a><br>
+        {{ building.data.attributes.street_address }}<br>{{ building.data.attributes.city }}, {{ building.data.attributes.state }}
       </p>
       <p ng-if="hasYears || hasArchitects">
         <span ng-if="hasYears">{{ yearBuilt }} {{ yearDemolished }}</span>

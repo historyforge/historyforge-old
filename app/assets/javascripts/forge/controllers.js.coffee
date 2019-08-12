@@ -184,7 +184,7 @@ forgeApp.BuildingController = ($scope, BuildingService, NgMap) ->
     $scope.yearBuilt = "Built in #{$scope.building.year_earliest}."
   if $scope.building.year_latest
     $scope.yearDemolished = "Destroyed in #{$scope.building.year_latest}."
-  $scope.hasYears = $scope.building.year_earliest or $scope.building.year_latest
+  $scope.hasYears = $scope.building.data.attributes.year_earliest or $scope.building.data.attributes.year_latest
 
   $scope.hasArchitects = $scope.building.architects.length > 0
   if $scope.hasArchitects

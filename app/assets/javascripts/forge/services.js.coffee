@@ -23,6 +23,7 @@ forgeApp.BuildingService = ($http, $rootScope) ->
 
       $http.get('/buildings.json', params: params).then (response) =>
         @buildings = response.data?.buildings or []
+        @buildings = @buildings.map (building) => building.data.attributes
         @meta = response.data?.meta
         $rootScope.$broadcast 'buildings:updated'
       return
@@ -47,7 +48,8 @@ forgeApp.BuildingService = ($http, $rootScope) ->
       $rootScope.$broadcast 'building:highlighted', id
     loadOne: (id) ->
       $http.get("/buildings/#{id}.json").then (response) =>
-        $rootScope.$broadcast 'building:infoWindow', response.data
+        console.log(response)
+        $rootScope.$broadcast 'building:infoWindow', response.data.data.attributes
   }
 
 forgeApp.BuildingService.$inject = ['$http', '$rootScope']
