@@ -102,6 +102,8 @@ GEM
     dotenv (2.7.5)
     erubi (1.8.0)
     execjs (2.7.0)
+    fast_jsonapi (1.5)
+      activesupport (>= 4.2)
     ffi (1.11.1)
     geocoder (1.5.1)
     georuby (2.5.2)
@@ -291,6 +293,7 @@ DEPENDENCIES
   devise
   devise-encryptable
   dotenv
+  fast_jsonapi
   geocoder
   georuby
   jbuilder (~> 2.0)

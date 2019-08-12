@@ -1,4 +1,5 @@
-class PhotoSerializer < ActiveModel::Serializer
+class PhotoSerializer
+  include FastJsonapi::ObjectSerializer
 
   attributes :id, :caption, :url
 

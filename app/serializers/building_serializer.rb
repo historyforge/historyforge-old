@@ -1,4 +1,6 @@
-class BuildingSerializer < ActiveModel::Serializer
+class BuildingSerializer
+  include FastJsonapi::ObjectSerializer
+
   attributes :id, :name, :year_earliest, :year_latest, :description,
              :street_address, :city, :state, :postal_code, :building_type_id,
              :latitude, :longitude, :photo, :census_records
