@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.5.1'
 
 gem 'actionpack-action_caching'
 gem 'active_model_serializers'
@@ -19,7 +19,7 @@ gem 'coffee-rails'
 gem 'devise'
 gem 'devise-encryptable'
 gem 'dotenv'
-gem 'gdal'
+# gem 'gdal'
 gem 'geocoder'
 gem 'georuby'
 gem 'jbuilder', '~> 2.0'
