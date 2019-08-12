@@ -4,16 +4,16 @@
           data-tap-disabled="true"
           data-styles="[{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}]"
           center="[42.4418353,-76.4987984]">
-    <div ng-repeat="building in buildings track by $index">
+<!--    <div ng-repeat="building in buildings track by $index">-->
 
-      <marker position="{{building.latitude}}, {{building.longitude}}"
-              z-index="{{ zIndexFor(building) }}"
-              icon="{{ markerIcon(building) }}"
-              on-mouseover="highlightBuilding(building)"
-              on-click="showBuilding(building)"
-              id="building-marker-{{building.id}}"
-              ng-if="building.latitude"></marker>
-    </div>
+<!--      <marker position="{{building.latitude}}, {{building.longitude}}"-->
+<!--              z-index="{{ zIndexFor(building) }}"-->
+<!--              icon="{{ markerIcon(building) }}"-->
+<!--              on-mouseover="highlightBuilding(building)"-->
+<!--              on-click="showBuilding(building)"-->
+<!--              id="building-marker-{{building.id}}"-->
+<!--              ng-if="building.latitude"></marker>-->
+<!--    </div>-->
   </ng-map>
 
   <div id="building-iw" ng-if="currentBuilding">

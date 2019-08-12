@@ -91,6 +91,19 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.$on 'buildings:updated', (event) ->
     $scope.buildings = BuildingService.buildings
     $scope.meta = BuildingService.meta
+    markers = $scope.buildings.map (building) -> $scope.createMarker(building)
+    NgMap.getMap().then (map) ->
+      mcOptions = imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
+      return new MarkerClusterer(map, markers, mcOptions)
+
+  $scope.createMarker = (building) ->
+    marker = new google.maps.Marker
+      position: new google.maps.LatLng(building.latitude, building.longitude)
+      icon: $scope.markerIcon(building)
+      zIndex: $scope.zIndexFor(building)
+    google.maps.event.addListener marker, 'click', () -> $scope.showBuilding(building)
+    google.maps.event.addListener marker, 'mouseover', () -> $scope.highlightBuilding(building)
+    marker
 
   $scope.$on 'building:infoWindow', (event, building, e) ->
     $scope.currentBuilding = building
@@ -120,7 +133,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     return if building.highlighted then 100 else 10
 
   currentWindowId = null
-  $scope.showBuilding = (event, selectedBuilding) ->
+  $scope.showBuilding = (selectedBuilding) ->
     if $scope.viewMode is 'map'
       BuildingService.loadOne(selectedBuilding.id, event)
     else if $scope.viewMode is 'list'
@@ -136,9 +149,9 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.hideBuilding = ->
     $scope.currentBuilding = null
 
-  $scope.highlightBuilding = (event, building) ->
+  $scope.highlightBuilding = (building) ->
     BuildingService.highlight building.id
-  $scope.unhighlightBuilding = (event, building) ->
+  $scope.unhighlightBuilding = (building) ->
     BuildingService.highlight(null) if building.highlighted
 
   jQuery('#forge-right-col').draggable()
