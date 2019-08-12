@@ -3,7 +3,7 @@ require "error_calculator"
 require 'csv'
 include ErrorCalculator
 class Map < ActiveRecord::Base
-
+  include ActsAsEnum
   has_many :gcps,  :dependent => :destroy
   has_many :layers_maps,  :dependent => :destroy
   has_many :layers, :through => :layers_maps # ,:after_add, :after_remove
