@@ -407,7 +407,7 @@ class Map < ActiveRecord::Base
 
 
   def depicts_year
-    issue_year ||  self.layers.with_year.collect(&:depicts_year).compact.first
+    self.layers.with_year.collect(&:depicts_year).compact.first
   end
 
   def warped?
