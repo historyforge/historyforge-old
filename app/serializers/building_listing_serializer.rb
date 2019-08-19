@@ -7,15 +7,10 @@ class BuildingListingSerializer
 
   # has_many :architects, serializer: ArchitectSerializer
 
-  def building_type
-    object.building_type.andand.name || 'unspecified'
-  end
-
-  def latitude
-    object.lat
-  end
-
-  def longitude
-    object.lon
+  attribute :residents do |object|
+    object.residents.present? && object
+        .residents
+        .map { |item| CensusRecordSerializer.new(item).as_json }
+        .group_by { |item| item['data']['attributes']['year'] }
   end
 end

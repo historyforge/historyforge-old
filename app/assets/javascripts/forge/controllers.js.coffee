@@ -135,7 +135,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   currentWindowId = null
   $scope.showBuilding = (selectedBuilding) ->
     if $scope.viewMode is 'map'
-      BuildingService.loadOne(selectedBuilding.id, event)
+      BuildingService.loadOne(selectedBuilding, event)
     else if $scope.viewMode is 'list'
       $anchorScroll.yOffset = 100
       $anchorScroll "building-#{selectedBuilding.id}"

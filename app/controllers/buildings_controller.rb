@@ -60,7 +60,8 @@ class BuildingsController < ApplicationController
       @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
       @layer = Layer.where(depicts_year: 1910).first
     elsif request.format.json?
-      render json: BuildingSerializer.new(@building).as_json
+      serializer = BuildingSerializer.new(@building, { params: { condensed: params.key?(:condensed) } })
+      render json: serializer
     end
   end
 
@@ -183,7 +184,7 @@ class BuildingsController < ApplicationController
                                       paged: request.format.html?,
                                       per: 50
     if request.format.json?
-      # @search.expanded = true
+      @search.expanded = true
       # @search.paged = true #params[:s].blank?
       # @search.per = params[:s] ? 500 : 50
       @buildings = @search.as_json

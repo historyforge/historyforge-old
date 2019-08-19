@@ -46,10 +46,14 @@ forgeApp.BuildingService = ($http, $rootScope) ->
       else
         building.highlighted = no for building in @buildings
       $rootScope.$broadcast 'building:highlighted', id
-    loadOne: (id) ->
-      $http.get("/buildings/#{id}.json").then (response) =>
-        console.log(response)
-        $rootScope.$broadcast 'building:infoWindow', response.data.data.attributes
+    loadOne: (building) ->
+      condensed = building.residents isnt null
+      url = "/buildings/#{building.id}.json"
+      url += "?condensed=true" if condensed
+      $http.get(url).then (response) =>
+        base = response.data.data.attributes
+        base.census_records = building.residents if condensed
+        $rootScope.$broadcast 'building:infoWindow', base
   }
 
 forgeApp.BuildingService.$inject = ['$http', '$rootScope']

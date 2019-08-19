@@ -25,7 +25,7 @@ class BuildingSearch
 
   def as_json
     {
-      buildings: to_a.map { |building| BuildingListingSerializer.new(building, root: false) },
+      buildings: to_a.map { |building| BuildingListingSerializer.new(building) },
       meta: pagination_dict(scoped)
     }
   end
