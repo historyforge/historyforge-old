@@ -22,8 +22,8 @@ class Map < ActiveRecord::Base
   validates_presence_of :title
   validates_numericality_of :rough_lat, :rough_lon, :rough_zoom, :allow_nil => true
   validates_numericality_of :metadata_lat, :metadata_lon, :allow_nil => true
-  validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
-  validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
+  # validates_length_of :issue_year, :maximum => 4,:allow_nil => true, :allow_blank => true
+  # validates_numericality_of :issue_year, :if => Proc.new {|c| not c.issue_year.blank?}
   validates_length_of :date_depicted, :maximum => 4,:allow_nil => true, :allow_blank => true
   validates_numericality_of :date_depicted, :if => Proc.new {|c| not c.date_depicted.blank?}
   validates_uniqueness_of :unique_id, :allow_nil => true, :allow_blank => true
@@ -860,7 +860,7 @@ class Map < ActiveRecord::Base
                "subject_area",  "unique_id",  "upload_content_type",  "upload_file_name", "upload_file_size", "height", "width"] ## Header values of CSV
       all.each do |m |
         csv << [m.id, m.title, m.description, m.authors, m.bbox, m.bbox_centroid, m.call_number, m.created_at, m.updated_at,
-                m.date_depicted, m.filename, m.import_id, m.issue_year, m.map_type, m.mask_status, m.owner_id, m.public,
+                m.date_depicted, m.filename, m.import_id, m.depicts_year, m.map_type, m.mask_status, m.owner_id, m.public,
                 m.metadata_lat, m.metadata_lon, m.metadata_projection,
                 m.publication_place, m.published_date, m.publisher, m.rectified_at, m.reprint_date, m.scale, m.source_uri, m.status,
                 m.subject_area, m.unique_id, m.upload_content_type, m.upload_file_name, m.upload_file_size, m.height, m.width
