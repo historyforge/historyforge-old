@@ -19,6 +19,9 @@ class Gcp < ApplicationRecord
 
   end
 
+  def gdal_array
+    ["-gcp", x.to_s ,  y.to_s, lon.to_s, lat.to_s]
+  end
   
   private
   def update_map_timestamp
