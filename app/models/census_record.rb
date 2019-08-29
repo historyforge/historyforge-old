@@ -101,13 +101,13 @@ class CensusRecord < ApplicationRecord
 
   def buildings_on_street
     return [] unless (street_name.present? && city.present?)
-    search_streets = [street_name, convert_street_name]
+    search_streets = [street_name, modern_address.street_name]
     @buildings_on_street ||= Building.where(address_street_name: search_streets, city: city).order(:address_house_number)
   end
 
   def matching_building(my_street_name = nil)
-    my_street_name ||= convert_street_name
-    my_street_prefix = convert_street_prefix
+    my_street_name ||= modern_address.street_name
+    my_street_prefix = modern_address.street_prefix
     @matching_building ||= Building.where(address_house_number: street_house_number,
                                           address_street_prefix: my_street_prefix,
                                           address_street_name: my_street_name,
@@ -118,53 +118,14 @@ class CensusRecord < ApplicationRecord
     building_from_address if building_id.blank? && ensure_building == '1' && street_name.present? && city.present? && street_house_number.present?
   end
 
-  # TODO: street name conversions need to be backed by database, moved into own class
-  def convert_street_name
-    if street_name == 'Mill'
-      'Court'
-    elsif street_name == 'Railroad' || street_name == 'Neahga'
-      'Lincoln'
-    elsif street_name == 'Boulevard' || street_name == 'Glenwood'
-      'Old Taughannock'
-    elsif street_name == 'Humboldt'
-      'Floral'
-    elsif street_name == 'Mechanic'
-      'Hillview'
-    elsif street_name == 'Tioga' && street_prefix == 'S'
-      'Turner'
-    elsif street_name == 'Wheat'
-      'Cleveland'
-    else
-      street_name
-    end
-  end
-
-  def convert_street_suffix
-    if street_name == 'Railroad'
-      'Ave'
-    elsif street_name == 'Boulevard' || street_name == 'Glenwood'
-      'Blvd'
-    elsif street_name == 'Mechanic' || (street_name == 'Tioga' && street_prefix == 'S')
-      'Pl'
-    elsif street_name == 'Humboldt' || street_name == 'Wheat'
-      'Avenue'
-    else
-      street_suffix
-    end
-  end
-
-  def convert_street_prefix
-    if street_name == 'Tioga' || street_prefix == 'S'
-      nil
-    else
-      street_prefix
-    end
+  def modern_address
+    @modern_address ||= Address.new(self).modernize
   end
 
   def building_from_address
-    my_street_name = convert_street_name
-    my_street_suffix = convert_street_suffix
-    my_street_prefix = convert_street_prefix
+    my_street_name = modern_address.street_name
+    my_street_suffix = modern_address.street_suffix
+    my_street_prefix = modern_address.street_prefix
     self.building ||= matching_building(my_street_name) || Building.create(
       name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
       address_house_number: street_house_number,

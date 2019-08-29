@@ -1,0 +1,24 @@
+= simple_form_for @street_conversion do |form|
+
+  .row
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          h4.panel-title From Criteria
+        .panel-body
+          = form.input :from_city
+          = form.input :from_prefix
+          = form.input :from_name
+          = form.input :from_suffix
+    .col-sm-6
+      .panel.panel-default
+        .panel-heading
+          h4.panel-title To Criteria
+        .panel-body
+          = form.input :to_city
+          = form.input :to_prefix
+          = form.input :to_name
+          = form.input :to_suffix
+
+  .form-actions
+    = form.submit 'Save', class: 'btn btn-primary btn-lg'

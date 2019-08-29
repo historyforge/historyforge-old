@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_17_224740) do
+ActiveRecord::Schema.define(version: 2019_08_29_184946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -598,6 +598,19 @@ ActiveRecord::Schema.define(version: 2018_06_17_224740) do
     t.integer "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "street_conversions", force: :cascade do |t|
+    t.string "from_prefix"
+    t.string "to_prefix"
+    t.string "from_name"
+    t.string "to_name"
+    t.string "from_suffix"
+    t.string "to_suffix"
+    t.string "from_city"
+    t.string "to_city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
