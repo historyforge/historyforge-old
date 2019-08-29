@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_184946) do
+ActiveRecord::Schema.define(version: 2019_08_29_213843) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -511,6 +511,7 @@ ActiveRecord::Schema.define(version: 2019_08_29_184946) do
     t.string "call_number"
     t.datetime "rectified_at"
     t.datetime "gcp_touched_at"
+    t.text "mask_geojson"
     t.index ["bbox_geom"], name: "index_maps_on_bbox_geom", using: :gist
     t.index ["rough_centroid"], name: "index_maps_on_rough_centroid", using: :gist
   end
