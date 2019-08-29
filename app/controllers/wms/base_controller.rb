@@ -17,11 +17,11 @@ class Wms::BaseController < ActionController::Base
   }
 
   def tile
-    send_wms *fetch_tile
+    send_wms *generate_tile
   end
 
   def wms
-    send_wms *fetch_wms
+    send_wms *generate_wms
   end
 
   def send_wms(content_type, result_data)
@@ -30,14 +30,6 @@ class Wms::BaseController < ActionController::Base
     else
       render plain: 'File not found', status: 404
     end
-  end
-
-  def fetch_tile
-    generate_tile
-  end
-
-  def fetch_wms
-    generate_wms
   end
 
   private
@@ -88,8 +80,8 @@ class Wms::BaseController < ActionController::Base
     content_type = Mapscript.msIO_stripStdoutBufferContentType || "text/plain"
     result_data = Mapscript.msIO_getStdoutBufferBytes
     [content_type, result_data]
-  rescue Mapscript::MapserverError
-    [nil, nil]
+  # rescue Mapscript::MapserverError
+  #   [nil, nil]
   ensure
     Mapscript.msIO_resetHandlers
   end

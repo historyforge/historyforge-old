@@ -19,10 +19,8 @@ class Wms::LayerController < Wms::BaseController
     raster.metadata.set('wms_srs', 'EPSG:4326 EPSG:3857 EPSG:4269 EPSG:900913')
     raster.debug = Mapscript::MS_TRUE
     send_map_data(map, ows)
-  rescue RuntimeError => e
-    [nil, nil]
-    # @e = e
-    # render plain: 'There was an error. Check the logs.', status: 404
+  # rescue RuntimeError => e
+  #   [nil, nil]
   end
 
 
