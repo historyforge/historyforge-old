@@ -306,7 +306,7 @@ class Map < ActiveRecord::Base
 
   def self.map_type_hash
     values = Map::MAP_TYPE
-    keys = [I18n.t('maps.model.map_type.index'), I18n.t('maps.model.map_type.map'), I18n.t('maps.model.map_type.not_map')]
+    keys = ["Index", "Map", "Not Map"]
     Hash[*keys.zip(values).flatten]
   end
 
