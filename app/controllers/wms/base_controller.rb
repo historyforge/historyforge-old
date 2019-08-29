@@ -89,8 +89,8 @@ class Wms::BaseController < ActionController::Base
     result_data = Mapscript.msIO_getStdoutBufferBytes
     # send_data result_data, type: content_type, disposition: "inline"
     [content_type, result_data]
-  rescue Mapscript::MapserverError
-    [nil, nil]
+  # rescue Mapscript::MapserverError
+  #   [nil, nil]
   ensure
     Mapscript.msIO_resetHandlers
   end
