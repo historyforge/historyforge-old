@@ -93,6 +93,9 @@ GEM
     devise-encryptable (0.2.0)
       devise (>= 2.1.0)
     dotenv (2.7.5)
+    dotenv-rails (2.7.5)
+      dotenv (= 2.7.5)
+      railties (>= 3.2, < 6.1)
     erubi (1.8.0)
     execjs (2.7.0)
     fast_jsonapi (1.5)
@@ -283,7 +286,7 @@ DEPENDENCIES
   coffee-rails
   devise
   devise-encryptable
-  dotenv
+  dotenv-rails
   fast_jsonapi
   geocoder
   georuby
