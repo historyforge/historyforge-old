@@ -4,17 +4,17 @@ require 'digest/sha1'
 class Wms::BaseController < ActionController::Base
   include Mapscript
 
-  # caches_action :wms,
-  #               unless: -> { request.params["request"] == "GetCapabilities" },
-  #               :cache_path => Proc.new { |c|
-  #                 string =  c.params.to_s
-  #                 {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
-  #               }
-  #
-  # caches_action :tile, :cache_path => Proc.new { |c|
-  #   string =  c.params.to_s
-  #   {:tag => Digest::SHA1.hexdigest(string)}
-  # }
+  caches_action :wms,
+                unless: -> { request.params["request"] == "GetCapabilities" },
+                :cache_path => Proc.new { |c|
+                  string =  c.params.to_s
+                  {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
+                }
+
+  caches_action :tile, :cache_path => Proc.new { |c|
+    string =  c.params.to_s
+    {:tag => Digest::SHA1.hexdigest(string)}
+  }
 
   def tile
     send_wms *fetch_tile
@@ -33,22 +33,14 @@ class Wms::BaseController < ActionController::Base
   end
 
   def fetch_tile
-    # Rails.cache.fetch(cache_path) do
-      generate_tile
-    # end
+    generate_tile
   end
 
   def fetch_wms
-    # Rails.cache.fetch(cache_path) do
-      generate_wms
-    # end
+    generate_wms
   end
 
   private
-
-  def cache_path
-    @cache_path ||= Digest::SHA1.hexdigest(params.to_s)
-  end
 
   def generate_wms
     raise "You need to implement wms action in subclass."
