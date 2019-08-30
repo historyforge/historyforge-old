@@ -4,17 +4,17 @@ require 'digest/sha1'
 class Wms::BaseController < ActionController::Base
   include Mapscript
 
-  # caches_action :wms,
-  #               unless: -> { request.params["request"] == "GetCapabilities" },
-  #               :cache_path => Proc.new { |c|
-  #                 string =  c.params.to_s
-  #                 {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
-  #               }
-  #
-  # caches_action :tile, :cache_path => Proc.new { |c|
-  #   string =  c.params.to_s
-  #   {:tag => Digest::SHA1.hexdigest(string)}
-  # }
+  caches_action :wms,
+                unless: -> { request.params["request"] == "GetCapabilities" },
+                :cache_path => Proc.new { |c|
+                  string =  c.params.to_s
+                  {:status => c.params["status"] || c.params["STATUS"], :tag => Digest::SHA1.hexdigest(string)}
+                }
+
+  caches_action :tile, :cache_path => Proc.new { |c|
+    string =  c.params.to_s
+    {:tag => Digest::SHA1.hexdigest(string)}
+  }
 
   def tile
     send_wms *generate_tile
@@ -81,8 +81,8 @@ class Wms::BaseController < ActionController::Base
     content_type = Mapscript.msIO_stripStdoutBufferContentType || "text/plain"
     result_data = Mapscript.msIO_getStdoutBufferBytes
     [content_type, result_data]
-  # rescue Mapscript::MapserverError
-  #   [nil, nil]
+  rescue Mapscript::MapserverError
+    [nil, nil]
   ensure
     Mapscript.msIO_resetHandlers
   end
