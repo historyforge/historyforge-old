@@ -16,11 +16,21 @@ class StreetConversion < ApplicationRecord
   end
 
   def convert(address)
-    address.street_prefix = to_prefix if to_prefix.present?
-    address.street_name = to_name if to_name.present?
-    address.street_suffix = to_suffix if to_suffix.present?
-    address.city = to_city if to_city.present?
+    address.street_prefix = convert_attribute 'prefix'
+    address.street_name   = convert_attribute 'name'
+    address.street_suffix = convert_attribute 'suffix'
+    address.city          = convert_attribute 'city'
     address
+  end
+
+  def convert_attribute(attr)
+    from = public_send("from_#{attr}")
+    to   = public_send("to_#{attr}")
+    if to.present?
+      to == 'null' ? nil : to
+    else
+      from
+    end
   end
 
   def self.convert(address)
