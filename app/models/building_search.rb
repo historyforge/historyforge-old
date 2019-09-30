@@ -24,12 +24,22 @@ class BuildingSearch
   end
 
   def as_json
-    {
-      buildings: to_a.map { |building| BuildingListingSerializer.new(building) },
-      meta: pagination_dict(scoped)
-    }
+    sql = scoped.select("id,lat,lon").to_sql
+    sql = "select array_to_json(array_agg(row_to_json(t))) from (#{sql}) t"
+    ActiveRecord::Base.connection.execute(sql).first['array_to_json']
+    # {
+    #   buildings: scoped.select("row_to_json(row())").map(&:data),
+    #   meta: pagination_dict(scoped)
+    # }
   end
 
+  # def as_json
+  #   {
+  #     buildings: to_a.map { |building| BuildingListingSerializer.new(building) },
+  #     meta: pagination_dict(scoped)
+  #   }
+  # end
+  #
   def ransack_params
     if @s.is_a?(String)
       @s = JSON.parse(@s)

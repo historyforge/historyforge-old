@@ -88,9 +88,9 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       else
         wmsLayerBottom = null
 
-  $scope.$on 'buildings:updated', (event) ->
-    $scope.buildings = BuildingService.buildings
-    $scope.meta = BuildingService.meta
+  $scope.$on 'buildings:updated', (event, buildings) ->
+    $scope.buildings = buildings
+#    $scope.meta = BuildingService.meta
     markers = $scope.buildings.map (building) -> $scope.createMarker(building)
     NgMap.getMap().then (map) ->
       mcOptions =
@@ -101,7 +101,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
 
   $scope.createMarker = (building) ->
     marker = new google.maps.Marker
-      position: new google.maps.LatLng(building.latitude, building.longitude)
+      position: new google.maps.LatLng(building.lat, building.lon)
       icon: $scope.markerIcon(building)
       zIndex: $scope.zIndexFor(building)
     google.maps.event.addListener marker, 'click', () -> $scope.showBuilding(building)
@@ -175,7 +175,7 @@ forgeApp.BuildingListController = ($rootScope, $scope, BuildingService) ->
   $scope.currentPage = 1;
   $scope.pageSize = 15;
 
-  $rootScope.$on 'buildings:updated', (event, buildings) ->
+  $scope.$on 'buildings:updated', (event, buildings) ->
     $scope.buildings = buildings
 
   return
