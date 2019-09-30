@@ -50,7 +50,6 @@ class Map < ActiveRecord::Base
   before_create :download_remote_image, :if => :upload_url_provided?
   before_create :save_dimensions
   after_create :setup_image
-  after_create :update_user_counts
   after_destroy :delete_images
   after_destroy :delete_map, :update_counter_cache, :update_layers
   after_destroy :update_user_counts
@@ -278,13 +277,6 @@ class Map < ActiveRecord::Base
 
   def update_gcp_touched_at
     self.touch(:gcp_touched_at)
-  end
-
-  def update_user_counts
-    logger.debug "updating owner map counts"
-    if self.owner
-      self.owner.update_map_counts
-    end
   end
 
   #method to publish the map
