@@ -93,6 +93,11 @@ class Building < ApplicationRecord
 
   attr_accessor :residents
 
+  def with_residents
+    @residents = [1900, 1910, 1920, 1930].map { |year| send("census_#{year}_records").to_a }.flatten
+    self
+  end
+
   def families
     @families = if residents
       residents.group_by(&:dwelling_number)

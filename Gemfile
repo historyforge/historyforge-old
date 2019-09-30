@@ -26,6 +26,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem "jquery-ui-rails"
 gem 'kaminari'
+gem 'memory_profiler'
 gem 'mini_magick'
 gem 'non-stupid-digest-assets'
 gem 'paperclip' #, '~> 4.2.0'

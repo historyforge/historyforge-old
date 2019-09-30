@@ -7,9 +7,12 @@ class BuildingsController < ApplicationController
   respond_to :html
 
   def index
+    # MemoryProfiler.start
     @page_title = 'Buildings'
     load_buildings
     respond_with @buildings, each_serializer: BuildingListingSerializer
+    # report = MemoryProfiler.stop
+    # report.pretty_print to_file: Rails.root.join('log', 'memory.log')
   end
 
   def unpeopled
@@ -60,7 +63,7 @@ class BuildingsController < ApplicationController
       @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
       @layer = Layer.where(depicts_year: 1910).first
     elsif request.format.json?
-      serializer = BuildingSerializer.new(@building, { params: { condensed: params.key?(:condensed) } })
+      serializer = BuildingSerializer.new(@building) #, { params: { condensed: params.key?(:condensed) } })
       render json: serializer
     end
   end

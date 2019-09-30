@@ -59,7 +59,7 @@ class BuildingSearch
       @scoped = @scoped.where(investigate: true) if uninvestigated
       @scoped = @scoped.page(page).per(per).includes(:building_type, :architects) if paged
       if expanded
-        @scoped = @scoped.includes(:photos, :census_1900_records, :census_1910_records, :census_1920_records, :census_1930_records)
+        @scoped = @scoped.includes(:photos) #, :census_1900_records, :census_1910_records, :census_1920_records, :census_1930_records)
         if people.present?
           people_class = "Census#{people}Record".constantize
           people = people_class.where.not(reviewed_at: nil)

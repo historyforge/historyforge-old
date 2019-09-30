@@ -93,7 +93,10 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     $scope.meta = BuildingService.meta
     markers = $scope.buildings.map (building) -> $scope.createMarker(building)
     NgMap.getMap().then (map) ->
-      mcOptions = imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
+      mcOptions =
+        imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
+        minimumClusterSize: 10
+        maxZoom: 16
       return new MarkerClusterer(map, markers, mcOptions)
 
   $scope.createMarker = (building) ->

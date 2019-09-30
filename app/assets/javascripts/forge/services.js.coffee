@@ -52,7 +52,7 @@ forgeApp.BuildingService = ($http, $rootScope) ->
       url += "?condensed=true" if condensed
       $http.get(url).then (response) =>
         base = response.data.data.attributes
-        base.census_records = building.residents if condensed
+#        base.census_records = building.residents if condensed
         $rootScope.$broadcast 'building:infoWindow', base
   }
 
