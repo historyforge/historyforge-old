@@ -22,7 +22,7 @@ forgeApp.BuildingService = ($http, $rootScope) ->
       params.page = form.page || 1
 
       $http.get('/buildings.json', params: params).then (response) =>
-        @buildings = response.data.buildings
+        @buildings = response.data?.buildings or []
         #@buildings = @buildings.map (building) => building.data.attributes
         @meta = response.data?.meta
         $rootScope.$broadcast 'buildings:updated', @buildings
