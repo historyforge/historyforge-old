@@ -25,12 +25,10 @@ class BuildingSearch
 
   def as_json
     sql = scoped.select("id,lat,lon").to_sql
-    sql = "select array_to_json(array_agg(row_to_json(t))) from (#{sql}) t"
-    ActiveRecord::Base.connection.execute(sql).first['array_to_json']
-    # {
-    #   buildings: scoped.select("row_to_json(row())").map(&:data),
-    #   meta: pagination_dict(scoped)
-    # }
+    sql = "select array_to_json(array_agg(row_to_json(t))) as data, count(t.id) as meta from (#{sql}) t"
+    data = ActiveRecord::Base.connection.execute(sql).first
+
+    "{\"buildings\": #{data['data']}, \"meta\": {\"info\": \"All #{data['meta']} record(s)\"}}"
   end
 
   # def as_json
