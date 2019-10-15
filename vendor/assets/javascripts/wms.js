@@ -65,8 +65,10 @@ MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, z
     return new google.maps.Point(x,y);
 };
 
-function loadWMS(map, id, position, customParams){
-    var baseURL = "/layers/"+id+"/wms?";
+function loadWMS(map, layer, position, customParams){
+    var baseURL = layer.url + '?';
+    var id = layer.id;
+    // var baseURL = "/layers/"+id+"/wms?";
     var tileHeight = 256;
     var tileWidth = 256;
     var opacityLevel = 1; //0.75;

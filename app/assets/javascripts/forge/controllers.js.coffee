@@ -61,7 +61,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         map.overlayMapTypes.forEach (layer, index) ->
           map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerTop.name
       if id
-        wmsLayerTop = loadWMS map, id, 'top'
+        wmsLayerTop = loadWMS map, LayerService.topLayer, 'top'
         # debugger
         # map.overlayMapTypes.push wmsLayerTop
         jQuery(".layer-slider-top").slider
@@ -78,7 +78,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         map.overlayMapTypes.forEach (layer, index) ->
           map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerBottom.name
       if id
-        wmsLayerBottom = loadWMS map, id, 'bottom'
+        wmsLayerBottom = loadWMS map, LayerService.bottomLayer, 'bottom'
         # map.overlayMapTypes.insertAt(0, wmsLayerBottom)
         jQuery(".layer-slider-bottom").slider
             value: 100,

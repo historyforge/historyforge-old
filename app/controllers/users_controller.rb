@@ -30,7 +30,7 @@ class UsersController < ApplicationController
       from audits group by user_id, username ORDER BY username ASC"
 
 
-    @users_activity = Kaminari.paginate_array(Audited::Adapters::ActiveRecord::Audit.find_by_sql(the_sql)).page(params[:page] || 1).per(30)
+    @users_activity = Kaminari.paginate_array(Audited::Audit.find_by_sql(the_sql)).page(params[:page] || 1).per(30)
   end
 
 

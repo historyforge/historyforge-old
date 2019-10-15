@@ -1,11 +1,10 @@
 #= require 'ng-map.min'
 #= require 'wms'
-#= require 'dir-pagination'
 #= require 'forge/services'
 #= require 'forge/controllers'
 
 angular
-  .module('forge', ['ngMap', 'angularUtils.directives.dirPagination'])
+  .module('forge', ['ngMap'])
   .service('BuildingService', forgeApp.BuildingService)
   .service('LayerService', forgeApp.LayerService)
   .controller('MainCtrl', forgeApp.MainController)

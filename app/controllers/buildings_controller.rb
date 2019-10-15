@@ -67,7 +67,7 @@ class BuildingsController < ApplicationController
     authorize! :read, @building
     if request.format.html?
       @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
-      @layer = Layer.where(depicts_year: 1910).first
+      @layer = MapOverlay.where(year_depicted: 1910).first
     elsif request.format.json?
       serializer = BuildingSerializer.new(@building) #, { params: { condensed: params.key?(:condensed) } })
       render json: serializer

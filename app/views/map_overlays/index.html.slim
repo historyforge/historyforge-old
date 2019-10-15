@@ -1,0 +1,27 @@
+- @full_layout = true
+
+.container-fluid
+
+  .pull-right
+    = link_to 'Add New', { action: :new }, class: 'btn btn-default btn-xs'
+  h1.page-title Map Overlays
+
+  - if @map_overlays.blank?
+    p.alert.alert-info No records found.
+  - else
+    table.table.table-condensed.table-striped
+      thead
+        tr
+          th Description
+          th Year Depicted
+          th Active
+          th
+      tbody
+        - @map_overlays.each do |record|
+          tr
+            td= record.name
+            td= record.year_depicted
+            td= record.active? ? 'Yes' : 'No'
+            td style="text-align:right;white-space:nowrap"
+              = link_to 'Edit', [:edit, record], class: 'btn btn-xs btn-default'
+

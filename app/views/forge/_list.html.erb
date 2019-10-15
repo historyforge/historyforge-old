@@ -1,7 +1,5 @@
 <div id="building-list" ng-controller="BuildingListCtrl" ng-if="viewMode == 'list'">
   <h1>Showing {{ buildings.length }} buildings.</h1>
-  <!-- <dir-pagination-controls boundary-links="false" template="dirPagination"></dir-pagination-controls> -->
-  <!-- <div dir-paginate="building in buildings | filter:q | itemsPerPage: pageSize" current-page="currentPage" -->
   <div ng-repeat="building in buildings track by $index"
        class="building"
        ng-controller="BuildingCtrl"

@@ -12,6 +12,7 @@
 
 </div>
 
+<%= javascript_tag "window.layers = #{ MapOverlay.order(:position).where(active: true).to_json };" %>
 <%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
 <%= javascript_tag "window.forgeSearchParams = #{params.to_json};" %>
 <%= javascript_tag "window.googleApiKey = '#{ENV['GOOGLE_API_KEY']}';" %>

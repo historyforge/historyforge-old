@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_162449) do
+ActiveRecord::Schema.define(version: 2019_10_15_164038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -377,6 +377,16 @@ ActiveRecord::Schema.define(version: 2019_10_15_162449) do
     t.datetime "updated_at"
   end
 
+  create_table "map_overlays", force: :cascade do |t|
+    t.string "name"
+    t.integer "year_depicted"
+    t.string "url"
+    t.boolean "active"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "oauth_nonces", id: :serial, force: :cascade do |t|
     t.string "nonce"
     t.integer "timestamp"
@@ -413,6 +423,13 @@ ActiveRecord::Schema.define(version: 2019_10_15_162449) do
   create_table "people_photos", id: false, force: :cascade do |t|
     t.integer "person_id"
     t.integer "photo_id"
+  end
+
+  create_table "permissions", id: :serial, force: :cascade do |t|
+    t.integer "role_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "photos", id: :serial, force: :cascade do |t|

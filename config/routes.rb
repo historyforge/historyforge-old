@@ -52,6 +52,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :map_overlays
+
   resources :census_1900_records,
             concerns: [:people_directory],
             controller: 'people/census_records_nineteen_aught',
