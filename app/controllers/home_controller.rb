@@ -4,24 +4,8 @@ class HomeController < ApplicationController
 
   def index
     @html_title =  "Home - History Forge"
-
-    @tags = Map.where(:public => true).tag_counts(:limit => 100)
-    @maps = Map.where(:public => true, :status => [2,3,4]).order(:updated_at =>  :desc).limit(3).includes(:gcps)
-
-    @layers = Layer.all.order(:updated_at => :desc).limit(3).includes(:maps)
-
     load_census_summaries
     load_heroes
-
-    if user_signed_in?
-      @my_maps = current_user.maps.order(:updated_at => :desc).limit(3)
-    else
-      @maps = @maps.published
-    end
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @maps }
-    end
   end
 
   private

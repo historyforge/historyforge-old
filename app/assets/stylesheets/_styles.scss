@@ -4,6 +4,10 @@
 
 .navbar {
   margin-bottom: 0px;
+
+  & + .container-fluid {
+    margin-top: 80px;
+  }
 }
 
 .navbar-default {

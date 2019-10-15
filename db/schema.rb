@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_29_213843) do
+ActiveRecord::Schema.define(version: 2019_10_15_162449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,28 +26,6 @@ ActiveRecord::Schema.define(version: 2019_08_29_213843) do
     t.integer "architect_id", null: false
     t.integer "building_id", null: false
     t.index ["architect_id", "building_id"], name: "architects_buildings_index", unique: true
-  end
-
-  create_table "audits", id: :serial, force: :cascade do |t|
-    t.integer "auditable_id"
-    t.string "auditable_type"
-    t.integer "user_id"
-    t.string "user_type"
-    t.string "username"
-    t.string "action"
-    t.text "audited_changes"
-    t.integer "version", default: 0
-    t.datetime "created_at"
-    t.string "comment"
-    t.string "remote_address"
-    t.integer "associated_id"
-    t.string "associated_type"
-    t.string "request_uuid"
-    t.index ["associated_id", "associated_type"], name: "associated_index"
-    t.index ["auditable_id", "auditable_type"], name: "auditable_index"
-    t.index ["created_at"], name: "index_audits_on_created_at"
-    t.index ["request_uuid"], name: "index_audits_on_request_uuid"
-    t.index ["user_id", "user_type"], name: "user_index"
   end
 
   create_table "building_types", id: :serial, force: :cascade do |t|
@@ -374,54 +352,11 @@ ActiveRecord::Schema.define(version: 2019_08_29_213843) do
     t.index ["key"], name: "index_client_applications_on_key", unique: true
   end
 
-  create_table "comments", id: :serial, force: :cascade do |t|
-    t.string "title", limit: 50, default: ""
-    t.text "comment", default: ""
-    t.integer "commentable_id"
-    t.string "commentable_type"
-    t.integer "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["commentable_id"], name: "index_comments_on_commentable_id"
-    t.index ["commentable_type"], name: "index_comments_on_commentable_type"
-    t.index ["user_id"], name: "index_comments_on_user_id"
-  end
-
   create_table "construction_materials", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "gcps", id: :serial, force: :cascade do |t|
-    t.integer "map_id"
-    t.float "x"
-    t.float "y"
-    t.decimal "lat", precision: 15, scale: 10
-    t.decimal "lon", precision: 15, scale: 10
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean "soft", default: false
-    t.string "name"
-    t.index ["soft"], name: "index_gcps_on_soft"
-  end
-
-  create_table "groups", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.integer "creator_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "groups_maps", id: :serial, force: :cascade do |t|
-    t.integer "group_id"
-    t.integer "map_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["map_id", "group_id"], name: "index_groups_maps_on_map_id_and_group_id", unique: true
-    t.index ["map_id"], name: "index_groups_maps_on_map_id"
   end
 
   create_table "imports", id: :serial, force: :cascade do |t|
@@ -440,98 +375,6 @@ ActiveRecord::Schema.define(version: 2019_08_29_213843) do
     t.integer "imported_count"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "layers", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.text "description"
-    t.string "bbox"
-    t.integer "owner"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "user_id"
-    t.string "depicts_year", limit: 4, default: ""
-    t.integer "maps_count", default: 0
-    t.integer "rectified_maps_count", default: 0
-    t.boolean "is_visible", default: true
-    t.string "source_uri"
-    t.geometry "bbox_geom", limit: {:srid=>4326, :type=>"st_polygon"}
-    t.index ["bbox_geom"], name: "index_layers_on_bbox_geom", using: :gist
-  end
-
-  create_table "layers_maps", id: :serial, force: :cascade do |t|
-    t.integer "layer_id"
-    t.integer "map_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["layer_id"], name: "index_layers_maps_on_layer_id"
-    t.index ["map_id"], name: "index_layers_maps_on_map_id"
-  end
-
-  create_table "maps", id: :serial, force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.string "filename"
-    t.integer "width"
-    t.integer "height"
-    t.integer "status"
-    t.integer "mask_status"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "upload_file_name"
-    t.string "upload_content_type"
-    t.integer "upload_file_size"
-    t.datetime "upload_file_updated_at"
-    t.string "bbox"
-    t.string "publisher"
-    t.string "authors"
-    t.string "scale"
-    t.datetime "published_date"
-    t.datetime "reprint_date"
-    t.integer "owner_id"
-    t.boolean "public", default: true
-    t.boolean "downloadable", default: true
-    t.string "cached_tag_list"
-    t.integer "map_type", default: 1
-    t.string "source_uri"
-    t.geometry "bbox_geom", limit: {:srid=>4236, :type=>"st_polygon"}
-    t.decimal "rough_lat", precision: 15, scale: 10
-    t.decimal "rough_lon", precision: 15, scale: 10
-    t.geometry "rough_centroid", limit: {:srid=>4326, :type=>"st_point"}
-    t.integer "rough_zoom"
-    t.integer "rough_state"
-    t.integer "import_id"
-    t.string "publication_place"
-    t.string "subject_area"
-    t.string "unique_id"
-    t.string "metadata_projection"
-    t.decimal "metadata_lat", precision: 15, scale: 10
-    t.decimal "metadata_lon", precision: 15, scale: 10
-    t.string "date_depicted", limit: 4, default: ""
-    t.string "call_number"
-    t.datetime "rectified_at"
-    t.datetime "gcp_touched_at"
-    t.text "mask_geojson"
-    t.index ["bbox_geom"], name: "index_maps_on_bbox_geom", using: :gist
-    t.index ["rough_centroid"], name: "index_maps_on_rough_centroid", using: :gist
-  end
-
-  create_table "memberships", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "group_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["user_id", "group_id"], name: "index_memberships_on_user_id_and_group_id", unique: true
-    t.index ["user_id"], name: "index_memberships_on_user_id"
-  end
-
-  create_table "my_maps", id: :serial, force: :cascade do |t|
-    t.integer "map_id"
-    t.integer "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["map_id", "user_id"], name: "index_my_maps_on_map_id_and_user_id", unique: true
-    t.index ["map_id"], name: "index_my_maps_on_map_id"
   end
 
   create_table "oauth_nonces", id: :serial, force: :cascade do |t|
@@ -572,13 +415,6 @@ ActiveRecord::Schema.define(version: 2019_08_29_213843) do
     t.integer "photo_id"
   end
 
-  create_table "permissions", id: :serial, force: :cascade do |t|
-    t.integer "role_id", null: false
-    t.integer "user_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "photos", id: :serial, force: :cascade do |t|
     t.integer "building_id"
     t.integer "position"
@@ -612,23 +448,6 @@ ActiveRecord::Schema.define(version: 2019_08_29_213843) do
     t.string "to_city"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "taggings", id: :serial, force: :cascade do |t|
-    t.integer "tag_id"
-    t.integer "taggable_id"
-    t.string "taggable_type"
-    t.datetime "created_at"
-    t.string "context", limit: 128
-    t.integer "tagger_id"
-    t.string "tagger_type"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-    t.index ["taggable_id", "taggable_type"], name: "index_taggings_on_taggable_id_and_taggable_type"
-  end
-
-  create_table "tags", id: :serial, force: :cascade do |t|
-    t.string "name"
-    t.integer "taggings_count", default: 0
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

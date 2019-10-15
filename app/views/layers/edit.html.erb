@@ -1,8 +1,0 @@
-<h2>Edit Map Layer</h2>
-<%= error_messages_for @layer %>
-<%- if can?(:destroy, @layer) -%>
-  <p>&mdash; <%=  link_to 'Delete this map layer.',
-  delete_layer_path(:id => @layer) %> &mdash; </p>
-
-<% end %>
-<%= render :partial => "form_remote", :locals => {:page => "edit"} %>
