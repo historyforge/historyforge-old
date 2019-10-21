@@ -9,4 +9,5 @@ AppConfig.organization = ENV['APP_ORG_NAME'] || "The History Center in Tompkins 
 AppConfig.url = ENV['APP_ORG_URL'] || "https://thehistorycenter.net"
 AppConfig.latitude = ENV['APP_LATITUDE'] || 42.4418353
 AppConfig.longitude = ENV['APP_LONGITUDE'] || -76.4987984
-
+AppConfig.google_api_key = ENV['GOOGLE_API_KEY']
+AppConfig.geocoding_key = ENV['GOOGLE_GEOCODING_KEY']

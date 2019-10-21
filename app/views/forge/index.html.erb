@@ -15,8 +15,8 @@
 <%= javascript_tag "window.layers = #{ MapOverlay.order(:position).where(active: true).to_json };" %>
 <%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
 <%= javascript_tag "window.forgeSearchParams = #{params.to_json};" %>
-<%= javascript_tag "window.googleApiKey = '#{ENV['GOOGLE_API_KEY']}';" %>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] -%>&libraries="></script>
+<%= javascript_tag "window.googleApiKey = '#{AppConfig.google_api_key}';" %>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= AppConfig.google_api_key -%>&libraries="></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
 <%= javascript_include_tag 'forge' %>
 
