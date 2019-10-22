@@ -1,8 +1,4 @@
-# To prevent legacy errors looking to obsolete APP_CONFIG constant
-APP_CONFIG = {}
-
 AppConfig = OpenStruct.new
-
 AppConfig.city = ENV['APP_PLACE_CITY'] || "Ithaca"
 AppConfig.state = ENV['APP_PLACE_STATE'] || "NY"
 AppConfig.organization = ENV['APP_ORG_NAME'] || "The History Center in Tompkins County"
