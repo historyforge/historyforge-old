@@ -3,9 +3,6 @@
 .container-fluid
 
   .float-right
-    span#search-pagination-top
-      = paginate @search
-      = page_entries_info @search.scoped, entry_name: 'record'
     - if can?(:create, Building)
       = link_to 'Add New', new_building_path, class: 'btn btn-light btn-xs'
       = link_to 'Unpeopled', unpeopled_buildings_path, class: 'btn btn-light btn-xs'
@@ -15,7 +12,7 @@
       = link_to 'All', buildings_path, class: 'btn btn-light btn-xs'
   h1.page-title= @page_title
 
-  .row
+  .row-fluid
     #buildings-filters= render 'filters'
 
     #buildings
@@ -24,24 +21,28 @@
         p.alert.alert-info No records found.
       - else
 
-        table.table.table-condensed.table-striped
-          thead
+      #search-pagination-top
+        = page_entries_info @search.scoped, entry_name: 'record'
+        = paginate @search
+
+      table.table.table-condensed.table-striped
+        thead
+          tr
+            - @search.f.each do |field|
+              th= t "simple_form.labels.building.#{field}", default: field.humanize
+            th Actions
+        tbody
+          - @buildings.each do |record|
             tr
-              - @search.f.each do |field|
-                th= t "simple_form.labels.building.#{field}", default: field.humanize
-              th Actions
-          tbody
-            - @buildings.each do |record|
-              tr
-                - @search.f.each_with_index do |field, i|
-                  td
-                    = record.field_for field
-                    - if i == 0 && !record.reviewed?
-                      span.badge.badge-danger< NEW
-                td style="text-align:right;white-space:nowrap"
-                  = link_to 'View', record.model, class: 'btn btn-xs btn-light'
-                  - if can? :update, record.model
-                    = link_to 'Edit', [:edit, record.model], class: 'btn btn-xs btn-light'
+              - @search.f.each_with_index do |field, i|
+                td
+                  = record.field_for field
+                  - if i == 0 && !record.reviewed?
+                    span.badge.badge-danger< NEW
+              td style="text-align:right;white-space:nowrap"
+                = link_to 'View', record.model, class: 'btn btn-xs btn-light'
+                - if can? :update, record.model
+                  = link_to 'Edit', [:edit, record.model], class: 'btn btn-xs btn-light'
 
 javascript:
   $('#new_s').advancedSearch({
