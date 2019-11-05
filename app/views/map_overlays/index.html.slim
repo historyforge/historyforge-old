@@ -2,8 +2,8 @@
 
 .container-fluid
 
-  .pull-right
-    = link_to 'Add New', { action: :new }, class: 'btn btn-default btn-xs'
+  .float-right
+    = link_to 'Add New', { action: :new }, class: 'btn btn-light btn-xs'
   h1.page-title Map Overlays
 
   - if @map_overlays.blank?
@@ -23,5 +23,5 @@
             td= record.year_depicted
             td= record.active? ? 'Yes' : 'No'
             td style="text-align:right;white-space:nowrap"
-              = link_to 'Edit', [:edit, record], class: 'btn btn-xs btn-default'
+              = link_to 'Edit', [:edit, record], class: 'btn btn-xs btn-light'
 

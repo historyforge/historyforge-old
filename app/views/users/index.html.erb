@@ -1,6 +1,6 @@
 
 <% if admin_authorized? %>
-  <%= link_to 'Create User', new_user_path, class: 'btn btn-primary pull-right btn-sm' %>
+  <%= link_to 'Create User', new_user_path, class: 'btn btn-primary float-right btn-sm' %>
  <%= form_tag url_for(:controller => "users"), :id=>"searchform",:name=> "searchform", :method => :get do -%>
     User Search
     <select id="field" name="field">

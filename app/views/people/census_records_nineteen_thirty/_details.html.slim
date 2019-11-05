@@ -1,5 +1,5 @@
 .row
-  .col-xs-4
+  .col-sm-4
     dl
       dt Address
       dd= @record.street_address || 'blank'
@@ -38,7 +38,7 @@
       dt Naturalized Alien?
       dd= @record.naturalized_alien || 'blank'
 
-  .col-xs-4
+  .col-sm-4
     dl
       dt Marital Status
       dd= @record.marital_status || 'blank'
@@ -58,7 +58,7 @@
       dt Radio Set
       dd= yes_no_na @record.has_radio?
 
-  .col-xs-4
+  .col-sm-4
     - if @record.profession.present?
       dl
         dt profession

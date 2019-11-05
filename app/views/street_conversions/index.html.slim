@@ -2,8 +2,8 @@
 
 .container-fluid
 
-  .pull-right
-    = link_to 'Add New', { action: :new }, class: 'btn btn-default btn-xs'
+  .float-right
+    = link_to 'Add New', { action: :new }, class: 'btn btn-light btn-xs'
   h1.page-title Street Name Conversions
 
   - if @street_conversions.blank?
@@ -18,5 +18,5 @@
           tr
             td= record.description
             td style="text-align:right;white-space:nowrap"
-              = link_to 'Edit', [:edit, record], class: 'btn btn-xs btn-default'
+              = link_to 'Edit', [:edit, record], class: 'btn btn-xs btn-light'
 

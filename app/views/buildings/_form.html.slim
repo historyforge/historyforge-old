@@ -1,96 +1,96 @@
 = simple_form_for @building do |form|
 
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Building Location
-    .panel-body
+  .card.mb-1
+    .card-header
+      | Building Location
+    .card-body
       .row
-        .col-xs-2
+        .col-sm-2
           = form.input :address_house_number
-        .col-xs-2
+        .col-sm-2
           = form.input :address_street_prefix, collection: %w{N S E W}
-        .col-xs-6
+        .col-sm-6
           = form.input :address_street_name
-        .col-xs-2
+        .col-sm-2
           = form.input :address_street_suffix, collection: Building.address_street_suffix_choices
 
       .row
-        .col-xs-4
+        .col-sm-4
           = form.input :city
-        .col-xs-4
+        .col-sm-4
           = form.input :state
-        .col-xs-4
+        .col-sm-4
           = form.input :postal_code
 
       .row
-        .col-xs-6
+        .col-sm-6
           = form.input :lat, hint: 'Will eventually be replaced by map with draggable marker.'
-        .col-xs-6
+        .col-sm-6
           = form.input :lon, hint: 'Will eventually be replaced by map with draggable marker.'
 
 
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Name and Use
-    .panel-body
+  .card.mb-1
+    .card-header
+      | Name and Use
+    .card-body
       .row
-        .col-xs-6
+        .col-sm-6
           = form.input :name
-        .col-xs-6
+        .col-sm-6
           = form.input :building_type_id, collection: BuildingType.order(:name)
       .row
-        .col-xs-6
+        .col-sm-6
           = form.input :year_earliest
           = form.input :year_earliest_circa, inline_label: 'Circa: Exact building year unknown.'
-        .col-xs-6
+        .col-sm-6
           = form.input :year_latest
           = form.input :year_latest_circa, inline_label: 'Circa: Exact demolition year unknown.'
 
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Construction Details
-    .panel-body
+  .card.mb-1
+    .card-header
+      | Construction Details
+    .card-body
       = form.input :architects_list
       .row
-        .col-xs-3
+        .col-sm-3
           = form.input :stories
-        .col-xs-3
+        .col-sm-3
           = form.input :frame_type_id,  collection: ConstructionMaterial.order(:name)
-        .col-xs-3
+        .col-sm-3
           = form.input :lining_type_id, collection: ConstructionMaterial.order(:name)
-        .col-xs-3
+        .col-sm-3
           = form.input :block_number
       = form.input :annotations, input_html: { rows: 6 }
 
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Narrative
-    .panel-body
+  .card.mb-1
+    .card-header
+      | Narrative
+    .card-body
       = form.input :description, input_html: { rows: 12 }
 
   - if @building.photos.present?
-    .panel.panel-default
-      .panel-heading
-        h3 Photos
-      .panel-body
+    .card.mb-1
+      .card-header
+        | Photos
+      .card-body
         = form.fields_for :photos do |photo_form|
           .photo.row
-            .col-xs-3
+            .col-sm-3
               - if photo_form.object.new_record?
                 = photo_form.input :photo, as: :file
               - else
                 = picture_tag photo: photo_form.object, style: 'quarter', img_class: 'img-thumbnail'
-            .col-xs-9
+            .col-sm-9
               = photo_form.input :year_taken
               = photo_form.input :caption
               - if photo_form.object.persisted?
                 = photo_form.input :_destroy, inline_label: 'Delete photo on SAVE.', as: :boolean
 
   - if !@building.reviewed? && can?(:review, @building)
-    .panel.panel-default
-      .panel-heading
-        h3 Investigation
-      .panel-body
+    .card.mb-1
+      .card-header
+        | Investigation
+      .card-body
         = form.input :investigate, as: :boolean, inline_label: 'This building requires further investigation before it can be marked as reviewed.'
         = form.input :investigate_reason
         h5 Possible reasons:
@@ -102,10 +102,10 @@
           li There appears to have been a data entry error (i.e. this building contains only a daughter with no other family members)
           li There are two instances of the same building
 
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Additional Notes
-    .panel-body
+  .card.mb-1
+    .card-header
+      | Additional Notes
+    .card-body
       = form.input :notes, input_html: { rows: 12 }
 
   .form-actions

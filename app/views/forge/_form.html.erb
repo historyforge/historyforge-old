@@ -1,6 +1,6 @@
 <div id="layer-selector">
   <div id="layer-selector-form">
-    <div class="col-xs-12">
+    <div class="col-sm-12">
       <% if params[:buildings].blank? %>
         <div class="row">
           <div class="col-lg-4 col-sm-4">
@@ -33,11 +33,11 @@
           <span ng-if="meta.paged">
             <br />
             Page &nbsp;
-            <a class="btn btn-xs btn-default" ng-click="setPage(1)" ng-if="meta.current_page != 1">1</a>
-            <a class="btn btn-xs btn-default" ng-click="setPage(meta.prev_page)" ng-if="meta.prev_page && meta.prev_page != 1">{{ meta.prev_page }}</a>
+            <a class="btn btn-xs btn-light" ng-click="setPage(1)" ng-if="meta.current_page != 1">1</a>
+            <a class="btn btn-xs btn-light" ng-click="setPage(meta.prev_page)" ng-if="meta.prev_page && meta.prev_page != 1">{{ meta.prev_page }}</a>
             {{ meta.current_page }}
-            <a class="btn btn-xs btn-default" ng-click="setPage(meta.next_page)" ng-if="meta.next_page">{{ meta.next_page }}</a>
-            <a class="btn btn-xs btn-default" ng-click="setPage(meta.total_pages)" ng-if="meta.current_page != meta.total_pages">{{ meta.total_pages }}</a>
+            <a class="btn btn-xs btn-light" ng-click="setPage(meta.next_page)" ng-if="meta.next_page">{{ meta.next_page }}</a>
+            <a class="btn btn-xs btn-light" ng-click="setPage(meta.total_pages)" ng-if="meta.current_page != meta.total_pages">{{ meta.total_pages }}</a>
           </span>
         </div>
       </div>

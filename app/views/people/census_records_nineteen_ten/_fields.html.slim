@@ -1,42 +1,42 @@
 - prepare_blanks_for_1910_census(form.object)
 .row
-  .col-xs-3= form.input :last_name
-  .col-xs-3= form.input :first_name
-  .col-xs-2= form.input :middle_name
-  .col-xs-2= form.input :name_prefix
-  .col-xs-2= form.input :name_suffix
+  .col-sm-3= form.input :last_name
+  .col-sm-3= form.input :first_name
+  .col-sm-2= form.input :middle_name
+  .col-sm-2= form.input :name_prefix
+  .col-sm-2= form.input :name_suffix
 
 .row
-  .col-xs-3= form.input :relation_to_head
-  .col-xs-3= form.input :sex, as: :select, collection: Census1910Record.sex_choices
-  .col-xs-3= form.input :race, as: :select, collection: Census1910Record.race_choices
-  .col-xs-3= form.input :age
+  .col-sm-3= form.input :relation_to_head
+  .col-sm-3= form.input :sex, as: :select, collection: Census1910Record.sex_choices
+  .col-sm-3= form.input :race, as: :select, collection: Census1910Record.race_choices
+  .col-sm-3= form.input :age
 
 .row
-  .col-xs-3= form.input :marital_status, as: :select, collection: Census1910Record.marital_status_choices
-  .col-xs-3= form.input :years_married, as: :integer, input_html: { min: 0 }
-  .col-xs-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
-  .col-xs-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
+  .col-sm-3= form.input :marital_status, as: :select, collection: Census1910Record.marital_status_choices
+  .col-sm-3= form.input :years_married, as: :integer, input_html: { min: 0 }
+  .col-sm-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
+  .col-sm-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
 
 .row
-  .col-xs-3= form.input :pob
-  .col-xs-3= form.input :pob_father
-  .col-xs-3= form.input :pob_mother
-  .col-xs-3= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+  .col-sm-3= form.input :pob
+  .col-sm-3= form.input :pob_father
+  .col-sm-3= form.input :pob_mother
+  .col-sm-3= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
 
 .row
-  .col-xs-4= form.input :year_immigrated, as: :integer
-  .col-xs-4= form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
-  .col-xs-4= form.input :language_spoken
+  .col-sm-4= form.input :year_immigrated, as: :integer
+  .col-sm-4= form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
+  .col-sm-4= form.input :language_spoken
 
 .row
-  .col-xs-4= form.input :profession
-  .col-xs-4= form.input :industry
-  .col-xs-4= form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
+  .col-sm-4= form.input :profession
+  .col-sm-4= form.input :industry
+  .col-sm-4= form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
 
 .row
-  .col-xs-6= form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices
-  .col-xs-6= form.input :unemployed_weeks_1909
+  .col-sm-6= form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices
+  .col-sm-6= form.input :unemployed_weeks_1909
 
 table style="width:100%"
   tr

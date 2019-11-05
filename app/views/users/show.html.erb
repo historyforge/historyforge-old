@@ -1,15 +1,15 @@
 <% if can?(:update, @user) %>
-<div class="pull-right">
-  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-sm btn-default' %>
-  <%= link_to 'Impersonate', mask_user_path(@user), class: 'btn btn-sm btn-default' %>
-  <%=link_to 'User activity', user_activity_url(:id=>@user.id), class: 'btn btn-sm btn-default' %>
+<div class="float-right">
+  <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-sm btn-light' %>
+  <%= link_to 'Impersonate', mask_user_path(@user), class: 'btn btn-sm btn-light' %>
+  <%=link_to 'User activity', user_activity_url(:id=>@user.id), class: 'btn btn-sm btn-light' %>
 </div>
 <% end %>
 <h1>
   <%= h @user.name %>
 </h1>
-<div class="panel panel-default">
-  <div class="panel-body">
+<div class="card card-default">
+  <div class="card-body">
     <dl>
       <dt>
         Created on
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<div class="pull-right">
+<div class="float-right">
   <%= paginate @mymaps %>
 </div>
 <h3>User Maps</h3>

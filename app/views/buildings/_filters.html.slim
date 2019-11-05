@@ -1,12 +1,12 @@
 = simple_form_for @search, url: url_for(), method: :get, as: :s do |form|
-  .panel.panel-info
-    .panel-heading
-      h3.panel-title Filters
-    .panel-body
+  .card.card-info
+    .card-header
+      h3.card-title Filters
+    .card-body
       .control-group
         .controls
-          button.btn.btn-sm.btn-default type="button" data-target="#showFieldsForm" data-toggle="modal" Fields
-          button.btn.btn-sm.btn-default type="button" data-target="#newAttributeFilter" data-toggle="modal" Add Filter
+          button.btn.btn-sm.btn-light type="button" data-target="#showFieldsForm" data-toggle="modal" Fields
+          button.btn.btn-sm.btn-light type="button" data-target="#newAttributeFilter" data-toggle="modal" Add Filter
       #show-filters
       #attribute-filters
       hr
@@ -15,10 +15,10 @@
         select.form-control#c name='c'
         select.form-control#d name='d'
       br
-    .form-actions.panel-footer
+    .form-actions.card-footer
       = form.submit 'Search', class: 'btn btn-sm btn-primary'
       =< form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
-      =< link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-default'
+      =< link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
 
   .modal.fade id="showFieldsForm"
     .modal-dialog

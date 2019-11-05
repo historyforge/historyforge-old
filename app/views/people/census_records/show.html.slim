@@ -1,4 +1,4 @@
-.pull-right
+.float-right
   .dropdown style="display:inline-block"
     a.btn.btn-primary.dropdown-toggle data-toggle='dropdown' href="#"
       | Actions
@@ -28,9 +28,9 @@
 
 h1.page-title= @record.name
 
-.panel.panel-default
-  .panel-heading
-    h4.panel-title Census Scope
+.card.mb-1
+  .card-header
+    | Census Scope
   table.table.table-bordered.table-condensed
     thead
       tr
@@ -55,22 +55,22 @@ h1.page-title= @record.name
         td= @record.dwelling_number
         td= @record.family_id
 
-.panel.panel-default
-  .panel-heading
-    h4.panel-title Personal Details
-  .panel-body
+.card.mb-1
+  .card-header
+    | Personal Details
+  .card-body
     = render 'details'
 
 - if @record.notes.present?
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Notes
-    .panel-body= simple_format @record.notes
+  .card.mb-1
+    .card-header
+      | Notes
+    .card-body= simple_format @record.notes
 
 - if @record.fellows.present?
-  .panel.panel-default
-    .panel-heading
-      h4.panel-title Other Family Members
+  .card.mb-1
+    .card-header
+      | Other Family Members
     table.table.table-condensed.table-bordered
       thead
         tr

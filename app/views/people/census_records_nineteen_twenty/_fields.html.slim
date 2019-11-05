@@ -1,51 +1,51 @@
 .row
-  .col-xs-3= form.input :last_name
-  .col-xs-3= form.input :first_name
-  .col-xs-2= form.input :middle_name
-  .col-xs-2= form.input :name_prefix
-  .col-xs-2= form.input :name_suffix
+  .col-sm-3= form.input :last_name
+  .col-sm-3= form.input :first_name
+  .col-sm-2= form.input :middle_name
+  .col-sm-2= form.input :name_prefix
+  .col-sm-2= form.input :name_suffix
 
 .row
-  .col-xs-4= form.input :relation_to_head
-  .col-xs-4= form.input :owned_or_rented, as: :select, collection: Census1920Record.owned_or_rented_choices
-  .col-xs-4= form.input :mortgage, as: :select, collection: Census1920Record.mortgage_choices
+  .col-sm-4= form.input :relation_to_head
+  .col-sm-4= form.input :owned_or_rented, as: :select, collection: Census1920Record.owned_or_rented_choices
+  .col-sm-4= form.input :mortgage, as: :select, collection: Census1920Record.mortgage_choices
 
 .row
-  .col-xs-3= form.input :sex, as: :select, collection: Census1920Record.sex_choices
-  .col-xs-3= form.input :race, as: :select, collection: Census1920Record.race_choices
-  .col-xs-3= form.input :age
-  .col-xs-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
+  .col-sm-3= form.input :sex, as: :select, collection: Census1920Record.sex_choices
+  .col-sm-3= form.input :race, as: :select, collection: Census1920Record.race_choices
+  .col-sm-3= form.input :age
+  .col-sm-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
 
 .row
-  .col-xs-4= form.input :year_immigrated, as: :integer
-  .col-xs-4= form.input :naturalized_alien
-  .col-xs-4= form.input :year_naturalized, as: :integer
+  .col-sm-4= form.input :year_immigrated, as: :integer
+  .col-sm-4= form.input :naturalized_alien
+  .col-sm-4= form.input :year_naturalized, as: :integer
 
 .row
-  .col-xs-4= form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
-  .col-xs-4= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
-  .col-xs-4= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
+  .col-sm-4= form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
+  .col-sm-4= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
+  .col-sm-4= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
 
 .row
-  .col-xs-6= form.input :pob
-  .col-xs-6= form.input :mother_tongue
+  .col-sm-6= form.input :pob
+  .col-sm-6= form.input :mother_tongue
 
 .row
-  .col-xs-6= form.input :pob_father
-  .col-xs-6= form.input :mother_tongue_father
+  .col-sm-6= form.input :pob_father
+  .col-sm-6= form.input :mother_tongue_father
 
 .row
-  .col-xs-6= form.input :pob_mother
-  .col-xs-6= form.input :mother_tongue_mother
+  .col-sm-6= form.input :pob_mother
+  .col-sm-6= form.input :mother_tongue_mother
 
 .row
-  .col-xs-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+  .col-sm-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
 
 .row
-  .col-xs-12= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
+  .col-sm-12= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
 
 .row
-  .col-xs-3= form.input :profession
-  .col-xs-3= form.input :industry
-  .col-xs-3= form.input :employment, as: :select, collection: Census1910Record.employment_choices
-  .col-xs-3= form.input :farm_schedule
+  .col-sm-3= form.input :profession
+  .col-sm-3= form.input :industry
+  .col-sm-3= form.input :employment, as: :select, collection: Census1910Record.employment_choices
+  .col-sm-3= form.input :farm_schedule

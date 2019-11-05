@@ -1,5 +1,5 @@
 .row
-  .col-xs-4
+  .col-sm-4
     dl
       dt Address
       dd= @record.street_address || 'blank'
@@ -38,7 +38,7 @@
       dt Language Spoken
       dd= @record.language_spoken || 'blank'
 
-  .col-xs-4
+  .col-sm-4
     dl
       dt Marital Status
       dd= @record.marital_status || 'blank'
@@ -61,7 +61,7 @@
       dt Farm or House?
       dd= @record.farm_or_house || 'blank'
 
-  .col-xs-4
+  .col-sm-4
     - if @record.profession.present?
       dl
         dt Profession

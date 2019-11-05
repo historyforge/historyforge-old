@@ -1,24 +1,23 @@
-.pull-right
+.float-right
   - if can?(:update, @building)
-    = link_to 'Edit', [:edit, @building], class: 'btn btn-default'
+    = link_to 'Edit', [:edit, @building], class: 'btn btn-light'
   - if can?(:review, @building) && !@building.reviewed?
-    = link_to 'Review', [:review, @building], class: 'btn btn-default', data: { method: :put }
-  = link_to 'View All', buildings_path, class: 'btn btn-default'
+    = link_to 'Review', [:review, @building], class: 'btn btn-light', data: { method: :put }
+  = link_to 'View All', buildings_path, class: 'btn btn-light'
 
 h1.page-title= @building.name
 
 .row
-  .col-xs-8
+  .col-sm-8
     - if can?(:review, @building) && @building.investigate?
       .alert.alert-danger
         | This building requires further investigation before it can be marked as reviewed.
         - if @building.investigate_reason?
           | &nbsp; &nbsp;
           b= @building.investigate_reason
-    .panel.panel-default
-      .panel-heading
-        h4.panel-title Details
-      .panel-body
+    .card.mb-1
+      .card-body
+        | Details
         dl
           dt Years
           - if @building.year_earliest? || @building.year_latest?
@@ -34,7 +33,7 @@ h1.page-title= @building.name
           dt Architects
           dd= @building.architects.present? ? @building.architects.map(&:name).to_sentence : 'None'
           dt Building Type
-          dd= @building.building_type_name
+          dd= @building.building_type_name || 'not specified'
           dt Construction
           dd
             - if @building.stories
@@ -55,29 +54,29 @@ h1.page-title= @building.name
             dd= @building.block_number
 
     - if @building.description?
-      .panel.panel-default
-        .panel-heading
-          h4.panel-title Description
-        .panel-body
+      .card.mb-1
+        .card-header
+          | Description
+        .card-body
           = simple_format @building.description
 
     - if @building.photos.present?
-      .panel.panel-default
-        .panel-heading
-          h4.panel-title Photos
-        .panel-body
+      .card.mb-1
+        .card-header
+          | Photos
+        .card-body
           .row
             - @building.photos.each do |photo|
-              .building-photo.col-xs-4
+              .building-photo.col-sm-4
                 = picture_tag photo: photo, style: 'quarter', img_class: 'img-thumbnail'
                 = simple_format photo.full_caption
 
     - %w[1900 1910 1920 1930].each do |year|
       - if @building.public_send("census_#{year}_records").present?
-        .panel.panel-default
-          .panel-heading
-            h4.panel-title= "Residents in #{year}"
-          .panel-body
+        .card.mb-1
+          .card-header
+            |= "Residents in #{year}"
+          .card-body
             - @building.public_send("families_in_#{year}").each do |id, family|
               table.table.table-condensed.table-bordered
                 thead
@@ -96,25 +95,26 @@ h1.page-title= @building.name
                       td= row.relation_to_head
                       td= row.profession
     - if @building.notes?
-      .panel.panel-default
-        .panel-heading
-          h4.panel-title Additional Notes
-        .panel-body
+      .card.mb-1
+        .card-header
+          | Additional Notes
+        .card-body
           = simple_format @building.notes
 
 
-  .col-xs-4
-    - if @building.lat?
-      / Map
-      #miniforge.well ng-app="miniforge"
+  .col-sm-4.card.bg-light
+    .card-body
+      - if @building.lat?
+        / Map
+        #miniforge ng-app="miniforge"
 
-        = render 'miniforge'
+          = render 'miniforge'
 
-      = javascript_tag "window.googleApiKey = '#{AppConfig.google_api_key}';"
-      script src="https://maps.googleapis.com/maps/api/js?key=#{AppConfig.google_api_key}&libraries="
-      script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"
-      = javascript_tag "window.buildings=#{@neighbors.to_json};"
-      = javascript_tag "window.layer=#{@layer.to_json};"
-      = javascript_include_tag 'miniforge'
-    - else
-      .alert.alert-danger Building is not yet mapped!
+        = javascript_tag "window.googleApiKey = '#{AppConfig.google_api_key}';"
+        script src="https://maps.googleapis.com/maps/api/js?key=#{AppConfig.google_api_key}&libraries="
+        script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"
+        = javascript_tag "window.buildings=#{@neighbors.to_json};"
+        = javascript_tag "window.layer=#{@layer.to_json};"
+        = javascript_include_tag 'miniforge'
+      - else
+        .alert.alert-danger Building is not yet mapped!

@@ -17,7 +17,7 @@
 </dl>
 <dl>
   <dt>
-    <%= link_to('Delete User', user_path(@user.id), :method => :delete, :data => {:confirm => 'Are you sure'}, class: 'btn btn-default' ) -%>
+    <%= link_to('Delete User', user_path(@user.id), :method => :delete, :data => {:confirm => 'Are you sure'}, class: 'btn btn-light' ) -%>
   </dt>
   <dd>
     This cannot be undone. Removes all their data.
@@ -26,9 +26,9 @@
 <dl>
   <dt>
   <% if @user.enabled -%>
-    <%= link_to 'Disable', disable_user_path(@user.id), :method => :put, class: 'btn btn-default' -%>
+    <%= link_to 'Disable', disable_user_path(@user.id), :method => :put, class: 'btn btn-light' -%>
   <% else -%>
-    <%= link_to 'Enable', enable_user_path(@user.id), :method => :put, class: 'btn btn-default' -%>
+    <%= link_to 'Enable', enable_user_path(@user.id), :method => :put, class: 'btn btn-light' -%>
   <% end -%>
   </dt>
   <dd>
@@ -39,7 +39,7 @@
 <%- unless @user.provider? %>
 <dl>
   <dt>
-    <%= link_to "Password", disable_and_reset_user_path(@user.id), :method => :put, class: 'btn btn-default' %>
+    <%= link_to "Password", disable_and_reset_user_path(@user.id), :method => :put, class: 'btn btn-light' %>
   </dt>
   <dd>
     This changes the password of the users account, and sends link via email to user to create a new password. Until a password is changed, the user cannot login.
@@ -48,7 +48,7 @@
 <% end %>
 <dl>
   <dt>
-    <%= link_to 'Edit roles', user_roles_path(@user), class: 'btn btn-default' -%>
+    <%= link_to 'Edit roles', user_roles_path(@user), class: 'btn btn-light' -%>
   </dt>
   <dd>
     Change roles / groups that the user belongs to

@@ -1,5 +1,5 @@
 .row
-  .col-xs-4
+  .col-sm-4
     dl
       dt Address
       dd= @record.street_address || 'blank'
@@ -48,7 +48,7 @@
         dt Year Naturalized
         dd= @record.year_naturalized
 
-  .col-xs-4
+  .col-sm-4
     dl
       dt Marital Status
       dd= @record.marital_status || 'blank'
@@ -59,7 +59,7 @@
       dt Mortgage?
       dd= @record.mortgage || 'blank'
 
-  .col-xs-4
+  .col-sm-4
     - if @record.profession.present?
       dl
         dt Profession

@@ -1,56 +1,50 @@
-nav.navbar.navbar-default.navbar-static.top role="navigation"
-  .container-fluid
-    .navbar-header
-      button.navbar-toggle.collapsed type="button" data-toggle="collapse" data-target="#navbar-nav" aria-expanded="false"
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-
-      = link_to 'HistoryForge', root_path, class: 'navbar-brand'
-
-    .collapse.navbar-collapse#navbar-nav
-      ul.nav.navbar-nav.navbar-right
-        li= link_to 'Forge', '/forge'
-        - if user_signed_in?
-          - if current_user.has_role?("administrator") || current_user.has_role?("super user")
-            li.dropdown
-              a.dropdown-toggle data-toggle='dropdown' href="#"
-                | Admin
-                = ' '
-                span.caret
-              ul.dropdown-menu
-                li= link_to "Administer Users", users_path
-                li= link_to "Map Overlays", map_overlays_path
-                li= link_to "Street Conversions", street_conversions_path
+nav.navbar.navbar-light.bg-light.navbar-expand-lg.navbar-static.top role="navigation"
+  = link_to 'HistoryForge', root_path, class: 'navbar-brand'
+  button.navbar-toggler.collapsed type="button" data-toggle="collapse" data-target="#navbar-nav" aria-expanded="false"
+    span.navbar-toggler-icon
 
 
-        li= link_to("Buildings", buildings_path)
-
-        li.dropdown
-          a.dropdown-toggle data-toggle='dropdown' href="#"
-            | People
-            = ' '
-            span.caret
-          ul.dropdown-menu
-            li= link_to "1900 US Census", census1900_records_path
-            li= link_to "1910 US Census", census1910_records_path
-            li= link_to "1920 US Census", census1920_records_path
-            li= link_to "1930 US Census", census1930_records_path
-
-        li= link_to("About", "https://thehistorycenter.net/historyforge")
-
-        - if user_signed_in?
-          li.dropdown
-            a.dropdown-toggle data-toggle='dropdown' href="#"
-              = current_user.name
+  .collapse.navbar-collapse#navbar-nav
+    ul.nav.navbar-nav.ml-auto
+      li.nav-item= link_to 'Forge', '/forge', class: 'nav-link'
+      - if user_signed_in?
+        - if current_user.has_role?("administrator") || current_user.has_role?("super user")
+          li.dropdown.nav-item
+            a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+              | Admin
               = ' '
               span.caret
-            ul.dropdown-menu
-              li= link_to 'My profile', user_path(current_user)
-              li= link_to 'Edit my account', edit_user_path(current_user)
-              /li= link_to "Settings", edit_user_registration_path
-              li= link_to "Log out", destroy_user_session_path, :method => :delete
+            .dropdown-menu
+              = link_to "Administer Users", users_path, class: 'dropdown-item'
+              = link_to "Map Overlays", map_overlays_path, class: 'dropdown-item'
+              = link_to "Street Conversions", street_conversions_path, class: 'dropdown-item'
 
-        - else
-          li= link_to 'Log In', new_user_session_path
+
+      li.nav-item= link_to "Buildings", buildings_path, class: 'nav-link'
+
+      li.dropdown.nav-item
+        a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+          | People
+          = ' '
+          span.caret
+        .dropdown-menu
+          = link_to "1900 US Census", census1900_records_path, class: 'dropdown-item'
+          = link_to "1910 US Census", census1910_records_path, class: 'dropdown-item'
+          = link_to "1920 US Census", census1920_records_path, class: 'dropdown-item'
+          = link_to "1930 US Census", census1930_records_path, class: 'dropdown-item'
+
+      li.nav-item= link_to "About", "https://thehistorycenter.net/historyforge", class: 'nav-link'
+
+      - if user_signed_in?
+        li.nav-item.dropdown
+          a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+            = current_user.name
+            = ' '
+            span.caret
+          .dropdown-menu
+            = link_to 'My profile', user_path(current_user), class: 'dropdown-item'
+            = link_to 'Edit my account', edit_user_path(current_user), class: 'dropdown-item'
+            = link_to "Log out", destroy_user_session_path, method: :delete, class: 'dropdown-item'
+
+      - else
+        li.nav-item= link_to 'Log In', new_user_session_path, class: 'nav-link'

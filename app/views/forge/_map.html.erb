@@ -10,7 +10,7 @@
     <button type="button" class="close" ng-click="hideBuilding()">&times;</button>
     <h5>{{ currentBuilding.name }}</h5>
     <div style="width:700px" class="row">
-      <div class="col-xs-3">
+      <div class="col-sm-3">
         <picture ng-if="currentBuilding.photo">
           <!--[if IE 9]><video style="display: none;"><![endif]-->
           <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
@@ -23,11 +23,11 @@
           No photo :(
         </p>
       </div>
-      <div class="col-xs-3">
+      <div class="col-sm-3">
         <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
         <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
       </div>
-      <div class="col-xs-6">
+      <div class="col-sm-6">
         <table class="table table-condensed">
           <thead>
           <tr>

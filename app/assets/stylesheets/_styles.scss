@@ -10,16 +10,8 @@
   }
 }
 
-.navbar-default {
-  background:$blue;
-  border-radius:0;
-  border:none;
-  .navbar-brand {
-    color: white;
-  }
-  .navbar-nav > li > a {
-    color:white;
-  }
+.btn + .btn {
+  margin-left: 8px;
 }
 
 dl {

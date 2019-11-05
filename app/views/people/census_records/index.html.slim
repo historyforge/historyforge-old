@@ -2,20 +2,20 @@
 
 .container-fluid
 
-  .pull-right
+  .float-right
 
     - if current_user
       - unless current_page?(collection_path)
-        = link_to 'All', collection_path, class: 'btn btn-default'
+        = link_to 'All', collection_path, class: 'btn btn-light'
       - unless current_page?(unhoused_collection_path)
-        = link_to 'Unhoused', unhoused_collection_path, class: 'btn btn-default'
+        = link_to 'Unhoused', unhoused_collection_path, class: 'btn btn-light'
       - unless current_page?(unreviewed_collection_path)
-        = link_to 'Unreviewed', unreviewed_collection_path, class: 'btn btn-default'
+        = link_to 'Unreviewed', unreviewed_collection_path, class: 'btn btn-light'
     - if can?(:create, CensusRecord)
-      = link_to 'Add New', new_resource_path, class: 'btn btn-default'
+      = link_to 'Add New', new_resource_path, class: 'btn btn-light'
   h1.page-title= @page_title
 
-  .row
+  .row-fluid
     #census-records-filters= render 'filters'
     #census-records
 
@@ -40,9 +40,9 @@
                   td
                     = row.field_for field
                 td
-                  = link_to "View", row, class: 'btn btn-default btn-xs'
+                  = link_to "View", row, class: 'btn btn-light btn-xs'
                   - unless row.reviewed?
-                    span.label.label-danger< NEW
+                    span.badge.badge-danger< NEW
 
         #search-pagination-bottom
           = paginate @search.scoped
