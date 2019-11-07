@@ -4,16 +4,16 @@
       | Actions
       = ' '
       span.caret
-    ul.dropdown-menu
+    .dropdown-menu
       - if !@record.reviewed? && can?(:review, @record)
-        li= link_to 'Mark as Reviewed', reviewed_resource_path(@record), method: :put
+        = link_to 'Mark as Reviewed', reviewed_resource_path(@record), method: :put, class: 'dropdown-item'
       - if can?(:update, @record)
-        li= link_to 'Edit', edit_resource_path(@record)
+        = link_to 'Edit', edit_resource_path(@record), class: 'dropdown-item'
       - if can?(:destroy, @record)
-        li= link_to 'Delete', resource_path(@record), data: { method: :delete, confirm: 'Are you sure? There is no return.' }
-      li= link_to 'View All', collection_path
+        = link_to 'Delete', resource_path(@record), data: { method: :delete, confirm: 'Are you sure? There is no return.' }, class: 'dropdown-item'
+      = link_to 'View All', collection_path, class: 'dropdown-item'
       - if @record.building_id?
-        li= link_to 'View Building', building_path(@record.building_id)
+        = link_to 'View Building', building_path(@record.building_id), class: 'dropdown-item'
 
   - if can?(:create, CensusRecord)
     | &nbsp;
