@@ -3,6 +3,7 @@
 #= require alertify.min
 #= require advanced_search
 #= require census_form
+#= require cell_renderers
 
 pageLoad = ->
   window.alerts or= []
@@ -17,6 +18,7 @@ jQuery(document).ready ->
   window.alertifyInit = alertify.init
   do pageLoad
 
+jQuery(document).on 'click', '.dropdown-item.checkbox', (e) -> e.stopPropagation()
 jQuery(document).on 'click', '#search-map', ->
   $form = jQuery(this).closest('form')
   if document.location.toString().match(/building/)

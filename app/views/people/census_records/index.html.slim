@@ -1,59 +1,41 @@
-- @full_layout = true
-
-.container-fluid
-
+- if current_user
   .float-right
-
-    - if current_user
-      - unless current_page?(collection_path)
-        = link_to 'All', collection_path, class: 'btn btn-light'
-      - unless current_page?(unhoused_collection_path)
-        = link_to 'Unhoused', unhoused_collection_path, class: 'btn btn-light'
-      - unless current_page?(unreviewed_collection_path)
-        = link_to 'Unreviewed', unreviewed_collection_path, class: 'btn btn-light'
+    - unless current_page?(collection_path)
+      = link_to 'All', collection_path, class: 'btn btn-light'
+    - unless current_page?(unhoused_collection_path)
+      = link_to 'Unhoused', unhoused_collection_path, class: 'btn btn-light'
+    - unless current_page?(unreviewed_collection_path)
+      = link_to 'Unreviewed', unreviewed_collection_path, class: 'btn btn-light'
     - if can?(:create, CensusRecord)
       = link_to 'Add New', new_resource_path, class: 'btn btn-light'
-  h1.page-title= @page_title
+h1.page-title= @page_title
 
-  .row-fluid
-    #census-records-filters= render 'filters'
-    #census-records
+#census-records-filters.mb-2= render 'filters'
+#census-records.ag-theme-balham
 
-      - if @records.blank?
-        p.alert.alert-info No records found.
-      - else
+  /- if @records.blank?
+    p.alert.alert-info No records found.
+  /- else
+    table.table.table-condensed.table-striped
+      thead
+        tr
+          - @search.columns.each do |field|
+            th= t "simple_form.labels.census_record.#{field}", default: field.humanize
+          th Actions
+      tbody
+        - @records.each do |row|
+          tr
+            - @search.columns.each_with_index do |field, i|
+              td
+                = row.field_for field
+            td
+              = link_to "View", row, class: 'btn btn-light btn-xs'
+              - unless row.reviewed?
+                span.badge.badge-danger< NEW
 
-        = paginate @search.scoped
-        = page_entries_info @search.scoped, entry_name: 'record'
+.navbar.navbar-light.bg-light.navbar-expand-lg.navbar-static.bottom#search-pagination-bottom
+  .nav-item.mr-auto= page_entries_info @search.scoped, entry_name: 'record'
+  .nav-item.ml-auto
+    = paginate @search.scoped
 
-        table.table.table-condensed.table-striped
-          thead
-            tr
-              - @search.columns.each do |field|
-                th= t "simple_form.labels.census_record.#{field}", default: field.humanize
-              th Actions
-          tbody
-            - @records.each do |row|
-              /- record = CensusRecordPresenter.new(row, current_user)
-              tr
-                - @search.columns.each_with_index do |field, i|
-                  td
-                    = row.field_for field
-                td
-                  = link_to "View", row, class: 'btn btn-light btn-xs'
-                  - unless row.reviewed?
-                    span.badge.badge-danger< NEW
-
-        #search-pagination-bottom
-          = paginate @search.scoped
-
-
-javascript:
-  $('#new_s').advancedSearch({
-    url: '#{File.join(url_for().sub(/\/unhoused|\/unreviewed/, ''), 'advanced_search_filters.json')}',
-    cache: true,
-    timestamp: #{AdvancedSearchFilterTimestamp.call(resource_class)},
-    fields: #{@search.f.to_json.html_safe},
-    filters: #{@search.s.to_json.html_safe},
-    sorts: #{@search.sorts.to_json.html_safe}
-  });
+= render 'index_script'

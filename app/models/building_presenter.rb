@@ -42,8 +42,8 @@ class BuildingPresenter < Struct.new(:model, :user)
     model.stories.present? ? (model.stories % 1 == 0 ? model.stories.to_i : model.stories) : 'Unknown'
   end
 
-  def field_for(field)
-    method = field.to_s
+  def field_for(col)
+    method = col.clone.to_s
     method << "_name" if method.ends_with?('type')
     field = method.to_sym
     return public_send(field) if respond_to?(field)

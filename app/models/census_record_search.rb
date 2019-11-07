@@ -120,6 +120,9 @@ class CensusRecordSearch
       method = "#{fs}_fields"
       respond_to?(method) ? Set.new(public_send(method)) : nil
     }.compact + [Set.new(f)]).reduce(&:union)
+    @columns = @columns.to_a
+    @columns << 'id'
+    @columns
   end
 
   def fieldsets
@@ -144,5 +147,37 @@ class CensusRecordSearch
 
   def location_fields
     %w{county city ward enum_dist}
+  end
+
+  def column_def
+    columns.map { |column| column_config(column) }
+  end
+
+  def column_config(column)
+    options = {
+        headerName: I18n.t("simple_form.labels.census_record.#{column}", default: column.humanize),
+        field: column,
+        resizable: true
+    }
+    options[:headerName] = 'Actions' if column == 'id'
+    options[:pinned] = 'left' if %w{id name}.include?(column)
+    options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
+    options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
+    options[:width] = 50 if census_scope_fields.include?(column)
+    options[:width] = 200 if %w{name street_address notes profession}.include?(column)
+    options
+  end
+
+  def row_data(records)
+    records.map do |record|
+      columns.inject({id: record.id}) do |hash, column|
+        value = record.field_for(column)
+        if column == 'name'
+          value = { name: value, reviewed: record.reviewed? }
+        end
+        hash[column] = value
+        hash
+      end
+    end
   end
 end

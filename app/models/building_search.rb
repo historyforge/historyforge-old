@@ -157,7 +157,8 @@ class BuildingSearch
   end
 
   def columns
-    @columns ||= f
+    return @columns if defined?(@columns)
+    @columns = f.concat(['id'])
     # @columns ||= ([Set.new(f)] + fieldsets.map {|fs| Set.new public_send("#{fs}_fields") }).reduce(&:union)
   end
 
@@ -166,7 +167,7 @@ class BuildingSearch
   end
 
   def default_fields
-    %w{street_address city state building_type year_earliest}
+    %w{name street_address city state building_type year_earliest}
   end
 
   def all_fields
@@ -208,5 +209,37 @@ class BuildingSearch
         paged: false
       }
     end
+  end
+
+  def column_def
+    columns.map { |column| column_config(column) }.to_json.html_safe
+  end
+
+  def column_config(column)
+    options = {
+        headerName: I18n.t("simple_form.labels.building.#{column}", default: column.humanize),
+        field: column,
+        resizable: true
+    }
+    options[:headerName] = 'Actions' if column == 'id'
+    options[:pinned] = 'left' if %w{id name}.include?(column)
+    options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
+    options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
+    options[:width] = 200 if %w{name street_address description annotations}.include?(column)
+    options
+  end
+
+  def row_data(records)
+    records.map do |record|
+      hash = { id: record.id }
+      columns.each do |column|
+        value = record.field_for(column)
+        if column == 'name'
+          value = { name: value, reviewed: record.reviewed? }
+        end
+        hash[column] = value
+      end
+      hash
+    end.to_json.html_safe
   end
 end

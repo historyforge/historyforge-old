@@ -1,3 +1,7 @@
+html, body {
+  height: 100%;
+}
+
 .clear {
   clear:both;
 }
@@ -7,6 +11,7 @@
 
   & + .container-fluid {
     margin-top: 80px;
+    height: calc(100% - 80px);
   }
 }
 
@@ -137,15 +142,46 @@ div.date {
 }
 
 #buildings-filters, #census-records-filters {
-  margin-left:15px;
-  width:250px;
-  float:left;
+  .dropdown {
+    display: inline-block;
+    margin-right: 12px;
+    .form-actions {
+      display: flex;
+    }
+  }
+  .dropdown-item.checkbox {
+    vertical-align: middle;
+    input {
+      margin-right: 10px;
+    }
+  }
+  .dropdown .form-actions {
+    padding: 15px;
+    margin-top: 10px;
+    border-top: 1px solid $border-color;
+  }
+  .dropdown {
+    .close {
+      float: none;
+      margin-right: 6px;
+    }
+  }
+  #sort-filters {
+    display: inline;
+    label, select {
+      display: inline;
+      width: auto;
+    }
+  }
 }
 
 #buildings, #census-records {
-  margin-left:300px;
-  margin-right:15px;
+  width: 100%;
+  height: calc(100% - 120px);
   font-size:11px;
+  span.badge {
+    margin-left: 10px;
+  }
   h1 {
     margin-top:0;
   }
@@ -172,6 +208,15 @@ div.date {
   th, td {
     border-left:1px solid #ccc;
   }
+}
+
+#search-pagination-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #ccc;
+  font-size: 14px;
 }
 
 .check_boxes {

@@ -1,0 +1,25 @@
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', (event) => {
+  $('#new_s').advancedSearch({
+    url: '/buildings/advanced_search_filters.json',
+    cache: true,
+    timestamp: <%== AdvancedSearchFilterTimestamp.call('Building') -%>,
+    fields: <%== @search.f.to_json.html_safe -%>,
+    filters: <%== @search.s.to_json.html_safe -%>,
+    sorts: <%== @search.sorts.to_json.html_safe -%>
+  });
+
+  new agGrid.Grid(document.querySelector('#buildings'), {
+    components: {
+      actionCellRenderer: ActionCellRenderer,
+      nameCellRenderer: NameCellRenderer,
+    },
+    columnDefs: <%= @search.column_def -%>,
+    defaultColDef: { width: 100 },
+    rowData: <%== @search.row_data(@buildings) -%>,
+    rowSelection: 'single'
+  });
+});
+
+
+</script>

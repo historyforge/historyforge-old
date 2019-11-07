@@ -1,51 +1,43 @@
 = simple_form_for @search, url: url_for(), method: :get, as: :s do |form|
-  .card.card-info
-    .card-header
-      h3.card-title Filters
-    .card-body
-      .control-group
-        .controls
-          button.btn.btn-sm.btn-light type="button" data-target="#showFieldsForm" data-toggle="modal" Fields
-          button.btn.btn-sm.btn-light type="button" data-target="#newAttributeFilter" data-toggle="modal" Add Filter
-      #show-filters
+  .float-right
+    = form.submit 'Submit', style: 'display: none'
+    => link_to 'CSV', url_for(format: :csv), class: 'btn btn-sm btn-primary'
+    => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
+    = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
+  .dropdown
+    button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.columns.size, 'Field'
+    .dropdown-menu
+      .value-input-container.column-count-3.checkboxes#fields
+        - @search.all_fieldsets.each do |field|
+          label.dropdown-item.checkbox for="fs_#{field}"
+            = check_box_tag 'fs[]', field, @search.fieldsets.include?(field), id: "fs_#{field}"
+            = t("simple_form.labels.building.#{field}", default: field.humanize)
+        - @search.all_fields.each do |field|
+          label.dropdown-item.checkbox for="f_#{field}"
+            = check_box_tag 'f[]', field, @search.f.include?(field), id: "f_#{field}"
+            = t("simple_form.labels.building.#{field}", default: field.humanize)
+      .form-actions
+        = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary mr-auto'
+        button.btn.btn-light.ml-auto.checkall data-scope="#fields" type="button" Check all
+  .dropdown
+    button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.s.size, 'Filter'
+    .dropdown-menu
       #attribute-filters
-      hr
-      .form-inline#sort-filters
-        label.control-label for="c" Sort by
-        select.form-control#c name='c'
-        select.form-control#d name='d'
-      br
-    .form-actions.card-footer
-      = form.submit 'Search', class: 'btn btn-sm btn-primary'
-      =< form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
-      =< link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
+        em.dropdown-item No filters have been applied.
+      .form-actions
+        button.btn.btn-light type="button" data-target="#newAttributeFilter" data-toggle="modal" Add Filter
+  #sort-filters
+    label.control-label for="c" Sort by
+    select.form-control#c name='c'
+    select.form-control#d name='d'
 
-  .modal.fade id="showFieldsForm"
-    .modal-dialog
-      .modal-content
-        .modal-header
-          button.close(type="button" data-dismiss="modal") &times;
-          h3 Show Fields
-        .modal-body
-          .value-input-container.column-count-3.checkboxes
-            - @search.all_fieldsets.each do |field|
-              label.checkbox for="fs_#{field}"
-                = check_box_tag 'fs[]', field, @search.fieldsets.include?(field), id: "fs_#{field}"
-                = t("simple_form.labels.building.#{field}", default: field.humanize)
-            - @search.all_fields.each do |field|
-              label.checkbox for="f_#{field}"
-                = check_box_tag 'f[]', field, @search.f.include?(field), id: "f_#{field}"
-                = t("simple_form.labels.building.#{field}", default: field.humanize)
-
-        .modal-footer
-          = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary'
 
   .modal.fade id="newAttributeFilter"
-    .modal-dialog
+    .modal-dialog.modal-lg
       .modal-content
         .modal-header
+          h5.modal-title Add Filter
           button.close(type="button" data-dismiss="modal") &times;
-          h3 Add Attribute Filter
         .modal-body
           select.attribute
           .scope-selection-container

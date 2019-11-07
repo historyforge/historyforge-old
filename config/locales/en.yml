@@ -46,7 +46,8 @@ en:
         can_write: 'Can write?'
         num_children_born: 'Number of children born'
         num_children_alive: 'Number of children alive'
-      defaults:
+        building_type: 'Building type'
+      census_record:
         page_no: 'Sheet'
         page_number: 'Sheet'
         page_side: 'Side'

@@ -24,6 +24,8 @@ class Building < ApplicationRecord
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
 
   delegate :name, to: :building_type, prefix: true, allow_nil: true
+  delegate :name, to: :frame_type, prefix: true, allow_nil: true
+  delegate :name, to: :lining_type, prefix: true, allow_nil: true
 
   scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
   scope :as_of_year_eq, -> (year) { where("(year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}

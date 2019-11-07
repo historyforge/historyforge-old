@@ -20,7 +20,8 @@ addAttributeFilter = (scope, scopeValue) ->
   return unless field_config.scopes?
   # console.log field_config
   html = document.createElement 'DIV'
-  html.className = 'attribute-filter'
+  html.classList.add 'attribute-filter'
+  html.classList.add 'dropdown-item'
   sentence = [field_config.label]
   for key, value of field_config.scopes
     if key is scope
@@ -98,24 +99,31 @@ addAttributeFilter = (scope, scopeValue) ->
 
   closeButton = document.createElement 'BUTTON'
   closeButton.type = 'button'
-  closeButton.className = 'close'
+  closeButton.classList.add 'close'
+  closeButton.classList.add 'remove-filter'
   closeButton.innerHTML = "&times;"
-  closeButton.onclick = -> jQuery(html).remove()
-  html.appendChild closeButton
 
   desc = document.createElement 'P'
-  desc.innerText = sentence.join(' ')
+  desc.appendChild closeButton
+  desc.innerHTML += sentence.join(' ')
   if field_config.append
-    desc.innerText += field_config.append
+    desc.innerHTML += field_config.append
   html.appendChild desc
 
   jQuery('#attribute-filters').append html
 
-jQuery(document).on 'submit', '#new_s', ->
-  shownFields = jQuery('#showFieldsForm').find('input:checked')
-  if (shownFields.size() > 0)
-    showFilters = jQuery('#show-filters')
-    showFilters.html(null)
+jQuery(document).on 'click', '.attribute-filter button.close', ->
+  $(this).closest('.attribute-filter').remove()
+  $('#new_s').submit()
+
+jQuery(document).on 'click', '.checkall', (e) ->
+  e.stopPropagation()
+  $cont = $($(this).data('scope'))
+  $inputs = $cont.find('input[type=checkbox]')
+  if $inputs.filter(':checked').length
+    $inputs.attr 'checked', true
+  else
+    $inputs.removeAttr 'checked'
 
 jQuery(document).on 'change', 'select.scope', ->
   scope = jQuery(this).val()
@@ -291,7 +299,8 @@ jQuery.fn.advancedSearch = (options={}) ->
       for key, value of json['filters']
         window.sortedAttributeFilters.push key: key, label: value.label, value: value
 
-      if filters
+      if Object.entries(filters).length
+        $('#attribute-filters').empty()
         for scope, value of filters
           addAttributeFilter scope, value
       c = sorts.c
@@ -302,11 +311,13 @@ jQuery.fn.advancedSearch = (options={}) ->
           option = document.createElement 'OPTION'
           jQuery(option).val value
           jQuery(option).text label
+          jQuery(this).on 'change', -> $('#new_s').submit()
           this.appendChild option
         jQuery(this).val c
       jQuery('#d').each ->
         jQuery(this).append '<option value="asc">up</option><option value="desc">down</option>'
         jQuery(this).val d
+        jQuery(this).on 'change', -> $('#new_s').submit()
 
     if window.localStorage && useCached
       json = null

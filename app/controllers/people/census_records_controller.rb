@@ -157,7 +157,7 @@ class People::CensusRecordsController < ApplicationController
 
   def load_census_records
     authorize! :read, resource_class
-    @search = census_record_search_class.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?
+    @search = census_record_search_class.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?, per: 100
     @records = @search.to_a
   end
 
