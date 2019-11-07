@@ -1,11 +1,27 @@
+window.GridDataSource = {
+  getRows: (options) => {
+    params = {
+      from: options.startRow,
+      to: options.endRow,
+      sort: options.sortModel
+    };
+    $.getJSON(document.location.toString(), params, (json) => {
+      const lastRow = json.length < 100 ? options.startRow + json.length : null;
+      options.successCallback(json, lastRow);
+    });
+  }
+}
+
 function ActionCellRenderer () {}
 
 // gets called once before the renderer is used
 ActionCellRenderer.prototype.init = function(params) {
   // create the cell
   this.eGui = document.createElement('div');
-  const link = document.location.toString().split('?')[0] + '/' + params.value;
-  this.eGui.innerHTML = '<a href="' + link + '">View</a>';
+  if (params.value) {
+    const link = document.location.toString().split('?')[0] + '/' + params.value;
+    this.eGui.innerHTML = '<a href="' + link + '">View</a>';
+  }
 };
 
 // gets called once when grid ready to insert the element
@@ -30,11 +46,15 @@ function NameCellRenderer () {}
 // gets called once before the renderer is used
 NameCellRenderer.prototype.init = function(params) {
   // create the cell
+  const value = params.value || params.getValue();
   this.eGui = document.createElement('div');
-
-  this.eGui.innerHTML = params.value.name;
-  if (!params.value.reviewed) {
-    this.eGui.innerHTML += '<span class="badge badge-danger">NEW</span>';
+  if (value && value.name) {
+    this.eGui.innerHTML = value.name;
+    if (!value.reviewed) {
+      this.eGui.innerHTML += '<span class="badge badge-danger">NEW</span>';
+    }
+  } else {
+    this.eGui.innerHTML = "Loading more records."
   }
 };
 

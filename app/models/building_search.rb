@@ -4,7 +4,7 @@ class BuildingSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :unpeopled, :unreviewed, :uninvestigated, :people, :people_params, :expanded
+  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :sort, :paged, :per, :unpeopled, :unreviewed, :uninvestigated, :people, :people_params, :expanded, :from, :to
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -31,13 +31,6 @@ class BuildingSearch
     "{\"buildings\": #{data['data']}, \"meta\": {\"info\": \"All #{data['meta']} record(s)\"}}"
   end
 
-  # def as_json
-  #   {
-  #     buildings: to_a.map { |building| BuildingListingSerializer.new(building) },
-  #     meta: pagination_dict(scoped)
-  #   }
-  # end
-  #
   def ransack_params
     if @s.is_a?(String)
       @s = JSON.parse(@s)
@@ -45,10 +38,6 @@ class BuildingSearch
     @s = @s.to_unsafe_hash if @s.respond_to?(:to_unsafe_hash)
     params = @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
     params
-  end
-
-  def sorts
-    {c: c, d: d}
   end
 
   def entity_class
@@ -65,7 +54,13 @@ class BuildingSearch
       @scoped = @scoped.without_residents if unpeopled
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed
       @scoped = @scoped.where(investigate: true) if uninvestigated
-      @scoped = @scoped.page(page).per(per).includes(:building_type, :architects) if paged
+
+      if from && to
+        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i).includes(:building_type)
+      elsif paged?
+        @scoped = @scoped.page(page).per(per).includes(:building_type)
+      end
+
       if expanded
         @scoped = @scoped.includes(:photos) #, :census_1900_records, :census_1910_records, :census_1920_records, :census_1930_records)
         if people.present?
@@ -91,22 +86,40 @@ class BuildingSearch
   end
 
   def add_order_clause
-    @d = 'asc' unless %w{asc desc}.include?(@d)
-    if @c
-      if @c == 'street_address'
-        @scoped = @scoped.order entity_class.send(:sanitize_sql, "address_house_number #{@d}, address_street_prefix #{@d}, address_street_name #{@d}, address_street_suffix #{@d}")
-      elsif entity_class.columns.map(&:name).include?(@c)
-        @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
-      else
-        # BOOM!
-        # @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{entity_class.table_name}.data->>'#{@c}' #{@d}, #{name_order_clause}")
+    if sort.present?
+      order = []
+      sort&.each do |key, sort_unit|
+        Rails.logger.info sort_unit
+        col, dir = sort_unit.values
+        if Building.columns.map(&:name).include?(col)
+          order << "#{col} #{dir}"
+        end
+      end
+      order << street_address_order_clause('asc') if order.blank?
+      @scoped = @scoped.order Building.send(:sanitize_sql, order.join(', '))
+    else
+      @d = 'asc' unless %w{asc desc}.include?(@d)
+      if @c
+        if @c == 'street_address'
+          @scoped = @scoped.order entity_class.send(:sanitize_sql, "address_house_number #{@d}, address_street_prefix #{@d}, address_street_name #{@d}, address_street_suffix #{@d}")
+        elsif Building.columns.map(&:name).include?(@c)
+          @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
+        else
+          # BOOM!
+        end
       end
     end
   end
 
+  def street_address_order_clause(dir)
+    "address_house_number #{dir}, address_street_prefix #{dir}, address_street_name #{dir}, address_street_suffix #{dir}"
+  end
 
-  def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 25)
+  def self.generate(params:{}, user:nil, paged:true, per: 25)
     item = new user, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], paged, per
+    item.from = params[:from]
+    item.to = params[:to]
+    item.sort = params[:sort] if params[:sort]
     item.people = params[:people] if params[:people]
     item.people_params = JSON.parse(params[:peopleParams]) if params[:peopleParams]
     item.unpeopled = true if params[:unpeopled]
@@ -226,6 +239,7 @@ class BuildingSearch
     options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
     options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
     options[:width] = 200 if %w{name street_address description annotations}.include?(column)
+    options[:sortable] = true unless column == 'id'
     options
   end
 

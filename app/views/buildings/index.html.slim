@@ -39,8 +39,7 @@ h1.page-title= @page_title
                 = link_to 'Edit', [:edit, record.model], class: 'btn btn-xs btn-light'
 
 .navbar.navbar-light.bg-light.navbar-expand-lg.navbar-static.bottom#search-pagination-bottom
-  .nav-item.mr-auto= page_entries_info @search.scoped, entry_name: 'record'
-  .nav-item.ml-auto
-    = paginate @search.scoped
+  - count = @search.scoped.total_count
+  .nav-item.mr-auto= "Found #{pluralize count, 'record'}"
 
 = render 'index_script'

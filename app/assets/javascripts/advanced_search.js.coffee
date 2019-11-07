@@ -15,6 +15,22 @@ getSortableFields = ->
   fields
 
 addAttributeFilter = (scope, scopeValue) ->
+  if scope is 'reviewed_at_null'
+    html = document.createElement 'DIV'
+    html.classList.add 'attribute-filter'
+    html.classList.add 'dropdown-item'
+    html.innerHTML = 'Unreviewed records'
+    jQuery('#attribute-filters').append html
+    return
+
+  if scope is 'building_id_null'
+    html = document.createElement 'DIV'
+    html.classList.add 'attribute-filter'
+    html.classList.add 'dropdown-item'
+    html.innerHTML = 'Records not attached to buildings'
+    jQuery('#attribute-filters').append html
+    return
+
   field_config = getFieldConfigFromScope(scope)
   return unless field_config?
   return unless field_config.scopes?
@@ -103,7 +119,7 @@ addAttributeFilter = (scope, scopeValue) ->
   closeButton.classList.add 'remove-filter'
   closeButton.innerHTML = "&times;"
 
-  desc = document.createElement 'P'
+  desc = document.createElement 'SPAN'
   desc.appendChild closeButton
   desc.innerHTML += sentence.join(' ')
   if field_config.append
@@ -303,21 +319,22 @@ jQuery.fn.advancedSearch = (options={}) ->
         $('#attribute-filters').empty()
         for scope, value of filters
           addAttributeFilter scope, value
-      c = sorts.c
-      d = sorts.d
-      jQuery('#c').each ->
-        fields = getSortableFields()
-        for value, label of fields
-          option = document.createElement 'OPTION'
-          jQuery(option).val value
-          jQuery(option).text label
+      if sorts
+        c = sorts.c
+        d = sorts.d
+        jQuery('#c').each ->
+          fields = getSortableFields()
+          for value, label of fields
+            option = document.createElement 'OPTION'
+            jQuery(option).val value
+            jQuery(option).text label
+            jQuery(this).on 'change', -> $('#new_s').submit()
+            this.appendChild option
+          jQuery(this).val c
+        jQuery('#d').each ->
+          jQuery(this).append '<option value="asc">up</option><option value="desc">down</option>'
+          jQuery(this).val d
           jQuery(this).on 'change', -> $('#new_s').submit()
-          this.appendChild option
-        jQuery(this).val c
-      jQuery('#d').each ->
-        jQuery(this).append '<option value="asc">up</option><option value="desc">down</option>'
-        jQuery(this).val d
-        jQuery(this).on 'change', -> $('#new_s').submit()
 
     if window.localStorage && useCached
       json = null

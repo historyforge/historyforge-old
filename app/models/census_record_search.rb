@@ -4,7 +4,7 @@ class CensusRecordSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :paged, :per, :entity_class
+  attr_accessor :page, :s, :f, :fs, :g, :user, :sort, :paged, :per, :entity_class, :from, :to
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -21,54 +21,83 @@ class CensusRecordSearch
     @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
   end
 
-  def sorts
-    {c: c, d: d}
-  end
-
   def scoped
     @scoped || begin
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.ransack(rp).result
-      @scoped = @scoped.page(page).per(per) if paged?
-      @scoped = @scoped.includes(:building) if f.include?('latitude') || f.include?('longitude')
-      @d = 'asc' unless %w{asc desc}.include?(@d)
-      if @c
-        if @c == 'census_scope'
-          add_census_page_order_clause
-        elsif @c == 'name'
-          add_name_order_clause
-        elsif @c == 'street_address'
-          add_street_address_order_clause
-        else
-          add_regular_order_clause
-        end
+      if from && to
+        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i)
+      elsif paged?
+        @scoped = @scoped.page(page).per(per)
       end
+      @scoped = @scoped.includes(:building) if f.include?('latitude') || f.include?('longitude')
+
+      add_sorts
+      # @d = 'asc' unless %w{asc desc}.include?(@d)
+      # if @c
+      #   if @c == 'census_scope'
+      #     add_census_page_order_clause
+      #   elsif @c == 'name'
+      #     add_name_order_clause
+      #   elsif @c == 'street_address'
+      #     add_street_address_order_clause
+      #   else
+      #     add_regular_order_clause
+      #   end
+      # end
     end
 
   end
 
-  def add_street_address_order_clause
-    @scoped = @scoped.order entity_class.send(:sanitize_sql, "street_name #{@d}, street_prefix #{@d}, street_house_number #{@d}, street_suffix #{@d}")
+  def add_sorts
+    order = []
+    streeted = false
+    censused = false
+    sort&.each do |key, sort_unit|
+      Rails.logger.info sort_unit
+      col, dir = sort_unit.values
+      if col == 'name'
+        order << name_order_clause(dir) unless named
+      elsif col =~ /street/
+        order << street_address_order_clause(dir) unless streeted
+        streeted = true
+      elsif %w{ward enum_dist page_number page_size line_number}.include?(col)
+        order << census_page_order_clause(dir) unless censused
+        censused = true
+      elsif entity_class.columns.map(&:name).include?(col)
+        order << "#{col} #{dir}"
+      end
+    end
+    order << name_order_clause('asc') if sort.blank?
+    @scoped = @scoped.order entity_class.send(:sanitize_sql, order.join(', '))
   end
 
-  def add_census_page_order_clause
-    @scoped = @scoped.order entity_class.send(:sanitize_sql, "ward #{@d}, enum_dist #{@d}, page_number #{@d}, page_side #{@d}, line_number #{@d}")
+  def street_address_order_clause(dir)
+    "street_name #{dir}, street_prefix #{dir}, street_house_number #{dir}, street_suffix #{dir}"
   end
 
-  def add_name_order_clause
-    @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
+  def census_page_order_clause(dir)
+    "ward #{dir}, enum_dist #{dir}, page_number #{dir}, page_side #{dir}, line_number #{dir}"
   end
 
-  def add_regular_order_clause
-    @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}, #{name_order_clause}")
+  # def add_name_order_clause
+  #   @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
+  # end
+
+  def name_order_clause(dir)
+    "last_name #{dir}, first_name #{dir}, middle_name #{dir}"
   end
 
-  def self.generate(params:{}, user:nil, entity_class:nil, paged:true, per: 25)
-    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:c], params[:d], paged, per
+  def add_regular_order_clause(order)
+    @scoped = @scoped.order entity_class.send(:sanitize_sql, order)
   end
 
-  def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort_col, sort_dir, paged, per)
+  def self.generate(params: {}, user:nil, entity_class:nil, paged:true, per: 25)
+    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:sort], paged, per, params[:from], params[:to]
+  end
+
+  def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort, paged, per, from, to)
     @user = user
     @entity_class = entity_class
     @page = page || 1
@@ -76,10 +105,11 @@ class CensusRecordSearch
     @f = fields || default_fields
     @fs = fieldsets || []
     @g = groupings || {}
-    @c = sort_col || 'name'
-    @d = sort_dir || 'asc'
+    @sort = sort
     @paged = paged
     @per = per
+    @from = from
+    @to = to
   end
 
   def to_csv
@@ -104,10 +134,6 @@ class CensusRecordSearch
       end
     end
 
-  end
-
-  def name_order_clause
-    "last_name #{@d}, first_name #{@d}, middle_name #{@d}"
   end
 
   def paged?
@@ -163,8 +189,9 @@ class CensusRecordSearch
     options[:pinned] = 'left' if %w{id name}.include?(column)
     options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
     options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
-    options[:width] = 50 if census_scope_fields.include?(column)
+    options[:width] = 50 if census_scope_fields.include?(column) || %w{race age marital_status}.include?(column)
     options[:width] = 200 if %w{name street_address notes profession}.include?(column)
+    options[:sortable] = true unless column == 'id'
     options
   end
 

@@ -16,7 +16,7 @@ class BuildingsController < ApplicationController
     # MemoryProfiler.start
     @page_title = 'Buildings'
     load_buildings
-    respond_with @buildings, each_serializer: BuildingListingSerializer
+    render_buildings
     # report = MemoryProfiler.stop
     # report.pretty_print to_file: Rails.root.join('log', 'memory.log')
   end
@@ -25,7 +25,7 @@ class BuildingsController < ApplicationController
     @page_title = "Buildings - Unpeopled"
     params[:unpeopled] = 1
     load_buildings
-    render action: :index
+    render_buildings
   end
 
   def unreviewed
@@ -33,7 +33,7 @@ class BuildingsController < ApplicationController
     authorize! :review, Building
     params[:unreviewed] = 1
     load_buildings
-    render action: :index
+    render_buildings
   end
 
   def uninvestigated
@@ -41,7 +41,7 @@ class BuildingsController < ApplicationController
     authorize! :review, Building
     params[:uninvestigated] = 1
     load_buildings
-    render action: :index
+    render_buildings
   end
 
   def new
@@ -192,15 +192,24 @@ class BuildingsController < ApplicationController
                                       user: current_user,
                                       paged: request.format.html?,
                                       per: 50
-    if request.format.json?
-      @search.expanded = true
-      # @search.paged = true #params[:s].blank?
-      # @search.per = params[:s] ? 500 : 50
-      @buildings = @search.as_json
-    else
-      @buildings = @search.to_a.map {|building| BuildingPresenter.new(building, current_user) }
-    end
+  end
 
+  def render_buildings
+    if request.format.html?
+      render action: :index
+    else
+      if request.format.json? && !params[:from]
+        # @search.expanded = true
+        @buildings = @search.as_json
+      end
+
+      if params[:from]
+        @buildings = @search.to_a.map {|building| BuildingPresenter.new(building, current_user) }
+        render json: @search.row_data(@buildings)
+      else
+        respond_with @buildings, each_serializer: BuildingListingSerializer
+      end
+    end
   end
 
   def massage_params
@@ -214,6 +223,4 @@ class BuildingsController < ApplicationController
       params[:q][:s] = 'name asc'
     end
   end
-
-
 end

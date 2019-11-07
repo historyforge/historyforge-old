@@ -8,23 +8,25 @@ class People::CensusRecordsController < ApplicationController
   def index
     @page_title = page_title
     load_census_records
-    respond_with @records, each_serializer: CensusRecordSerializer
+    render_census_records
   end
 
   def unreviewed
     @page_title = "#{page_title} - Unreviewed"
     params[:s] ||= {}
     params[:s][:reviewed_at_null] = 1
+    params[:s] = params[:s].permit!
     load_census_records
-    render action: :index
+    render_census_records
   end
 
   def unhoused
     @page_title = "#{page_title} - Unhoused"
     params[:s] ||= {}
     params[:s][:building_id_null] = 1
+    params[:s] = params[:s].permit!
     load_census_records
-    render action: :index
+    render_census_records
   end
 
   def new
@@ -158,7 +160,19 @@ class People::CensusRecordsController < ApplicationController
   def load_census_records
     authorize! :read, resource_class
     @search = census_record_search_class.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?, per: 100
-    @records = @search.to_a
+  end
+
+  def render_census_records
+    if request.format.html?
+      render action: :index
+    else
+      @records = @search.to_a
+      if params[:from]
+        render json: @search.row_data(@records)
+      else
+        respond_with @records, each_serializer: CensusRecordSerializer
+      end
+    end
   end
 
   def census_record_search_class; end

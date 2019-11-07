@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     cache: true,
     timestamp: <%== AdvancedSearchFilterTimestamp.call(resource_class) -%>,
     fields: <%== @search.f.to_json.html_safe -%>,
-    filters: <%== @search.s.to_json.html_safe -%>,
-    sorts: <%== @search.sorts.to_json.html_safe -%>
+    filters: <%== @search.s.to_json.html_safe -%>
   });
 
   new agGrid.Grid(document.querySelector('#census-records'), {
@@ -16,8 +15,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     },
     columnDefs: <%= @search.column_def.to_json.html_safe -%>,
     defaultColDef: { width: 100 },
-    rowData: <%== @search.row_data(@records).to_json.html_safe -%>,
-    rowSelection: 'single'
+    rowSelection: 'single',
+    rowModelType: 'infinite',
+    datasource: GridDataSource
   });
 });
 
