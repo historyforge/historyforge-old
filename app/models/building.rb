@@ -95,6 +95,21 @@ class Building < ApplicationRecord
 
   attr_accessor :residents
 
+  def with_filtered_residents(year, params)
+    if year.present?
+      people_class = "Census#{year}Record".constantize
+      people = people_class.where.not(reviewed_at: nil)
+      if params.present?
+        params = JSON.parse(params) if params.is_a?(String)
+        q = params.inject({}) {|hash, item|
+          hash[item[0].to_sym] = item[1] if item[1].present?
+          hash
+        }
+        @residents = people.where(building_id: id).ransack(q).result
+      end
+    end
+  end
+
   def with_residents
     @residents = [1900, 1910, 1920, 1930].map { |year| send("census_#{year}_records").to_a }.flatten
     self

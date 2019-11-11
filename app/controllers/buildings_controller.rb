@@ -65,6 +65,7 @@ class BuildingsController < ApplicationController
   def show
     @building = Building.includes(:architects, :building_type).find params[:id]
     authorize! :read, @building
+    @building.with_filtered_residents params[:people], params[:peopleParams]
     if request.format.html?
       @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
       @layer = MapOverlay.where(year_depicted: 1910).first
@@ -199,7 +200,7 @@ class BuildingsController < ApplicationController
       render action: :index
     else
       if request.format.json? && !params[:from]
-        # @search.expanded = true
+        @search.expanded = true
         @buildings = @search.as_json
       end
 

@@ -49,8 +49,12 @@ forgeApp.BuildingService = ($http, $rootScope) ->
     loadOne: (building) ->
       condensed = building.residents isnt null
       url = "/buildings/#{building.id}.json"
-      url += "?condensed=true" if condensed
-      $http.get(url).then (response) =>
+      params = {}
+      params.condensed = true if condensed
+      if window.forgeSearchParams?.people?
+        params.people = window.forgeSearchParams.people
+        params.peopleParams = window.forgeSearchParams.s
+      $http.get(url, params: params).then (response) =>
         base = response.data.data.attributes
 #        base.census_records = building.residents if condensed
         $rootScope.$broadcast 'building:infoWindow', base
