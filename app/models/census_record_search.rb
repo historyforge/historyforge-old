@@ -58,7 +58,7 @@ class CensusRecordSearch
       Rails.logger.info sort_unit
       col, dir = sort_unit.values
       if col == 'name'
-        order << name_order_clause(dir) unless named
+        order << name_order_clause(dir)
       elsif col =~ /street/
         order << street_address_order_clause(dir) unless streeted
         streeted = true
