@@ -20,7 +20,7 @@
         = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary mr-auto'
         button.btn.btn-light.ml-auto.checkall data-scope="#fields" type="button" Check all
   .dropdown
-    button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.s.size, 'Filter'
+    button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.s.keys.size, 'Filter'
     .dropdown-menu
       #attribute-filters
         em.dropdown-item No filters have been applied.
