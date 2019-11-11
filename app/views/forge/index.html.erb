@@ -2,14 +2,7 @@
 
   <div ng-controller="LayersCtrl">
     <%= render 'map' %>
-
-    <div id="forge-right-col">
-      <%= render 'form' %>
-    </div>
   </div>
-
-  <%#= render 'list' %>
-
 </div>
 
 <%= javascript_tag "window.layers = #{ MapOverlay.order(:position).where(active: true).to_json };" %>

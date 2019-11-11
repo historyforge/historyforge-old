@@ -12,25 +12,19 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.form = {}
   $scope.form.buildingType = null
   $scope.form.buildingYear = null
-  $scope.selectedLayers = top: null, bottom: null
+  $scope.selectedLayers = {}
   $scope.buildingTypes = window.buildingTypes
   $scope.buildingYears = [null, 1900, 1910, 1920, 1930]
   $scope.buildingTypes.unshift name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form
-  $scope.selectLayer  = (id) -> LayerService.selectTop id
-  $scope.selectLayer2  = (id) -> LayerService.selectBottom id
+  $scope.toggleLayer = (id) -> LayerService.toggle id
 
   $scope.$on 'layers:updated', (event, layers) ->
-    if layers[0].id isnt null
-      layers.unshift id: null, name: 'None'
     $scope.layers = layers
 
-  $scope.$on 'layers:selected:top', (event, layer) ->
-    $scope.selectedLayers.top = layer
-
-  $scope.$on 'layers:selected:bottom', (event, layer2) ->
-    $scope.selectedLayers.bottom = layer2
+#  $scope.$on 'layers:selected', (event, layer) ->
+#    $scope.selectedLayers[layer.id] = layer
 
   $scope.$on 'buildings:updated', (event) ->
     $scope.meta = BuildingService.meta
@@ -49,44 +43,54 @@ forgeApp.LayersController.$inject = ['$rootScope', '$scope', 'BuildingService', 
 forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, BuildingService, LayerService) ->
 
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
-  wmsLayerTop = null
-  wmsLayerBottom = null
 
-  $scope.selectedLayers = top: null, bottom: null
+  $scope.selectedLayers = []
 
-  $scope.$on 'layers:selected:top', (event, id) ->
-    $scope.selectedLayers.top = id
+  $scope.$on 'layers:toggled', (event, selectedLayers) ->
+    $scope.selectedLayers = selectedLayers
     NgMap.getMap().then (map) ->
-      if wmsLayerTop #and map.overlayMapTypes.getLength() > 0
-        map.overlayMapTypes.forEach (layer, index) ->
-          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerTop.name
-      if id
-        wmsLayerTop = loadWMS map, LayerService.topLayer, 'top'
-        # debugger
-        # map.overlayMapTypes.push wmsLayerTop
-        jQuery(".layer-slider-top").slider
-            value: 100,
-            range: "min",
-            slide: (e, ui) ->
-              wmsLayerTop.setOpacity(ui.value / 100)
-      else
-        wmsLayerTop = null
-  $scope.$on 'layers:selected:bottom', (event, id) ->
-    $scope.selectedLayers.bottom = id
-    NgMap.getMap().then (map) ->
-      if wmsLayerBottom and map.overlayMapTypes.getLength() > 0
-        map.overlayMapTypes.forEach (layer, index) ->
-          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerBottom.name
-      if id
-        wmsLayerBottom = loadWMS map, LayerService.bottomLayer, 'bottom'
-        # map.overlayMapTypes.insertAt(0, wmsLayerBottom)
-        jQuery(".layer-slider-bottom").slider
-            value: 100,
-            range: "min",
-            slide: (e, ui) ->
-              wmsLayerBottom.setOpacity(ui.value / 100)
-      else
-        wmsLayerBottom = null
+      map.overlayMapTypes.forEach (layer, index) ->
+        if layer and $scope.selectedLayers.indexOf(layer.name) is -1
+          map.overlayMapTypes.removeAt(index)
+      $scope.selectedLayers.forEach (selectedLayer) ->
+        visible = []
+        map.overlayMapTypes.forEach (layer) ->
+          visible.push layer.name
+        unless visible.indexOf(selectedLayer) > -1
+          loadWMS map, LayerService.getLayerById(selectedLayer), selectedLayer
+#  $scope.$on 'layers:selected:top', (event, id) ->
+#    $scope.selectedLayers.top = id
+#    NgMap.getMap().then (map) ->
+#      if wmsLayerTop #and map.overlayMapTypes.getLength() > 0
+#        map.overlayMapTypes.forEach (layer, index) ->
+#          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerTop.name
+#      if id
+#        wmsLayerTop = loadWMS map, LayerService.topLayer, 'top'
+#        # debugger
+#        # map.overlayMapTypes.push wmsLayerTop
+#        jQuery(".layer-slider-top").slider
+#            value: 100,
+#            range: "min",
+#            slide: (e, ui) ->
+#              wmsLayerTop.setOpacity(ui.value / 100)
+#      else
+#        wmsLayerTop = null
+#  $scope.$on 'layers:selected:bottom', (event, id) ->
+#    $scope.selectedLayers.bottom = id
+#    NgMap.getMap().then (map) ->
+#      if wmsLayerBottom and map.overlayMapTypes.getLength() > 0
+#        map.overlayMapTypes.forEach (layer, index) ->
+#          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerBottom.name
+#      if id
+#        wmsLayerBottom = loadWMS map, LayerService.bottomLayer, 'bottom'
+#        # map.overlayMapTypes.insertAt(0, wmsLayerBottom)
+#        jQuery(".layer-slider-bottom").slider
+#            value: 100,
+#            range: "min",
+#            slide: (e, ui) ->
+#              wmsLayerBottom.setOpacity(ui.value / 100)
+#      else
+#        wmsLayerBottom = null
 
   mcOptions =
     imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'

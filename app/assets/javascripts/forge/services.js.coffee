@@ -66,19 +66,22 @@ forgeApp.LayerService = ($http, $rootScope) ->
   return {
     layers: null
     layerDictionary: {}
-    topLayer: null
-    bottomLayer: null
+    visible: []
+
     load: ->
       @layers = window.layers or []
       @layerDictionary[layer.id] = layer for layer in @layers
       $rootScope.$broadcast 'layers:updated', @layers
 
-    selectTop: (id) ->
-      @topLayer = @getLayerById(id)
-      $rootScope.$broadcast 'layers:selected:top', id
-    selectBottom: (id) ->
-      @bottomLayer = @getLayerById(id)
-      $rootScope.$broadcast 'layers:selected:bottom', id
+    toggle: (id) ->
+      idx = @visible.indexOf(id)
+      if idx is -1
+        @visible.push id
+      else
+        @visible.splice(idx, 1)
+
+      $rootScope.$broadcast 'layers:toggled', @visible
+
     getLayerById: (id) ->
       @layerDictionary[id]
   }
