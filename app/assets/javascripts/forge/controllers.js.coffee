@@ -57,7 +57,13 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         map.overlayMapTypes.forEach (layer) ->
           visible.push layer.name
         unless visible.indexOf(selectedLayer) > -1
-          loadWMS map, LayerService.getLayerById(selectedLayer), selectedLayer
+          thisLayer = loadWMS map, LayerService.getLayerById(selectedLayer), selectedLayer
+          jQuery("#layer#{selectedLayer} .layer-slider").slider
+              value: 100,
+              range: "min",
+              slide: (e, ui) ->
+                thisLayer.setOpacity(ui.value / 100)
+
 #  $scope.$on 'layers:selected:top', (event, id) ->
 #    $scope.selectedLayers.top = id
 #    NgMap.getMap().then (map) ->

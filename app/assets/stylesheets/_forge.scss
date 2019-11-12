@@ -29,6 +29,12 @@ ng-map {
   .btn-group {
     margin-bottom:12px;
   }
+  .layer {
+    margin-bottom: 12px;
+  }
+  .layer-slider {
+    width: 400px;
+  }
 }
 
 #building-iw {
@@ -47,23 +53,6 @@ ng-map {
     right: 15px;
     top: 5px;
   }
-}
-
-#layer-pickers {
-  position:absolute;
-  bottom:0;
-  left:10%;
-  right:10%;
-  width:80%;
-  height:100px;
-  z-index:120;
-  padding:15px;
-  background-color:rgba(255, 255, 255, 0.7);
-  border-radius: 6px 6px 0 0;
-  box-shadow: 4px 4px 4px #888;
-}
-
-#layer-slider {
 }
 
 #miniforge {
