@@ -4,6 +4,7 @@ class CensusRecord < ApplicationRecord
 
   include DefineEnumeration
   include Moderation
+  include PersonNames
 
   belongs_to :building
   belongs_to :person
@@ -74,10 +75,6 @@ class CensusRecord < ApplicationRecord
     ).result.count > 0
   end
 
-  def name
-    [name_prefix, first_name, middle_name, last_name, name_suffix].select(&:present?).join(' ')
-  end
-
   def street_address
     [street_house_number, street_prefix, street_name, street_suffix].join(' ')
   end
@@ -144,6 +141,8 @@ class CensusRecord < ApplicationRecord
 
   def generate_person_record!
     build_person
+    person.name_prefix = name_prefix
+    person.name_suffix = name_suffix
     person.first_name = first_name
     person.middle_name = middle_name
     person.last_name = last_name

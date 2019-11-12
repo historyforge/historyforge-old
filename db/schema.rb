@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_164038) do
+ActiveRecord::Schema.define(version: 2019_11_12_141252) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "postgis"
 
@@ -137,9 +138,11 @@ ActiveRecord::Schema.define(version: 2019_10_15_164038) do
     t.integer "farm_schedule"
     t.string "name_prefix"
     t.string "name_suffix"
+    t.text "searchable_name"
     t.index ["building_id"], name: "index_census_1900_records_on_building_id"
     t.index ["data"], name: "index_census_1900_records_on_data", using: :gin
     t.index ["person_id"], name: "index_census_1900_records_on_person_id"
+    t.index ["searchable_name"], name: "census_1900_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
   create_table "census_1910_records", id: :serial, force: :cascade do |t|
@@ -205,10 +208,12 @@ ActiveRecord::Schema.define(version: 2019_10_15_164038) do
     t.boolean "taker_error", default: false
     t.string "name_prefix"
     t.string "name_suffix"
+    t.text "searchable_name"
     t.index ["building_id"], name: "index_census_1910_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1910_records_on_created_by_id"
     t.index ["data"], name: "index_census_1910_records_on_data", using: :gin
     t.index ["reviewed_by_id"], name: "index_census_1910_records_on_reviewed_by_id"
+    t.index ["searchable_name"], name: "census_1910_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
   create_table "census_1920_records", id: :serial, force: :cascade do |t|
@@ -267,8 +272,10 @@ ActiveRecord::Schema.define(version: 2019_10_15_164038) do
     t.string "name_suffix"
     t.integer "year_naturalized"
     t.integer "farm_schedule"
+    t.text "searchable_name"
     t.index ["building_id"], name: "index_census_1920_records_on_building_id"
     t.index ["person_id"], name: "index_census_1920_records_on_person_id"
+    t.index ["searchable_name"], name: "census_1920_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
   create_table "census_1930_records", id: :serial, force: :cascade do |t|
@@ -333,10 +340,12 @@ ActiveRecord::Schema.define(version: 2019_10_15_164038) do
     t.datetime "updated_at"
     t.string "name_prefix"
     t.string "name_suffix"
+    t.text "searchable_name"
     t.index ["building_id"], name: "index_census_1930_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1930_records_on_created_by_id"
     t.index ["person_id"], name: "index_census_1930_records_on_person_id"
     t.index ["reviewed_by_id"], name: "index_census_1930_records_on_reviewed_by_id"
+    t.index ["searchable_name"], name: "census_1930_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
   create_table "client_applications", id: :serial, force: :cascade do |t|
@@ -418,6 +427,10 @@ ActiveRecord::Schema.define(version: 2019_10_15_164038) do
     t.string "middle_name"
     t.string "sex", limit: 1
     t.string "race", limit: 1
+    t.string "name_prefix"
+    t.string "name_suffix"
+    t.text "searchable_name"
+    t.index ["searchable_name"], name: "people_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
   create_table "people_photos", id: false, force: :cascade do |t|
