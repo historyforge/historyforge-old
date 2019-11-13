@@ -1,6 +1,6 @@
 class AddTrigramSupport < ActiveRecord::Migration[5.2]
   def up
-    enable_extension :pg_trgm
+    # enable_extension :pg_trgm
     create_trigram_index :census_1900_records
     create_trigram_index :census_1910_records
     create_trigram_index :census_1920_records
@@ -12,7 +12,7 @@ class AddTrigramSupport < ActiveRecord::Migration[5.2]
   end
 
   def down
-    disable_extension :pg_trgm
+    # disable_extension :pg_trgm
     drop_trigram_index :census_1900_records
     drop_trigram_index :census_1910_records
     drop_trigram_index :census_1920_records
