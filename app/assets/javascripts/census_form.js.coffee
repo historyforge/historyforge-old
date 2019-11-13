@@ -1,4 +1,8 @@
 $(document).ready ->
+  $('.census-slider').mousewheel (evt, chg) ->
+    this.scrollLeft -= (chg * 50)
+    evt.preventDefault()
+
   jQuery(document).on 'change', '#census_record_page_side', ->
     value = jQuery(this).val()
     $line = jQuery('#census_record_line_number')

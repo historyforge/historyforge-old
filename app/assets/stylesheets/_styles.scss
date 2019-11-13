@@ -253,3 +253,30 @@ form table {
     vertical-align: top;
   }
 }
+
+.census-slider-wrapper {
+  width: 100%;
+  overflow-x: scroll;
+}
+.census-slider {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  //align-items: flex-start;
+  //justify-content: space-between;
+  -webkit-overflow-scrolling: touch;
+  fieldset {
+    min-width: auto;
+  }
+  .form-group {
+    //min-width: 200px;
+    border-right: 1px solid $border-color;
+    margin-right: 12px;
+    padding-right: 12px;
+    & > label, & > legend {
+      white-space: nowrap;
+      display: block;
+    }
+  }
+}
+

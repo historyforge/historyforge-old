@@ -36,6 +36,8 @@
       | Personal Details
     .card-body
       = render 'fields', form: form
+  .card.mb-1
+    .card-body
       = form.input :notes, as: :text
       - if can?(:provisional, form.object)
         = form.input :provisional, as: :boolean, inline_label: 'This record is provisional. We made it up from other sources because census record is missing or illegible.'

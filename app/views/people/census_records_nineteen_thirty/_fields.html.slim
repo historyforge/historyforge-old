@@ -1,60 +1,39 @@
-.row
-  .col-sm-2= form.input :last_name
-  .col-sm-2= form.input :first_name
-  .col-sm-2= form.input :middle_name
-  .col-sm-2= form.input :name_prefix
-  .col-sm-2= form.input :name_suffix
-  .col-sm-2= form.input :relation_to_head
-
-.row
-  .col-sm-3= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented'
-  .col-sm-3= form.input :home_value, label: 'Value of home or monthly payment'
-  .col-sm-3= form.input :has_radio, as: :boolean, inline_label: 'Radio Set'
-  .col-sm-3= form.input :lives_on_farm, as: :boolean, inline_label: 'Live on Farm?'
-
-.row
-  .col-sm-3= form.input :sex, as: :select, collection: CensusRecord.sex_choices
-  .col-sm-3= form.input :race, as: :select, collection: CensusRecord.race_choices
-  .col-sm-3= form.input :age
-  .col-sm-3= form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
-
-.row
-  .col-sm-4= form.input :age_married
-  .col-sm-4= form.input :attended_school, inline_label: 'Attended School?'
-  .col-sm-4= form.input :can_read_write, as: :boolean, inline_label: 'Able to read and write?'
-
-.row
-  .col-sm-4= form.input :pob
-  .col-sm-3= form.input :pob_father
-  .col-sm-3= form.input :pob_mother
-
-.row
-  .col-sm-4= form.input :pob_code
-  .col-sm-4= form.input :pob_father_code
-  .col-sm-4= form.input :pob_mother_code
-
-.row
-  .col-sm-12= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
-
-.row
-  .col-sm-4= form.input :mother_tongue
-  .col-sm-4= form.input :year_immigrated, as: :integer
-  .col-sm-4= form.input :naturalized_alien
-
-.row
-  .col-sm-12= form.input :can_speak_english, as: :boolean, inline_label: 'Speaks English?'
-
-.row
-  .col-sm-3= form.input :profession
-  .col-sm-3= form.input :industry
-  .col-sm-3= form.input :profession_code
-  .col-sm-3= form.input :farm_schedule, label: 'Farm Number'
-
-.row
-  .col-sm-4= form.input :worker_class, label: 'Worker Class'
-  .col-sm-4= form.input :worked_yesterday, as: :boolean, inline_label: 'At work yesterday?'
-  .col-sm-4= form.input :unemployment_line, label: 'Unemployment Schedule No.'
-
-.row
-  .col-sm-4= form.input :veteran, as: :boolean, inline_label: 'Veteran?'
-  .col-sm-4= form.input :war_fought, label: 'What War?'
+.census-slider-wrapper
+  .census-slider
+    = form.input :last_name
+    = form.input :first_name
+    = form.input :middle_name
+    = form.input :name_prefix
+    = form.input :name_suffix
+    = form.input :relation_to_head
+    = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented'
+    = form.input :home_value, label: 'Value of home or monthly payment'
+    = form.input :has_radio, as: :radio_buttons, label: 'Radio Set', collection: yes_no_choices
+    = form.input :lives_on_farm, as: :radio_buttons, label: 'Live on Farm?', collection: yes_no_choices
+    = form.input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices
+    = form.input :race, as: :radio_buttons, collection: CensusRecord.race_choices
+    = form.input :age
+    = form.input :marital_status, as: :radio_buttons, collection: CensusRecord.marital_status_choices
+    = form.input :age_married
+    = form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices
+    = form.input :can_read_write, as: :radio_buttons, label: 'Able to read and write?', collection: yes_no_choices
+    = form.input :pob
+    = form.input :pob_father
+    = form.input :pob_mother
+    = form.input :pob_code
+    = form.input :pob_father_code
+    = form.input :pob_mother_code
+    = form.input :foreign_born, as: :radio_buttons, label: 'This person is foreign born.', collection: yes_no_choices
+    = form.input :mother_tongue
+    = form.input :year_immigrated, as: :integer
+    = form.input :naturalized_alien
+    = form.input :can_speak_english, as: :radio_buttons, label: 'Speaks English?', collection: yes_no_choices
+    = form.input :profession
+    = form.input :industry
+    = form.input :profession_code
+    = form.input :farm_schedule, label: 'Farm Number'
+    = form.input :worker_class, label: 'Worker Class'
+    = form.input :worked_yesterday, as: :radio_buttons, label: 'At work yesterday?', collection: yes_no_choices
+    = form.input :unemployment_line, label: 'Unemployment Schedule No.'
+    = form.input :veteran, as: :radio_buttons, label: 'Veteran?', collection: yes_no_choices
+    = form.input :war_fought, label: 'What War?', as: :radio_buttons, collection: Census1930Record.what_war_choices

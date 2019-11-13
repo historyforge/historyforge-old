@@ -4,6 +4,7 @@
 #= require advanced_search
 #= require census_form
 #= require cell_renderers
+#= require jquery.mousewheel.min
 
 pageLoad = ->
   window.alerts or= []
