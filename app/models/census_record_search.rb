@@ -184,8 +184,10 @@ class CensusRecordSearch
     options[:pinned] = 'left' if %w{id name}.include?(column)
     options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
     options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
-    options[:width] = 50 if census_scope_fields.include?(column) || %w{race age marital_status}.include?(column)
-    options[:width] = 200 if %w{name street_address notes profession}.include?(column)
+    options[:width] = 50 if census_scope_fields.include?(column) || %w{race age sex marital_status}.include?(column)
+    options[:width] = 60 if %w{id ward enum_dist dwelling_number family_id}.include?(column)
+    options[:width] = 130 if %w{profession industry}.include?(column)
+    options[:width] = 160 if %w{name street_address notes profession}.include?(column)
     options[:sortable] = true unless column == 'id'
     options
   end
