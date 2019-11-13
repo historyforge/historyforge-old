@@ -30,6 +30,7 @@ en:
   simple_form:
     labels:
       building:
+        id: 'ID'
         address: 'Street address'
         architects_list: 'Architects'
         year_earliest: 'Year Built'
@@ -48,6 +49,7 @@ en:
         num_children_alive: 'Number of children alive'
         building_type: 'Building type'
       census_record:
+        id: 'ID'
         page_no: 'Sheet'
         page_number: 'Sheet'
         page_side: 'Side'

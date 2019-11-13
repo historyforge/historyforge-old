@@ -49,7 +49,7 @@ class BuildingSearch
       @f << 'investigate_reason' if uninvestigated
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
-      @scoped = entity_class.ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
+      @scoped = entity_class.includes(:building_type).ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
       add_order_clause
       @scoped = @scoped.without_residents if unpeopled
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed
@@ -141,28 +141,26 @@ class BuildingSearch
     @per = per
   end
 
-  def to_csv
+  def to_csv(csv)
     @paged = false
     require 'csv'
-    CSV.generate do |csv|
 
-      headers = []
+    headers = []
 
-      columns.each do |field|
-        headers << I18n.t("simple_form.labels.building.#{field}", default: field.humanize)
-      end
-
-      csv << headers
-
-      self.to_a.each do |row|
-        row_results = []
-        columns.each do |field|
-          row_results << row.field_for(field)
-        end
-        csv << row_results
-      end
+    columns.each do |field|
+      headers << I18n.t("simple_form.labels.building.#{field}", default: field.humanize)
     end
 
+    csv << CSV.generate_line(headers)
+
+    to_a.each do |row|
+      row = BuildingPresenter.new(row, user)
+      row_results = []
+      columns.each do |field|
+        row_results << row.field_for(field)
+      end
+      csv << CSV.generate_line(row_results)
+    end
   end
 
   def paged?

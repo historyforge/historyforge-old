@@ -1,7 +1,7 @@
 = simple_form_for @search, url: url_for(), method: :get, as: :s do |form|
   .float-right
     = form.submit 'Submit', style: 'display: none'
-    => link_to 'CSV', url_for(format: :csv), class: 'btn btn-sm btn-primary'
+    => link_to 'CSV', params.permit!.merge(format: :csv), class: 'btn btn-sm btn-primary'
     => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
     = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
   .dropdown

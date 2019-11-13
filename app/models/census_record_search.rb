@@ -112,28 +112,23 @@ class CensusRecordSearch
     @to = to
   end
 
-  def to_csv
+  def to_csv(csv)
     @paged = false
     require 'csv'
-    CSV.generate do |csv|
 
-      headers = ['ID']
-
-      columns.each do |field|
-        headers << I18n.t("simple_form.labels.census_record.#{field}", default: field.humanize)
-      end
-
-      csv << headers
-
-      self.to_a.each do |row|
-        row_results = [row.id]
-        columns.each do |field|
-          row_results << row.field_for(field)
-        end
-        csv << row_results
-      end
+    headers = ['ID']
+    columns.each do |field|
+      headers << I18n.t("simple_form.labels.census_record.#{field}", default: field.humanize)
     end
+    csv << CSV.generate_line(headers)
 
+    to_a.each do |row|
+      row_results = [row.id]
+      columns.each do |field|
+        row_results << row.field_for(field)
+      end
+      csv << CSV.generate_line(row_results)
+    end
   end
 
   def paged?

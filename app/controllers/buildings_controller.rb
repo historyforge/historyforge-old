@@ -198,6 +198,17 @@ class BuildingsController < ApplicationController
   def render_buildings
     if request.format.html?
       render action: :index
+    elsif request.format.csv?
+      filename = "historyforge-buildings.csv"
+      headers["X-Accel-Buffering"] = "no"
+      headers["Cache-Control"] = "no-cache"
+      headers["Content-Type"] = "text/csv; charset=utf-8"
+      headers["Content-Disposition"] =
+          %(attachment; filename="#{filename}")
+      headers["Last-Modified"] = Time.zone.now.ctime.to_s
+      self.response_body = Enumerator.new do |output|
+        @search.to_csv(output)
+      end
     else
       if request.format.json? && !params[:from]
         @search.expanded = true

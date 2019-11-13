@@ -169,6 +169,17 @@ class People::CensusRecordsController < ApplicationController
       @records = @search.to_a
       if params[:from]
         render json: @search.row_data(@records)
+      elsif request.format.csv?
+        filename = "historyforge.csv"
+        headers["X-Accel-Buffering"] = "no"
+        headers["Cache-Control"] = "no-cache"
+        headers["Content-Type"] = "text/csv; charset=utf-8"
+        headers["Content-Disposition"] =
+            %(attachment; filename="#{filename}")
+        headers["Last-Modified"] = Time.zone.now.ctime.to_s
+        self.response_body = Enumerator.new do |output|
+          @search.to_csv(output)
+        end
       else
         respond_with @records, each_serializer: CensusRecordSerializer
       end
