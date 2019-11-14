@@ -17,6 +17,7 @@ class CensusRecord < ApplicationRecord
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
+  validates :age, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validate :dont_add_same_person, on: :create
 
   define_enumeration :page_side, %w{A B}, true
@@ -98,8 +99,14 @@ class CensusRecord < ApplicationRecord
 
   def buildings_on_street
     return [] unless (street_name.present? && city.present?)
-    search_streets = [street_name, modern_address.street_name]
-    @buildings_on_street ||= Building.where(address_street_name: search_streets, city: city).order(:address_house_number)
+    return @buildings_on_street if defined?(@buildings_on_street)
+    @buildings_on_street = Building
+                               .where(address_street_prefix: street_prefix,
+                                      address_street_name: street_name,
+                                      city: city)
+                               .where("address_house_number LIKE ?", "#{street_house_number[0]}%")
+                               .order(:address_house_number)
+                               .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
   end
 
   def matching_building(my_street_name = nil)

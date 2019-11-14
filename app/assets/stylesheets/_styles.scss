@@ -256,27 +256,70 @@ form table {
 
 .census-slider-wrapper {
   width: 100%;
-  overflow-x: scroll;
+  height: auto;
 }
 .census-slider {
   display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  //align-items: flex-start;
-  //justify-content: space-between;
-  -webkit-overflow-scrolling: touch;
+  transition: 1s ease flex-wrap;
+  &.vertical {
+    flex-wrap: wrap;
+    align-content: space-evenly;
+    justify-content: space-evenly;
+    .form-group {
+      border-bottom: 1px solid $border-color;
+    }
+  }
+  &.horizontal {
+    flex-wrap: nowrap;
+  }
+  &.hidden {
+    display: none;
+  }
+  overflow-x: scroll;
+  margin: -1.125rem;
   fieldset {
     min-width: auto;
   }
   .form-group {
     //min-width: 200px;
+    margin-bottom: 0;
+    padding: 1.125rem;
+    flex-basis: auto; /* default value */
+    flex-grow: 1;
     border-right: 1px solid $border-color;
-    margin-right: 12px;
-    padding-right: 12px;
     & > label, & > legend {
       white-space: nowrap;
       display: block;
     }
+    &.focused {
+      &, legend {
+        background-color: #f7f7f7;
+      }
+    }
+    &.disabled {
+      opacity: 0.6;
+    }
+    .form-check, .form-check-label {
+      white-space: nowrap;
+    }
+    input[type=number],
+    input[type=text] {
+      min-width: 140px;
+    }
   }
 }
+.census-hint-wrapper {
+  position: fixed;
+  left: 50%;
+  z-index: 40;
+  bottom: 10px;
+}
 
+.census-hint {
+  position: relative;
+  left: -50%;
+  background-color: #f7f7f7;
+  padding: 1.125rem;
+  border: 2px solid $border-color;
+  border-radius: 6px;
+}

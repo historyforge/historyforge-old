@@ -41,6 +41,7 @@ class People::CensusRecordsController < ApplicationController
 
   def building_autocomplete
     record = resource_class.new
+    record.street_house_number = params[:house]
     record.street_name = params[:street]
     record.city = params[:city]
     buildings = record.buildings_on_street
@@ -143,9 +144,9 @@ class People::CensusRecordsController < ApplicationController
                 when 'page'
                   %w{page_number page_side county city ward enum_dist}
                 when 'dwelling'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name}
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name building_id}
                 when 'family'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id}
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id}
                 end
       attributes = attrs.inject({}) {|hash, item|
         hash[item] = @record.public_send(item)

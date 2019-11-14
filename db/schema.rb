@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_12_141252) do
+ActiveRecord::Schema.define(version: 2019_11_14_210951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -139,6 +139,8 @@ ActiveRecord::Schema.define(version: 2019_11_12_141252) do
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
+    t.string "apartment_number"
+    t.integer "age_months"
     t.index ["building_id"], name: "index_census_1900_records_on_building_id"
     t.index ["data"], name: "index_census_1900_records_on_data", using: :gin
     t.index ["person_id"], name: "index_census_1900_records_on_person_id"
@@ -209,6 +211,8 @@ ActiveRecord::Schema.define(version: 2019_11_12_141252) do
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
+    t.string "apartment_number"
+    t.integer "age_months"
     t.index ["building_id"], name: "index_census_1910_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1910_records_on_created_by_id"
     t.index ["data"], name: "index_census_1910_records_on_data", using: :gin
@@ -273,6 +277,8 @@ ActiveRecord::Schema.define(version: 2019_11_12_141252) do
     t.integer "year_naturalized"
     t.integer "farm_schedule"
     t.text "searchable_name"
+    t.string "apartment_number"
+    t.integer "age_months"
     t.index ["building_id"], name: "index_census_1920_records_on_building_id"
     t.index ["person_id"], name: "index_census_1920_records_on_person_id"
     t.index ["searchable_name"], name: "census_1920_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
@@ -304,15 +310,15 @@ ActiveRecord::Schema.define(version: 2019_11_12_141252) do
     t.string "relation_to_head"
     t.string "owned_or_rented", limit: 10
     t.integer "home_value"
-    t.boolean "has_radio"
-    t.boolean "lives_on_farm"
+    t.integer "has_radio"
+    t.integer "lives_on_farm"
     t.string "sex", limit: 1
     t.string "race", limit: 1
     t.integer "age"
     t.string "marital_status", limit: 2
     t.integer "age_married"
-    t.boolean "attended_school"
-    t.boolean "can_read_write"
+    t.integer "attended_school"
+    t.integer "can_read_write"
     t.string "pob", default: "New York"
     t.string "pob_father", default: "New York"
     t.string "pob_mother", default: "New York"
@@ -322,25 +328,28 @@ ActiveRecord::Schema.define(version: 2019_11_12_141252) do
     t.string "mother_tongue"
     t.integer "year_immigrated"
     t.string "naturalized_alien"
-    t.boolean "can_speak_english"
+    t.integer "can_speak_english"
     t.string "profession"
     t.string "industry"
     t.string "profession_code"
     t.string "worker_class"
-    t.boolean "worked_yesterday"
+    t.integer "worked_yesterday"
     t.string "unemployment_line"
-    t.boolean "veteran"
+    t.integer "veteran"
     t.string "war_fought"
     t.string "farm_schedule"
     t.text "notes"
     t.boolean "provisional", default: false
-    t.boolean "foreign_born", default: false
+    t.integer "foreign_born", default: 0
     t.boolean "taker_error", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
+    t.integer "homemaker"
+    t.integer "age_months"
+    t.string "apartment_number"
     t.index ["building_id"], name: "index_census_1930_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1930_records_on_created_by_id"
     t.index ["person_id"], name: "index_census_1930_records_on_person_id"

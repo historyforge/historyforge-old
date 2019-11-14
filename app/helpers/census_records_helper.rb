@@ -8,6 +8,10 @@ module CensusRecordsHelper
     [["blank", nil], ["yes", true], ["no", false]]
   end
 
+  def yes_no_choices_int
+    [["Yes", 1], ["No", 0], ["Left blank", nil], ["Unknown", -1]]
+  end
+
   def prepare_blanks_for_1910_census(record)
     record.civil_war_vet     ||= 'nil' #if record.civil_war_vet.nil?
     # record.unemployed        = 'nil' if record.unemployed.nil?

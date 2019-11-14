@@ -1,55 +1,51 @@
 - prepare_blanks_for_1910_census(form.object)
-.row
-  .col-sm-3= form.input :last_name
-  .col-sm-3= form.input :first_name
-  .col-sm-2= form.input :middle_name
-  .col-sm-2= form.input :name_prefix
-  .col-sm-2= form.input :name_suffix
 
-.row
-  .col-sm-3= form.input :relation_to_head
-  .col-sm-3= form.input :sex, as: :select, collection: Census1910Record.sex_choices
-  .col-sm-3= form.input :race, as: :select, collection: Census1910Record.race_choices
-  .col-sm-3= form.input :age
+.census-hint-wrapper style="display: none"
+  .census-hint
 
-.row
-  .col-sm-3= form.input :marital_status, as: :select, collection: Census1910Record.marital_status_choices
-  .col-sm-3= form.input :years_married, as: :integer, input_html: { min: 0 }
-  .col-sm-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
-  .col-sm-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
+.card.mb-1
+  .card-header
+    | Census Record
+    .btn-group.float-right#toggle-census-slider
+      button.btn type="button" data-orientation="horizontal"
+        i.fa.fa-arrows-h
+      button.btn type="button" data-orientation="vertical"
+        i.fa.fa-arrows-v
 
-.row
-  .col-sm-3= form.input :pob
-  .col-sm-3= form.input :pob_father
-  .col-sm-3= form.input :pob_mother
-  .col-sm-3= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
-
-.row
-  .col-sm-4= form.input :year_immigrated, as: :integer
-  .col-sm-4= form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
-  .col-sm-4= form.input :language_spoken
-
-.row
-  .col-sm-4= form.input :profession
-  .col-sm-4= form.input :industry
-  .col-sm-4= form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
-
-.row
-  .col-sm-6= form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices
-  .col-sm-6= form.input :unemployed_weeks_1909
-
-table style="width:100%"
-  tr
-    td= form.input :can_read, as: :radio_buttons, label: 'Read', collection: yes_no_choices
-    td= form.input :can_write, as: :radio_buttons, label: 'Write', collection: yes_no_choices
-    td= form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices
-    td= form.input :owned_or_rented, as: :radio_buttons, collection: select_options_for(Census1910Record.owned_or_rented_choices)
-    td= form.input :mortgage, as: :radio_buttons, collection: select_options_for(Census1910Record.mortgage_choices)
-    td= form.input :farm_or_house, as: :radio_buttons, collection: select_options_for(Census1910Record.farm_or_house_choices)
-
-    td
-      = form.input :civil_war_vet, as: :radio_buttons, label: 'Civil War', collection: select_options_for(Census1910Record.civil_war_vet_choices)
-    td
-      = form.input :blind, as: :radio_buttons, label: 'Blind', collection: [["blank", false], ["Bl", true]]
-    td
-      = form.input :deaf_dumb, as: :radio_buttons, label: 'Deaf and Dumb', collection: [["blank", false], ["DD", true]]
+  .card-body
+    .census-slider-wrapper
+      .census-slider.hidden
+        = form.input :last_name
+        = form.input :first_name
+        = form.input :middle_name
+        = form.input :name_prefix
+        = form.input :name_suffix
+        = form.input :relation_to_head
+        = form.input :sex, as: :select, collection: Census1910Record.sex_choices
+        = form.input :race, as: :select, collection: Census1910Record.race_choices
+        = form.input :age
+        = form.input :marital_status, as: :select, collection: Census1910Record.marital_status_choices
+        = form.input :years_married, as: :integer, input_html: { min: 0 }
+        = form.input :num_children_born, as: :integer, input_html: { min: 0 }
+        = form.input :num_children_alive, as: :integer, input_html: { min: 0 }
+        = form.input :pob
+        = form.input :pob_father
+        = form.input :pob_mother
+        = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+        = form.input :year_immigrated, as: :integer
+        = form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
+        = form.input :language_spoken
+        = form.input :profession
+        = form.input :industry
+        = form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
+        = form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices
+        = form.input :unemployed_weeks_1909
+        = form.input :can_read, as: :radio_buttons, label: 'Read', collection: yes_no_choices
+        = form.input :can_write, as: :radio_buttons, label: 'Write', collection: yes_no_choices
+        = form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices
+        = form.input :owned_or_rented, as: :radio_buttons, collection: select_options_for(Census1910Record.owned_or_rented_choices)
+        = form.input :mortgage, as: :radio_buttons, collection: select_options_for(Census1910Record.mortgage_choices)
+        = form.input :farm_or_house, as: :radio_buttons, collection: select_options_for(Census1910Record.farm_or_house_choices)
+        = form.input :civil_war_vet, as: :radio_buttons, label: 'Civil War', collection: select_options_for(Census1910Record.civil_war_vet_choices)
+        = form.input :blind, as: :radio_buttons, label: 'Blind', collection: [["blank", false], ["Bl", true]]
+        = form.input :deaf_dumb, as: :radio_buttons, label: 'Deaf and Dumb', collection: [["blank", false], ["DD", true]]

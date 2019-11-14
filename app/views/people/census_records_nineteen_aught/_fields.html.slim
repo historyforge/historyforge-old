@@ -1,49 +1,48 @@
-.row
-  .col-sm-3= form.input :last_name
-  .col-sm-3= form.input :first_name
-  .col-sm-2= form.input :middle_name
-  .col-sm-2= form.input :name_prefix
-  .col-sm-2= form.input :name_suffix
+.census-hint-wrapper style="display: none"
+  .census-hint
 
-.row
-  .col-sm-2= form.input :relation_to_head
-  .col-sm-2= form.input :race, as: :select, collection: Census1900Record.race_choices
-  .col-sm-2= form.input :sex, as: :select, collection: Census1900Record.sex_choices
-  .col-sm-2= form.input :birth_month, as: :select, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
-  .col-sm-2= form.input :birth_year
-  .col-sm-2= form.input :age
+.card.mb-1
+  .card-header
+    | Census Record
+    .btn-group.float-right#toggle-census-slider
+      button.btn type="button" data-orientation="horizontal"
+        i.fa.fa-arrows-h
+      button.btn type="button" data-orientation="vertical"
+        i.fa.fa-arrows-v
 
-.row
-  .col-sm-3= form.input :marital_status, as: :select, collection: Census1900Record.marital_status_choices
-  .col-sm-3= form.input :years_married, as: :integer, input_html: { min: 0 }
-  .col-sm-3= form.input :num_children_born, as: :integer, input_html: { min: 0 }
-  .col-sm-3= form.input :num_children_alive, as: :integer, input_html: { min: 0 }
-
-.row
-  .col-sm-3= form.input :pob
-  .col-sm-3= form.input :pob_father
-  .col-sm-3= form.input :pob_mother
-  .col-sm-3= form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
-
-.row
-  .col-sm-3= form.input :year_immigrated, as: :integer
-  .col-sm-3= form.input :years_in_us, as: :integer
-  .col-sm-3= form.input :naturalized_alien
-  /.col-sm-3= form.input :language_spoken
-
-.row
-  .col-sm-4= form.input :profession
-  .col-sm-4= form.input :industry
-  .col-sm-4= form.input :unemployed_months, as: :integer
-
-.row
-  .col-sm-3= form.input :attended_school, as: :integer, inline_label: 'Attended School?', hint: 'No. of months'
-  .col-sm-3= form.input :can_read, as: :boolean, inline_label: 'Can Read?'
-  .col-sm-3= form.input :can_write, as: :boolean, inline_label: 'Can Write?'
-  .col-sm-3= form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
-
-.row
-  .col-sm-3= form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
-  .col-sm-3= form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
-  .col-sm-3= form.input :farm_or_house, as: :select, collection: Census1910Record.farm_or_house_choices
-  .col-sm-3= form.input :farm_schedule, as: :integer
+  .card-body
+    .census-slider-wrapper
+      .census-slider.hidden
+        = form.input :last_name
+        = form.input :first_name
+        = form.input :middle_name
+        = form.input :name_prefix
+        = form.input :name_suffix
+        = form.input :relation_to_head
+        = form.input :race, as: :select, collection: Census1900Record.race_choices
+        = form.input :sex, as: :select, collection: Census1900Record.sex_choices
+        = form.input :birth_month, as: :select, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
+        = form.input :birth_year
+        = form.input :age
+        = form.input :marital_status, as: :select, collection: Census1900Record.marital_status_choices
+        = form.input :years_married, as: :integer, input_html: { min: 0 }
+        = form.input :num_children_born, as: :integer, input_html: { min: 0 }
+        = form.input :num_children_alive, as: :integer, input_html: { min: 0 }
+        = form.input :pob
+        = form.input :pob_father
+        = form.input :pob_mother
+        = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
+        = form.input :year_immigrated, as: :integer
+        = form.input :years_in_us, as: :integer
+        = form.input :naturalized_alien
+        = form.input :profession
+        = form.input :industry
+        = form.input :unemployed_months, as: :integer
+        = form.input :attended_school, as: :integer, inline_label: 'Attended School?', hint: 'No. of months'
+        = form.input :can_read, as: :boolean, inline_label: 'Can Read?'
+        = form.input :can_write, as: :boolean, inline_label: 'Can Write?'
+        = form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
+        = form.input :owned_or_rented, as: :select, collection: Census1910Record.owned_or_rented_choices
+        = form.input :mortgage, as: :select, collection: Census1910Record.mortgage_choices
+        = form.input :farm_or_house, as: :select, collection: Census1910Record.farm_or_house_choices
+        = form.input :farm_schedule, as: :integer

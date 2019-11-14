@@ -1,4 +1,4 @@
-= simple_form_for @record, as: :census_record do |form|
+= simple_form_for @record, as: :census_record, html: { autocomplete: 'off' } do |form|
 
   .card.mb-1
     .card-header
@@ -15,27 +15,26 @@
         .col-sm-2= form.input :enum_dist, as: :integer, input_html: { min: 0, max: 10_000 }
 
       .row
-        .col-sm-2
-          = form.input :street_house_number
-        .col-sm-2
-          = form.input :street_prefix, collection: %w{N S E W}
-        .col-sm-6
-          = form.input :street_name, input_html: { id: 'street_name' }
-        .col-sm-2
-          = form.input :street_suffix, collection: CensusRecord.street_suffix_choices
+        .col-sm-1
+          = form.input :street_house_number, input_html: { autocomplete: 'new-password' }
+        .col-sm-1
+          = form.input :street_prefix, collection: %w{N S E W}, input_html: { autocomplete: 'new-password' }
+        .col-sm-8
+          = form.input :street_name, input_html: { id: 'street_name' }, input_html: { autocomplete: 'new-password' }
+        .col-sm-1
+          = form.input :street_suffix, collection: CensusRecord.street_suffix_choices, input_html: { autocomplete: 'new-password' }
+        .col-sm-1
+          = form.input :apartment_number, input_html: { autocomplete: 'new-password' }
       .row
         .col-sm-6
           = form.input :building_id, as: :select, collection: form.object.buildings_on_street, input_html: { id: 'building_id' }
           - unless form.object.building_id
-            = form.input :ensure_building, as: :boolean, inline_label: 'Add building with address'
+            = form.input :ensure_building, as: :boolean, label: 'Add building with address'
         .col-sm-3= form.input :dwelling_number
         .col-sm-3= form.input :family_id
 
-  .card.mb-1
-    .card-header
-      | Personal Details
-    .card-body
-      = render 'fields', form: form
+  = render 'fields', form: form
+
   .card.mb-1
     .card-body
       = form.input :notes, as: :text

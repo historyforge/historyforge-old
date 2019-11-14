@@ -27,6 +27,55 @@ en:
           attributes:
             filename:
               filename_not_unique: 'has already been uploaded.'
+
+  census_codes:
+    default:
+      other: 'Other'
+      blank: 'Left blank'
+      unk: 'Unknown'
+    owned_or_rented:
+      o: 'Owned'
+      r: 'Rented'
+      neither: 'Neither'
+    race:
+      w: 'White'
+      b: 'Black'
+      m: 'Mixed/Mulatto'
+      mu: 'Mulatto'
+      in: 'Indian'
+      ch: 'Chinese'
+      jp: 'Japanese'
+      fil: 'Filipino'
+      hin: 'Hindu'
+      kor: 'Korean'
+      neg: 'Negro'
+      mex: 'Mexican'
+    sex:
+      m: 'Male'
+      f: 'Female'
+    marital_status:
+      s: 'Single'
+      m: 'Married'
+      w: 'Widowed'
+      wd: 'Widowed'
+      d: 'Divorced'
+    naturalized_alien:
+      al: 'Alien'
+      pa: 'Papers'
+      na: 'Naturalized'
+    worker_class:
+      e: 'Employer'
+      w: 'Wage or salary worker'
+      o: 'Own account'
+      np: 'Unpaid family worker'
+    war_fought:
+      ww: 'World War'
+      sp: 'Spanish-American War'
+      civ: 'Civil War'
+      phil: 'Philippine Insurrection'
+      box: 'Boxer Rebellion'
+      mex: 'Mexican Expedition'
+
   simple_form:
     labels:
       building:
@@ -54,7 +103,7 @@ en:
         page_number: 'Sheet'
         page_side: 'Side'
         line_number: 'Line'
-        street_house_number: 'House Number'
+        street_house_number: 'House No.'
         street_prefix: 'Prefix'
         street_name: 'Street Name'
         street_suffix: 'Suffix'
@@ -74,7 +123,10 @@ en:
         mother_tongue: 'Mother Tongue'
         farm_schedule: 'Farm Number'
         dwelling_number: 'Dwelling'
-        family_id: 'Family'
+        naturalized_alien: 'Naturalization'
+        homemaker: 'Home-maker'
+        age_months: 'Age (months)'
+        apartment_number: 'Apt.'
 
     hints:
       building:

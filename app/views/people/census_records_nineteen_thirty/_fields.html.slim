@@ -1,39 +1,52 @@
-.census-slider-wrapper
-  .census-slider
-    = form.input :last_name
-    = form.input :first_name
-    = form.input :middle_name
-    = form.input :name_prefix
-    = form.input :name_suffix
-    = form.input :relation_to_head
-    = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented'
-    = form.input :home_value, label: 'Value of home or monthly payment'
-    = form.input :has_radio, as: :radio_buttons, label: 'Radio Set', collection: yes_no_choices
-    = form.input :lives_on_farm, as: :radio_buttons, label: 'Live on Farm?', collection: yes_no_choices
-    = form.input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices
-    = form.input :race, as: :radio_buttons, collection: CensusRecord.race_choices
-    = form.input :age
-    = form.input :marital_status, as: :radio_buttons, collection: CensusRecord.marital_status_choices
-    = form.input :age_married
-    = form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices
-    = form.input :can_read_write, as: :radio_buttons, label: 'Able to read and write?', collection: yes_no_choices
-    = form.input :pob
-    = form.input :pob_father
-    = form.input :pob_mother
-    = form.input :pob_code
-    = form.input :pob_father_code
-    = form.input :pob_mother_code
-    = form.input :foreign_born, as: :radio_buttons, label: 'This person is foreign born.', collection: yes_no_choices
-    = form.input :mother_tongue
-    = form.input :year_immigrated, as: :integer
-    = form.input :naturalized_alien
-    = form.input :can_speak_english, as: :radio_buttons, label: 'Speaks English?', collection: yes_no_choices
-    = form.input :profession
-    = form.input :industry
-    = form.input :profession_code
-    = form.input :farm_schedule, label: 'Farm Number'
-    = form.input :worker_class, label: 'Worker Class'
-    = form.input :worked_yesterday, as: :radio_buttons, label: 'At work yesterday?', collection: yes_no_choices
-    = form.input :unemployment_line, label: 'Unemployment Schedule No.'
-    = form.input :veteran, as: :radio_buttons, label: 'Veteran?', collection: yes_no_choices
-    = form.input :war_fought, label: 'What War?', as: :radio_buttons, collection: Census1930Record.what_war_choices
+.census-hint-wrapper style="display: none"
+  .census-hint
+
+.card.mb-1
+  .card-header
+    | Census Record
+    .btn-group.float-right#toggle-census-slider
+      button.btn type="button" data-orientation="horizontal"
+        i.fa.fa-arrows-h
+      button.btn type="button" data-orientation="vertical"
+        i.fa.fa-arrows-v
+
+  .card-body
+    .census-slider-wrapper
+      .census-slider.hidden
+        = form.input :last_name, input_html: { autocomplete: 'new-password' }
+        = form.input :first_name, input_html: { autocomplete: 'new-password' }
+        = form.input :middle_name, input_html: { autocomplete: 'new-password' }
+        = form.input :name_prefix, input_html: { autocomplete: 'new-password' }, as: :radio_buttons_other, choices: Census1930Record.name_prefix_choices
+        = form.input :name_suffix, input_html: { autocomplete: 'new-password' }, as: :radio_buttons_other, choices: Census1930Record.name_suffix_choices
+        = form.input :relation_to_head, as: :radio_buttons_other, choices: Census1930Record.relation_to_head_choices, wrapper_html: { data: { dependents: 'head' } }
+        = form.input :homemaker, as: :radio_buttons, collection: yes_no_choices_int
+        = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true, wrapper_html: { data: { depends_on: :relation_to_head } }
+        = form.input :home_value, label: 'Value of home or monthly payment', wrapper_html: { data: { depends_on: :relation_to_head } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :has_radio, as: :radio_buttons, label: 'Radio Set', collection: yes_no_choices_int
+        = form.input :lives_on_farm, as: :radio_buttons, label: 'Live on Farm?', collection: yes_no_choices_int
+        = form.input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices, coded: true
+        = form.input :race, as: :radio_buttons_other, collection: Census1930Record.race_choices, coded: true
+        = form.input :age, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :age_months, hint: 'Only for children less than 5 years old'
+        = form.input :marital_status, as: :radio_buttons, collection: Census1930Record.marital_status_choices, coded: true
+        = form.input :age_married, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :attended_school, as: :radio_buttons, label: 'Attended School', collection: yes_no_choices_int
+        = form.input :can_read_write, as: :radio_buttons, label: 'Able to read and write?', collection: yes_no_choices_int
+        = form.input :pob
+        = form.input :pob_father
+        = form.input :pob_mother
+        = form.input :foreign_born, as: :radio_buttons, label: 'This person is foreign born.', collection: yes_no_choices_int, wrapper_html: { data: { dependents: 1 } }
+        = form.input :mother_tongue
+        = form.input :pob_code
+        = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :naturalized_alien, as: :radio_buttons, collection: CensusRecord.naturalized_alien_choices, wrapper_html: { data: { depends_on: :foreign_born } }
+        = form.input :can_speak_english, as: :radio_buttons, label: 'Speaks English?', collection: yes_no_choices_int
+        = form.input :profession
+        = form.input :industry
+        = form.input :profession_code
+        = form.input :farm_schedule, label: 'Farm Number'
+        = form.input :worker_class, label: 'Worker Class', collection: Census1930Record.worker_class_choices, as: :radio_buttons
+        = form.input :worked_yesterday, as: :radio_buttons, label: 'At work yesterday?', collection: yes_no_choices_int
+        = form.input :unemployment_line, label: 'Unemployment Schedule No.'
+        = form.input :veteran, as: :radio_buttons, label: 'Veteran?', collection: yes_no_choices_int, wrapper_html: { data: { dependents: 1 } }
+        = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1930Record.war_fought_choices, coded: true, wrapper_html: { data: { depends_on: :veteran } }
