@@ -1,26 +1,30 @@
 class BooleanConversionFor1930 < ActiveRecord::Migration[5.2]
+  def convert_boolean_up(column)
+    tmp_name = "#{column}_int"
+    add_column :census_1930_records, tmp_name, :integer, after: column
+    execute "update census_1930_records SET #{tmp_name}=1 WHERE #{column}='t'"
+    execute "update census_1930_records SET #{tmp_name}=0 WHERE #{column}='f'"
+    rename_column :census_1930_records, column, "#{column}_bool"
+    rename_column :census_1930_records, tmp_name, column
+  end
   def up
-    change_column :census_1930_records, :has_radio, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column :census_1930_records, :lives_on_farm, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column :census_1930_records, :attended_school, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column :census_1930_records, :can_read_write, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column :census_1930_records, :can_speak_english, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column :census_1930_records, :worked_yesterday, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column :census_1930_records, :veteran, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column_default :census_1930_records, :foreign_born, nil
-    change_column :census_1930_records, :foreign_born, :integer, using: "CASE WHEN 'f' THEN 0 WHEN 't' THEN 1 ELSE NULL END"
-    change_column_default :census_1930_records, :foreign_born, 0
+    convert_boolean_up :has_radio
+    convert_boolean_up :lives_on_farm
+    convert_boolean_up :attended_school
+    convert_boolean_up :can_read_write
+    convert_boolean_up :can_speak_english
+    convert_boolean_up :worked_yesterday
+    convert_boolean_up :veteran
+    convert_boolean_up :foreign_born
   end
   def down
-    change_column :census_1930_records, :has_radio, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column :census_1930_records, :lives_on_farm, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column :census_1930_records, :attended_school, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column :census_1930_records, :can_read_write, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column :census_1930_records, :can_speak_english, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column :census_1930_records, :worked_yesterday, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column :census_1930_records, :veteran, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column_default :census_1930_records, :foreign_born, nil
-    change_column :census_1930_records, :foreign_born, :boolean, using: "CASE WHEN 0 THEN 'f 'WHEN 1 THEN 't' ELSE NULL END"
-    change_column_default :census_1930_records, :foreign_born, false
+    # convert_boolean_up :has_radio
+    # convert_boolean_up :lives_on_farm
+    # convert_boolean_up :attended_school
+    # convert_boolean_up :can_read_write
+    # convert_boolean_up :can_speak_english
+    # convert_boolean_up :worked_yesterday
+    # convert_boolean_up :veteran
+    # convert_boolean_up :foreign_born
   end
 end
