@@ -35,7 +35,7 @@
         = form.input :year_immigrated, as: :integer
         = form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
         = form.input :language_spoken
-        = form.input :profession
+        = form.input :profession, hint: 'Enter "None" if empty'
         = form.input :industry
         = form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
         = form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices

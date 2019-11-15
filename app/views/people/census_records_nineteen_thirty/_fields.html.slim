@@ -41,7 +41,7 @@
         = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
         = form.input :naturalized_alien, as: :radio_buttons, collection: CensusRecord.naturalized_alien_choices, wrapper_html: { data: { depends_on: :foreign_born } }
         = form.input :can_speak_english, as: :radio_buttons, label: 'Speaks English?', collection: yes_no_choices_int
-        = form.input :profession
+        = form.input :profession, hint: 'Enter "None" if empty'
         = form.input :industry
         = form.input :profession_code
         = form.input :farm_schedule, label: 'Farm Number'

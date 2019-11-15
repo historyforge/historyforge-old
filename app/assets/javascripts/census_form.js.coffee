@@ -48,7 +48,7 @@ $(document).ready ->
       $('button[data-orientation=vertical]').removeClass('btn-primary').addClass('btn-secondary')
       $('.census-slider').addClass('horizontal').removeClass('vertical').mousewheel censusRecordScroller
 
-  orientation = window.localStorage.getItem('census-orientation') or 'horizontal'
+  orientation = window.localStorage.getItem('census-orientation') or 'vertical'
   $('button[data-orientation=' + orientation + ']').trigger('click')
 
   if $('.census-slider').hasClass('horizontal')

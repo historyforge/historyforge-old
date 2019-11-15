@@ -39,7 +39,7 @@
         = form.input :mother_tongue_mother
         = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
         = form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
-        = form.input :profession
+        = form.input :profession, hint: 'Enter "None" if empty'
         = form.input :industry
         = form.input :employment, as: :select, collection: Census1910Record.employment_choices
         = form.input :farm_schedule
