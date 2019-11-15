@@ -11,7 +11,7 @@ module AutoStripAttributes
       self.autostrippable_attributes.concat attributes
 
       before_validation do |record|
-        self.autostripple_attributes.each do |attribute|
+        self.autostrippable_attributes.each do |attribute|
           #debugger
           value = record[attribute]
           AutoStripAttributes::Config.filters_order.each do |filter_name|
