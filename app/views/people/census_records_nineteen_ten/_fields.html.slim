@@ -10,12 +10,12 @@
   .card-body
     .census-slider-wrapper
       .census-slider.hidden
-        = form.input :last_name
-        = form.input :first_name
-        = form.input :middle_name
-        = form.input :name_prefix
-        = form.input :name_suffix
-        = form.input :relation_to_head
+        = form.input :last_name, input_html: { autocomplete: 'new-password' }
+        = form.input :first_name, input_html: { autocomplete: 'new-password' }
+        = form.input :middle_name, input_html: { autocomplete: 'new-password' }
+        = form.input :name_prefix, input_html: { autocomplete: 'new-password' }
+        = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
+        = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
         = form.input :sex, as: :select, collection: Census1910Record.sex_choices
         = form.input :race, as: :select, collection: Census1910Record.race_choices
         = form.input :age
@@ -23,15 +23,15 @@
         = form.input :years_married, as: :integer, input_html: { min: 0 }
         = form.input :num_children_born, as: :integer, input_html: { min: 0 }
         = form.input :num_children_alive, as: :integer, input_html: { min: 0 }
-        = form.input :pob
-        = form.input :pob_father
-        = form.input :pob_mother
+        = form.input :pob, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_father, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
         = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
         = form.input :year_immigrated, as: :integer
         = form.input :naturalized_alien, as: :select, collection: select_options_for(Census1910Record.naturalized_alien_choices)
         = form.input :language_spoken
-        = form.input :profession, hint: 'Enter "None" if empty'
-        = form.input :industry
+        = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
+        = form.input :industry, input_html: { autocomplete: 'new-password' }
         = form.input :employment, as: :select, collection: select_options_for(Census1910Record.employment_choices)
         = form.input :unemployed, as: :radio_buttons, label: 'Without work?', collection: yes_no_choices
         = form.input :unemployed_weeks_1909

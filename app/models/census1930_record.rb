@@ -9,7 +9,7 @@ class Census1930Record < CensusRecord
   define_enumeration :name_suffix, %w{Jr Sr}
   define_enumeration :name_prefix, %w{Dr Mr Mrs}
 
-  after_initialize :set_defaults
+  # after_initialize :set_defaults
 
   def year
     1930

@@ -43,6 +43,7 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search_filters
       get :building_autocomplete
+      get :autocomplete
       get :unreviewed
       get :unhoused
     end

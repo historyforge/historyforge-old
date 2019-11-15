@@ -8,12 +8,12 @@
   .card-body
     .census-slider-wrapper
       .census-slider.hidden
-        = form.input :last_name
-        = form.input :first_name
-        = form.input :middle_name
-        = form.input :name_prefix
-        = form.input :name_suffix
-        = form.input :relation_to_head
+        = form.input :last_name, input_html: { autocomplete: 'new-password' }
+        = form.input :first_name, input_html: { autocomplete: 'new-password' }
+        = form.input :middle_name, input_html: { autocomplete: 'new-password' }
+        = form.input :name_prefix, input_html: { autocomplete: 'new-password' }
+        = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
+        = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
         = form.input :race, as: :select, collection: Census1900Record.race_choices
         = form.input :sex, as: :select, collection: Census1900Record.sex_choices
         = form.input :birth_month, as: :select, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
@@ -23,15 +23,15 @@
         = form.input :years_married, as: :integer, input_html: { min: 0 }
         = form.input :num_children_born, as: :integer, input_html: { min: 0 }
         = form.input :num_children_alive, as: :integer, input_html: { min: 0 }
-        = form.input :pob
-        = form.input :pob_father
-        = form.input :pob_mother
+        = form.input :pob, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_father, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
         = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.'
         = form.input :year_immigrated, as: :integer
         = form.input :years_in_us, as: :integer
         = form.input :naturalized_alien
-        = form.input :profession, hint: 'Enter "None" if empty'
-        = form.input :industry
+        = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
+        = form.input :industry, input_html: { autocomplete: 'new-password' }
         = form.input :unemployed_months, as: :integer
         = form.input :attended_school, as: :integer, inline_label: 'Attended School?', hint: 'No. of months'
         = form.input :can_read, as: :boolean, inline_label: 'Can Read?'

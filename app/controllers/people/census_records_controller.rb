@@ -32,6 +32,7 @@ class People::CensusRecordsController < ApplicationController
   def new
     authorize! :create, resource_class
     @record = resource_class.new
+    @record.set_defaults
     if params[:attributes]
       params[:attributes].each do |key, value|
         @record.public_send "#{key}=", value
@@ -47,6 +48,13 @@ class People::CensusRecordsController < ApplicationController
     buildings = record.buildings_on_street
     buildings = buildings.map {|building| { id: building.id, name: building.name } }
     render json: buildings.to_json
+  end
+
+  def autocomplete
+    attribute = params[:attribute]
+    term = params[:term]
+    results = resource_class.ransack(:"#{attribute}_cont" => term).result.distinct.limit(15).select(attribute)
+    render json: results.map { |result| result.public_send(attribute) }.map(&:strip).uniq
   end
 
   def create

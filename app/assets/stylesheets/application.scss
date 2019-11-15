@@ -2,7 +2,14 @@
 @import "variables";
 @import "bootstrap";
 @import "alertify";
-@import "custom-theme/jquery-ui-1.7.custom";
+@import "jquery-ui/base";
+@import "jquery-ui/theme";
+@import "jquery-ui/core";
+@import "jquery-ui/menu";
+@import "jquery-ui/slider";
+@import "jquery-ui/resizable";
+@import "jquery-ui/draggable";
+@import "jquery-ui/autocomplete";
 @import "styles";
 
 @import "forge";

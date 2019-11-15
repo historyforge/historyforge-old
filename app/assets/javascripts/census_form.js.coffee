@@ -11,6 +11,13 @@ $.fn.extend
       $(this).removeClass('disabled').find('input').removeAttr('disabled', true)
 
 $(document).ready ->
+  $('#new_census_record, #edit_census_record').find('input[autocomplete=new-password]').each ->
+    name = this.getAttribute('name')
+    attribute_name = name.match(/census_record\[(\w+)\]/)[1]
+    urlParts = document.location.pathname.split('/');
+    url = "/census/#{urlParts[2]}/autocomplete?attribute=#{attribute_name}"
+    $(this).autocomplete source: url
+
   $('input[data-type="other-radio-button"]').on 'change', ->
     $(this).closest('.form-check').find('input[type=radio]').prop('checked', yes).val $(this).val()
 
