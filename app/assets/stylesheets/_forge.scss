@@ -17,6 +17,7 @@ ng-map {
 }
 
 #forge-right-col {
+  z-index: 19;
   position:fixed;
   top:80px;
   right:20px;
@@ -38,6 +39,7 @@ ng-map {
 }
 
 #building-iw {
+  z-index: 20;
   position: fixed;
   left: 50%;
   top: 25%;

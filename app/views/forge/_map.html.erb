@@ -54,7 +54,7 @@
 
 </div>
 
-<div id="forge-right-col" ng-if="layers.length">
+<div id="forge-right-col" ng-show="layers.length">
   <div ng-repeat="layer in layers" id="layer{{ layer.id }}" class="layer">
     <input type="checkbox" ng-model="selectedLayers[layer.id]" id="layer-cb{{ layer.id }}" ng-click="toggleLayer(layer.id)" />
     <label for="layer-cb{{ layer.id }}">{{ layer.name }}</label>
