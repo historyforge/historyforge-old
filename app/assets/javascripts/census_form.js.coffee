@@ -9,29 +9,39 @@ $.fn.extend
   enableWrapper: ->
     this.each ->
       $(this).removeClass('disabled').find('input').removeAttr('disabled', true)
+  toggleDependents: ->
+    this.each ->
+      value = if $(this).is("[type=checkbox]") then $(this).is(':checked') else $(this).val()
+      name = this.getAttribute('name')
+      attribute_name = name.match(/census_record\[(\w+)\]/)[1]
+      dependent = $(this).closest('[data-dependents]').attr('data-dependents')
+      if value.toString() is dependent.toString()
+        console.log 'doing it for ' + attribute_name + " because #{value.toString()} is #{dependent.toString()}"
+        $(".form-group[data-depends-on=#{attribute_name}]").enableWrapper()
+      else
+        $(".form-group[data-depends-on=#{attribute_name}]").disableWrapper()
+
 
 $(document).ready ->
+  $('#new_census_record, #edit_census_record').on "keypress", (e) ->
+    code = e.keyCode or e.which
+    if code is 13
+      e.preventDefault()
+      return false
+
   $('#new_census_record, #edit_census_record').find('input[autocomplete=new-password]').each ->
     name = this.getAttribute('name')
     attribute_name = name.match(/census_record\[(\w+)\]/)[1]
     urlParts = document.location.pathname.split('/');
     url = "/census/#{urlParts[2]}/autocomplete?attribute=#{attribute_name}"
-    $(this).autocomplete source: url
+    $(this).autocomplete source: url, select: => $(this).trigger('click')
 
   $('input[data-type="other-radio-button"]').on 'change', ->
     $(this).closest('.form-check').find('input[type=radio]').prop('checked', yes).val $(this).val()
 
-  $('[data-dependents] input').on 'click', ->
-    value = this.getAttribute('value')
-    name = this.getAttribute('name')
-    attribute_name = name.match(/census_record\[(\w+)\]/)[1]
-    dependent = $(this).closest('[data-dependents]').attr('data-dependents')
-    if value is dependent
-      $(".form-group[data-depends-on=#{attribute_name}]").enableWrapper()
-    else
-      $(".form-group[data-depends-on=#{attribute_name}]").disableWrapper()
+  $('[data-dependents] input').on 'change click', -> $(this).toggleDependents()
 
-  $('[data-dependents] input:checked').trigger('click')
+  $('[data-dependents]').find('input[type=radio]:checked, input[type=checkbox], input[type=text]').toggleDependents()
 
   $('#census_record_age').on 'keyup', ->
     value = this.value

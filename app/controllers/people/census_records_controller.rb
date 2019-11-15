@@ -53,7 +53,7 @@ class People::CensusRecordsController < ApplicationController
   def autocomplete
     attribute = params[:attribute]
     term = params[:term]
-    results = resource_class.ransack(:"#{attribute}_cont" => term).result.distinct.limit(15).select(attribute)
+    results = resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).select(attribute)
     render json: results.map { |result| result.public_send(attribute) }.map(&:strip).uniq
   end
 

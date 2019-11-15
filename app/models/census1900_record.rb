@@ -12,6 +12,8 @@ class Census1900Record < CensusRecord
             :birth_month, :birth_year, :age,
             numericality: { greater_than_or_equal_to: 0, allow_blank: true }
 
+  auto_strip_attributes :industry, :pob, :pob_father, :pob_mother
+
   def year
     1900
   end

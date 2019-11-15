@@ -2,6 +2,7 @@ class CensusRecord < ApplicationRecord
 
   self.abstract_class = true
 
+  include AutoStripAttributes
   include DefineEnumeration
   include Moderation
   include PersonNames
@@ -19,6 +20,9 @@ class CensusRecord < ApplicationRecord
 
   validates :age, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
   validate :dont_add_same_person, on: :create
+
+  auto_strip_attributes :first_name, :middle_name, :last_name, :relation_to_head, :street_house_number, :street_name,
+                        :street_prefix, :street_suffix, :apartment_number, :profession
 
   define_enumeration :page_side, %w{A B}, true
   define_enumeration :street_prefix, %w{N S E W}

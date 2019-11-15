@@ -8,6 +8,8 @@ class Census1910Record < CensusRecord
   # attribute :blind, as: :boolean
   # attribute :deaf_dumb, as: :boolean
 
+  auto_strip_attributes :industry, :employment, :pob, :pob_father, :pob_mother
+
   def year
     1910
   end

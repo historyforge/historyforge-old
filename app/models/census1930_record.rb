@@ -10,6 +10,7 @@ class Census1930Record < CensusRecord
   define_enumeration :name_prefix, %w{Dr Mr Mrs}
 
   # after_initialize :set_defaults
+  auto_strip_attributes :industry, :profession_code, :pob, :pob_mother, :pob_father, :pob_code, :mother_tongue, :worker_class
 
   def year
     1930

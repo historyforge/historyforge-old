@@ -8,6 +8,9 @@ class Census1920Record < CensusRecord
   # attribute :mother_tongue_mother
   # attribute :can_speak_english, as: :boolean
 
+  auto_strip_attributes :industry, :employment, :pob, :mother_tongue,
+                        :pob_father, :mother_tongue_father, :pob_mother, :mother_tongue_mother
+
   def year
     1920
   end
