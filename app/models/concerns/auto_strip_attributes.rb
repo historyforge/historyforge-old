@@ -1,14 +1,14 @@
 module AutoStripAttributes
   extend ActiveSupport::Concern
   included do
-    class_attribute :autostripple_attributes
+    class_attribute :autostrippable_attributes
+    self.autostrippable_attributes = []
     def self.auto_strip_attributes(*attributes)
       options = AutoStripAttributes::Config.filters_enabled
       if attributes.last.is_a?(Hash)
         options = options.merge(attributes.pop)
       end
-      self.autostripple_attributes ||= []
-      self.autostripple_attributes.concat attributes
+      self.autostrippable_attributes.concat attributes
 
       before_validation do |record|
         self.autostripple_attributes.each do |attribute|
