@@ -17,8 +17,8 @@
         = form.input :homemaker, as: :radio_buttons, collection: yes_no_choices_int
         = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true, wrapper_html: { data: { depends_on: :relation_to_head } }
         = form.input :home_value, label: 'Value of home or monthly payment', wrapper_html: { data: { depends_on: :relation_to_head } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
-        = form.input :has_radio, as: :radio_buttons, label: 'Radio Set', collection: yes_no_choices_int
-        = form.input :lives_on_farm, as: :radio_buttons, label: 'Live on Farm?', collection: yes_no_choices_int
+        = form.input :has_radio, as: :radio_buttons, label: 'Radio Set', collection: yes_no_choices_int, wrapper_html: { data: { depends_on: :relation_to_head } }
+        = form.input :lives_on_farm, as: :radio_buttons, label: 'Live on Farm?', collection: yes_no_choices_int, wrapper_html: { data: { depends_on: :relation_to_head } }
         = form.input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices, coded: true
         = form.input :race, as: :radio_buttons_other, collection: Census1930Record.race_choices, coded: true
         = form.input :age, hint: 'Leave blank if taker left blank or enter -1 for unknown'
