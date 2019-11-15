@@ -33,6 +33,8 @@ class CensusRecord < ApplicationRecord
   define_enumeration :farm_or_house, %w{F H}
   define_enumeration :civil_war_vet, %w{UA UN CA CN}
 
+  has_paper_trail
+
   ransacker :name, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',

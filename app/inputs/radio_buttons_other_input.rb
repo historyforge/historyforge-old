@@ -13,7 +13,13 @@ class RadioButtonsOtherInput < CollectionRadioButtonsInput
   end
 
   def other_input
-    other_value = value.blank? || options[:original_collection].map(&:last).include?(value) ? nil : value
+    items = options[:original_collection].first.is_a?(String) ? options[:original_collection] : options[:original_collection].map(&:last)
+    other_value = value.blank? || items.include?(value) ? nil : value
+    Rails.logger.info attribute_name.inspect
+    Rails.logger.info value.inspect
+    Rails.logger.info items.inspect
+    Rails.logger.info items.include?(value).inspect
+    Rails.logger.info other_value.inspect
     "Other: <input type=\"text\" value=\"#{other_value}\" data-type=\"other-radio-button\">"
   end
 end

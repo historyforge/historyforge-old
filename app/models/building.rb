@@ -35,6 +35,8 @@ class Building < ApplicationRecord
     %i{as_of_year without_residents as_of_year_eq}
   end
 
+  has_paper_trail
+
   geocoded_by :full_street_address, latitude: :lat, longitude: :lon
   after_validation :do_the_geocode, if: :new_record?
 

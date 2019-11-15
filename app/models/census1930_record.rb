@@ -5,9 +5,9 @@ class Census1930Record < CensusRecord
   define_enumeration :war_fought, %w{WW Sp Civ Phil Box Mex}
   define_enumeration :marital_status, %w{S W D M}
   define_enumeration :race, %w{W Neg Mex In Ch Jp Fil Hin Kor}
-  define_enumeration :relation_to_head, %w{head wife son daughter lodger roomer boarder sister servant}
-  define_enumeration :name_suffix, %w{jr sr}
-  define_enumeration :name_prefix, %w{dr mr mrs}
+  define_enumeration :relation_to_head, %w{Head Wife Son Daughter Lodger Roomer Boarder Sister Servant}
+  define_enumeration :name_suffix, %w{Jr Sr}
+  define_enumeration :name_prefix, %w{Dr Mr Mrs}
 
   after_initialize :set_defaults
 
