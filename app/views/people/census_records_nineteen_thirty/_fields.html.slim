@@ -13,7 +13,7 @@
         = form.input :middle_name, input_html: { autocomplete: 'new-password' }
         = form.input :name_prefix, input_html: { autocomplete: 'new-password' }, as: :radio_buttons_other, choices: Census1930Record.name_prefix_choices
         = form.input :name_suffix, input_html: { autocomplete: 'new-password' }, as: :radio_buttons_other, choices: Census1930Record.name_suffix_choices
-        = form.input :relation_to_head, as: :radio_buttons_other, choices: Census1930Record.relation_to_head_choices, wrapper_html: { data: { dependents: 'head' } }
+        = form.input :relation_to_head, as: :radio_buttons_other, choices: Census1930Record.relation_to_head_choices, wrapper_html: { data: { dependents: 'Head' } }
         = form.input :homemaker, as: :radio_buttons, collection: yes_no_choices_int
         = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true, wrapper_html: { data: { depends_on: :relation_to_head } }
         = form.input :home_value, label: 'Value of home or monthly payment', wrapper_html: { data: { depends_on: :relation_to_head } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'

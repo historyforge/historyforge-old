@@ -1,5 +1,9 @@
 .float-right
   .dropdown style="display:inline-block"
+    - if can?(:update, @record)
+      = link_to edit_resource_path(@record), class: 'btn btn-secondary' do
+        i.fa.fa-pencil
+        | Edit
     a.btn.btn-primary.dropdown-toggle data-toggle='dropdown' href="#"
       | Actions
       = ' '
