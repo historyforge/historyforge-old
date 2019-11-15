@@ -2,16 +2,16 @@ module AutoStripAttributes
   extend ActiveSupport::Concern
   included do
     class_attribute :autostrippable_attributes
-    self.autostrippable_attributes = []
+    self.autostrippable_attributes ||= []
     def self.auto_strip_attributes(*attributes)
       options = AutoStripAttributes::Config.filters_enabled
       if attributes.last.is_a?(Hash)
         options = options.merge(attributes.pop)
       end
-      self.autostrippable_attributes.concat attributes
+      self.autostrippable_attributes += attributes
 
       before_validation do |record|
-        self.autostrippable_attributes.each do |attribute|
+        self.class.autostrippable_attributes.each do |attribute|
           #debugger
           value = record[attribute]
           AutoStripAttributes::Config.filters_order.each do |filter_name|
