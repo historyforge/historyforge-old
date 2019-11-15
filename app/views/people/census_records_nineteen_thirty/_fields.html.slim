@@ -4,11 +4,6 @@
 .card.mb-1
   .card-header
     | Census Record
-    .btn-group.float-right#toggle-census-slider
-      button.btn type="button" data-orientation="horizontal"
-        i.fa.fa-arrows-h
-      button.btn type="button" data-orientation="vertical"
-        i.fa.fa-arrows-v
 
   .card-body
     .census-slider-wrapper
@@ -35,7 +30,7 @@
         = form.input :pob
         = form.input :pob_father
         = form.input :pob_mother
-        = form.input :foreign_born, as: :radio_buttons, label: 'This person is foreign born.', collection: yes_no_choices_int, wrapper_html: { data: { dependents: 1 } }
+        = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.', collection: yes_no_choices_int, wrapper_html: { data: { dependents: 1 } }
         = form.input :mother_tongue
         = form.input :pob_code
         = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'

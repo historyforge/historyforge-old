@@ -3,35 +3,32 @@
   .card.mb-1
     .card-header
       | Census Scope
-    .card-body
-      .row
-        /.col-sm-2= form.input :page_number
-        .col-sm-1= form.input :page_number, as: :integer, input_html: { min: 0, max: 10_000 }
-        .col-sm-1= form.input :page_side, collection: %w{A B}
-        .col-sm-2= form.input :line_number, as: :integer, input_html: { min: 0, max: 100 }
-        .col-sm-2= form.input :county
-        .col-sm-2= form.input :city, input_html: { id: 'city' }
-        .col-sm-2= form.input :ward, as: :integer, input_html: { min: 0, max: 10_000 }
-        .col-sm-2= form.input :enum_dist, as: :integer, input_html: { min: 0, max: 10_000 }
+      .btn-group.float-right#toggle-census-slider
+        button.btn type="button" data-orientation="horizontal"
+          i.fa.fa-arrows-h
+        button.btn type="button" data-orientation="vertical"
+          i.fa.fa-arrows-v
 
-      .row
-        .col-sm-1
+    .card-body
+      .census-slider-wrapper
+        .census-slider.hidden
+          = form.input :page_number, as: :integer, input_html: { min: 0, max: 10_000 }
+          = form.input :page_side, collection: %w{A B}
+          = form.input :line_number, as: :integer, input_html: { min: 0, max: 100 }
+          = form.input :county
+          = form.input :city, input_html: { id: 'city' }
+          = form.input :ward, as: :integer, input_html: { min: 0, max: 10_000 }
+          = form.input :enum_dist, as: :integer, input_html: { min: 0, max: 10_000 }
           = form.input :street_house_number, input_html: { autocomplete: 'new-password' }
-        .col-sm-1
           = form.input :street_prefix, collection: %w{N S E W}, input_html: { autocomplete: 'new-password' }
-        .col-sm-8
           = form.input :street_name, input_html: { id: 'street_name' }, input_html: { autocomplete: 'new-password' }
-        .col-sm-1
           = form.input :street_suffix, collection: CensusRecord.street_suffix_choices, input_html: { autocomplete: 'new-password' }
-        .col-sm-1
           = form.input :apartment_number, input_html: { autocomplete: 'new-password' }
-      .row
-        .col-sm-6
           = form.input :building_id, as: :select, collection: form.object.buildings_on_street, input_html: { id: 'building_id' }
           - unless form.object.building_id
             = form.input :ensure_building, as: :boolean, label: 'Add building with address'
-        .col-sm-3= form.input :dwelling_number
-        .col-sm-3= form.input :family_id
+          = form.input :dwelling_number
+          = form.input :family_id
 
   = render 'fields', form: form
 
