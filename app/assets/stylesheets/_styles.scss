@@ -266,7 +266,7 @@ form table {
     align-content: space-evenly;
     justify-content: space-evenly;
     .form-group {
-      border-bottom: 1px solid $border-color;
+      border-top: 1px solid $border-color;
     }
   }
   &.horizontal {
@@ -329,3 +329,4 @@ form table {
   padding-top: 1.125rem;
   border-top: 1px solid $border-color;
 }
+
