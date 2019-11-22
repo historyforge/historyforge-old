@@ -1,5 +1,4 @@
 module RestoreSearch
-
   extend ActiveSupport::Concern
 
   included do
@@ -30,6 +29,4 @@ module RestoreSearch
       redirect_to action: params[:action], q: session[q_key], page: (session[p_key] || 1)
     end
   end
-
-
 end

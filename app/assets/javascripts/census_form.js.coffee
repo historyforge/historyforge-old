@@ -21,7 +21,6 @@ $.fn.extend
       else
         $(".form-group[data-depends-on=#{attribute_name}]").disableWrapper()
 
-
 $(document).ready ->
   $('#new_census_record, #edit_census_record').on "keypress", (e) ->
     code = e.keyCode or e.which

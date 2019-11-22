@@ -23,17 +23,6 @@ module ApplicationHelper
     user_signed_in? && current_user.has_role?('administrator')
   end
 
-  # FLASH_NOTICE_KEYS = [:error, :notice, :warning]
-  # def flash_messages
-  #   return unless messages = flash.keys.select{|k| FLASH_NOTICE_KEYS.include?(k.to_sym)}
-  #   formatted_messages = messages.map do |type|
-  #     content_tag :div, :id => type.to_s do
-  #       message_for_item(flash[type], flash["#{type}_item".to_sym])
-  #     end
-  #   end
-  #   formatted_messages.join.html_safe
-  # end
-
   def message_for_item(message, item = nil)
     if item.is_a?(Array)
      raw message % link_to(*item)
@@ -102,4 +91,11 @@ module ApplicationHelper
     render 'shared/picture', id: photo.id, style: style, alt_text: photo.caption, img_class: img_class
   end
 
+  def checkbox_button(label, attr, checked)
+    render 'shared/checkbox_button',
+           active_class: checked ? 'active' : '',
+           attr: attr,
+           label: label,
+           checked: checked
+  end
 end

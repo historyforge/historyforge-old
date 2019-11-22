@@ -29,9 +29,6 @@ Rails.application.routes.draw do
 
   resources :buildings do
     collection do
-      get :unpeopled
-      get :unreviewed
-      get :uninvestigated
       get :advanced_search_filters
     end
     member do
@@ -44,8 +41,6 @@ Rails.application.routes.draw do
       get :advanced_search_filters
       get :building_autocomplete
       get :autocomplete
-      get :unreviewed
-      get :unhoused
     end
     member do
       put :save_as

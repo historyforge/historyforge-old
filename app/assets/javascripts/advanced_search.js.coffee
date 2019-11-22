@@ -132,6 +132,10 @@ jQuery(document).on 'click', '.attribute-filter button.close', ->
   $(this).closest('.attribute-filter').remove()
   $('#new_s').submit()
 
+$(document).on 'click', '#new_s .btn-group-toggle', ->
+  $('#new_s').submit()
+
+
 jQuery(document).on 'click', '.checkall', (e) ->
   e.stopPropagation()
   $cont = $($(this).data('scope'))

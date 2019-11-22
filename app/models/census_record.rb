@@ -62,6 +62,9 @@ class CensusRecord < ApplicationRecord
                                                                      ])])
   end
 
+  scope :unreviewed, -> { where(reviewed_at: nil) }
+  scope :unhoused, -> { where(building_id: nil) }
+
   def field_for(field)
     respond_to?(field) ? public_send(field) : '?'
   end

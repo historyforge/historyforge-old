@@ -142,12 +142,15 @@ div.date {
 }
 
 #buildings-filters, #census-records-filters {
-  .dropdown {
+  .dropdown, .btn-group-toggle {
     display: inline-block;
     margin-right: 12px;
     .form-actions {
       display: flex;
     }
+  }
+  .btn-group-toggle {
+    cursor: pointer;
   }
   .dropdown-item.checkbox {
     vertical-align: middle;

@@ -1,24 +1,12 @@
 class BuildingsController < ApplicationController
-
-  include RestoreSearch
-
   respond_to :json, only: %i[index show]
   respond_to :csv, only: :index
   respond_to :html
 
-  # caches_action :index, cache_path: Proc.new { |c|
-  #   string =  c.params.to_s
-  #   string << current_user&.id
-  #   {:tag => Digest::SHA1.hexdigest(string)}
-  # }, expires_in: 15.minutes
-
   def index
-    # MemoryProfiler.start
     @page_title = 'Buildings'
     load_buildings
     render_buildings
-    # report = MemoryProfiler.stop
-    # report.pretty_print to_file: Rails.root.join('log', 'memory.log')
   end
 
   def unpeopled
@@ -193,6 +181,11 @@ class BuildingsController < ApplicationController
                                       user: current_user,
                                       paged: request.format.html?,
                                       per: 50
+    if current_user
+      maybe_add_scope :unreviewed
+      maybe_add_scope :unpeopled
+      maybe_add_scope :uninvestigated
+    end
   end
 
   def render_buildings

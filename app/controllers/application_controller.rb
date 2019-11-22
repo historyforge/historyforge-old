@@ -39,5 +39,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
-
+  def maybe_add_scope(param)
+    if current_user && params[param] && params[param] == '1'
+        @search.public_send "#{param}!"
+    end
+  end
 end

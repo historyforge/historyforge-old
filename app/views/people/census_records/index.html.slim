@@ -1,13 +1,3 @@
-- if current_user
-  .float-right
-    - unless current_page?(collection_path)
-      = link_to 'All', collection_path, class: 'btn btn-light'
-    - unless current_page?(unhoused_collection_path)
-      = link_to 'Unhoused', unhoused_collection_path, class: 'btn btn-light'
-    - unless current_page?(unreviewed_collection_path)
-      = link_to 'Unreviewed', unreviewed_collection_path, class: 'btn btn-light'
-    - if can?(:create, CensusRecord)
-      = link_to 'Add New', new_resource_path, class: 'btn btn-light'
 h1.page-title= @page_title
 
 #census-records-filters.mb-2= render 'filters'

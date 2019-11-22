@@ -5,6 +5,7 @@ class CensusRecordSearch
   include ActiveModel::Validations
 
   attr_accessor :page, :s, :f, :fs, :g, :user, :sort, :paged, :per, :entity_class, :from, :to
+  attr_reader :unhoused, :unreviewed
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -32,20 +33,10 @@ class CensusRecordSearch
         @scoped = @scoped.page(page).per(per)
       end
       @scoped = @scoped.includes(:building) if f.include?('latitude') || f.include?('longitude')
+      @scoped = @scoped.unhoused if unhoused?
+      @scoped = @scoped.unreviewed if unreviewed?
 
       add_sorts
-      # @d = 'asc' unless %w{asc desc}.include?(@d)
-      # if @c
-      #   if @c == 'census_scope'
-      #     add_census_page_order_clause
-      #   elsif @c == 'name'
-      #     add_name_order_clause
-      #   elsif @c == 'street_address'
-      #     add_street_address_order_clause
-      #   else
-      #     add_regular_order_clause
-      #   end
-      # end
     end
 
   end
@@ -172,6 +163,22 @@ class CensusRecordSearch
 
   def is_default_field?(field)
     default_fields.include?(field.to_s)
+  end
+
+  def unhoused?
+    @unhoused
+  end
+
+  def unhoused!
+    @unhoused = true
+  end
+
+  def unreviewed!
+    @unreviewed = true
+  end
+
+  def unreviewed?
+    @unreviewed
   end
 
   def column_def

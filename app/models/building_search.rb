@@ -5,6 +5,7 @@ class BuildingSearch
   include ActiveModel::Validations
 
   attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :sort, :paged, :per, :unpeopled, :unreviewed, :uninvestigated, :people, :people_params, :expanded, :from, :to
+  attr_reader :uninvestigated, :unpeopled, :unreviewed
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -197,6 +198,30 @@ class BuildingSearch
 
   def is_default_field?(field)
     default_fields.include?(field.to_s)
+  end
+
+  def unreviewed?
+    @unreviewed
+  end
+
+  def unreviewed!
+    @unreviewed = true
+  end
+
+  def uninvestigated?
+    @uninvestigated
+  end
+
+  def uninvestigated!
+    @uninvestigated = true
+  end
+
+  def unpeopled?
+    @unpeopled
+  end
+
+  def unpeopled!
+    @unpeopled = true
   end
 
   def pagination_dict(object)

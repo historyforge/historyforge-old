@@ -1,30 +1,10 @@
 class People::CensusRecordsController < ApplicationController
-  include RestoreSearch
-
   respond_to :json, only: :index
   respond_to :csv, only: :index
   respond_to :html
 
   def index
     @page_title = page_title
-    load_census_records
-    render_census_records
-  end
-
-  def unreviewed
-    @page_title = "#{page_title} - Unreviewed"
-    params[:s] ||= {}
-    params[:s][:reviewed_at_null] = 1
-    params[:s] = params[:s].permit!
-    load_census_records
-    render_census_records
-  end
-
-  def unhoused
-    @page_title = "#{page_title} - Unhoused"
-    params[:s] ||= {}
-    params[:s][:building_id_null] = 1
-    params[:s] = params[:s].permit!
     load_census_records
     render_census_records
   end
@@ -169,6 +149,10 @@ class People::CensusRecordsController < ApplicationController
   def load_census_records
     authorize! :read, resource_class
     @search = census_record_search_class.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?, per: 100
+    if current_user
+      maybe_add_scope :unreviewed
+      maybe_add_scope :unhoused
+    end
   end
 
   def render_census_records
