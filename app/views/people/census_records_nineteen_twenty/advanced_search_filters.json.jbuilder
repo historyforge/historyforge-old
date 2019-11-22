@@ -77,24 +77,10 @@ json.filters do
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.number json, :year_naturalized
-  # AttributeBuilder.text json, :language_spoken
-  # AttributeBuilder.text json, :profession
-  # AttributeBuilder.text json, :industry
   AttributeBuilder.enumeration json, Census1920Record, :employment
   AttributeBuilder.number json, :farm_schedule
-  # AttributeBuilder.boolean json, :unemployed
-  # AttributeBuilder.number json, :unemployed_weeks_1909
-  # AttributeBuilder.boolean json, :can_read
-  # AttributeBuilder.boolean json, :can_write
-  # AttributeBuilder.boolean json, :attended_school
   AttributeBuilder.enumeration json, Census1920Record, :owned_or_rented
   AttributeBuilder.enumeration json, Census1920Record, :mortgage
-  # AttributeBuilder.enumeration json, Census1920Record, :farm_or_house
-  # AttributeBuilder.boolean json, :blind
-  # AttributeBuilder.enumeration json, Census1920Record, :civil_war_vet
-  # AttributeBuilder.boolean json, :deaf_dumb
-  AttributeBuilder.boolean json, :provisional
-  AttributeBuilder.boolean json, :taker_error
 
   json.notes do
     json.type 'text'

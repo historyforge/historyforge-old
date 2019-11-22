@@ -91,8 +91,6 @@ json.filters do
   AttributeBuilder.boolean json, :veteran
   AttributeBuilder.text json, :war_fought
   AttributeBuilder.text json, :farm_schedule
-  AttributeBuilder.boolean json, :provisional
-  AttributeBuilder.boolean json, :taker_error
 
   json.notes do
     json.type 'text'

@@ -76,8 +76,6 @@ json.filters do
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.text json, :language_spoken
-  # AttributeBuilder.text json, :profession
-  # AttributeBuilder.text json, :industry
   AttributeBuilder.enumeration json, Census1910Record, :employment
   AttributeBuilder.boolean json, :unemployed
   AttributeBuilder.number json, :unemployed_weeks_1909
@@ -90,8 +88,6 @@ json.filters do
   AttributeBuilder.boolean json, :blind
   AttributeBuilder.enumeration json, Census1910Record, :civil_war_vet
   AttributeBuilder.boolean json, :deaf_dumb
-  AttributeBuilder.boolean json, :provisional
-  AttributeBuilder.boolean json, :taker_error
 
   json.notes do
     json.type 'text'
