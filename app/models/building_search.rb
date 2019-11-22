@@ -195,6 +195,10 @@ class BuildingSearch
     %w{}
   end
 
+  def is_default_field?(field)
+    default_fields.include?(field.to_s)
+  end
+
   def pagination_dict(object)
     if object.respond_to?(:total_pages)
       info =  if object.total_pages < 2

@@ -170,6 +170,10 @@ class CensusRecordSearch
     %w{county city ward enum_dist}
   end
 
+  def is_default_field?(field)
+    default_fields.include?(field.to_s)
+  end
+
   def column_def
     columns.map { |column| column_config(column) }
   end

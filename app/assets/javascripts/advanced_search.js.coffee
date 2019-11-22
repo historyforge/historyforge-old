@@ -136,10 +136,15 @@ jQuery(document).on 'click', '.checkall', (e) ->
   e.stopPropagation()
   $cont = $($(this).data('scope'))
   $inputs = $cont.find('input[type=checkbox]')
-  if $inputs.filter(':checked').length
-    $inputs.attr 'checked', true
+  checks = $inputs.filter(':checked').length
+  if checks
+    if checks is $inputs.length
+      $inputs.removeAttr 'checked'
+      $inputs.filter("[data-default=true]").trigger('click')
+    else
+      $inputs.filter(':not(:checked)').trigger 'click'
   else
-    $inputs.removeAttr 'checked'
+    $inputs.trigger 'click'
 
 jQuery(document).on 'change', 'select.scope', ->
   scope = jQuery(this).val()
