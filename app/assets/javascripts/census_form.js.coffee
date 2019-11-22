@@ -29,6 +29,19 @@ $(document).ready ->
       e.preventDefault()
       return false
 
+  $('#new_census_record, #edit_census_record').find('input[data-type=other-radio-button]').each ->
+    unless $(this).val().length
+      $(this).attr('disabled', yes)
+  $('#new_census_record, #edit_census_record').find('input[type=radio][value!=other]').on 'click', ->
+    $input = $(this).closest('.form-group').find('input[data-type=other-radio-button]')
+    $input.val(null).attr('disabled', yes)
+  $('#new_census_record, #edit_census_record').find('input[type=radio][value=other]').on 'click', ->
+    $input = $(this).next().find('input[type=text]')
+    if $(this).is(':checked')
+      $input.removeAttr('disabled').focus()
+    else
+      $input.attr('disabled', yes)
+
   $('#new_census_record, #edit_census_record').find('input[autocomplete=new-password]').each ->
     name = this.getAttribute('name')
     attribute_name = name.match(/census_record\[(\w+)\]/)[1]
