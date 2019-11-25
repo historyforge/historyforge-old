@@ -33,7 +33,7 @@ json.filters do
       json.profession_not_cont 'does not contain'
       json.profession_eq 'equals'
     end
-    json.sortable 'occupation'
+    json.sortable 'profession'
   end
 
   json.industry do
