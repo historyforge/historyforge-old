@@ -117,9 +117,10 @@ class CensusRecord < ApplicationRecord
                                .where(address_street_prefix: street_prefix,
                                       address_street_name: street_name,
                                       city: city)
-                               .where("address_house_number LIKE ?", "#{street_house_number[0]}%")
                                .order(:address_house_number)
                                .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
+    @buildings_on_street = @buildings_on_street.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
+    @buildings_on_street
   end
 
   def matching_building(my_street_name = nil)
