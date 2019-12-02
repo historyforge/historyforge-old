@@ -240,17 +240,21 @@ jQuery(document).on 'change', 'select.attribute', ->
             [labelText, value] = choice
           name = 's[' + scopeSelect.val() + '][]'
           id = 's_' + scopeSelect.val() + '_' + value
+          checkbox = document.createElement('DIV')
+          checkbox.classList.add 'form-check'
           input = document.createElement 'INPUT'
+          input.classList.add 'form-check-input'
           input.setAttribute 'type', 'checkbox'
           input.setAttribute 'id', id
           input.setAttribute 'name', name
           input.setAttribute 'value', value
+          checkbox.appendChild input
           label = document.createElement 'LABEL'
           label.setAttribute 'for', id
-          label.className = 'checkbox'
-          label.appendChild input
+          label.className = 'form-check-label'
           label.appendChild document.createTextNode(labelText)
-          valueBox.append label
+          checkbox.appendChild label
+          valueBox.append checkbox
         valueBox.show()
 
       when 'text'

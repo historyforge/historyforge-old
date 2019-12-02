@@ -1,33 +1,12 @@
 class BuildingsController < ApplicationController
+  include AdvancedRestoreSearch
+
   respond_to :json, only: %i[index show]
   respond_to :csv, only: :index
   respond_to :html
 
   def index
     @page_title = 'Buildings'
-    load_buildings
-    render_buildings
-  end
-
-  def unpeopled
-    @page_title = "Buildings - Unpeopled"
-    params[:unpeopled] = 1
-    load_buildings
-    render_buildings
-  end
-
-  def unreviewed
-    @page_title = "Buildings - Unreviewed"
-    authorize! :review, Building
-    params[:unreviewed] = 1
-    load_buildings
-    render_buildings
-  end
-
-  def uninvestigated
-    @page_title = "Buildings - Need to Investigate"
-    authorize! :review, Building
-    params[:uninvestigated] = 1
     load_buildings
     render_buildings
   end

@@ -1,4 +1,6 @@
 class People::CensusRecordsController < ApplicationController
+  include AdvancedRestoreSearch
+
   respond_to :json, only: :index
   respond_to :csv, only: :index
   respond_to :html
@@ -190,4 +192,5 @@ class People::CensusRecordsController < ApplicationController
                 :unhoused_collection_path,
                 :unreviewed_collection_path,
                 :resource_class
+
 end
