@@ -40,8 +40,10 @@
           h5.modal-title Add Filter
           button.close(type="button" data-dismiss="modal") &times;
         .modal-body
-          select.attribute
-          .scope-selection-container
-          .value-input-container
+          .row
+            .col-3
+              select.attribute.form-control
+            .scope-selection-container.col-3
+            .value-input-container.col-6
         .modal-footer
           = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary'

@@ -179,7 +179,8 @@ jQuery(document).on 'change', 'select.attribute', ->
     scopeSelectContainer.empty().hide()
 
     scopeSelect = document.createElement('SELECT')
-    scopeSelect.className = 'scope'
+    scopeSelect.classList.add 'scope'
+    scopeSelect.classList.add 'form-control'
     scopeSelect = jQuery scopeSelect
     for key, value of field_config.scopes
       scopeSelect.append "<option value=\"#{key}\">#{value}</option>"
@@ -190,9 +191,17 @@ jQuery(document).on 'change', 'select.attribute', ->
     scopeSelectContainer.append(scopeSelect).css('display', 'inline')
 
     valueBox = form.find('.value-input-container')
-    valueBox.hide().empty().prop('className', 'value-input-container').addClass(field_config.type)
+    valueBox.hide().empty().prop('className', 'value-input-container col-6').addClass(field_config.type)
     if field_config.columns
       valueBox.addClass 'column-count-' + field_config.columns
+
+
+    scopeSelect.on 'change', ->
+      $input = valueBox.find('input')
+      if $(this).val().match(/y_term/)
+        $input.attr('placeholder', 'spaces separate "multiple words"')
+      if $input.length is 1
+        $input.focus()
 
     appendToValueBox = (input) ->
       if field_config.append
@@ -247,6 +256,7 @@ jQuery(document).on 'change', 'select.attribute', ->
       when 'text'
         name = "s[#{scopeSelect.val()}]"
         input = document.createElement 'INPUT'
+        input.classList.add 'form-control'
         input.setAttribute 'name', name
         input.setAttribute 'type', 'text'
         appendToValueBox(input)
@@ -254,6 +264,7 @@ jQuery(document).on 'change', 'select.attribute', ->
       when 'number', 'age', 'time'
         name = "s[#{scopeSelect.val()}]"
         input = document.createElement 'INPUT'
+        input.classList.add 'form-control'
         input.setAttribute 'name', name
         input.setAttribute 'type', 'number'
         appendToValueBox(input)
@@ -272,6 +283,7 @@ jQuery(document).on 'change', 'select.attribute', ->
         choices = field_config.choices
         name = "s[#{scopeSelect.val()}]"
         input = document.createElement 'SELECT'
+        input.classList.add 'form-control'
         input.setAttribute 'name', name
         for choice in choices
           label = value = choice
