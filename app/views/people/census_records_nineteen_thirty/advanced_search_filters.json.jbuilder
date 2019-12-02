@@ -10,6 +10,8 @@ json.filters do
     json.scopes do
       json.name_cont 'contains'
       json.name_not_cont 'does not contain'
+      json.name_has_any_term 'is one of'
+      json.name_has_every_term 'is all of'
     end
     json.sortable 'name'
   end
@@ -21,6 +23,8 @@ json.filters do
       json.pob_cont 'contains'
       json.pob_not_cont 'does not contain'
       json.pob_eq 'equals'
+      json.pob_has_any_term 'is one of'
+      json.pob_has_every_term 'is all of'
     end
     json.sortable 'pob'
   end
@@ -32,6 +36,8 @@ json.filters do
       json.profession_cont 'contains'
       json.profession_not_cont 'does not contain'
       json.profession_eq 'equals'
+      json.profession_has_any_term 'is one of'
+      json.profession_has_every_term 'is all of'
     end
     json.sortable 'profession'
   end
@@ -43,6 +49,8 @@ json.filters do
       json.industry_cont 'contains'
       json.industry_not_cont 'does not contain'
       json.industry_eq 'equals'
+      json.industry_has_any_term 'is one of'
+      json.industry_has_every_term 'is all of'
     end
     json.sortable 'industry'
   end
