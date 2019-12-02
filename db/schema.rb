@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_15_203033) do
+ActiveRecord::Schema.define(version: 2019_12_02_153328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -310,15 +310,15 @@ ActiveRecord::Schema.define(version: 2019_11_15_203033) do
     t.string "relation_to_head"
     t.string "owned_or_rented", limit: 10
     t.integer "home_value"
-    t.boolean "has_radio_bool"
-    t.boolean "lives_on_farm_bool"
+    t.boolean "has_radio"
+    t.boolean "lives_on_farm"
     t.string "sex", limit: 1
-    t.string "race", limit: 1
+    t.string "race", limit: 5
     t.integer "age"
     t.string "marital_status", limit: 2
     t.integer "age_married"
-    t.boolean "attended_school_bool"
-    t.boolean "can_read_write_bool"
+    t.boolean "attended_school"
+    t.boolean "can_read_write"
     t.string "pob", default: "New York"
     t.string "pob_father", default: "New York"
     t.string "pob_mother", default: "New York"
@@ -328,33 +328,33 @@ ActiveRecord::Schema.define(version: 2019_11_15_203033) do
     t.string "mother_tongue"
     t.integer "year_immigrated"
     t.string "naturalized_alien"
-    t.boolean "can_speak_english_bool"
+    t.boolean "can_speak_english"
     t.string "profession"
     t.string "industry"
     t.string "profession_code"
     t.string "worker_class"
-    t.boolean "worked_yesterday_bool"
+    t.boolean "worked_yesterday"
     t.string "unemployment_line"
-    t.boolean "veteran_bool"
+    t.boolean "veteran"
     t.string "war_fought"
     t.string "farm_schedule"
     t.text "notes"
     t.boolean "provisional", default: false
-    t.boolean "foreign_born_bool", default: false
+    t.boolean "foreign_born", default: false
     t.boolean "taker_error", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
-    t.integer "has_radio"
-    t.integer "lives_on_farm"
-    t.integer "attended_school"
-    t.integer "can_read_write"
-    t.integer "can_speak_english"
-    t.integer "worked_yesterday"
-    t.integer "veteran"
-    t.integer "foreign_born"
+    t.integer "has_radio_int"
+    t.integer "lives_on_farm_int"
+    t.integer "attended_school_int"
+    t.integer "can_read_write_int"
+    t.integer "can_speak_english_int"
+    t.integer "worked_yesterday_int"
+    t.integer "veteran_int"
+    t.integer "foreign_born_int"
     t.integer "homemaker"
     t.integer "age_months"
     t.string "apartment_number"
