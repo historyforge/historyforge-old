@@ -21,7 +21,7 @@
           = form.input :enum_dist, as: :integer, input_html: { min: 0, max: 10_000 }
           = form.input :street_house_number, input_html: { autocomplete: 'new-password' }
           = form.input :street_prefix, collection: %w{N S E W}, input_html: { autocomplete: 'new-password' }
-          = form.input :street_name, input_html: { id: 'street_name' }, input_html: { autocomplete: 'new-password' }
+          = form.input :street_name, input_html: { id: 'street_name', autocomplete: 'new-password' }
           = form.input :street_suffix, collection: CensusRecord.street_suffix_choices, input_html: { autocomplete: 'new-password' }
           = form.input :apartment_number, input_html: { autocomplete: 'new-password' }
           = form.input :building_id, as: :select, collection: form.object.buildings_on_street, input_html: { id: 'building_id' }
