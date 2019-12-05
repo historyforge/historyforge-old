@@ -114,11 +114,11 @@ class CensusRecord < ApplicationRecord
     return [] unless (street_name.present? && city.present?)
     return @buildings_on_street if defined?(@buildings_on_street)
     @buildings_on_street = Building
-                               .where(address_street_prefix: street_prefix,
-                                      address_street_name: street_name,
+                               .where(address_street_name: street_name,
                                       city: city)
                                .order(:address_house_number)
                                .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
+    @buildings_on_street = @buildings_on_street.where(address_street_prefix: street_prefix) if street_prefix.present?
     @buildings_on_street = @buildings_on_street.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
     @buildings_on_street
   end
