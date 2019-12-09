@@ -18,7 +18,7 @@ class CensusRecord < ApplicationRecord
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
-  validates :age, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :age, numericality: {greater_than_or_equal_to: 0, allow_nil: true}
   validate :dont_add_same_person, on: :create
 
   auto_strip_attributes :first_name, :middle_name, :last_name, :relation_to_head, :street_house_number, :street_name,
@@ -43,23 +43,23 @@ class CensusRecord < ApplicationRecord
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',
                                                                    [Arel::Nodes::Quoted.new(' '),
-                                                                     parent.table[:name_prefix],
-                                                                     parent.table[:first_name],
-                                                                     parent.table[:middle_name],
-                                                                     parent.table[:last_name],
-                                                                     parent.table[:name_suffix]
-                                                                     ])])
+                                                                    parent.table[:name_prefix],
+                                                                    parent.table[:first_name],
+                                                                    parent.table[:middle_name],
+                                                                    parent.table[:last_name],
+                                                                    parent.table[:name_suffix]
+                                                                   ])])
   end
 
   ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',
                                                                    [Arel::Nodes::Quoted.new(' '),
-                                                                     parent.table[:street_house_number],
-                                                                     parent.table[:street_prefix],
-                                                                     parent.table[:street_name],
-                                                                     parent.table[:street_suffix]
-                                                                     ])])
+                                                                    parent.table[:street_house_number],
+                                                                    parent.table[:street_prefix],
+                                                                    parent.table[:street_name],
+                                                                    parent.table[:street_suffix]
+                                                                   ])])
   end
 
   scope :unreviewed, -> { where(reviewed_at: nil) }
@@ -81,11 +81,11 @@ class CensusRecord < ApplicationRecord
 
   def likely_matches?
     self.class.ransack(
-      street_house_number_eq: street_house_number,
-      street_name_eq: street_name,
-      last_name_eq: last_name,
-      first_name_eq: first_name,
-      age_eq: age
+        street_house_number_eq: street_house_number,
+        street_name_eq: street_name,
+        last_name_eq: last_name,
+        first_name_eq: first_name,
+        age_eq: age
     ).result.count > 0
   end
 
@@ -128,11 +128,10 @@ class CensusRecord < ApplicationRecord
     modern_street_name = modern_address.street_name
     return [] if modern_street_name == street_name
     buildings = Building
-                               .where(address_street_name: modern_street_name,
-                                      city: city)
-                               .order(:address_house_number)
-                               .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
-    buildings = buildings.where(address_street_prefix: street_prefix) if street_prefix.present?
+                    .where(address_street_name: modern_street_name,
+                           city: city)
+                    .order(:address_house_number)
+                    .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
     buildings = buildings.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
     buildings
   end
@@ -159,14 +158,14 @@ class CensusRecord < ApplicationRecord
     my_street_suffix = modern_address.street_suffix
     my_street_prefix = modern_address.street_prefix
     self.building ||= matching_building(my_street_name) || Building.create(
-      name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
-      address_house_number: street_house_number,
-      address_street_prefix: my_street_prefix,
-      address_street_name: my_street_name,
-      address_street_suffix: my_street_suffix,
-      city: city,
-      state: state,
-      building_type: BuildingType.where(name: 'residence').first
+        name: "#{street_name} #{street_suffix} - #{street_prefix} - ##{street_house_number}",
+        address_house_number: street_house_number,
+        address_street_prefix: my_street_prefix,
+        address_street_name: my_street_name,
+        address_street_suffix: my_street_suffix,
+        city: city,
+        state: state,
+        building_type: BuildingType.where(name: 'residence').first
     )
   end
 
