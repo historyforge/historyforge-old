@@ -120,7 +120,21 @@ class CensusRecord < ApplicationRecord
                                .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
     @buildings_on_street = @buildings_on_street.where(address_street_prefix: street_prefix) if street_prefix.present?
     @buildings_on_street = @buildings_on_street.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
-    @buildings_on_street
+    @buildings_on_street = @buildings_on_street + buildings_on_modern_street
+  end
+
+  def buildings_on_modern_street
+    return [] unless (street_name.present? && city.present?)
+    modern_street_name = modern_address.street_name
+    return [] if modern_street_name == street_name
+    buildings = Building
+                               .where(address_street_name: modern_street_name,
+                                      city: city)
+                               .order(:address_house_number)
+                               .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
+    buildings = buildings.where(address_street_prefix: street_prefix) if street_prefix.present?
+    buildings = buildings.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
+    buildings
   end
 
   def matching_building(my_street_name = nil)
