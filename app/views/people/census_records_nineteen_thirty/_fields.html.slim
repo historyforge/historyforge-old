@@ -43,5 +43,5 @@
         = form.input :worker_class, label: 'Worker Class', collection: Census1930Record.worker_class_choices, as: :radio_buttons
         = form.input :worked_yesterday, as: :radio_buttons, label: 'At work yesterday?', collection: yes_no_choices
         = form.input :unemployment_line, label: 'Unemployment Schedule No.'
-        = form.input :veteran, as: :radio_buttons, label: 'Veteran?', collection: yes_no_choices, wrapper_html: { data: { dependents: 1 } }
+        = form.input :veteran, as: :radio_buttons, label: 'Veteran?', collection: yes_no_choices, wrapper_html: { data: { dependents: 'true' } }
         = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1930Record.war_fought_choices, coded: true, wrapper_html: { data: { depends_on: :veteran } }
