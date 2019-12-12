@@ -105,7 +105,7 @@ $(document).ready ->
     hints = ['TAB moves to next field.', 'Shift-TAB moves to previous field.']
     hints.push('Arrow keys move between choices.') if type is 'radio'
     hints.push('SPACE to check the box.') if type is 'radio' or type is 'checkbox'
-    hints.push('ENTER submits the form.')
+    hints.push('ENTER selects a choice.')
     $hint.html "<b>HINT:</b> #{hints.join(' ')}"
     $('.census-hint-wrapper').show()
 
