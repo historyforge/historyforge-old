@@ -18,7 +18,7 @@ class CensusRecord < ApplicationRecord
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
-  validates :age, numericality: {greater_than_or_equal_to: 0, allow_nil: true}
+  validates :age, numericality: {greater_than_or_equal_to: -1, allow_nil: true}
   validate :dont_add_same_person, on: :create
 
   auto_strip_attributes :first_name, :middle_name, :last_name, :relation_to_head, :street_house_number, :street_name,
