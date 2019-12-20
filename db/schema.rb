@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_210841) do
+ActiveRecord::Schema.define(version: 2019_12_20_211754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -355,9 +355,10 @@ ActiveRecord::Schema.define(version: 2019_12_20_210841) do
     t.integer "worked_yesterday_int"
     t.integer "veteran_int"
     t.integer "foreign_born_int"
-    t.integer "homemaker"
+    t.integer "homemaker_int"
     t.integer "age_months"
     t.string "apartment_number"
+    t.boolean "homemaker"
     t.index ["building_id"], name: "index_census_1930_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1930_records_on_created_by_id"
     t.index ["person_id"], name: "index_census_1930_records_on_person_id"

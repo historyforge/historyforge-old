@@ -7,6 +7,9 @@
       dt Relation to Head
       dd= @record.relation_to_head.andand.capitalize || 'blank'
     dl
+      dt Home-Maker
+      dd= @record.homemaker? ? 'Yes' : 'No'
+    dl
       dt Sex
       dd= @record.sex || 'blank'
     dl
