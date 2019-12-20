@@ -13,8 +13,7 @@ class CensusRecord < ApplicationRecord
   attr_accessor :ensure_building
   before_save :ensure_housing
 
-  validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head,
-            :sex, :race, :age, :marital_status, :profession,
+  validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head, :profession,
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 

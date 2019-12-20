@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_02_153328) do
+ActiveRecord::Schema.define(version: 2019_12_20_210841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -109,7 +109,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_153328) do
     t.integer "birth_month"
     t.integer "birth_year"
     t.integer "age"
-    t.string "marital_status", limit: 2
+    t.string "marital_status", limit: 5
     t.integer "years_married"
     t.integer "num_children_born"
     t.integer "num_children_alive"
@@ -177,7 +177,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_153328) do
     t.string "sex", limit: 1
     t.string "race", limit: 1
     t.integer "age"
-    t.string "marital_status", limit: 2
+    t.string "marital_status", limit: 5
     t.integer "years_married"
     t.integer "num_children_born"
     t.integer "num_children_alive"
@@ -245,7 +245,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_153328) do
     t.string "sex", limit: 1
     t.string "race", limit: 1
     t.integer "age"
-    t.string "marital_status", limit: 2
+    t.string "marital_status", limit: 5
     t.integer "year_immigrated"
     t.string "naturalized_alien"
     t.string "pob", default: "New York"
@@ -315,7 +315,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_153328) do
     t.string "sex", limit: 1
     t.string "race", limit: 5
     t.integer "age"
-    t.string "marital_status", limit: 2
+    t.string "marital_status", limit: 5
     t.integer "age_married"
     t.boolean "attended_school"
     t.boolean "can_read_write"
@@ -447,6 +447,7 @@ ActiveRecord::Schema.define(version: 2019_12_02_153328) do
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
+    t.integer "birth_year"
     t.index ["searchable_name"], name: "people_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
