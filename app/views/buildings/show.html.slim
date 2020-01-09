@@ -75,7 +75,7 @@ h1.page-title= @building.name
       - if @building.public_send("census_#{year}_records").present?
         .card.mb-1
           .card-header
-            |= "Residents in #{year}"
+            = "Residents in #{year}"
           .card-body
             - @building.public_send("families_in_#{year}").each do |id, family|
               table.table.table-condensed.table-bordered
