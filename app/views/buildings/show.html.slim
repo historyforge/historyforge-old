@@ -16,8 +16,8 @@ h1.page-title= @building.name
           | &nbsp; &nbsp;
           b= @building.investigate_reason
     .card.mb-1
+      .card-header Details
       .card-body
-        | Details
         dl
           dt Years
           - if @building.year_earliest? || @building.year_latest?

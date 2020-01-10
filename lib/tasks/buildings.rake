@@ -1,4 +1,14 @@
 namespace :buildings do
+  task dedupe_photos: :environment do
+    Building.joins(:photos).each do |building|
+      if building.photos.size == 2 && building.photos.first.id == building.photos.second.id
+        photo = building.photos.first
+        building.photos = [photo]
+        building.save
+      end
+    end
+  end
+
   task import: :environment do
 
     file = ENV['file']
