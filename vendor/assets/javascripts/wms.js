@@ -66,7 +66,8 @@ MercatorProjection.prototype.fromDivPixelToSphericalMercator = function(pixel, z
 };
 
 function loadWMS(map, layer, position, customParams){
-    var baseURL = layer.url + '?';
+    var baseURL = layer.url.replace(/mosaics\/tile/, 'mosaics/wms').replace("/{z}/{x}/{y}.png", "").split('?')[0] + '?';
+    console.log(layer.url, baseURL)
     var id = layer.id;
     // var baseURL = "/layers/"+id+"/wms?";
     var tileHeight = 256;
