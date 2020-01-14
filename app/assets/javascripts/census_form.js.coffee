@@ -21,7 +21,20 @@ $.fn.extend
       else
         $(".form-group[data-depends-on=#{attribute_name}]").disableWrapper()
 
+showHints = window.localStorage.getItem('hints')
+showHints = true if showHints is null
+toggleHints = () ->
+  showHints = !showHints
+  window.localStorage.setItem('hints', showHints)
+  setHints()
+
+setHints = () ->
+  $('.hint-toggle-btn').text if showHints then 'Showing hints' else 'Hiding hints'
+  $('.census-hint-wrapper').hide() unless showHints
+
 $(document).ready ->
+  setHints()
+  $('.hint-toggle-btn').on 'click', toggleHints
   $('#new_census_record, #edit_census_record').on "keypress", (e) ->
     code = e.keyCode or e.which
     if code is 13
@@ -107,7 +120,7 @@ $(document).ready ->
     hints.push('SPACE to check the box.') if type is 'radio' or type is 'checkbox'
     hints.push('ENTER selects a choice.')
     $hint.html "<b>HINT:</b> #{hints.join(' ')}"
-    $('.census-hint-wrapper').show()
+    $('.census-hint-wrapper').show() if showHints
 
   # TODO: Refactor these to use the data-dependent API
   jQuery(document).on 'change', '#census_record_relation_to_head', ->
