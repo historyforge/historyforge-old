@@ -52,6 +52,7 @@ class Building < ApplicationRecord
   end
 
   auto_strip_attributes :name, :city, :postal_code, :description, :address_house_number,
+                        :address_street_name,
                         :address_street_prefix, :address_house_number, :address_street_suffix,
                         :stories, :annotations
 
