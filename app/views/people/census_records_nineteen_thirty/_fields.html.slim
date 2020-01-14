@@ -40,7 +40,7 @@
         = form.input :pob, input_html: { autocomplete: 'new-password' }
         = form.input :pob_father, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
-        = form.input :foreign_born, as: :boolean, inline_label: 'This person is foreign born.', wrapper_html: { data: { dependents: 'true' } }
+        = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
         = form.input :pob_code
         = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
