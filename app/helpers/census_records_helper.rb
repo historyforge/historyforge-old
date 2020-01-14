@@ -5,7 +5,7 @@ module CensusRecordsHelper
   end
 
   def yes_no_choices
-    [["blank", nil], ["yes", true], ["no", false]]
+    [["Left blank", nil], ["Yes", true], ["No", false]]
   end
 
   def prepare_blanks_for_1910_census(record)
