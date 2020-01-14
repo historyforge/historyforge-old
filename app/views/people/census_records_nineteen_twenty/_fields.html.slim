@@ -1,3 +1,7 @@
+= hidden_field_tag 'census_record[owned_or_rented]', nil, id: 'chf1'
+= hidden_field_tag 'census_record[mortgage]', nil, id: 'chf3'
+= hidden_field_tag 'census_record[naturalized_alien]', nil, id: 'chf5'
+
 .census-hint-wrapper style="display: none"
   .census-hint
 - content_for :extra_buttons do
@@ -16,12 +20,12 @@
         = form.input :name_prefix, input_html: { autocomplete: 'new-password' }
         = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
         = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
-        = form.input :owned_or_rented, as: :select, collection: Census1920Record.owned_or_rented_choices
-        = form.input :mortgage, as: :select, collection: Census1920Record.mortgage_choices
-        = form.input :sex, as: :select, collection: Census1920Record.sex_choices
-        = form.input :race, as: :select, collection: Census1920Record.race_choices
+        = form.input :owned_or_rented, as: :radio_buttons, collection: Census1920Record.owned_or_rented_choices
+        = form.input :mortgage, as: :radio_buttons, collection: Census1920Record.mortgage_choices
+        = form.input :sex, as: :radio_buttons, collection: Census1920Record.sex_choices
+        = form.input :race, as: :radio_buttons, collection: Census1920Record.race_choices
         = form.input :age
-        = form.input :marital_status, as: :select, collection: CensusRecord.marital_status_choices
+        = form.input :marital_status, as: :radio_buttons, collection: CensusRecord.marital_status_choices
         = form.input :year_immigrated, as: :integer
         = form.input :naturalized_alien
         = form.input :year_naturalized, as: :integer
@@ -38,5 +42,5 @@
         = form.input :can_speak_english, as: :boolean, inline_label: 'Can speak English?'
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
         = form.input :industry, input_html: { autocomplete: 'new-password' }
-        = form.input :employment, as: :select, collection: Census1910Record.employment_choices
+        = form.input :employment, as: :radio_buttons, collection: Census1910Record.employment_choices
         = form.input :farm_schedule
