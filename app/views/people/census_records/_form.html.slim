@@ -26,7 +26,7 @@
           = form.input :apartment_number, input_html: { autocomplete: 'new-password' }
           = form.input :building_id, as: :select, collection: form.object.buildings_on_street, input_html: { id: 'building_id' }
           - unless form.object.building_id
-            = form.input :ensure_building, as: :boolean, label: 'Add building with address'
+            = form.input :ensure_building, as: :boolean, label: 'Add building with address', inline_label: 'Yes'
           = form.input :dwelling_number
           = form.input :family_id
 
