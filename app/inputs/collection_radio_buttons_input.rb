@@ -25,7 +25,8 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
 
   def option_label(item)
     if options[:coded]
-      "#{item} - #{translated_option(item)}"
+      code = item.downcase == item ? item.capitalize : item
+      "#{code} - #{translated_option(item)}"
     else
       translated_option(item).titleize
     end

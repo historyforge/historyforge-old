@@ -41,12 +41,12 @@
         = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
         = form.input :pob_code
         = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
-        = form.input :naturalized_alien, as: :radio_buttons, collection: CensusRecord.naturalized_alien_choices, wrapper_html: { data: { depends_on: :foreign_born } }
+        = form.input :naturalized_alien, as: :radio_buttons, collection: CensusRecord.naturalized_alien_choices, coded: true, wrapper_html: { data: { depends_on: :foreign_born } }
         = form.input :can_speak_english, as: :radio_buttons, label: 'Speaks English?', collection: yes_no_choices
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
         = form.input :industry, input_html: { autocomplete: 'new-password' }
         = form.input :profession_code, input_html: { autocomplete: 'new-password' }
-        = form.input :worker_class, label: 'Worker Class', collection: Census1930Record.worker_class_choices, as: :radio_buttons
+        = form.input :worker_class, label: 'Worker Class', collection: Census1930Record.worker_class_choices, coded: true, as: :radio_buttons
         = form.input :worked_yesterday, as: :radio_buttons, label: 'At work yesterday?', collection: yes_no_choices
         = form.input :unemployment_line, label: 'Unemployment Schedule No.'
         = form.input :veteran, as: :radio_buttons, label: 'Veteran?', collection: yes_no_choices, wrapper_html: { data: { dependents: 'true' } }
