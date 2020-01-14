@@ -53,7 +53,8 @@ class AttributeBuilder::BaseAttribute
   end
 
   def label
-    I18n.t("simple_form.labels.defaults.#{key}", default: (@klass ? @klass : CensusRecord).human_attribute_name(key))
+    I18n.t("simple_form.labels.census_record.#{key}", default:
+      I18n.t("simple_form.labels.defaults.#{key}", default: (@klass ? @klass : CensusRecord).human_attribute_name(key)))
   end
 
   def extras
