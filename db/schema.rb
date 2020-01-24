@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_20_211754) do
+ActiveRecord::Schema.define(version: 2020_01_24_144150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -104,12 +104,12 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.string "first_name"
     t.string "middle_name"
     t.string "relation_to_head"
-    t.string "sex", limit: 1
-    t.string "race", limit: 1
+    t.string "sex"
+    t.string "race"
     t.integer "birth_month"
     t.integer "birth_year"
     t.integer "age"
-    t.string "marital_status", limit: 5
+    t.string "marital_status"
     t.integer "years_married"
     t.integer "num_children_born"
     t.integer "num_children_alive"
@@ -125,9 +125,9 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.boolean "can_read"
     t.boolean "can_write"
     t.boolean "can_speak_english"
-    t.string "owned_or_rented", limit: 10
-    t.string "mortgage", limit: 1
-    t.string "farm_or_house", limit: 1
+    t.string "owned_or_rented"
+    t.string "mortgage"
+    t.string "farm_or_house"
     t.string "language_spoken", default: "English"
     t.text "notes"
     t.boolean "provisional", default: false
@@ -174,10 +174,10 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.string "first_name"
     t.string "middle_name"
     t.string "relation_to_head"
-    t.string "sex", limit: 1
-    t.string "race", limit: 1
+    t.string "sex"
+    t.string "race"
     t.integer "age"
-    t.string "marital_status", limit: 5
+    t.string "marital_status"
     t.integer "years_married"
     t.integer "num_children_born"
     t.integer "num_children_alive"
@@ -194,9 +194,9 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.boolean "can_read"
     t.boolean "can_write"
     t.boolean "can_speak_english"
-    t.string "owned_or_rented", limit: 10
-    t.string "mortgage", limit: 1
-    t.string "farm_or_house", limit: 1
+    t.string "owned_or_rented"
+    t.string "mortgage"
+    t.string "farm_or_house"
     t.string "num_farm_sched"
     t.string "language_spoken", default: "English"
     t.string "unemployed_weeks_1909"
@@ -242,10 +242,10 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.string "first_name"
     t.string "middle_name"
     t.string "relation_to_head"
-    t.string "sex", limit: 1
-    t.string "race", limit: 1
+    t.string "sex"
+    t.string "race"
     t.integer "age"
-    t.string "marital_status", limit: 5
+    t.string "marital_status"
     t.integer "year_immigrated"
     t.string "naturalized_alien"
     t.string "pob", default: "New York"
@@ -261,9 +261,9 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.boolean "attended_school"
     t.boolean "can_read"
     t.boolean "can_write"
-    t.string "owned_or_rented", limit: 10
-    t.string "mortgage", limit: 1
-    t.string "farm_or_house", limit: 1
+    t.string "owned_or_rented"
+    t.string "mortgage"
+    t.string "farm_or_house"
     t.text "notes"
     t.boolean "provisional", default: false
     t.boolean "foreign_born", default: false
@@ -308,14 +308,14 @@ ActiveRecord::Schema.define(version: 2019_12_20_211754) do
     t.string "first_name"
     t.string "middle_name"
     t.string "relation_to_head"
-    t.string "owned_or_rented", limit: 10
+    t.string "owned_or_rented"
     t.integer "home_value"
     t.boolean "has_radio"
     t.boolean "lives_on_farm"
-    t.string "sex", limit: 1
-    t.string "race", limit: 5
+    t.string "sex"
+    t.string "race"
     t.integer "age"
-    t.string "marital_status", limit: 5
+    t.string "marital_status"
     t.integer "age_married"
     t.boolean "attended_school"
     t.boolean "can_read_write"
