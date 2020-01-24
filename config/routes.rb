@@ -18,9 +18,6 @@ Rails.application.routes.draw do
       put 'disable_and_reset'
       get 'mask'
     end
-    collection do
-      get 'stats'
-    end
     resource :user_account
     resources :roles
   end

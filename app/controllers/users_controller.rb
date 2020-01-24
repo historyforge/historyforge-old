@@ -7,33 +7,6 @@ class UsersController < ApplicationController
 
   rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
-  # helper :sort
-  # include SortHelper
-
-  def stats
-    # sort_init "total_count"
-    # sort_update
-
-    @html_title = "Users Stats"
-
-    the_sql = "select user_id, username, COUNT(user_id) as total_count,
-      COUNT(case when auditable_type='Gcp' then 1 end) as gcp_count,
-
-      COUNT(case when auditable_type='Map' or auditable_type='Mapscan' then 1 end) as map_count,
-
-      COUNT(case when action='update' and auditable_type='Gcp' then 1 end) as gcp_update_count,
-
-      COUNT(case when action='create' and auditable_type='Gcp' then 1 end) as gcp_create_count,
-
-      COUNT(case when action='destroy' and auditable_type='Gcp' then 1 end) as gcp_destroy_count
-
-      from audits group by user_id, username ORDER BY username ASC"
-
-
-    @users_activity = Kaminari.paginate_array(Audited::Audit.find_by_sql(the_sql)).page(params[:page] || 1).per(30)
-  end
-
-
   def index
     @html_title = "Users"
     # sort_init 'email'
@@ -52,8 +25,6 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id]) || current_user
     @html_title = "Showing User "+ @user.login.capitalize
-    @mymaps = @user.maps.order("updated_at DESC").page(params[:page] || 1).per(8)
-    @current_user_maps = current_user.maps
     respond_to do | format |
       format.html {}
       format.js {}
