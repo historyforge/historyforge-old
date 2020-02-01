@@ -22,7 +22,7 @@ $.fn.extend
         $(".form-group[data-depends-on=#{attribute_name}]").disableWrapper()
 
 showHints = window.localStorage.getItem('hints')
-showHints = true if showHints is null
+#showHints = true if showHints is null
 toggleHints = () ->
   showHints = !showHints
   window.localStorage.setItem('hints', showHints)
