@@ -2,20 +2,41 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `rails
+# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_24_144150) do
+ActiveRecord::Schema.define(version: 2020_02_20_200131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "architects", id: :serial, force: :cascade do |t|
     t.string "name", null: false
@@ -464,6 +485,32 @@ ActiveRecord::Schema.define(version: 2020_01_24_144150) do
     t.datetime "updated_at"
   end
 
+  create_table "photographs", force: :cascade do |t|
+    t.bigint "created_by_id"
+    t.bigint "physical_type_id"
+    t.bigint "physical_format_id"
+    t.bigint "rights_statement_id"
+    t.string "title"
+    t.text "description"
+    t.string "creator"
+    t.string "subject"
+    t.string "date_text"
+    t.date "date_start"
+    t.date "date_end"
+    t.text "physical_description"
+    t.string "location"
+    t.string "identifier"
+    t.text "notes"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["created_by_id"], name: "index_photographs_on_created_by_id"
+    t.index ["physical_format_id"], name: "index_photographs_on_physical_format_id"
+    t.index ["physical_type_id"], name: "index_photographs_on_physical_type_id"
+    t.index ["rights_statement_id"], name: "index_photographs_on_rights_statement_id"
+  end
+
   create_table "photos", id: :serial, force: :cascade do |t|
     t.integer "building_id"
     t.integer "position"
@@ -479,11 +526,44 @@ ActiveRecord::Schema.define(version: 2020_01_24_144150) do
     t.index ["building_id"], name: "index_photos_on_building_id"
   end
 
+  create_table "physical_formats", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "physical_formats_types", id: false, force: :cascade do |t|
+    t.bigint "physical_format_id", null: false
+    t.bigint "physical_type_id", null: false
+  end
+
+  create_table "physical_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "rights_statements", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.string "url"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "roles", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "updated_by"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "spatial_ref_sys", primary_key: "srid", id: :integer, default: nil, force: :cascade do |t|
+    t.string "auth_name", limit: 256
+    t.integer "auth_srid"
+    t.string "srtext", limit: 2048
+    t.string "proj4text", limit: 2048
   end
 
   create_table "street_conversions", force: :cascade do |t|
@@ -537,6 +617,7 @@ ActiveRecord::Schema.define(version: 2020_01_24_144150) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buildings", "building_types"
   add_foreign_key "buildings", "users", column: "created_by_id"
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
@@ -560,5 +641,9 @@ ActiveRecord::Schema.define(version: 2020_01_24_144150) do
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"
   add_foreign_key "people_photos", "people"
   add_foreign_key "people_photos", "photos"
+  add_foreign_key "photographs", "physical_formats"
+  add_foreign_key "photographs", "physical_types"
+  add_foreign_key "photographs", "rights_statements"
+  add_foreign_key "photographs", "users", column: "created_by_id"
   add_foreign_key "photos", "buildings"
 end

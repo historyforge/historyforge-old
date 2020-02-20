@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.5.1'
 
-gem 'activerecord-postgis-adapter'
+# gem 'activerecord-postgis-adapter'
 gem 'acts_as_list'
 gem 'airbrake'
 gem 'andand'
@@ -30,7 +30,7 @@ gem 'paper_trail'
 gem 'paperclip' #, '~> 4.2.0'
 gem 'pg'
 gem 'puma'
-gem 'rails', '5.2.3'
+gem 'rails', '~>6'
 gem 'ransack'
 gem 'rubyXL', require: false
 gem 'sass-rails', '~>5'
