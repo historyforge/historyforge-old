@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_06_191653) do
+ActiveRecord::Schema.define(version: 2020_04_06_211733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -590,6 +590,15 @@ ActiveRecord::Schema.define(version: 2020_04_06_191653) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "terms", force: :cascade do |t|
+    t.bigint "vocabulary_id"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_terms_on_name"
+    t.index ["vocabulary_id"], name: "index_terms_on_vocabulary_id"
+  end
+
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "login"
     t.string "email"
@@ -628,6 +637,14 @@ ActiveRecord::Schema.define(version: 2020_04_06_191653) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
+  create_table "vocabularies", force: :cascade do |t|
+    t.string "name"
+    t.string "machine_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["machine_name"], name: "index_vocabularies_on_machine_name"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buildings", "building_types"
   add_foreign_key "buildings", "users", column: "created_by_id"
@@ -658,4 +675,5 @@ ActiveRecord::Schema.define(version: 2020_04_06_191653) do
   add_foreign_key "photographs", "rights_statements"
   add_foreign_key "photographs", "users", column: "created_by_id"
   add_foreign_key "photos", "buildings"
+  add_foreign_key "terms", "vocabularies"
 end

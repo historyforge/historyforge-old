@@ -1,6 +1,9 @@
 class Census1930Record < CensusRecord
   self.table_name = 'census_1930_records'
 
+  validates :war_fought, :profession_code, vocabulary: { allow_blank: true }
+  validates :mother_tongue, vocabulary: { name: :language, allow_blank: true }
+
   define_enumeration :worker_class, %w{E W OA NP}
   define_enumeration :war_fought, %w{WW Sp Civ Phil Box Mex}
   define_enumeration :marital_status, %w{S W D M}
@@ -23,5 +26,4 @@ class Census1930Record < CensusRecord
   def self.folder_name
     'census_records_nineteen_thirty'
   end
-
 end
