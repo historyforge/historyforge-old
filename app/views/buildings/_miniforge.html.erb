@@ -36,10 +36,10 @@
        ng-mouseenter="highlightBuilding()"
        ng-mouseleave="unhighlightBuilding()"
        ng-click="showBuilding()"
-       id="building-{{building.id}}">
+       id="building-{{building.data.id}}">
     <div class="pull-left">
       <p>
-        <a href="/buildings/{{ building.id }}" target="_blank">{{ building.data.attributes.name }}</a><br>
+        <a href="/buildings/{{ building.data.id }}" target="_blank">{{ building.data.attributes.name }}</a><br>
         {{ building.data.attributes.street_address }}<br>{{ building.data.attributes.city }}, {{ building.data.attributes.state }}
       </p>
       <p ng-if="hasYears || hasArchitects">
