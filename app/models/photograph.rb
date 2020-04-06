@@ -6,4 +6,6 @@ class Photograph < ApplicationRecord
   belongs_to :physical_format, optional: true
   belongs_to :rights_statement, optional: true
   has_one_attached :file
+
+  alias_attribute :caption, :description
 end
