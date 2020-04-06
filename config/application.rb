@@ -42,6 +42,6 @@ module HistoryForge
     config.assets.precompile += %w{forge.js miniforge.js}
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
-    # config.action_controller.page_cache_directory = Rails.root.join("..", "cached_pages").to_s
+    config.active_storage.service = :local
   end
 end

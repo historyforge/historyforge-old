@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_20_200131) do
+ActiveRecord::Schema.define(version: 2020_02_24_130113) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -91,6 +91,11 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.index ["frame_type_id"], name: "index_buildings_on_frame_type_id"
     t.index ["lining_type_id"], name: "index_buildings_on_lining_type_id"
     t.index ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id"
+  end
+
+  create_table "buildings_photographs", id: false, force: :cascade do |t|
+    t.bigint "photograph_id", null: false
+    t.bigint "building_id", null: false
   end
 
   create_table "buildings_photos", id: false, force: :cascade do |t|
@@ -469,8 +474,12 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
-    t.integer "birth_year"
     t.index ["searchable_name"], name: "people_name_trgm", opclass: :gist_trgm_ops, using: :gist
+  end
+
+  create_table "people_photographs", id: false, force: :cascade do |t|
+    t.bigint "photograph_id", null: false
+    t.bigint "person_id", null: false
   end
 
   create_table "people_photos", id: false, force: :cascade do |t|
@@ -490,6 +499,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.bigint "physical_type_id"
     t.bigint "physical_format_id"
     t.bigint "rights_statement_id"
+    t.bigint "building_id"
     t.string "title"
     t.text "description"
     t.string "creator"
@@ -505,6 +515,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.decimal "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["building_id"], name: "index_photographs_on_building_id"
     t.index ["created_by_id"], name: "index_photographs_on_created_by_id"
     t.index ["physical_format_id"], name: "index_photographs_on_physical_format_id"
     t.index ["physical_type_id"], name: "index_photographs_on_physical_type_id"
@@ -641,6 +652,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"
   add_foreign_key "people_photos", "people"
   add_foreign_key "people_photos", "photos"
+  add_foreign_key "photographs", "buildings"
   add_foreign_key "photographs", "physical_formats"
   add_foreign_key "photographs", "physical_types"
   add_foreign_key "photographs", "rights_statements"

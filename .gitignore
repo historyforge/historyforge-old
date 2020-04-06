@@ -7,6 +7,9 @@
 # Ignore bundler config.
 /.bundle
 
+/storage
+*.dump
+
 .DS_Store
 
 .idea

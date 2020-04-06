@@ -17,8 +17,10 @@ class Building < ApplicationRecord
   has_many :census_1920_records, dependent: :nullify, class_name: 'Census1920Record'
   has_many :census_1930_records, dependent: :nullify, class_name: 'Census1930Record'
 
-  has_and_belongs_to_many :photos #, -> { order(:position) }, dependent: :destroy
-  accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
+  # has_and_belongs_to_many :photos #, -> { order(:position) }, dependent: :destroy
+  # accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
+
+  has_and_belongs_to_many :photos, class_name: 'Photograph', dependent: :nullify
 
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }

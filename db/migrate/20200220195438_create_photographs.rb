@@ -5,6 +5,7 @@ class CreatePhotographs < ActiveRecord::Migration[6.0]
       t.references :physical_type, foreign_key: true
       t.references :physical_format, foreign_key: true
       t.references :rights_statement, foreign_key: true
+      t.references :building, foreign_key: true
       t.string :title
       t.text :description
       t.string :creator
