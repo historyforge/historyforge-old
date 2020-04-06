@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_24_130113) do
+ActiveRecord::Schema.define(version: 2020_02_20_200131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -91,11 +91,6 @@ ActiveRecord::Schema.define(version: 2020_02_24_130113) do
     t.index ["frame_type_id"], name: "index_buildings_on_frame_type_id"
     t.index ["lining_type_id"], name: "index_buildings_on_lining_type_id"
     t.index ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id"
-  end
-
-  create_table "buildings_photographs", id: false, force: :cascade do |t|
-    t.bigint "photograph_id", null: false
-    t.bigint "building_id", null: false
   end
 
   create_table "buildings_photos", id: false, force: :cascade do |t|
@@ -475,11 +470,6 @@ ActiveRecord::Schema.define(version: 2020_02_24_130113) do
     t.string "name_suffix"
     t.text "searchable_name"
     t.index ["searchable_name"], name: "people_name_trgm", opclass: :gist_trgm_ops, using: :gist
-  end
-
-  create_table "people_photographs", id: false, force: :cascade do |t|
-    t.bigint "photograph_id", null: false
-    t.bigint "person_id", null: false
   end
 
   create_table "people_photos", id: false, force: :cascade do |t|
