@@ -98,8 +98,7 @@ class BuildingsController < ApplicationController
   end
 
   def photo
-    @photo = Photo.find params[:id]
-    image = ::MiniMagick::Image.open @photo.photo.path
+    @photo = Photograph.find params[:id]
 
     # from style, how wide should it be? as % of 1278px
     width = case params[:device]
@@ -121,22 +120,7 @@ class BuildingsController < ApplicationController
       end
     end
 
-    image.auto_orient
-    image.resize width
-
-    path = File.join Rails.root, 'public', 'photos', params[:id], params[:style]
-    FileUtils.mkdir_p path
-    filename = "#{path}/#{params[:device]}.jpg"
-    image.write filename
-
-    self.content_type = 'image/jpeg'
-    self.status = 200
-    self.response_body = File.open(filename).read
-
-  rescue ::MiniMagick::Error, ::MiniMagick::Invalid => e
-    default = I18n.translate(:"errors.messages.mini_magick_processing_error", :e => e, :locale => :en)
-    message = I18n.translate(:"errors.messages.mini_magick_processing_error", :e => e, :default => default)
-    raise CarrierWave::ProcessingError, message
+    redirect_to @photo.file.variant(resize: width)
   end
 
   private
