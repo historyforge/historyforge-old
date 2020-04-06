@@ -8,4 +8,11 @@ class Photograph < ApplicationRecord
   has_one_attached :file
 
   alias_attribute :caption, :description
+
+  def full_caption
+    items = [caption]
+    items << date_text if date_text?
+    items.compact.join(' ')
+  end
+
 end
