@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_20_200131) do
+ActiveRecord::Schema.define(version: 2020_04_06_191653) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -93,6 +93,11 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.index ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id"
   end
 
+  create_table "buildings_photographs", id: false, force: :cascade do |t|
+    t.bigint "photograph_id", null: false
+    t.bigint "building_id", null: false
+  end
+
   create_table "buildings_photos", id: false, force: :cascade do |t|
     t.integer "building_id"
     t.integer "photo_id"
@@ -140,7 +145,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.integer "year_immigrated"
     t.string "naturalized_alien"
     t.integer "years_in_us"
-    t.string "profession"
+    t.string "profession", default: "None"
     t.integer "unemployed_months"
     t.boolean "attended_school_old"
     t.boolean "can_read"
@@ -207,7 +212,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.string "pob_mother", default: "New York"
     t.integer "year_immigrated"
     t.string "naturalized_alien"
-    t.string "profession"
+    t.string "profession", default: "None"
     t.string "industry"
     t.string "employment"
     t.boolean "unemployed"
@@ -276,7 +281,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.string "pob_mother", default: "New York"
     t.string "mother_tongue_mother"
     t.boolean "can_speak_english"
-    t.string "profession"
+    t.string "profession", default: "None"
     t.string "industry"
     t.string "employment"
     t.boolean "attended_school"
@@ -350,7 +355,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.integer "year_immigrated"
     t.string "naturalized_alien"
     t.boolean "can_speak_english"
-    t.string "profession"
+    t.string "profession", default: "None"
     t.string "industry"
     t.string "profession_code"
     t.string "worker_class"
@@ -470,6 +475,11 @@ ActiveRecord::Schema.define(version: 2020_02_20_200131) do
     t.string "name_suffix"
     t.text "searchable_name"
     t.index ["searchable_name"], name: "people_name_trgm", opclass: :gist_trgm_ops, using: :gist
+  end
+
+  create_table "people_photographs", id: false, force: :cascade do |t|
+    t.bigint "photograph_id", null: false
+    t.bigint "person_id", null: false
   end
 
   create_table "people_photos", id: false, force: :cascade do |t|
