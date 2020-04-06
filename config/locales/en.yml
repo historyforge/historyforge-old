@@ -127,6 +127,7 @@ en:
         homemaker: 'Home-maker'
         age_months: 'Age (months)'
         apartment_number: 'Apt.'
+        worker_class: 'Employment Status'
 
     hints:
       building:
