@@ -1,7 +1,7 @@
 class Census1930Record < CensusRecord
   self.table_name = 'census_1930_records'
 
-  define_enumeration :worker_class, %w{E W O NP}
+  define_enumeration :worker_class, %w{E W OA NP}
   define_enumeration :war_fought, %w{WW Sp Civ Phil Box Mex}
   define_enumeration :marital_status, %w{S W D M}
   define_enumeration :race, %w{W Neg Mex In Ch Jp Fil Hin Kor}

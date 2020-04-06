@@ -93,7 +93,7 @@ json.filters do
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.boolean json, :can_speak_english
   AttributeBuilder.text json, :occupation_code
-  AttributeBuilder.text json, :worker_class
+  AttributeBuilder.enumeration json, Census1930Record, :worker_class
   AttributeBuilder.boolean json, :worked_yesterday
   AttributeBuilder.text json, :unemployment_line
   AttributeBuilder.boolean json, :veteran
