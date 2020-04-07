@@ -25,7 +25,8 @@
         = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
         = form.input :sex, as: :radio_buttons, collection: Census1910Record.sex_choices
         = form.input :race, as: :radio_buttons, collection: Census1910Record.race_choices
-        = form.input :age
+        = form.input :age, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :age_months, hint: 'Only for children less than 5 years old'
         = form.input :marital_status, as: :radio_buttons, collection: Census1910Record.marital_status_choices
         = form.input :years_married, as: :integer, input_html: { min: 0 }
         = form.input :num_children_born, as: :integer, input_html: { min: 0 }
