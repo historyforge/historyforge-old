@@ -20,6 +20,11 @@ class Term < ApplicationRecord
     model_class_for_year(year).where([fields.map { |field| "#{field}=:name" }.join( ' OR '), name: name])
   end
 
+  def count_records_for(year)
+    records = records_for(year)
+    records && records.count
+  end
+
   private
 
   def update_census_records

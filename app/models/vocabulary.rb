@@ -48,9 +48,6 @@ class Vocabulary < ApplicationRecord
           1920 => ['profession'],
           1930 => ['profession']
       },
-      profession_code: {
-          1930 => ['profession_code']
-      },
       relation_to_head: {
           1900 => ['relation_to_head'],
           1910 => ['relation_to_head'],

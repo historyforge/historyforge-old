@@ -14,7 +14,7 @@
         = form.text_field :name_cont, class: 'form-control'
         = form.submit "Search", class: 'btn btn-primary'
         - if params[:q][:name_cont]
-          = link_to 'Reset', [@vocabulary, :terms], class: 'btn btn-light'
+          = link_to 'Reset', vocabulary_terms_path(reset: true), class: 'btn btn-light'
   table.table.table-condensed.table-striped
     thead
       tr
@@ -28,10 +28,10 @@
       - @terms.each do |term|
         tr
           td= term.name
-          td= term.records_for(1900).count
-          td= term.records_for(1910).count
-          td= term.records_for(1920).count
-          td= term.records_for(1930).count
+          td= term.count_records_for(1900)
+          td= term.count_records_for(1910)
+          td= term.count_records_for(1920)
+          td= term.count_records_for(1930)
           td style="text-align:right;white-space:nowrap"
             = link_to 'Edit', [:edit, @vocabulary, term], class: 'btn btn-xs btn-light'
 
