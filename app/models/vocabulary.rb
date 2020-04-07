@@ -17,6 +17,7 @@ class Vocabulary < ApplicationRecord
         return by_name(vocab) if field == attribute
       end
     end
+    nil
   end
 
   def fields_by_year
