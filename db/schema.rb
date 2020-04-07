@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_07_161313) do
+ActiveRecord::Schema.define(version: 2020_04_07_203920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -385,8 +385,12 @@ ActiveRecord::Schema.define(version: 2020_04_07_161313) do
     t.integer "age_months"
     t.string "apartment_number"
     t.boolean "homemaker"
+    t.bigint "industry1930_code_id"
+    t.bigint "occupation1930_code_id"
     t.index ["building_id"], name: "index_census_1930_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1930_records_on_created_by_id"
+    t.index ["industry1930_code_id"], name: "index_census_1930_records_on_industry1930_code_id"
+    t.index ["occupation1930_code_id"], name: "index_census_1930_records_on_occupation1930_code_id"
     t.index ["person_id"], name: "index_census_1930_records_on_person_id"
     t.index ["reviewed_by_id"], name: "index_census_1930_records_on_reviewed_by_id"
     t.index ["searchable_name"], name: "census_1930_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
@@ -430,6 +434,13 @@ ActiveRecord::Schema.define(version: 2020_04_07_161313) do
     t.datetime "updated_at"
   end
 
+  create_table "industry1930_codes", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "map_overlays", force: :cascade do |t|
     t.string "name"
     t.integer "year_depicted"
@@ -461,6 +472,13 @@ ActiveRecord::Schema.define(version: 2020_04_07_161313) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["token"], name: "index_oauth_tokens_on_token", unique: true
+  end
+
+  create_table "occupation1930_codes", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "people", id: :serial, force: :cascade do |t|
@@ -664,6 +682,8 @@ ActiveRecord::Schema.define(version: 2020_04_07_161313) do
   add_foreign_key "census_1920_records", "users", column: "created_by_id"
   add_foreign_key "census_1920_records", "users", column: "reviewed_by_id"
   add_foreign_key "census_1930_records", "buildings"
+  add_foreign_key "census_1930_records", "industry1930_codes"
+  add_foreign_key "census_1930_records", "occupation1930_codes"
   add_foreign_key "census_1930_records", "people"
   add_foreign_key "census_1930_records", "users", column: "created_by_id"
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"

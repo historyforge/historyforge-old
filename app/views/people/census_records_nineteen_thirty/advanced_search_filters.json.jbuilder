@@ -55,6 +55,9 @@ json.filters do
     json.sortable 'industry'
   end
 
+  AttributeBuilder.collection json, Census1930Record,:occupation1930_code_id, Occupation1930Code.select_options
+  AttributeBuilder.collection json, Census1930Record, :industry1930_code_id, Industry1930Code.select_options
+
   AttributeBuilder.text   json, :first_name
   AttributeBuilder.text   json, :middle_name
   AttributeBuilder.text   json, :last_name
@@ -97,7 +100,7 @@ json.filters do
   AttributeBuilder.boolean json, :worked_yesterday
   AttributeBuilder.text json, :unemployment_line
   AttributeBuilder.boolean json, :veteran
-  AttributeBuilder.text json, :war_fought
+  AttributeBuilder.enumeration json, Census1930Record, :war_fought
   AttributeBuilder.text json, :farm_schedule
 
   json.notes do

@@ -129,6 +129,8 @@ en:
         age_months: 'Age (months)'
         apartment_number: 'Apt.'
         worker_class: 'Employment Status'
+        occupation1930_code_id: 'Coded Occupation'
+        industry1930_code_id: 'Coded Industry'
 
     hints:
       building:

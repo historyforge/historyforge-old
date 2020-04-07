@@ -11,7 +11,7 @@ class CensusRecord1930Search < CensusRecordSearch
       mother_tongue
       foreign_born year_immigrated
       naturalized_alien
-      profession industry
+      profession industry profession_code coded_occupation_name coded_industry_name
       owned_or_rented home_value has_radio lives_on_farm
       veteran war_fought worker_class worked_yesterday unemployment_line
       notes latitude longitude

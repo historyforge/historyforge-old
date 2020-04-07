@@ -199,6 +199,7 @@ class CensusRecordSearch
     options[:width] = 60 if %w{id ward enum_dist dwelling_number family_id}.include?(column)
     options[:width] = 130 if %w{profession industry}.include?(column)
     options[:width] = 160 if %w{name street_address notes profession}.include?(column)
+    options[:width] = 250 if %w{coded_occupation_name coded_industry_name}.include?(column)
     options[:sortable] = true unless column == 'id'
     options
   end

@@ -64,14 +64,16 @@
   .col-sm-4
     - if @record.profession.present?
       dl
-        dt profession
+        dt Profession
         dd
           = @record.profession
-          = " (#{@record.profession_code})"
+          /= " (#{@record.profession_code})"
+        dd= @record.coded_occupation&.name
     - if @record.industry?
       dl
         dt Industry
         dd= @record.industry
+        dd= @record.coded_industry&.name
     dl
       dt Worker Class
       dd= @record.worker_class || 'blank'

@@ -25,4 +25,34 @@ namespace :vocab do
       end
     end
   end
+
+  task ocodes: :environment do
+    # https://stevemorse.org/census/ocodes.htm
+    require 'open-uri'
+    html = Nokogiri::HTML open("https://stevemorse.org/census/ocodes.htm").read
+    occ_codes = get_codes_from_select_options html, 'occupation'
+    occ_codes.each do |code|
+      Occupation1930Code.where(code: code[0]).first_or_create { |model| model.name = code[1] }
+    end
+    level_codes = get_codes_from_select_options html, 'level'
+    level_codes.each do |code|
+      Occupation1930Code.where(code: code[0]).first_or_create { |model| model.name = code[1] }
+    end
+    industry_codes = get_codes_from_select_options html, 'industry'
+    industry_codes.each do |code|
+      Industry1930Code.where(code: code[0]).first_or_create { |model| model.name = code[1] }
+    end
+  end
+
+  task load_ocodes: :environment do
+    Census1930Record.find_each do |row|
+      row.handle_profession_code
+      row.save
+    end
+  end
+
+  def get_codes_from_select_options(html, name)
+    options = html.css("select[name=#{name}Code] option")
+    options.map { |option| [option.text(), option['value']] }
+  end
 end
