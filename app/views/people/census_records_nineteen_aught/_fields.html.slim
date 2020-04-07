@@ -26,7 +26,7 @@
         = form.input :sex, as: :radio_buttons, collection: Census1900Record.sex_choices
         = form.input :birth_month, as: :radio_buttons, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
         = form.input :birth_year
-        = form.input :age, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :age, hint: 'Leave blank if taker left blank or enter 999 for unknown'
         = form.input :age_months, hint: 'Only for children less than 5 years old'
         = form.input :marital_status, as: :radio_buttons, collection: Census1900Record.marital_status_choices
         = form.input :years_married, as: :integer, input_html: { min: 0 }
@@ -36,7 +36,7 @@
         = form.input :pob_father, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
         = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes'
-        = form.input :year_immigrated, as: :integer
+        = form.input :year_immigrated, as: :integer, hint: 'Leave blank if taker left blank or enter 999 for unknown'
         = form.input :years_in_us, as: :integer
         = form.input :naturalized_alien
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }

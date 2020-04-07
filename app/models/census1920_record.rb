@@ -15,6 +15,6 @@ class Census1920Record < CensusRecord
     'census_records_nineteen_twenty'
   end
 
-  define_enumeration :race, %w{W B M Ch Jp In Ot}
-
+  define_enumeration :race, %w{W B Mu In Ch Jp Fil Hin Kor Ot}
+  define_enumeration :marital_status, %w{S W D M}
 end

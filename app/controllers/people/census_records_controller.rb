@@ -37,7 +37,7 @@ class People::CensusRecordsController < ApplicationController
     term = params[:term]
     vocab = Vocabulary.controlled_attribute_for year, attribute
     results = if vocab
-                vocab.ransack(name_start: term).result.distinct.limit(15).pluck('name')
+                vocab.terms.ransack(name_start: term).result.distinct.limit(15).pluck('name')
               else
                 resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
               end

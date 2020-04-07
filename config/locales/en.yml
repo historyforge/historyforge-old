@@ -50,6 +50,7 @@ en:
       kor: 'Korean'
       neg: 'Negro'
       mex: 'Mexican'
+      ot: 'Other'
     sex:
       m: 'Male'
       f: 'Female'

@@ -31,7 +31,7 @@
         = form.input :lives_on_farm, as: :boolean, label: 'Live on Farm?', inline_label: 'Yes', wrapper_html: { data: { depends_on: :relation_to_head } }
         = form.input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices, coded: true
         = form.input :race, as: :radio_buttons_other, collection: Census1930Record.race_choices, coded: true
-        = form.input :age, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :age, hint: 'Leave blank if taker left blank or enter 999 for unknown'
         = form.input :age_months, hint: 'Only for children less than 5 years old'
         = form.input :marital_status, as: :radio_buttons, collection: Census1930Record.marital_status_choices, coded: true
         = form.input :age_married, hint: 'Leave blank if taker left blank or enter -1 for unknown'
@@ -43,7 +43,7 @@
         = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
         = form.input :pob_code
-        = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter -1 for unknown'
+        = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Leave blank if taker left blank or enter 999 for unknown'
         = form.input :naturalized_alien, as: :radio_buttons, collection: CensusRecord.naturalized_alien_choices, coded: true, wrapper_html: { data: { depends_on: :foreign_born } }
         = form.input :can_speak_english, as: :boolean, label: 'Speaks English?', inline_label: 'Yes'
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
