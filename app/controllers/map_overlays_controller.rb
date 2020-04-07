@@ -30,7 +30,7 @@ class MapOverlaysController < ApplicationController
 
   def update
     @map_overlay = MapOverlay.find params[:id]
-    if @map_overlay.update_attributes resource_params
+    if @map_overlay.update resource_params
       flash[:notice] = "Updated the map overlay."
       redirect_to action: :index
     else

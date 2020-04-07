@@ -1,0 +1,38 @@
+- @full_layout = true
+
+.container-fluid
+
+  .float-right
+    = link_to 'Add New', { action: :new }, class: 'btn btn-light'
+    = link_to 'All Vocabularies', :vocabularies, class: 'btn btn-light'
+  h1.page-title #{@vocabulary.name} Terms
+
+  .row
+    p.col-6= page_entries_info @terms
+    = search_form_for @search, url: [@vocabulary, :terms], html: {class: 'col-6 d-flex justify-content-end'} do |form|
+      .form-inline
+        = form.text_field :name_cont, class: 'form-control'
+        = form.submit "Search", class: 'btn btn-primary'
+        - if params[:q][:name_cont]
+          = link_to 'Reset', [@vocabulary, :terms], class: 'btn btn-light'
+  table.table.table-condensed.table-striped
+    thead
+      tr
+        th Term
+        th 1900
+        th 1910
+        th 1920
+        th 1930
+        th
+    tbody
+      - @terms.each do |term|
+        tr
+          td= term.name
+          td= term.records_for(1900).count
+          td= term.records_for(1910).count
+          td= term.records_for(1920).count
+          td= term.records_for(1930).count
+          td style="text-align:right;white-space:nowrap"
+            = link_to 'Edit', [:edit, @vocabulary, term], class: 'btn btn-xs btn-light'
+
+  = paginate @terms

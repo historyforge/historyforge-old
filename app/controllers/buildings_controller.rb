@@ -57,7 +57,7 @@ class BuildingsController < ApplicationController
       @building.reviewed_at = Time.now
     end
 
-    if @building.update_attributes(building_params)
+    if @building.update(building_params)
       flash[:notice] = 'Building updated.'
       if request.format.json?
         render json: BuildingSerializer.new(@building)

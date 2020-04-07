@@ -22,6 +22,10 @@ Rails.application.routes.draw do
     resources :roles
   end
 
+  resources :vocabularies, only: :index do
+    resources :terms
+  end
+
   resources :street_conversions
 
   resources :buildings do

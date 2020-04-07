@@ -35,8 +35,13 @@ class People::CensusRecordsController < ApplicationController
   def autocomplete
     attribute = params[:attribute]
     term = params[:term]
-    results = resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).select(attribute)
-    render json: results.map { |result| result.public_send(attribute) }.map(&:strip).uniq
+    vocab = Vocabulary.controlled_attribute_for year, attribute
+    results = if vocab
+                vocab.ransack(name_start: term).result.distinct.limit(15).pluck('name')
+              else
+                resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
+              end
+    render json: results.map(&:strip).uniq
   end
 
   def create
@@ -71,7 +76,7 @@ class People::CensusRecordsController < ApplicationController
   def update
     @record = resource_class.find params[:id]
     authorize! :update, @record
-    if @record.update_attributes(resource_params)
+    if @record.update(resource_params)
       flash[:notice] = 'Census Record updated.'
       after_saved
     else

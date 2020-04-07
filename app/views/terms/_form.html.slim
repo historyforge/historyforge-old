@@ -1,0 +1,5 @@
+= simple_form_for [@vocabulary, @term] do |form|
+  = form.input :name, hint: 'Change to the name of another term if you want to merge this term into that other term.'
+
+  .form-actions
+    = form.submit 'Save', class: 'btn btn-primary btn-lg'

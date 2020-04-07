@@ -30,7 +30,7 @@ class StreetConversionsController < ApplicationController
 
   def update
     @street_conversion = StreetConversion.find params[:id]
-    if @street_conversion.update_attributes resource_params
+    if @street_conversion.update resource_params
       flash[:notice] = "Updated the street conversion."
       redirect_to action: :index
     else
