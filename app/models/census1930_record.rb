@@ -1,7 +1,6 @@
 class Census1930Record < CensusRecord
   self.table_name = 'census_1930_records'
 
-  validates :war_fought, :profession_code, vocabulary: { allow_blank: true }
   validates :mother_tongue, vocabulary: { name: :language, allow_blank: true }
 
   define_enumeration :worker_class, %w{E W OA NP}

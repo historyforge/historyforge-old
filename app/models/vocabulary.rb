@@ -24,12 +24,12 @@ class Vocabulary < ApplicationRecord
   end
 
   DICTIONARY = {
-      industry: {
-          1900 => ['industry'],
-          1910 => ['industry'],
-          1920 => ['industry'],
-          1930 => ['industry']
-      },
+      # industry: {
+      #     1900 => ['industry'],
+      #     1910 => ['industry'],
+      #     1920 => ['industry'],
+      #     1930 => ['industry']
+      # },
       language: {
           1900 => ['language_spoken'],
           1910 => ['language_spoken'],
@@ -42,12 +42,12 @@ class Vocabulary < ApplicationRecord
           1920 => ['pob', 'pob_father', 'pob_mother'],
           1930 => ['pob', 'pob_father', 'pob_mother']
       },
-      profession: {
-          1900 => ['profession'],
-          1910 => ['profession'],
-          1920 => ['profession'],
-          1930 => ['profession']
-      },
+      # profession: {
+      #     1900 => ['profession'],
+      #     1910 => ['profession'],
+      #     1920 => ['profession'],
+      #     1930 => ['profession']
+      # },
       relation_to_head: {
           1900 => ['relation_to_head'],
           1910 => ['relation_to_head'],
