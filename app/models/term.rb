@@ -30,10 +30,7 @@ class Term < ApplicationRecord
   def update_census_records
     from, to = name_change
     each_relevant_field do |year, attribute|
-      model_class_for_year(year).where(attribute => from).each do |record|
-        record[attribute] = to
-        record.save
-      end
+      model_class_for_year(year).where(attribute => from).update_all(attribute => to)
     end
   end
 
