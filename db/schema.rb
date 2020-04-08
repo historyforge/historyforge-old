@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_134033) do
+ActiveRecord::Schema.define(version: 2020_04_08_141512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -573,6 +573,31 @@ ActiveRecord::Schema.define(version: 2020_04_08_134033) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "profession_groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "profession_subgroups", force: :cascade do |t|
+    t.string "name"
+    t.bigint "profession_group_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profession_group_id"], name: "index_profession_subgroups_on_profession_group_id"
+  end
+
+  create_table "professions", force: :cascade do |t|
+    t.string "code"
+    t.string "name"
+    t.bigint "profession_group_id"
+    t.bigint "profession_subgroup_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["profession_group_id"], name: "index_professions_on_profession_group_id"
+    t.index ["profession_subgroup_id"], name: "index_professions_on_profession_subgroup_id"
+  end
+
   create_table "rights_statements", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -695,5 +720,8 @@ ActiveRecord::Schema.define(version: 2020_04_08_134033) do
   add_foreign_key "photographs", "rights_statements"
   add_foreign_key "photographs", "users", column: "created_by_id"
   add_foreign_key "photos", "buildings"
+  add_foreign_key "profession_subgroups", "profession_groups"
+  add_foreign_key "professions", "profession_groups"
+  add_foreign_key "professions", "profession_subgroups"
   add_foreign_key "terms", "vocabularies"
 end

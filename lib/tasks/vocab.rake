@@ -26,7 +26,7 @@ namespace :vocab do
     end
   end
 
-  task ocodes: :environment do
+  task ocodes_1930: :environment do
     # https://stevemorse.org/census/ocodes.htm
     require 'open-uri'
     html = Nokogiri::HTML open("https://stevemorse.org/census/ocodes.htm").read
@@ -54,5 +54,33 @@ namespace :vocab do
   def get_codes_from_select_options(html, name)
     options = html.css("select[name=#{name}Code] option")
     options.map { |option| [option.text(), option['value']] }
+  end
+
+  task :ocodes_1920 => :environment do
+    require 'open-uri'
+    html = Nokogiri::HTML open("https://usa.ipums.org/usa/volii/occ1920.shtml").read
+    current_category = nil
+    current_subcategory = nil
+    html.css('tr').each do |tr|
+      cat = tr.css('th[id]')
+      if cat.present?
+        current_category = ProfessionGroup.where(name: cat.text()).first_or_create
+        next
+      end
+      subcat = tr.css('th')
+      if current_category && subcat.present?
+        current_subcategory = ProfessionSubgroup.where(name: subcat.text(), profession_group_id: current_category.id).first_or_create
+        next
+      end
+      cells = tr.css('td')
+      if current_subcategory && cells.present?
+        code = cells[0].text()
+        name = cells[1].text()
+        Profession.where(profession_group_id: current_category.id,
+                         profession_subgroup_id: current_subcategory.id,
+                         code: code,
+                         name: name).first_or_create
+      end
+    end
   end
 end
