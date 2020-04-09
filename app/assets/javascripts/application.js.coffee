@@ -5,6 +5,8 @@
 #= require census_form
 #= require cell_renderers
 #= require jquery.mousewheel.min
+#= require chosen.jquery
+#= require photographs
 
 pageLoad = ->
   window.alerts or= []

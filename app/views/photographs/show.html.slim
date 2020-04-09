@@ -1,0 +1,4 @@
+.float-right
+  - if can? :update, @photograph
+    = link_to 'Edit', [:edit, @photograph], class: 'btn btn-light'
+h1.page-title Photograph

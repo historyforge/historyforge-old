@@ -5,10 +5,21 @@ class BuildingsController < ApplicationController
   respond_to :csv, only: :index
   respond_to :html
 
+  skip_before_action :verify_authenticity_token, only: :autocomplete
+
   def index
     @page_title = 'Buildings'
     load_buildings
     render_buildings
+  end
+
+  def autocomplete
+    @buildings = Building.ransack(street_address_cont: params[:term]).result.limit(5)
+    render json: @buildings.map { |building| {
+        id: building.id,
+        name: building.name,
+        address: building.full_street_address
+    }}
   end
 
   def new

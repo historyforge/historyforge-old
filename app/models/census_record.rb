@@ -22,7 +22,7 @@ class CensusRecord < ApplicationRecord
   validates :relation_to_head, vocabulary: { allow_blank: true }
   validates :pob, :pob_father, :pob_mother, vocabulary: { name: :pob, allow_blank: true }
 
-  auto_strip_attributes :first_name, :middle_name, :last_name, :relation_to_head, :street_house_number, :street_name,
+  auto_strip_attributes :first_name, :middle_name, :last_name, :street_house_number, :street_name,
                         :street_prefix, :street_suffix, :apartment_number, :profession
 
   define_enumeration :page_side, %w{A B}, true

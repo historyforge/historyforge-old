@@ -28,8 +28,11 @@ Rails.application.routes.draw do
 
   resources :street_conversions
 
+  resources :photographs
+
   resources :buildings do
     collection do
+      get :autocomplete
       get :advanced_search_filters
     end
     member do

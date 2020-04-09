@@ -38,9 +38,9 @@ Black-and-white photographs
 Still Image
 Refers to a broad class of photographs having images in gray tones, black, and white, and sometimes one hue (which can result from chemical processes used, including toning, or from aging).
 
-Books Text Items comprising a collection of leaves of paper, parchment, wood,
-stiffened textile, ivory, metal tablets, or other flat material, that are blank,
-written on, or printed, and are strung or bound together in a volume.
+Books
+Text
+Items comprising a collection of leaves of paper, parchment, wood, stiffened textile, ivory, metal tablets, or other flat material, that are blank, written on, or printed, and are strung or bound together in a volume.
 
 Born digital Moving
 Image; Sound; Still Image; Text
@@ -102,23 +102,21 @@ Costume (mode of fashion)
 Physical Object
 Includes garments considered items of dress (e.g., shirts, trousers, undershirts, parkas). Also includes protective wear, including types of armor; vestments and other ceremonial garments; uniforms; and other accessories, including those worn on the body (e.g., bonnets, moccasins) and those carried on the person (e.g., evening bags, jewelry, parasols). Examples include trousers, parasols, and uniforms. Cyanotypes Still Image Blue-toned photographic prints produced by the blueprint process. These do NOT include reproductive prints of architectural or other technical drawings; for these, use Architectural drawings.
 
-Daguerreotypes Still Image Daguerreotypes produce a direct positive image on a silver-coated
-copper plate, often mounted in special cases lined with colored velvet or
-leather. Daguerreotypes are not to be confused with Tintypes which use
-a thin sheet of lacquered iron as the image support.
+Daguerreotypes
+Still Image
+Daguerreotypes produce a direct positive image on a silver-coated copper plate, often mounted in special cases lined with colored velvet or leather. Daguerreotypes are not to be confused with Tintypes which use a thin sheet of lacquered iron as the image support.
 
-Diaries Text Refers to books containing the daily, personal accounts of the writer's
-own experiences, attitudes, and observations. Use Financial documents
-when referring to an individual's or an organization's account of
-occurrences or transactions.
+Diaries
+Text
+Refers to books containing the daily, personal accounts of the writer's own experiences, attitudes, and observations. Use Financial documents when referring to an individual's or an organization's account of occurrences or transactions.
 
-Directories Text A book containing an alphabetical or classified listing of names,
-addresses, and other data of specific persons, groups, or firms.
+Directories
+Text
+A book containing an alphabetical or classified listing of names, addresses, and other data of specific persons, groups, or firms.
 
-Drawings Image Art produced by drawing, which is the application of lines on a surface,
-often paper, by using a pencil, pen, chalk, or some other tracing
-instrument to focus on the delineation of form rather than the application
-of color.
+Drawings
+Image
+Art produced by drawing, which is the application of lines on a surface, often paper, by using a pencil, pen, chalk, or some other tracing instrument to focus on the delineation of form rather than the application of color.
 
 Ephemera (images)
 Image

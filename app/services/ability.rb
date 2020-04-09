@@ -15,6 +15,7 @@ class Ability
       can :update, User, id: user.id
       can :read, CensusRecord
       can :read, Building
+      can :read, Photograph
 
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
@@ -22,6 +23,7 @@ class Ability
         can :manage, Building
         can :manage, Architect
         can :manage, CensusRecord
+        can :manage, Photograph
       end
 
       if user.has_role?("census taker")

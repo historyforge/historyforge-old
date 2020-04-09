@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_08_141512) do
+ActiveRecord::Schema.define(version: 2020_04_09_154719) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -514,8 +514,6 @@ ActiveRecord::Schema.define(version: 2020_04_08_141512) do
 
   create_table "photographs", force: :cascade do |t|
     t.bigint "created_by_id"
-    t.bigint "physical_type_id"
-    t.bigint "physical_format_id"
     t.bigint "rights_statement_id"
     t.bigint "building_id"
     t.string "title"
@@ -533,10 +531,16 @@ ActiveRecord::Schema.define(version: 2020_04_08_141512) do
     t.decimal "longitude"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "reviewed_by_id"
+    t.datetime "reviewed_at"
+    t.bigint "physical_type_id"
+    t.bigint "physical_format_id"
+    t.integer "date_type", default: 0
     t.index ["building_id"], name: "index_photographs_on_building_id"
     t.index ["created_by_id"], name: "index_photographs_on_created_by_id"
     t.index ["physical_format_id"], name: "index_photographs_on_physical_format_id"
     t.index ["physical_type_id"], name: "index_photographs_on_physical_type_id"
+    t.index ["reviewed_by_id"], name: "index_photographs_on_reviewed_by_id"
     t.index ["rights_statement_id"], name: "index_photographs_on_rights_statement_id"
   end
 
@@ -719,6 +723,7 @@ ActiveRecord::Schema.define(version: 2020_04_08_141512) do
   add_foreign_key "photographs", "physical_types"
   add_foreign_key "photographs", "rights_statements"
   add_foreign_key "photographs", "users", column: "created_by_id"
+  add_foreign_key "photographs", "users", column: "reviewed_by_id"
   add_foreign_key "photos", "buildings"
   add_foreign_key "profession_subgroups", "profession_groups"
   add_foreign_key "professions", "profession_groups"
