@@ -21,6 +21,7 @@ class PhotographsController < ApplicationController
   def show
     @photograph = Photograph.find params[:id]
     authorize! :read, @photograph
+    @photograph = PhotographPresenter.new @photograph, current_user
   end
 
   def edit

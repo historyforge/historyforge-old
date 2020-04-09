@@ -23,43 +23,47 @@ class Photograph < ApplicationRecord
   end
 
   def date_year
-    date_start&.year
+    @date_year ||= date_start&.year
   end
 
   def date_month
-    date_start&.month
+    @date_month ||= date_start&.month
   end
 
   def date_day
-    date_start&.day
+    @date_day ||= date_start&.day
   end
 
   def date_year_end
-    date_end&.year
+    @date_year_end ||= date_end&.year
   end
 
   def date_month_end
-    date_end&.month
+    @date_month_end ||= date_end&.month
   end
 
   def date_day_end
-    date_end&.day
+    @date_day_end ||= date_end&.day
   end
 
   def set_dates
-    self.date_start = nil
-    self.date_end = nil
     if year? || years?
-      self.date_start = Date.parse("#{date_year}-01-01") if date_year
-      self.date_end = Date.parse("#{date_year}-12-31") if years? && date_year_end
+      self.date_start = nil
+      self.date_end = nil
+      self.date_start = Date.parse("#{date_year}-01-01") if date_year.present?
+      self.date_end = Date.parse("#{date_year}-12-31") if years? && date_year_end.present?
     end
     if month? || months?
-      self.date_start = Date.parse("#{date_year}-#{date_month.ljust(2, '0')}-01") if date_year && date_month
-      self.date_end = Date.parse("#{date_year_end}-#{date_month_end.ljust(2, '0')}-01").end_of_month if months? && date_year_end && date_month_end
+      self.date_start = nil
+      self.date_end = nil
+      self.date_start = Date.parse("#{date_year}-#{date_month.rjust(2, '0')}-01") if date_year.present? && date_month.present?
+      self.date_end = Date.parse("#{date_year_end}-#{date_month_end.rjust(2, '0')}-01").end_of_month if months? && date_year_end.present? && date_month_end.present?
     end
     if day? || days?
-      self.date_start = Date.parse("#{date_year}-#{date_month.ljust(2, '0')}-#{date_day.ljust(2, '0')}") if date_year && date_month && date_day
-      self.date_end = Date.parse("#{date_year_end}-#{date_month_end.ljust(2, '0')}-#{date_day_end.ljust(2, '0')}") if days? && date_year_end && date_month_end && date_day_end
+      self.date_start = nil
+      self.date_end = nil
+      self.date_start = Date.parse("#{date_year}-#{date_month.rjust(2, '0')}-#{date_day.rjust(2, '0')}") if date_year.present? && date_month.present? && date_day.present?
+      self.date_end = Date.parse("#{date_year_end}-#{date_month_end.rjust(2, '0')}-#{date_day_end.rjust(2, '0')}") if days? && date_year_end.present? && date_month_end.present? && date_day_end.present?
     end
   end
 end

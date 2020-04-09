@@ -1,4 +1,73 @@
-.float-right
-  - if can? :update, @photograph
-    = link_to 'Edit', [:edit, @photograph], class: 'btn btn-light'
-h1.page-title Photograph
+.row.mb-3
+  .col-7
+    = image_tag @photograph.file, class: 'img img-thumbnail'
+  .col-5
+    .float-right
+      - if can? :update, @photograph
+        = link_to 'Edit', [:edit, @photograph], class: 'btn btn-light'
+    h1.page-title Photograph ##{@photograph.id}
+    h2= @photograph.title
+    h3 #{@photograph.creator}
+    h4 #{@photograph.physical_format} - #{@photograph.date}
+    = simple_format @photograph.description
+
+.card
+  .card-header
+    .card-title Metadata
+  .card-body
+    .list-group.list-group-flush
+      .list-group-item
+        .row
+          .col-4 Title
+          .col-8= @photograph.title
+      .list-group-item
+        .row
+          .col-4 Description
+          .col-8= simple_format @photograph.description
+      .list-group-item
+        .row
+          .col-4 Creator
+          .col-8= @photograph.creator
+      .list-group-item
+        .row
+          .col-4 Subject.Name
+          .col-8= @photograph.subject
+      .list-group-item
+        .row
+          .col-4 Date of Original
+          .col-8= @photograph.date
+      .list-group-item
+        .row
+          .col-4 Physical Format
+          .col-8= @photograph.physical_format
+      .list-group-item
+        .row
+          .col-4 Physical Description
+          .col-8= simple_format @photograph.physical_description
+      .list-group-item
+        .row
+          .col-4 Local Location
+          .col-8= @photograph.location
+      .list-group-item
+        .row
+          .col-4 Type
+          .col-8= @photograph.physical_type
+      .list-group-item
+        .row
+          .col-4 Identifier
+          .col-8= @photograph.identifier
+      .list-group-item
+        .row
+          .col-4 Date of Digital
+          .col-8= @photograph.created_at.strftime('%Y-%m-%d')
+      .list-group-item
+        .row
+          .col-4 Notes
+          .col-8= simple_format @photograph.notes
+      .list-group-item
+        .row
+          .col-4 Rights
+          .col-8
+            = @photograph.rights_name
+            p= simple_format @photograph.rights_description
+

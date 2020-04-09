@@ -126,7 +126,7 @@ $(document).ready ->
   # TODO: Refactor these to use the data-dependent API
   jQuery(document).on 'change', '#census_record_relation_to_head', ->
     value = jQuery(this).val()
-    value = value.replace /\b\w/g, (l) -> l.toUpperCase()
+#    value = value.replace /\b\w/g, (l) -> l.toUpperCase()
     jQuery(this).val(value)
     if value is 'Head'
       jQuery('input[name="census_record[owned_or_rented]"]').prop('disabled', no).filter('[value=nil]').prop('checked', yes)

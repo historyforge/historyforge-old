@@ -4,7 +4,7 @@ class Census1910Record < CensusRecord
 
   validates :language_spoken, vocabulary: { name: :language, allow_blank: true }
 
-  auto_strip_attributes :industry, :employment, :pob, :pob_father, :pob_mother
+  auto_strip_attributes :industry, :employment
 
   def year
     1910

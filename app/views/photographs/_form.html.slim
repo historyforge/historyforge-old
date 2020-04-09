@@ -94,7 +94,7 @@
               button.btn.btn-sm class=(form.object.days? ? 'btn-primary' : 'btn-light') type="button" data-date-type="days" A range of days
 
           - years = Date.today.year.downto(1800).map
-          - months = Date::MONTHNAMES.each_with_index.map { |m, i| [m, i + 1] }
+          - months = Date::MONTHNAMES.each_with_index.map { |m, i| [m, i] }
           - days = 1.upto(31).map
           #photograph-date-type class=@photograph.date_type
             .row
@@ -165,7 +165,7 @@
   .card
     .float-right
       button.btn.btn-secondary.btn-prev type="button" &laquo; Previous
-      button.btn.btn-secondary.btn-next type="button" Next &raquo;
+      = form.submit 'Submit', class: 'btn btn-secondary btn-next'
     .card-body
       .row
         .col-8
