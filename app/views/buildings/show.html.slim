@@ -60,7 +60,8 @@ h1.page-title= @building.name
         .card-body
           = simple_format @building.description
 
-    - photos = can?(:review, Photo) ? @building.photos : @building.photos.reviewed
+    /- photos = can?(:review, Photo) ? @building.photos : @building.photos.reviewed
+    - photos = @building.photos
     - if photos.present?
       .card.mb-1
         .card-header
