@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_005318) do
+ActiveRecord::Schema.define(version: 2020_04_10_154914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -239,6 +239,9 @@ ActiveRecord::Schema.define(version: 2020_04_10_005318) do
     t.text "searchable_name"
     t.string "apartment_number"
     t.integer "age_months"
+    t.string "mother_tongue"
+    t.string "mother_tongue_father"
+    t.string "mother_tongue_mother"
     t.index ["building_id"], name: "index_census_1910_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1910_records_on_created_by_id"
     t.index ["data"], name: "index_census_1910_records_on_data", using: :gin

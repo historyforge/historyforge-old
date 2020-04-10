@@ -31,9 +31,12 @@
         = form.input :years_married, as: :integer, input_html: { min: 0 }
         = form.input :num_children_born, as: :integer, input_html: { min: 0 }
         = form.input :num_children_alive, as: :integer, input_html: { min: 0 }
-        = form.input :pob, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_father, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
+        = form.input :pob, input_html: {autocomplete: 'new-password'}
+        = form.input :mother_tongue, input_html: {autocomplete: 'new-password'}
+        = form.input :pob_father, input_html: {autocomplete: 'new-password'}
+        = form.input :mother_tongue_father, input_html: {autocomplete: 'new-password'}
+        = form.input :pob_mother, input_html: {autocomplete: 'new-password'}
+        = form.input :mother_tongue_mother, input_html: {autocomplete: 'new-password'}
         = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes'
         = form.input :year_immigrated, as: :integer, hint: 'Leave blank if taker left blank or enter 999 for unknown'
         = form.input :naturalized_alien, as: :radio_buttons, collection: select_options_for(Census1910Record.naturalized_alien_choices)

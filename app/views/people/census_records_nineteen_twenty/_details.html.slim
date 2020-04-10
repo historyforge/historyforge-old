@@ -19,9 +19,6 @@
       dt Place of Birth
       dd= @record.pob || 'blank'
     dl
-      dt Foreign Born
-      dd= @record.foreign_born? ? 'Yes' : 'No'
-    dl
       dt Mother Tongue
       dd= @record.mother_tongue || 'blank'
     dl
@@ -36,6 +33,11 @@
     dl
       dt Mother's Mother Tongue
       dd= @record.mother_tongue_mother || 'blank'
+
+    dl
+      dt Foreign Born
+      dd= @record.foreign_born? ? 'Yes' : 'No'
+
     - if @record.year_immigrated?
       dl
         dt Year Immigrated
