@@ -2,7 +2,16 @@ $(document).ready(function() {
   $('#photo-wizard').each(function() {
     new PhotoWizard()
   })
+  $('#photograph').each(function() {
+    new PhotoPage()
+  })
 })
+
+class PhotoPage {
+  constructor() {
+    $('#photograph').blowup({scale: 2, cursor: false, width: 300, height: 300})
+  }
+}
 
 class PhotoWizard {
   constructor() {

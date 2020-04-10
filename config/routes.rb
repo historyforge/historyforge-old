@@ -28,7 +28,9 @@ Rails.application.routes.draw do
 
   resources :street_conversions
 
-  resources :photographs
+  resources :photographs do
+    patch :review, on: :member
+  end
 
   resources :buildings do
     collection do
@@ -38,6 +40,7 @@ Rails.application.routes.draw do
     member do
       put :review
     end
+    resources :photographs
   end
 
   concern :people_directory do

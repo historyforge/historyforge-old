@@ -1,5 +1,8 @@
 class Photograph < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :created_by, class_name: 'User'
+  belongs_to :reviewed_by, class_name: 'User'
   has_and_belongs_to_many :buildings
   has_and_belongs_to_many :people
   belongs_to :physical_type, optional: true
@@ -15,6 +18,43 @@ class Photograph < ApplicationRecord
   enum date_type: %i[year month day years months days]
 
   before_validation :set_dates
+  validates :title, :description, :physical_type_id, :physical_format_id, presence: true, if: :reviewed?
+  validates :file, attached: true, content_type: ['image/jpg', 'image/jpeg', 'image/png']
+
+  scope :reviewed, -> { where.not(reviewed_at: nil) }
+  scope :unreviewed, -> { where(reviewed_at: nil) }
+
+  pg_search_scope :full_text_search,
+                  against: %i[title description creator subject location physical_description notes],
+                  using: {
+                      tsearch: { prefix: true, any_word: true }
+                  }
+
+  def self.ransackable_scopes(auth_object=nil)
+    %i{full_text_search unreviewed}
+  end
+
+  def review!(reviewer)
+    return if reviewed?
+    self.reviewed_at = Time.now
+    self.reviewed_by = reviewer
+    unless save
+      self.reviewed_at = nil
+      self.reviewed_by = nil
+    end
+    self
+  end
+
+  def prepare_for_review
+    return if reviewed?
+    self.reviewed_at = Time.now
+    validate
+    self.reviewed_at = nil
+  end
+
+  def reviewed?
+    reviewed_at.present?
+  end
 
   def full_caption
     items = [caption]

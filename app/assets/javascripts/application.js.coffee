@@ -6,7 +6,9 @@
 #= require cell_renderers
 #= require jquery.mousewheel.min
 #= require chosen.jquery
+#= require blowup
 #= require photographs
+#= require buildings
 
 pageLoad = ->
   window.alerts or= []

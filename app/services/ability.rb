@@ -10,6 +10,7 @@ class Ability
       can :read, Building do |building| building.reviewed?; end
       can :read, Architect
       can :read, CensusRecord do |record| record.reviewed?; end
+      can :read, Photograph do |record| record.reviewed?; end
     else
 
       can :update, User, id: user.id

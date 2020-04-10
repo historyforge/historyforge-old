@@ -339,3 +339,6 @@ form table {
   border-top: 1px solid $border-color;
 }
 
+[data-href] {
+  cursor: pointer;
+}

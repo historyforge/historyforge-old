@@ -4,6 +4,10 @@ class PhotographPresenter < Struct.new(:model, :user)
     self.model, self.user = model, user
   end
 
+  def title
+    model.title || 'Untitled'
+  end
+
   def creator
     model.creator || "Photographer unknown"
   end

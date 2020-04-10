@@ -15,11 +15,11 @@ nav.navbar.navbar-light.bg-light.navbar-expand-lg.navbar-static.top role="naviga
               = ' '
               span.caret
             .dropdown-menu
+              = link_to "Photographs", photographs_path, class: 'dropdown-item'
               = link_to "Administer Users", users_path, class: 'dropdown-item'
               = link_to "Map Overlays", map_overlays_path, class: 'dropdown-item'
               = link_to "Street Conversions", street_conversions_path, class: 'dropdown-item'
               = link_to "Controlled Vocabularies", vocabularies_path, class: 'dropdown-item'
-
 
       li.nav-item= link_to "Buildings", buildings_path, class: 'nav-link'
 

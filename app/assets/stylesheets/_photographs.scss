@@ -75,3 +75,26 @@
     }
   }
 }
+
+#photograph-page {
+  h1 {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+  h2 {
+    font-style: italic;
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+  h4 {
+    font-size: 1.25rem;
+  }
+}
+
+#photographs {
+  .list-group-item .widest a {
+    display: block;
+  }
+}

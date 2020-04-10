@@ -1,17 +1,33 @@
 class PhotographsController < ApplicationController
+  include RestoreSearch
+  before_action :load_building, except: :review
+
+
+  def index
+    authorize! :read, Photograph
+    @search = Photograph.ransack(params[:q])
+    @photographs = @search.result.page(params[:page] || 1).per(20)
+    @photographs = @photographs.reviewed unless can?(:review, Photograph)
+  end
+
   def new
-    @photograph = Photograph.new
+    @photograph = model_class.new
     authorize! :create, @photograph
     @photograph.physical_type = PhysicalType.still_image
+    if @building
+      @photograph.buildings << @building
+      @photograph.latitude = @building.latitude
+      @photograph.longitude = @building.longitude
+    end
   end
 
   def create
-    @photograph = Photograph.new resource_params
+    @photograph = model_class.new resource_params
     authorize! :create, @photograph
     @photograph.created_by = current_user
     if @photograph.save
       flash[:notice] = 'The photograph has been uploaded and saved.'
-      redirect_to @photograph
+      redirect_to @building ? [@building, @photograph] : @photograph
     else
       flash[:errors] = 'Sorry we could not save the photograph. Please correct the errors and try again.'
       render action: :new
@@ -19,30 +35,33 @@ class PhotographsController < ApplicationController
   end
 
   def show
-    @photograph = Photograph.find params[:id]
+    @photograph = model_class.find params[:id]
     authorize! :read, @photograph
+    @photograph.prepare_for_review
     @photograph = PhotographPresenter.new @photograph, current_user
   end
 
   def edit
-    @photograph = Photograph.find params[:id]
+    @photograph = model_class.find params[:id]
     authorize! :update, @photograph
+    @photograph.prepare_for_review
   end
 
   def update
-    @photograph = Photograph.find params[:id]
+    @photograph = model_class.find params[:id]
     authorize! :update, @photograph
     if @photograph.update resource_params
       flash[:notice] = 'The photograph has been updated.'
-      redirect_to @photograph
+      redirect_to @building ? [@building, @photograph] : @photograph
     else
       flash[:errors] = 'Sorry we could not save the photograph. Please correct the errors and try again.'
+      @photograph.prepare_for_review
       render action: :edit
     end
   end
 
   def destroy
-    @photograph = Photograph.find params[:id]
+    @photograph = model_class.find params[:id]
     authorize! :destroy, @photograph
     if @photograph.destroy
       flash[:notice] = 'The photograph has been deleted.'
@@ -53,7 +72,39 @@ class PhotographsController < ApplicationController
     end
   end
 
+  def review
+    @photograph = Photograph.find params[:id]
+    authorize! :review, @photograph
+    @photograph.review! current_user
+    if @photograph.reviewed?
+      flash[:notice] = 'The photograph is marked as reviewed and open to the public.'
+    else
+      flash[:errors] = 'Unable to mark the photograph as reviewed.'
+    end
+    redirect_to @photograph
+  end
+
   private
+
+  def load_building
+    if params[:building_id]
+      @building = Building.find params[:building_id]
+      @model_class = @building.photos
+
+      if @building
+        params[:q] ||= {}
+        params[:q][:buildings_id_eq] = params[:building_id]
+      end
+    else
+      @model_class = Photograph
+      if params[:q] && params[:q][:building_id_eq]
+        params[:q].delete :buildings_id_eq
+        params[:page] = 1
+      end
+    end
+  end
+
+  attr_reader :model_class
 
   def resource_params
     params
