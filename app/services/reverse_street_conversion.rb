@@ -48,8 +48,17 @@ class ReverseStreetConversion
     address = Address.new
     bits = address_str.split(' ')
     number = bits.shift if bits.first.to_i > 0
-    address.street_prefix = bits.shift if bits.first.size == 1
-    address.street_name = bits.shift
+    start = bits.shift
+    start = 'N' if start.downcase == 'north'
+    start = 'S' if start.downcase == 'south'
+    start = 'E' if start.downcase == 'east'
+    start = 'W' if start.downcase == 'west'
+    if start.size == 1
+      address.street_prefix = start
+      address.street_name = bits.shift
+    else
+      address.street_name = start
+    end
     address.street_suffix = bits.shift if bits.any?
     [number, address]
   end
