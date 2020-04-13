@@ -20,14 +20,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  activerecord:
-    errors:
-      models:
-        map:
-          attributes:
-            filename:
-              filename_not_unique: 'has already been uploaded.'
-
   census_codes:
     default:
       other: 'Other'
@@ -60,13 +52,24 @@ en:
       w: 'Widowed'
       wd: 'Widowed'
       d: 'Divorced'
+    farm_or_house:
+      f: 'Farm'
+      h: 'House'
+    mortgage:
+      m: 'Mortgage'
+      f: 'Free of mortgage'
     naturalized_alien:
       al: 'Alien'
       pa: 'Papers'
       na: 'Naturalized'
+    employment:
+      e: 'Employer'
+      emp: 'Employer'
+      em: 'Employer'
+      w: 'Wage or salary worker'
+      oa: 'Own account'
     worker_class:
       e: 'Employer'
-      em: 'Employer'
       emp: 'Employer'
       w: 'Wage or salary worker'
       o: 'Own account'
@@ -78,6 +81,11 @@ en:
       phil: 'Philippine Insurrection'
       box: 'Boxer Rebellion'
       mex: 'Mexican Expedition'
+    civil_war_vet:
+      ua: 'Union Army'
+      un: 'Union Navy'
+      ca: 'Confederate Army'
+      cn: 'Confederate Navy'
 
   simple_form:
     labels:
