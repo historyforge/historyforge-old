@@ -4,6 +4,8 @@ class Census1920Record < CensusRecord
 
   validates :mother_tongue, :mother_tongue_father, :mother_tongue_mother, vocabulary: { name: :language, allow_blank: true }
 
+  define_enumeration :employment, %w{W Em OA}
+
   auto_strip_attributes :industry, :employment
 
   def year

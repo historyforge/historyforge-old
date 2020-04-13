@@ -66,6 +66,8 @@ en:
       na: 'Naturalized'
     worker_class:
       e: 'Employer'
+      em: 'Employer'
+      emp: 'Employer'
       w: 'Wage or salary worker'
       o: 'Own account'
       np: 'Unpaid family worker'

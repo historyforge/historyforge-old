@@ -43,5 +43,5 @@
         = form.input :can_speak_english, as: :boolean, inline_label: 'Yes', label: 'Speaks English?'
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
         = form.input :industry, input_html: { autocomplete: 'new-password' }
-        = form.input :employment, as: :radio_buttons, collection: Census1910Record.employment_choices
+        = form.input :employment, as: :radio_buttons, collection: Census1920Record.employment_choices
         = form.input :farm_schedule
