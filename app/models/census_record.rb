@@ -74,6 +74,10 @@ class CensusRecord < ApplicationRecord
 
   end
 
+  def can_add_buildings?
+    true
+  end
+
   def dont_add_same_person
     if new_record? && likely_matches?
       errors.add :last_name, 'A person with the same street number, street name, last name, and first name is already in the system.'

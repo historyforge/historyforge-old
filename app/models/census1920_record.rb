@@ -18,4 +18,8 @@ class Census1920Record < CensusRecord
 
   define_enumeration :race, %w{W B Mu In Ch Jp Fil Hin Kor Ot}
   define_enumeration :marital_status, %w{S W D M}
+
+  def can_add_buildings?
+    false
+  end
 end
