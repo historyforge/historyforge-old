@@ -25,7 +25,7 @@
         = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
         = form.input :sex, as: :radio_buttons, collection: Census1910Record.sex_choices
         = form.input :race, as: :radio_buttons, collection: Census1910Record.race_choices
-        = form.input :age, hint: 'Leave blank if taker left blank or enter 999 for unknown'
+        = form.input :age, hint: 'Enter 999 for unknown or leave blank if taker left empty'
         = form.input :age_months, hint: 'Only for children less than 5 years old'
         = form.input :marital_status, as: :radio_buttons, collection: Census1910Record.marital_status_choices
         = form.input :years_married, as: :integer, input_html: { min: 0 }
@@ -38,7 +38,7 @@
         = form.input :pob_mother, input_html: {autocomplete: 'new-password'}
         = form.input :mother_tongue_mother, input_html: {autocomplete: 'new-password'}
         = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes'
-        = form.input :year_immigrated, as: :integer, hint: 'Leave blank if taker left blank or enter 999 for unknown'
+        = form.input :year_immigrated, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
         = form.input :naturalized_alien, as: :radio_buttons, collection: select_options_for(Census1910Record.naturalized_alien_choices)
         = form.input :language_spoken
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }

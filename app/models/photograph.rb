@@ -18,7 +18,7 @@ class Photograph < ApplicationRecord
   enum date_type: %i[year month day years months days]
 
   before_validation :set_dates
-  validates :title, :description, :physical_type_id, :physical_format_id, presence: true, if: :reviewed?
+  validates :title, :description, :physical_type_id, :physical_format_id, :rights_statement_id, presence: true, if: :reviewed?
   validates :file, attached: true, content_type: ['image/jpg', 'image/jpeg', 'image/png']
 
   scope :reviewed, -> { where.not(reviewed_at: nil) }

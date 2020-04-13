@@ -24,7 +24,7 @@
         = form.input :mortgage, as: :radio_buttons, collection: Census1920Record.mortgage_choices
         = form.input :sex, as: :radio_buttons, collection: Census1920Record.sex_choices
         = form.input :race, as: :radio_buttons, collection: Census1920Record.race_choices
-        = form.input :age, hint: 'Leave blank if taker left blank or enter 999 for unknown'
+        = form.input :age, hint: 'Enter 999 for unknown or leave blank if taker left empty'
         = form.input :age_months, hint: 'Only for children less than 5 years old'
         = form.input :marital_status, as: :radio_buttons, collection: Census1920Record.marital_status_choices
         = form.input :foreign_born, as: :boolean, label: 'This person is foreign born', inline_label: 'Yes'
