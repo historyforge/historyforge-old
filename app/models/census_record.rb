@@ -52,7 +52,7 @@ class CensusRecord < ApplicationRecord
                                                                    ])])
   end
 
-  ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
+  ransacker :street_address, formatter: proc { |v| (ReverseStreetConversion.convert(v).to_s).mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',
                                                                    [Arel::Nodes::Quoted.new(' '),
