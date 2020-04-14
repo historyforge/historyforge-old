@@ -5,26 +5,4 @@ h1.page-title #{@term.name}
 = render 'form'
 
 - [1900, 1910, 1920, 1930].each do |year|
-  - records = @term.records_for(year).page(1).per(10)
-  - if records.present?
-    .card
-      .card-header
-        h3.card-title #{year} Census Records
-      .card-body
-        = page_entries_info records
-        table.table.table-striped.table-condensed
-          thead
-            tr
-              th Name
-              th Address
-              th Age
-              th Profession
-              th
-          tbody
-            - records.each do |row|
-              tr
-                td= row.name
-                td= row.street_address
-                td= row.age
-                td= row.profession
-                td= link_to 'View', row, class: 'btn btn-sm btn-light'
+  div.term-peeps id="peeps_#{year}" data-year=year data-base-url=url_for([@vocabulary, @term])

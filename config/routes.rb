@@ -23,7 +23,10 @@ Rails.application.routes.draw do
   end
 
   resources :vocabularies, only: :index do
-    resources :terms
+    resources :terms do
+      get 'peeps/:year' => 'terms#peeps'
+      get 'peeps/:year/:page' => 'terms#peeps'
+    end
   end
 
   resources :street_conversions

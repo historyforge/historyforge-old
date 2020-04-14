@@ -14,6 +14,12 @@ class TermsController < ApplicationController
     @term = @vocabulary.terms.find params[:id]
   end
 
+  def peeps
+    @term = @vocabulary.terms.find params[:term_id]
+    @records = @term.records_for(params[:year].to_i).page(params[:page] || 1).per(10)
+    render layout: false
+  end
+
   def new
     @term = @vocabulary.terms.build
   end
@@ -51,7 +57,7 @@ class TermsController < ApplicationController
   end
 
   def destroy
-    @term = @vocabulary.terms.find params[:id]
+    @term = @vocabulary.terms.find(params[:id])
     if @term.destroy
       flash[:notice] = "Deleted the term."
       redirect_to action: :index

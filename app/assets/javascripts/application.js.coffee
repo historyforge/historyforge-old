@@ -9,6 +9,7 @@
 #= require blowup
 #= require photographs
 #= require buildings
+#= require terms
 
 pageLoad = ->
   window.alerts or= []
