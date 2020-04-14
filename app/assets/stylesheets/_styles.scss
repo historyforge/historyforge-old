@@ -342,3 +342,21 @@ form table {
 [data-href] {
   cursor: pointer;
 }
+
+.hint-bubble {
+  display: none;
+}
+
+label .fa.fa-question-circle {
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+i.fa.fa-close {
+  cursor: pointer;
+}
+
+abbr[title] {
+  cursor: default;
+  text-decoration: none;
+}

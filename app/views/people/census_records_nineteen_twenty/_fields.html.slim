@@ -14,34 +14,149 @@
   .card-body
     .census-slider-wrapper
       .census-slider.hidden
-        = form.input :last_name, input_html: { autocomplete: 'new-password' }
-        = form.input :first_name, input_html: { autocomplete: 'new-password' }
-        = form.input :middle_name, input_html: { autocomplete: 'new-password' }
-        = form.input :name_prefix, input_html: { autocomplete: 'new-password' }
-        = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
-        = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
-        = form.input :owned_or_rented, as: :radio_buttons, collection: Census1920Record.owned_or_rented_choices, coded: true
-        = form.input :mortgage, as: :radio_buttons, collection: Census1920Record.mortgage_choices, coded: true
-        = form.input :sex, as: :radio_buttons, collection: Census1920Record.sex_choices, coded: true
-        = form.input :race, as: :radio_buttons, collection: Census1920Record.race_choices, coded: true
-        = form.input :age, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :age_months, hint: 'Only for children less than 5 years old'
-        = form.input :marital_status, as: :radio_buttons, collection: Census1920Record.marital_status_choices, coded: true
-        = form.input :foreign_born, as: :boolean, label: 'This person is foreign born', inline_label: 'Yes'
-        = form.input :year_immigrated, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :naturalized_alien, as: :radio_buttons, collection: Census1920Record.naturalized_alien_choices, coded: true
-        = form.input :year_naturalized, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :attended_school, as: :boolean, inline_label: 'Attended School?'
-        = form.input :can_read, as: :boolean, inline_label: 'Yes', label: 'Can Read?'
-        = form.input :can_write, as: :boolean, inline_label: 'Yes', label: 'Can Write?'
-        = form.input :pob, input_html: { autocomplete: 'new-password' }
-        = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_father, input_html: { autocomplete: 'new-password' }
-        = form.input :mother_tongue_father, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
-        = form.input :mother_tongue_mother, input_html: { autocomplete: 'new-password' }
-        = form.input :can_speak_english, as: :boolean, inline_label: 'Yes', label: 'Speaks English?'
-        = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
-        = form.input :industry, input_html: { autocomplete: 'new-password' }
-        = form.input :employment, as: :radio_buttons, collection: Census1920Record.employment_choices, coded: true
-        = form.input :farm_schedule
+        = form.input :last_name,
+                input_html: { autocomplete: 'new-password' },
+                hint: last_name_hint
+
+        = form.input :first_name,
+                input_html: { autocomplete: 'new-password' },
+                hint: first_name_hint
+
+        = form.input :middle_name,
+                input_html: { autocomplete: 'new-password' },
+                hint: middle_name_hint
+
+        = form.input :name_prefix,
+                input_html: { autocomplete: 'new-password' },
+                hint: title_hint
+
+        = form.input :name_suffix,
+                input_html: { autocomplete: 'new-password' },
+                hint: suffix_hint
+
+        = form.input :relation_to_head,
+                input_html: { autocomplete: 'new-password' },
+                hint: relation_to_head_hint
+
+        = form.input :owned_or_rented,
+                as: :radio_buttons,
+                collection: Census1920Record.owned_or_rented_choices,
+                coded: true,
+                hint: owned_or_rented_hint
+
+        = form.input :mortgage,
+                as: :radio_buttons,
+                collection: Census1920Record.mortgage_choices,
+                coded: true,
+                hint: mortgage_hint
+
+        = form.input :sex,
+                as: :radio_buttons,
+                collection: Census1920Record.sex_choices,
+                coded: true,
+                hint: sex_hint
+
+        = form.input :race,
+                as: :radio_buttons,
+                collection: Census1920Record.race_choices,
+                coded: true,
+                hint: race_hint
+
+        = form.input :age,
+                hint: age_hint
+
+        = form.input :age_months,
+                hint: 'Only for children less than 5 years old'
+
+        = form.input :marital_status,
+                as: :radio_buttons,
+                collection: Census1920Record.marital_status_choices,
+                coded: true,
+                hint: column_hint(12)
+
+        = form.input :foreign_born,
+                as: :boolean,
+                label: 'This person is foreign born',
+                inline_label: 'Yes',
+                hint: foreign_born_hint
+
+        = form.input :year_immigrated,
+                as: :integer,
+                hint: unknown_year_hint(13)
+
+        = form.input :naturalized_alien,
+                as: :radio_buttons,
+                collection: Census1920Record.naturalized_alien_choices,
+                coded: true,
+                hint: unknown_hint(14)
+
+        = form.input :year_naturalized,
+                as: :integer,
+                hint: unknown_year_hint(15)
+
+        = form.input :attended_school,
+                as: :boolean,
+                inline_label: 'Attended School?',
+                hint: attended_school_hint
+
+        = form.input :can_read,
+                as: :boolean,
+                inline_label: 'Yes',
+                label: 'Can Read?',
+                hint: boolean_hint(17)
+
+        = form.input :can_write,
+                as: :boolean,
+                inline_label: 'Yes',
+                label: 'Can Write?',
+                hint: boolean_hint(18)
+
+        = form.input :pob,
+                input_html: { autocomplete: 'new-password' },
+                hint: pob_hint(19)
+
+        = form.input :mother_tongue,
+                input_html: { autocomplete: 'new-password' },
+                hint: mother_tongue_hint(20)
+
+        = form.input :pob_father,
+                input_html: { autocomplete: 'new-password' },
+                hint: pob_hint(21)
+
+        = form.input :mother_tongue_father,
+                input_html: { autocomplete: 'new-password' },
+                hint: mother_tongue_hint(22)
+
+        = form.input :pob_mother,
+                input_html: { autocomplete: 'new-password' },
+                hint: pob_hint(23)
+
+        = form.input :mother_tongue_mother,
+                input_html: { autocomplete: 'new-password' },
+                hint: mother_tongue_hint(23)
+
+        = form.input :can_speak_english,
+                as: :boolean, inline_label: 'Yes',
+                label: 'Speaks English?',
+                hint: boolean_hint(25)
+
+        = form.input :profession,
+                hint: 'Enter "None" if empty',
+                input_html: { autocomplete: 'new-password' },
+                hint: column_hint(26)
+
+        = form.input :industry,
+                input_html: { autocomplete: 'new-password' },
+                hint: column_hint(27)
+
+        = form.input :employment,
+                as: :radio_buttons,
+                collection: Census1920Record.employment_choices,
+                coded: true,
+                hint: column_hint(28)
+
+        = form.input :farm_schedule,
+                hint: farm_schedule_hint(29)
+
+        = form.input :employment_code,
+                hint: employment_code_hint

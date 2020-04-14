@@ -97,7 +97,13 @@ $(document).ready ->
   if $('.census-slider').hasClass('horizontal')
     $('.census-slider').mousewheel censusRecordScroller
 
-  #  $('.census-slider').mousewheel (evt, chg) ->
+  $('.hint-bubble').each ->
+    label = $(this).closest('.form-group').children('label')
+    title = $ "<span>#{label.html()}<i class='fa fa-close float-right' /></span>"
+    icon = $ '<i class="fa fa-question-circle" data-toggle="popover" />'
+    label.append icon
+    title.on('click', () -> icon.popover('hide'))
+    icon.popover({ container: 'body', html: true, title: title, content: this.innerHTML }).on('show.bs.popover', () => $('[data-toggle=popover]').popover('hide'))
 
   jQuery(document).on 'change', '#census_record_page_side', ->
     value = jQuery(this).val()

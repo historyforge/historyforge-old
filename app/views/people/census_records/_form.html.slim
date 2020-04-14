@@ -12,29 +12,76 @@
     .card-body
       .census-slider-wrapper
         .census-slider.hidden
-          = form.input :page_number, as: :integer, input_html: { min: 0, max: 10_000 }
-          = form.input :page_side, collection: %w{A B}
-          = form.input :line_number, as: :integer, input_html: { min: 0, max: 100 }
+          = form.input :page_number,
+                  as: :integer,
+                  input_html: { min: 0, max: 10_000 },
+                  hint: sheet_hint
+
+          = form.input :page_side,
+                  collection: %w{A B},
+                  hint: side_hint
+
+          = form.input :line_number,
+                  as: :integer,
+                  input_html: { min: 0, max: 100 },
+                  hint: line_number_hint
+
           = form.input :county
+
           = form.input :city, input_html: { id: 'city' }
-          = form.input :ward, as: :integer, input_html: { min: 0, max: 10_000 }
-          = form.input :enum_dist, as: :integer, input_html: { min: 0, max: 10_000 }
-          = form.input :street_house_number, input_html: { autocomplete: 'new-password' }
-          = form.input :street_prefix, collection: %w{N S E W}, input_html: { autocomplete: 'new-password' }
-          = form.input :street_name, input_html: { id: 'street_name', autocomplete: 'new-password' }
-          = form.input :street_suffix, collection: CensusRecord.street_suffix_choices, input_html: { autocomplete: 'new-password' }
-          = form.input :apartment_number, input_html: { autocomplete: 'new-password' }
-          = form.input :building_id, as: :select, collection: form.object.buildings_on_street, input_html: { id: 'building_id' }
+
+          = form.input :ward,
+                  as: :integer,
+                  input_html: { min: 0, max: 10_000 },
+                  hint: ward_hint
+
+          = form.input :enum_dist,
+                  as: :integer,
+                  input_html: { min: 0, max: 10_000 },
+                  hint: enumeration_district_hint
+
+          = form.input :street_house_number,
+                  input_html: { autocomplete: 'new-password' },
+                  hint: house_number_hint
+
+          = form.input :street_prefix,
+                  collection: %w{N S E W},
+                  input_html: { autocomplete: 'new-password' },
+                  hint: street_prefix_hint
+
+          = form.input :street_name,
+                  input_html: { id: 'street_name', autocomplete: 'new-password' },
+                  hint: street_name_hint
+
+          = form.input :street_suffix,
+                  collection: CensusRecord.street_suffix_choices,
+                  input_html: { autocomplete: 'new-password' },
+                  hint: street_suffix_hint
+
+          = form.input :apartment_number,
+                  input_html: { autocomplete: 'new-password' }
+
+          = form.input :building_id,
+                  as: :select,
+                  collection: form.object.buildings_on_street,
+                  input_html: { id: 'building_id' },
+                  hint: building_hint
+
           - if form.object.building_id.blank? && form.object.can_add_buildings?
-            = form.input :ensure_building, as: :boolean, label: 'Add building with address', inline_label: 'Yes'
-          = form.input :dwelling_number
-          = form.input :family_id
+            = form.input :ensure_building,
+                    as: :boolean,
+                    label: 'Add building with address',
+                    inline_label: 'Yes'
+
+          = form.input :dwelling_number, hint: dwelling_number_hint
+
+          = form.input :family_id, hint: family_id_hint
 
   = render 'fields', form: form
 
   .card.mb-1
     .card-body
-      = form.input :notes, as: :text
+      = form.input :notes, as: :text, hint: notes_hint
       .form-actions
         => form.submit 'Save', class: 'btn btn-primary btn-lg'
         span<

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_10_154914) do
+ActiveRecord::Schema.define(version: 2020_04_14_171322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -308,6 +308,7 @@ ActiveRecord::Schema.define(version: 2020_04_10_154914) do
     t.text "searchable_name"
     t.string "apartment_number"
     t.integer "age_months"
+    t.string "employment_code"
     t.index ["building_id"], name: "index_census_1920_records_on_building_id"
     t.index ["person_id"], name: "index_census_1920_records_on_person_id"
     t.index ["searchable_name"], name: "census_1920_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
