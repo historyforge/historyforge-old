@@ -10,6 +10,7 @@
 #= require photographs
 #= require buildings
 #= require terms
+#= require home_page
 
 pageLoad = ->
   window.alerts or= []

@@ -8,6 +8,16 @@ class HomeController < ApplicationController
     load_heroes
   end
 
+  def search_people
+    @names = PgSearch.multisearch(params[:q]).limit(10).includes(:searchable).all.map(&:searchable)
+    render layout: false
+  end
+
+  def search_buildings
+    @buildings = Building.ransack(street_address_cont: params[:q]).result.limit(10)
+    render layout: false
+  end
+
   private
 
   def load_census_summaries

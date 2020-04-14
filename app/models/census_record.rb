@@ -6,6 +6,7 @@ class CensusRecord < ApplicationRecord
   include DefineEnumeration
   include Moderation
   include PersonNames
+  include PgSearch::Model
 
   belongs_to :building
   belongs_to :person
@@ -39,6 +40,8 @@ class CensusRecord < ApplicationRecord
   define_enumeration :civil_war_vet, %w{UA UN CA CN}
 
   has_paper_trail
+
+  multisearchable against: :name, if: :reviewed?
 
   ransacker :name, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',

@@ -1,0 +1,19 @@
+- if @names.present?
+  .list-group
+    .list-group-item
+      .row
+        .col-2 Census Year
+        .col-2 Name
+        .col-2 Place of Birth
+        .col-2 Age
+        .col-2 Profession
+        .col-2 Relation to Head
+    - @names.each do |record|
+      .list-group-item
+        .row
+          .col-2= record.year
+          .col-2= link_to record.name, record, target: :_blank
+          .col-2= record.pob
+          .col-2= record.age
+          .col-2= record.profession
+          .col-2= record.relation_to_head

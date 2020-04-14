@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   root 'home#index'
+  get 'search/people' => 'home#search_people', as: 'search_people'
+  get 'search/buildings' => 'home#search_buildings', as: 'search_buildings'
+
   # get '/about' => 'home#about', as: 'about'
   get '/photos/:id/:style/:device' => 'buildings#photo', as: 'photo'
 
