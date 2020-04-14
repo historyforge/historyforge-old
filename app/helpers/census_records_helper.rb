@@ -31,13 +31,13 @@ module CensusRecordsHelper
   end
 
   def sheet_hint
-    html = content_tag(:p, "The <u>Sheet</u> or page number is in the upper right corner in the header.")
+    html = content_tag(:p, "The <u>Sheet</u> or page number is in the upper right corner in the header.".html_safe)
     html << image_tag('1920/sheet-side.png') if controller.year == 1920
     raw html
   end
 
   def side_hint
-    html = content_tag(:p, "Each census sheet has side <u>A</u> and <u>B</u>.")
+    html = content_tag(:p, "Each census sheet has side <u>A</u> and <u>B</u>.".html_safe)
     html << image_tag('1920/sheet-side.png') if controller.year == 1920
     raw html
   end
