@@ -100,11 +100,13 @@ $(document).ready ->
   $('.hint-bubble').each ->
     label = $(this).closest('.form-group').children('label')
     title = $ "<span>#{label.html()}<i class='fa fa-close float-right' /></span>"
-    icon = $ '<i class="fa fa-question-circle" data-toggle="popover" />'
-    label.append icon
+    icon = $ '<i class="fa fa-question-circle float-right" data-toggle="popover" />'
+    label.prepend icon
     title.on('click', () -> icon.popover('hide'))
     icon.popover({ container: 'body', html: true, title: title, content: this.innerHTML }).on('show.bs.popover', () => $('[data-toggle=popover]').popover('hide'))
-
+    icon.on 'click', (e) ->
+      e.stopPropagation()
+      e.preventDefault()
   jQuery(document).on 'change', '#census_record_page_side', ->
     value = jQuery(this).val()
     $line = jQuery('#census_record_line_number')
