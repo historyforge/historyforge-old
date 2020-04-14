@@ -35,14 +35,14 @@
         = form.input :age_months, hint: 'Only for children less than 5 years old'
         = form.input :marital_status, as: :radio_buttons, collection: Census1930Record.marital_status_choices, coded: true
         = form.input :age_married, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :attended_school, as: :boolean, label: 'Attended School', inline_label: 'Yes'
+        = form.input :attended_school, as: :boolean, label: 'Attended school?', inline_label: 'Yes'
         = form.input :can_read_write, as: :boolean, label: 'Able to read and write?', inline_label: 'Yes'
         = form.input :pob, input_html: { autocomplete: 'new-password' }
         = form.input :pob_father, input_html: { autocomplete: 'new-password' }
         = form.input :pob_father_code, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother_code, input_html: { autocomplete: 'new-password' }
-        = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
+        = form.input :foreign_born, as: :boolean, label: 'This person is foreign born', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
         = form.input :pob_code
         = form.input :year_immigrated, as: :integer, wrapper_html: { data: { depends_on: :foreign_born } }, hint: 'Enter 999 for unknown or leave blank if taker left empty'
