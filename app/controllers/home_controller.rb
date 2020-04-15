@@ -1,8 +1,10 @@
 class HomeController < ApplicationController
   def index
     @html_title =  "Home - History Forge"
-    # load_census_summaries
-    # load_heroes
+  end
+  def stats
+    load_census_summaries
+    load_heroes
   end
 
   def search_people

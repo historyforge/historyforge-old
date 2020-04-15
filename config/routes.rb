@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   root 'home#index'
+  get 'stats' => 'home#stats'
   get 'search/people' => 'home#search_people', as: 'search_people'
   get 'search/buildings' => 'home#search_buildings', as: 'search_buildings'
 
