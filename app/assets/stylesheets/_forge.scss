@@ -2,7 +2,7 @@ nav.navbar.navbar-static {
   position:fixed;
   top:0;
   left:0;
-  height:50px;
+  height:80px;
   width:100%;
   z-index:200;
 }
@@ -19,7 +19,7 @@ ng-map {
 #forge-right-col {
   z-index: 19;
   position:fixed;
-  top:80px;
+  top:110px;
   right:20px;
   width:30%;
   padding: 15px;
@@ -89,7 +89,7 @@ ng-map {
   .map-wrap {
     position: absolute;
     left:0px;
-    top:50px;
+    top:80px;
     width:100%;
     bottom:0px;
   }

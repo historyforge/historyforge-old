@@ -1,0 +1,5 @@
+- set_page_title "Edit item on menu #{@menu.name}"
+- content_for :pills do
+  = link_to 'Delete Menu Item', cms_menu_item_path(@menu, @menu_item), data: { method: :delete, confirm: 'Are you sure? The menu item will be irretrievably gone.' }, class:'btn btn-danger'
+= simple_form_for @menu_item, url: cms_menu_item_path(@menu, @menu_item), method: :patch  do |form|
+  = render 'form', form: form

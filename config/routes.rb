@@ -87,4 +87,15 @@ Rails.application.routes.draw do
             path: 'census/1930',
             as: 'census1930_records'
 
+
+  namespace :cms do
+    resources :menus do
+      resources :items, only: [:new, :create, :edit, :update, :destroy], controller: :menu_items
+    end
+    resources :pages
+    resources :url_aliases, except: [:show]
+  end
+
+  get 'uploads/pictures/:id/:style/:device' => 'cms/pictures#show', as: 'picture'
+
 end

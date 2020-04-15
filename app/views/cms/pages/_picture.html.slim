@@ -1,0 +1,28 @@
+.tab-pane.page-section id=form.object.name
+  h3= form.object.human_name
+
+  = panel 'Field Info' do
+    = form.input :human_name, input_html: { class: 'human_name' }
+    = form.input :name, input_html: { class: 'name' }
+    = form.hidden_field :type
+
+  = panel 'File Upload' do
+    .row
+      .col-8
+        = form.input :file, as: :file, direct_upload: true, label: 'File to upload'
+      - if form.object.file.present?
+        .col-4
+          = image_tag form.object.url, class: 'img img-thumbnail'
+          br
+          br
+
+  = panel 'Information' do
+    = form.input :bootstrap_class, as: :select, collection: Cms::Picture.bootstrap_class_choices, include_blank: 'none'
+    = form.input :alignment, as: :select, collection: Cms::Picture.alignment_choices
+    = form.input :style, as: :select, collection: Cms::Picture.style_options, include_blank: 'Original IMG'
+    = form.input :width, label: 'IMG Width in Px'
+    = form.input :height, label: 'IMG Height in Px'
+    = form.input :alt_text, placeholder: 'Alt Text'
+    = form.input :caption, placeholder: 'Caption'
+
+  = render 'cms_widget_details', form: form

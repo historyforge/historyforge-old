@@ -1,0 +1,13 @@
+.tab-pane.page-section id=form.object.name
+  h3= form.object.human_name
+
+  = panel 'Field Info' do
+    = form.input :human_name, input_html: { class: 'human_name' }
+    = form.input :name, input_html: { class: 'name' }
+    = form.hidden_field :type
+
+  = panel 'Embed' do
+    = form.input :embed_url, placeholder: 'Share URL', hint: 'From YouTube or Vimeo'
+    = form.input :embed_code, as: :text, placeholder: 'Paste embed code here.'
+
+  = render 'cms_widget_details', form: form

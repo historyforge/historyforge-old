@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_232728) do
+ActiveRecord::Schema.define(version: 2020_04_15_174638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -413,6 +423,61 @@ ActiveRecord::Schema.define(version: 2020_04_14_232728) do
     t.index ["key"], name: "index_client_applications_on_key", unique: true
   end
 
+  create_table "cms_menu_items", force: :cascade do |t|
+    t.bigint "menu_id"
+    t.string "ancestry"
+    t.string "title"
+    t.string "url"
+    t.boolean "is_external"
+    t.boolean "show_as_expanded"
+    t.boolean "enabled"
+    t.integer "position"
+    t.json "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ancestry"], name: "index_cms_menu_items_on_ancestry"
+    t.index ["menu_id"], name: "index_cms_menu_items_on_menu_id"
+  end
+
+  create_table "cms_menus", force: :cascade do |t|
+    t.string "name"
+    t.json "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "cms_page_widgets", force: :cascade do |t|
+    t.bigint "cms_page_id"
+    t.string "type"
+    t.jsonb "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cms_page_id"], name: "index_cms_page_widgets_on_cms_page_id"
+  end
+
+  create_table "cms_pages", force: :cascade do |t|
+    t.string "type", default: "Cms::Page"
+    t.string "url_path"
+    t.string "controller"
+    t.string "action"
+    t.boolean "published", default: true
+    t.boolean "visible", default: false
+    t.json "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["controller", "action"], name: "index_cms_pages_on_controller_and_action"
+    t.index ["url_path"], name: "index_cms_pages_on_url_path"
+  end
+
+  create_table "cms_url_aliases", force: :cascade do |t|
+    t.string "url_path", null: false
+    t.string "target_url_path"
+    t.bigint "page_id"
+    t.index ["page_id"], name: "index_cms_url_aliases_on_page_id"
+    t.index ["url_path", "page_id"], name: "index_url_aliases_on_path_and_page"
+    t.index ["url_path"], name: "index_cms_url_aliases_on_url_path", unique: true
+  end
+
   create_table "construction_materials", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "color"
@@ -729,6 +794,8 @@ ActiveRecord::Schema.define(version: 2020_04_14_232728) do
   add_foreign_key "census_1930_records", "people"
   add_foreign_key "census_1930_records", "users", column: "created_by_id"
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"
+  add_foreign_key "cms_page_widgets", "cms_pages"
+  add_foreign_key "cms_url_aliases", "cms_pages", column: "page_id"
   add_foreign_key "people_photos", "people"
   add_foreign_key "people_photos", "photos"
   add_foreign_key "photographs", "buildings"

@@ -1,0 +1,16 @@
+tr.draggable
+  td
+    .indentation
+    - if row.object.depth > 0
+      - 1.upto(row.object.depth)
+        div.indentation
+    = link_to row.object.title, row.object.to_url
+    = row.hidden_field :id, class: 'id'
+    = row.hidden_field :position, class: 'position'
+    = row.hidden_field :parent_id, class: 'parent_id'
+  td= row.check_box :enabled
+  td= link_to 'Edit', edit_cms_menu_item_path(@menu, row.object), class: 'btn btn-xs btn-default'
+
+- if row.object.children.any?
+  = form.fields_for :items, row.object.children do |row2|
+    = render 'row', row: row2, form: form

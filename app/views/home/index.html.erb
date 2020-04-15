@@ -1,14 +1,27 @@
-<div id="container">
-  <h1>HistoryForge - <%= AppConfig.city %> <%= AppConfig.state %></h1>
-  <p>A Project of <%= link_to AppConfig.organization, AppConfig.url %></p>
+<% provide_cms_with :person_finder do %>
+<h2>Find a person</h2>
+<p><input type="search" id="search-people-input" placeholder="Type a name here" class="form-control" /></p>
+<% end %>
 
-  <h2>Find a person</h2>
-  <p><input type="search" id="search-people-input" placeholder="Type a name here" class="form-control" /></p>
-  <div id="search-people-results"></div>
+<% provide_cms_with :person_results do %>
+<div id="search-people-results"></div>
+<% end %>
 
-  <h2>Find your house</h2>
-  <p><input type="search" id="search-buildings-input" placeholder="Type an address here" class="form-control" /></p>
-  <div id="search-buildings-results"></div>
+<% provide_cms_with :home_finder do %>
+<h2>Find your house</h2>
+<p><input type="search" id="search-buildings-input" placeholder="Type an address here" class="form-control" /></p>
+<% end %>
+
+<% provide_cms_with :home_results do %>
+<div id="search-buildings-results"></div>
+<% end %>
+
+
+
+<!--<div id="container">-->
+<!--  <h1>HistoryForge - <%#= AppConfig.city %> <%#= AppConfig.state %></h1>-->
+<!--  <p>A Project of <%#= link_to AppConfig.organization, AppConfig.url %></p>-->
+
 
 <!--  <h2>Census Records</h2>-->
 
@@ -100,5 +113,5 @@
 <!--    </div>-->
 <!--  </div>-->
 
-  <div class="clear"></div>
-</div>
+<!--  <div class="clear"></div>-->
+<!--</div>-->

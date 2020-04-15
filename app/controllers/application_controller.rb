@@ -6,6 +6,15 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_paper_trail_whodunnit
 
+  if Rails.env.production?
+    rescue_from ActiveRecord::RecordNotFound,
+                ActionController::RoutingError,
+                ActionController::MethodNotAllowed, with: :render_404
+  end
+
+  before_action :check_cms_for_page
+  layout :cms_choose_layout
+
   rescue_from CanCan::AccessDenied, with: :permission_denied
 
   def check_super_user_role
@@ -18,6 +27,31 @@ class ApplicationController < ActionController::Base
 
   def check_developer_role
     check_role("developer")
+  end
+
+  def check_cms_for_page
+    Rails.logger.info "Looking for #{params[:controller]}##{params[:action]} template."
+    a = params[:action]
+    a = 'new' if a == 'create'
+    a = 'edit' if a == 'update'
+    @page = Cms::Page.where(controller: self.class.name, action: a).first
+  end
+
+  def cms_choose_layout
+    @page.present? ? 'cms' : 'application'
+  end
+
+  def render_404
+    @page = Cms::Page.where(controller: 'pages', action: '404').first_or_initialize
+    if @page.new_record?
+      @page.title = '404 Page Not Found'
+      @page.url_path = '/404_error'
+      @page.build_section name: 'body', human_name: 'Body', html: 'The page was not found'
+      @page.template = "{{body}}\r\n\r\n{{content}}"
+      @page.save!
+    end
+    render('cms/pages/page_404', status: 404, layout: 'cms')
+    true
   end
 
 

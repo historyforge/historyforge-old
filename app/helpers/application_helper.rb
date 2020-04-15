@@ -1,5 +1,22 @@
 module ApplicationHelper
 
+  def browser_title
+    title = @browser_title || page_title
+    "#{title ? "#{title} | " : nil}#{Rails.application.name}"
+  end
+
+  def set_browser_title(value)
+    @browser_title = value
+  end
+
+  def set_page_title(title)
+    @page_title = title
+  end
+
+  def page_title
+    @page_title
+  end
+
   def prepare_alerts_base
     js = []
     js << ['success', message_for_item(flash[:notice], :notice_item)] unless flash[:notice].blank?
@@ -34,6 +51,10 @@ module ApplicationHelper
   def strip_brackets(str)
     str ||=""
     str.gsub(/[\]\[()]/,"")
+  end
+
+  def yes_or_no(value)
+    value ? 'Yes' : 'No'
   end
 
   def snippet(thought, wordcount)
@@ -75,5 +96,55 @@ module ApplicationHelper
            attr: attr,
            label: label,
            checked: checked
+  end
+
+  def panel title=nil, *args, &block
+    options = args.extract_options!
+    options.reverse_merge! open: true, removable: false
+    form = options[:form]
+    tools = options[:tools]
+    tools = tools.html_safe if tools.present?
+    panel_class = options[:class] || 'card-default'
+    heading = ''.html_safe
+    extra_body = ''.html_safe
+
+    if title
+      if options[:removable]
+        extra_body << form.hidden_field(:_destroy) if form
+        remove_button = content_tag(:button, "&times;".html_safe, class: 'remove pull-right btn btn-default btn-sm', type: 'button', title: 'Remove', 'data-toggle' => 'tooltip')
+      else
+        remove_button = ''.html_safe
+      end
+      title = content_tag :span, title
+      if form && options[:input]
+        title << form.text_field(options[:input], placeholder: options[:input].to_s.humanize)
+      end
+
+      panel_title_options = { class: 'card-title' }
+      panel_body_options = { class: 'card-body' }
+      if options[:collapsible] || options[:collapse]
+        id = SecureRandom.uuid
+        panel_title_options['data-toggle'] = 'collapse'
+        panel_title_options['data-target'] = "##{id}"
+        panel_body_options[:class] << ' card-collapse'
+        panel_body_options[:id] = id
+        if options[:open]
+          panel_body_options[:class] << ' in'
+        else
+          panel_title_options[:class] << ' collapsed'
+          panel_body_options[:class] << ' collapse'
+          panel_body_options[:style] = 'height:0px;'
+        end
+      end
+
+      heading = title ? content_tag(:div, remove_button + content_tag(:h4, title, panel_title_options) + content_tag(:div, tools, class: 'tools'), class: 'card-header') : nil
+    end
+    body    = content_tag(:div, extra_body + capture(&block), panel_body_options)
+    content_tag :div, heading + body, class: "card #{panel_class} mb-3"
+  end
+
+  def table(attrs={}, &block)
+    attrs['data-sortable'] = true if attrs.delete(:sortable)
+    content_tag :table, capture(&block), attrs.merge(:class => 'table table-striped table-condensed')
   end
 end

@@ -1,51 +1,58 @@
-nav.navbar.navbar-light.bg-light.navbar-expand-lg.navbar-static.top role="navigation"
-  = link_to 'HistoryForge', root_path, class: 'navbar-brand'
-  button.navbar-toggler.collapsed type="button" data-toggle="collapse" data-target="#navbar-nav" aria-expanded="false"
-    span.navbar-toggler-icon
+header
+  nav.navbar.navbar-light.bg-light.navbar-expand-lg.navbar-static.top role="navigation"
+    .container
+      = link_to root_path, class: 'navbar-brand' do
+        = image_tag 'logo-hf.png'
+        = image_tag 'logo-text.png'
+      button.navbar-toggler.collapsed type="button" data-toggle="collapse" data-target="#navbar-nav" aria-expanded="false"
+        span.navbar-toggler-icon
 
+      .collapse.navbar-collapse#navbar-nav
+        ul.nav.navbar-nav.ml-auto
+          - if user_signed_in?
+            - if current_user.has_role?("administrator") || current_user.has_role?("super user")
+              li.dropdown.nav-item
+                a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+                  | Admin
+                  = ' '
+                  span.caret
+                .dropdown-menu
+                  = link_to "Photographs", photographs_path, class: 'dropdown-item'
+                  = link_to "Administer Users", users_path, class: 'dropdown-item'
+                  = link_to "Map Overlays", map_overlays_path, class: 'dropdown-item'
+                  = link_to "Street Conversions", street_conversions_path, class: 'dropdown-item'
+                  = link_to "Controlled Vocabularies", vocabularies_path, class: 'dropdown-item'
+                  = link_to "CMS Pages", cms_pages_path, class: 'dropdown-item'
+                  = link_to "CMS Edit Main Menu", cms_menu_path(1), class: 'dropdown-item'
+                  = cms_link
 
-  .collapse.navbar-collapse#navbar-nav
-    ul.nav.navbar-nav.ml-auto
-      li.nav-item= link_to 'Forge', '/forge', class: 'nav-link'
-      - if user_signed_in?
-        - if current_user.has_role?("administrator") || current_user.has_role?("super user")
-          li.dropdown.nav-item
-            a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-              | Admin
-              = ' '
-              span.caret
-            .dropdown-menu
-              = link_to "Photographs", photographs_path, class: 'dropdown-item'
-              = link_to "Administer Users", users_path, class: 'dropdown-item'
-              = link_to "Map Overlays", map_overlays_path, class: 'dropdown-item'
-              = link_to "Street Conversions", street_conversions_path, class: 'dropdown-item'
-              = link_to "Controlled Vocabularies", vocabularies_path, class: 'dropdown-item'
+          = menu 'Main Menu'
+          / li.nav-item= link_to 'Forge', '/forge', class: 'nav-link'
+          / li.nav-item= link_to "Buildings", buildings_path, class: 'nav-link'
+          /
+          / li.dropdown.nav-item
+          /   a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+          /     | People
+          /     = ' '
+          /     span.caret
+          /   .dropdown-menu
+          /     = link_to "1900 US Census", census1900_records_path, class: 'dropdown-item'
+          /     = link_to "1910 US Census", census1910_records_path, class: 'dropdown-item'
+          /     = link_to "1920 US Census", census1920_records_path, class: 'dropdown-item'
+          /     = link_to "1930 US Census", census1930_records_path, class: 'dropdown-item'
+          /
+          / li.nav-item= link_to "About", "https://thehistorycenter.net/historyforge", class: 'nav-link'
 
-      li.nav-item= link_to "Buildings", buildings_path, class: 'nav-link'
+          - if user_signed_in?
+            li.nav-item.dropdown
+              a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+                = current_user.name
+                = ' '
+                span.caret
+              .dropdown-menu
+                = link_to 'My profile', user_path(current_user), class: 'dropdown-item'
+                = link_to 'Edit my account', edit_user_path(current_user), class: 'dropdown-item'
+                = link_to "Log out", destroy_user_session_path, method: :delete, class: 'dropdown-item'
 
-      li.dropdown.nav-item
-        a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-          | People
-          = ' '
-          span.caret
-        .dropdown-menu
-          = link_to "1900 US Census", census1900_records_path, class: 'dropdown-item'
-          = link_to "1910 US Census", census1910_records_path, class: 'dropdown-item'
-          = link_to "1920 US Census", census1920_records_path, class: 'dropdown-item'
-          = link_to "1930 US Census", census1930_records_path, class: 'dropdown-item'
-
-      li.nav-item= link_to "About", "https://thehistorycenter.net/historyforge", class: 'nav-link'
-
-      - if user_signed_in?
-        li.nav-item.dropdown
-          a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-            = current_user.name
-            = ' '
-            span.caret
-          .dropdown-menu
-            = link_to 'My profile', user_path(current_user), class: 'dropdown-item'
-            = link_to 'Edit my account', edit_user_path(current_user), class: 'dropdown-item'
-            = link_to "Log out", destroy_user_session_path, method: :delete, class: 'dropdown-item'
-
-      - else
-        li.nav-item= link_to 'Log In', new_user_session_path, class: 'nav-link'
+          - else
+            li.nav-item= link_to 'Log In', new_user_session_path, class: 'nav-link'

@@ -66,7 +66,12 @@ GEM
       airbrake-ruby (~> 4.13)
     airbrake-ruby (4.13.4)
       rbtree3 (~> 0.5)
+    ancestry (3.0.7)
+      activerecord (>= 3.2.0)
     andand (1.3.3)
+    ar_doc_store (2.0.6)
+      activerecord (>= 5.2)
+      pg
     autoprefixer-rails (9.7.6)
       execjs
     bcrypt (3.1.13)
@@ -140,6 +145,7 @@ GEM
       addressable (~> 2.7)
     letter_opener (1.7.0)
       launchy (~> 2.2)
+    liquid (4.0.3)
     loofah (2.5.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -187,6 +193,8 @@ GEM
     puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.2.2)
+    rack-proxy (0.6.5)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.2.2)
@@ -253,6 +261,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
+    semantic_range (2.3.0)
     simple_form (5.0.2)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
@@ -285,6 +294,11 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
+    webpacker (5.0.1)
+      activesupport (>= 5.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 5.2)
+      semantic_range (>= 2.3.0)
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -297,8 +311,9 @@ DEPENDENCIES
   active_storage_validations
   acts_as_list
   airbrake
+  ancestry
   andand
-  autoprefixer-rails
+  ar_doc_store
   bcrypt
   bootsnap
   bootstrap (~> 4)
@@ -317,6 +332,7 @@ DEPENDENCIES
   jquery-ui-rails
   kaminari
   letter_opener
+  liquid
   memory_profiler
   mini_magick
   non-stupid-digest-assets
@@ -336,6 +352,7 @@ DEPENDENCIES
   spring
   uglifier
   web-console
+  webpacker
 
 RUBY VERSION
    ruby 2.5.1p57
