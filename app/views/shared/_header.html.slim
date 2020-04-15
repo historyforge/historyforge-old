@@ -27,21 +27,6 @@ header
                   = cms_link
 
           = menu 'Main Menu'
-          / li.nav-item= link_to 'Forge', '/forge', class: 'nav-link'
-          / li.nav-item= link_to "Buildings", buildings_path, class: 'nav-link'
-          /
-          / li.dropdown.nav-item
-          /   a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-          /     | People
-          /     = ' '
-          /     span.caret
-          /   .dropdown-menu
-          /     = link_to "1900 US Census", census1900_records_path, class: 'dropdown-item'
-          /     = link_to "1910 US Census", census1910_records_path, class: 'dropdown-item'
-          /     = link_to "1920 US Census", census1920_records_path, class: 'dropdown-item'
-          /     = link_to "1930 US Census", census1930_records_path, class: 'dropdown-item'
-          /
-          / li.nav-item= link_to "About", "https://thehistorycenter.net/historyforge", class: 'nav-link'
 
           - if user_signed_in?
             li.nav-item.dropdown
