@@ -85,15 +85,7 @@ class Cms::PagesController < ApplicationController
       @page = Cms::Page.find params[:id]
     elsif params[:path]
       url_path = "/#{params[:path]}"
-      @url_alias = Cms::Page.where(url_path: url_path).includes(:widgets).first
-      if @url_alias.blank?
-        render_404
-      elsif @url_alias.target_url_path.present?
-        redirect_to @url_alias.target_url_path, status: 301
-      else
-        @page = @url_alias.page
-        redirect_to(@page.url_path, status: 301) if @page.url_path != @url_alias.url_path
-      end
+      @page = Cms::Page.where(url_path: url_path).includes(:widgets).first
     end
     render_404 if @page.blank?
   end
