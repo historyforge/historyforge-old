@@ -35,7 +35,7 @@ add_the_cms_widget = (widget, name, callback) ->
   code_name = name.toLowerCase().replace(/\W+/g, '-')
 
   # create the tab
-  tab_link = $("<li class=\"nav-item\"><a class=\"nav-link\" href=\"##{code_name}\" data-toggle=\"tab\">#{name}</a></li>")
+  tab_link = $("<a class=\"dropdown-item\" href=\"##{code_name}\" data-toggle=\"tab\">#{name}</a>")
 
   # create the form
   tab_pane = $("#new_#{widget}_fields").text()
@@ -49,11 +49,11 @@ add_the_cms_widget = (widget, name, callback) ->
   tab_pane.attr('id', code_name)
 
   # add to the dom
-  $('.nav-tabs li.nav-item:last').after tab_link
+  $('.nav-tabs li.nav-item:last .dropdown-menu').append tab_link
   $('.tab-pane:last').before tab_pane
 
   # select the tab
-  tab_link.find('a').tab('show')
+  tab_link.tab('show')
 
   available_tokens = []
   $('.page-section input.name').each -> available_tokens.push "{{#{@value}}}"

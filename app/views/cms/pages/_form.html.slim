@@ -28,9 +28,11 @@
       a.nav-link href="#template" data-toggle="tab" = t('cms.tabs.template')
     li.nav-item
       a.nav-link href="#css" data-toggle="tab" = t('cms.tabs.css')
-    - @page.widgets.each do |widget|
-      li.nav-item
-        a.nav-link href="##{widget.name.parameterize}" data-toggle="tab" = widget.human_name
+    li.nav-item.dropdown
+      a.nav-link.dropdown-toggle href='#' data-toggle='dropdown' Media
+      .dropdown-menu
+        - @page.widgets.each do |widget|
+          a.dropdown-item href="##{widget.name.parameterize}" data-toggle="tab" = widget.human_name
 
   .tab-content
     .tab-pane.active#metadata
