@@ -92,7 +92,7 @@ class Cms::Picture < Cms::PageWidget
       html = ''
 
       if picture.caption?
-        html = content_tag(:h3, picture.caption).html_safe
+        html = content_tag(:h1, picture.caption).html_safe
       end
 
       html_options = { class: 'cms-slide cms-image ' }
