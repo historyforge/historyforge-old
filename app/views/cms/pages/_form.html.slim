@@ -38,7 +38,7 @@
             a.dropdown-item href="##{widget.name.parameterize}" data-toggle="tab" = widget.human_name
 
   .tab-content
-    .tab-pane.active#metadata
+    .tab-pane#metadata class=(@page.new_record? ? 'active' : '')
       = error_messages_for @page
       - if form.object.controller.present?
         .alert.alert-info
@@ -72,7 +72,7 @@
 
 
     - if @page.persisted?
-      .tab-pane#template
+      .tab-pane.active#template
         .alert.alert-info
           | Liquid template for this page. The purpose is to inject the content defined in the page sections into a HTML frame using
           code<
