@@ -417,3 +417,10 @@ abbr[title] {
     font-size: 3rem;
   }
 }
+
+.jumbotron {
+  background: white;
+  color: rgba(26,26,26,.9);
+  padding: 40px;
+  .lead { margin: 0; font-size: 1.5rem; }
+}
