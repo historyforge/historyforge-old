@@ -413,7 +413,9 @@ abbr[title] {
   border: 2px solid rgba(0,0,0,0.5);
   border-radius: 100px;
   &:hover {
-    color: white;
+    a {
+      color: white;
+    }
     background: rgba(0,0,0,0.7);
     border: 2px solid rgba(0,0,0,0.7);
   }
