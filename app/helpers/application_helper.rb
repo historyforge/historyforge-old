@@ -17,6 +17,10 @@ module ApplicationHelper
     @page_title
   end
 
+  def guest_user?
+    !current_user
+  end
+
   def prepare_alerts_base
     js = []
     js << ['success', message_for_item(flash[:notice], :notice_item)] unless flash[:notice].blank?

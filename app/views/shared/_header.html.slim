@@ -32,10 +32,9 @@ header
           - if user_signed_in?
             li.nav-item.dropdown
               a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-                = current_user.name
-                = ' '
-                span.caret
+                i.fa.fa-user
               .dropdown-menu
+                .dropdown-item-text= current_user.name
                 = link_to 'My profile', user_path(current_user), class: 'dropdown-item'
                 = link_to 'Edit my account', edit_user_path(current_user), class: 'dropdown-item'
                 = link_to "Log out", destroy_user_session_path, method: :delete, class: 'dropdown-item'
