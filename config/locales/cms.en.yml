@@ -8,13 +8,12 @@ en:
       redirects: 'Redirects'
 
     add:
-      section: 'Add Section'
+      section: 'Add Media'
       wysiwyg: 'Add WYSIWYG Text'
       picture: 'Add Picture'
       document: 'Add Document (PDF)'
       embed: 'Add Embedded Video'
       audio: 'Add Audio Player'
-      testimonial: 'Add Content Section'
 
     widgets:
       pagesection: 'WYSIWYG Text'
@@ -22,7 +21,6 @@ en:
       embed: 'Embedded Video'
       document: 'Document Upload'
       audio: 'Audio Player'
-      testimonial: 'Content Section'
 
 
   simple_form:
