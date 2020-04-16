@@ -30,7 +30,7 @@ require("codemirror/addon/edit/matchtags")
 require("codemirror/addon/edit/matchbrackets")
 
 $(document).ready(function() {
-  $('a[data-toggle="tab"][href="#template"]').on('shown.bs.tab', function() {
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function() {
     $('.CodeMirror').each(function() {
       this.CodeMirror.refresh()
     })
