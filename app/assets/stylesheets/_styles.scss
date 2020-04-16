@@ -403,3 +403,18 @@ abbr[title] {
 .btn.btn-primary {
   background-color: #5A8688;
 }
+
+[data-parallax] {
+  position: relative;
+  h3 {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    padding: 20px;
+    border-radius: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    font-size: 2.5rem;
+  }
+}
