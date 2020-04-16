@@ -409,6 +409,16 @@ abbr[title] {
   border-radius: 100px;
 }
 
+.nav-item.emphasized {
+  border: 2px solid rgba(0,0,0,0.5);
+  border-radius: 100px;
+  &:hover {
+    color: white;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid rgba(0,0,0,0.7);
+  }
+}
+
 [data-parallax] {
   display: flex;
   justify-content: center;
