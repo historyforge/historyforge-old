@@ -1,22 +1,22 @@
 $(document).ready(function() {
-  $('#search-people-input').on('keyup', function(e) {
-    if (e.keyCode === 13) {
-      e.stopPropagation()
-    }
-    const input = e.target
-    const value = input.value
-    if (value.length > 1) {
-      $('#search-people-results').load('/search/people?q=' + value)
-    }
+  $('#search-people-input').each(function() {
+    $(this).autocomplete({ source: "/search/people", select: (event, ui) => {
+      const url = ui.item.url
+      document.location = url
+    }}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li>" )
+        .append( `<div>${item.name} (${item.age})<br>${item.address}</div>` )
+        .appendTo( ul );
+    };
   })
-  $('#search-buildings-input').on('keyup', function(e) {
-    if (e.keyCode === 13) {
-      e.stopPropagation()
-    }
-    const input = e.target
-    const value = input.value
-    if (value.length > 1) {
-      $('#search-buildings-results').load('/search/buildings?q=' + value)
-    }
+  $('#search-buildings-input').each(function() {
+    $(this).autocomplete({ source: "/search/buildings", select: (event, ui) => {
+      const url = ui.item.url
+      document.location = url
+    }}).autocomplete( "instance" )._renderItem = function( ul, item ) {
+      return $( "<li>" )
+        .append( `<div>${item.name}</div>` )
+        .appendTo( ul );
+    };
   })
 })

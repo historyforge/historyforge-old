@@ -8,13 +8,13 @@ class HomeController < ApplicationController
   end
 
   def search_people
-    @names = PgSearch.multisearch(params[:q]).limit(10).includes(:searchable).all.map(&:searchable)
-    render layout: false
+    @names = PgSearch.multisearch(params[:term]).limit(10).includes(:searchable).all.map(&:searchable)
+    render json: @names.map { |p| { url: url_for(p), year: p.year, name: p.name, sex: p.sex, age: p.age, address: p.street_address, profession: p.profession } }
   end
 
   def search_buildings
-    @buildings = Building.ransack(street_address_cont: params[:q]).result.limit(10)
-    render layout: false
+    @buildings = Building.ransack(street_address_cont: params[:term]).result.limit(10)
+    render json: @buildings.map { |b| { url: url_for(b), name: b.full_street_address } }
   end
 
   private
