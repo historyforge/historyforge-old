@@ -11,7 +11,6 @@ module Cms
     json_attribute :notes, :string
     json_attribute :automatic_url_alias, :boolean, default: true
 
-    json_attribute :use_auto_template, :boolean, default: false
     json_attribute :template_sections, :array
     json_attribute :template, :string, default: "{{body}}\r\n\r\n{{content}}"
 

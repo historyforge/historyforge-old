@@ -393,3 +393,9 @@ abbr[title] {
   cursor: default;
   text-decoration: none;
 }
+
+.cms-image {
+  img {
+    max-width: 100%;
+  }
+}
