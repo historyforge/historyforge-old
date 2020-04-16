@@ -99,4 +99,5 @@ Rails.application.routes.draw do
 
   get 'uploads/pictures/:id/:style/:device' => 'cms/pictures#show', as: 'picture'
 
+  match '*path'   => 'cms/pages#show', via: :all, constraints: -> (request) { request.format.html? && request.path != '/routes' }
 end
