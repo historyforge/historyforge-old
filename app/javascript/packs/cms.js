@@ -36,10 +36,13 @@ $(document).ready(function() {
     })
   })
   $('textarea.codemirror').each(function() {
-    CodeMirror.fromTextArea(this, {
+    const { mode } = this.dataset || 'html'
+    const editor = CodeMirror.fromTextArea(this, {
       lineNumbers: true,
-      theme: 'darcula'
+      theme: 'darcula',
+      mode
     });
+    editor.setSize(null, 500)
   })
 })
 

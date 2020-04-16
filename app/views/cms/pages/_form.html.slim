@@ -79,7 +79,7 @@
           - @page.widgets.each do |item|
             code<> = "{{#{item.name}}}"
 
-        = form.text_area :template, class: 'codemirror', data: { mode: 'liquid' }
+        = form.text_area :template, class: 'codemirror', data: { mode: 'htmlmixed' }
       br
       p Any admin notes about this page and template?
       = form.text_area :notes, style: 'width:100%;height:60px'
@@ -87,7 +87,7 @@
       br
 
     .tab-pane#css
-      = form.text_area :css, class: 'codemirror', data: {mode: 'scss'}
+      = form.text_area :css, class: 'codemirror', data: {mode: 'css'}
 
     = form.simple_fields_for :widgets, wrapper: :horizontal_form do |widget_form|
       = render widget_form.object.class.to_s.sub(/Cms\:\:/, '').downcase, form: widget_form
