@@ -46,8 +46,7 @@ class ApplicationController < ActionController::Base
     if @page.new_record?
       @page.title = '404 Page Not Found'
       @page.url_path = '/404_error'
-      @page.build_section name: 'body', human_name: 'Body', html: 'The page was not found'
-      @page.template = "{{body}}\r\n\r\n{{content}}"
+      @page.template = "The page was not found :(\r\n\r\n{{content}}"
       @page.save!
     end
     render('cms/pages/page_404', status: 404, layout: 'cms')
