@@ -74,6 +74,10 @@
       dl
         dt Employment
         dd= @record.employment
+    - if @record.employment_code?
+      dl
+        dt Employment Code
+        dd= @record.employment_code
     - if @record.farm_schedule?
       dl
         dt Farm Number

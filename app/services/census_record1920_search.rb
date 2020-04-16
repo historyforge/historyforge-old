@@ -10,7 +10,7 @@ class CensusRecord1920Search < CensusRecordSearch
       mother_tongue mother_tongue_father mother_tongue_mother
       foreign_born year_immigrated
       naturalized_alien
-      profession industry employment
+      profession industry employment employment_code
       owned_or_rented mortgage farm_or_house
       notes latitude longitude
     ]

@@ -6,7 +6,7 @@ class Census1920Record < CensusRecord
 
   define_enumeration :employment, %w{W Em OA}
 
-  auto_strip_attributes :industry, :employment
+  auto_strip_attributes :industry, :employment, :employment_code
 
   def year
     1920

@@ -86,6 +86,7 @@ json.filters do
   AttributeBuilder.boolean json, :naturalized_alien
   AttributeBuilder.number json, :year_naturalized
   AttributeBuilder.enumeration json, Census1920Record, :employment
+  AttributeBuilder.text json, :employment_code
   AttributeBuilder.number json, :farm_schedule
   AttributeBuilder.enumeration json, Census1920Record, :owned_or_rented
   AttributeBuilder.enumeration json, Census1920Record, :mortgage
