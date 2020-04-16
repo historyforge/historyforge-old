@@ -26,9 +26,11 @@
       a.nav-link href="#metadata" data-toggle="tab" = t('cms.tabs.meta')
     li.nav-item
       a.nav-link href="#template" data-toggle="tab" = t('cms.tabs.template')
+    li.nav-item
+      a.nav-link href="#css" data-toggle="tab" = t('cms.tabs.css')
     - @page.widgets.each do |widget|
       li.nav-item
-      a.page-widget.nav-link href="##{widget.name.parameterize}" data-toggle="tab" = widget.human_name
+        a.nav-link href="##{widget.name.parameterize}" data-toggle="tab" = widget.human_name
 
   .tab-content
     .tab-pane.active#metadata
@@ -83,6 +85,9 @@
       = form.text_area :notes, style: 'width:100%;height:60px'
       br
       br
+
+    .tab-pane#css
+      = form.text_area :css, class: 'codemirror', data: {mode: 'scss'}
 
     = form.simple_fields_for :widgets, wrapper: :horizontal_form do |widget_form|
       = render widget_form.object.class.to_s.sub(/Cms\:\:/, '').downcase, form: widget_form

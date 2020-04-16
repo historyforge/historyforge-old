@@ -1,5 +1,6 @@
 #= require jquery-ui
 #= require rails-ujs
+#= require parallax.min
 #= require alertify.min
 #= require advanced_search
 #= require census_form

@@ -8,7 +8,7 @@ class Cms::Picture < Cms::PageWidget
   json_attribute :caption, as: :string
   json_attribute :alt_text, as: :string
   json_attribute :bootstrap_class, as: :enumeration, values: %w{thumbnail rounded circle}, strict: true
-  json_attribute :alignment, as: :enumeration, values: %w{left center right}, strict: true
+  json_attribute :alignment, as: :enumeration, values: %w{left center right parallax}, strict: true
 
   before_save :cache_html
 
@@ -18,7 +18,8 @@ class Cms::Picture < Cms::PageWidget
       ['Half Width Picture', 'half'],
       ['Third Width Picture', 'third'],
       ['Quarter Width Picture', 'quarter'],
-      ['Raw Image URL', 'raw']
+      ['Raw Image URL', 'raw'],
+      ['Parallax', 'parallax']
     ]
   end
 
@@ -26,6 +27,8 @@ class Cms::Picture < Cms::PageWidget
     if style.present?
       if style == 'raw'
         RawImgTagRenderer.new(self).render
+      elsif style == 'parallax'
+        ParallaxRenderer.new(self).render
       else
         PictureTagRenderer.new(self).render
       end
@@ -81,6 +84,34 @@ class Cms::Picture < Cms::PageWidget
       html_options[:class] = "img-responsive"
       html_options[:class] << " img-#{picture.bootstrap_class}" if picture.bootstrap_class?
       tag :img, html_options
+    end
+  end
+
+  class ParallaxRenderer < BaseRenderer
+    def render
+      html = ''
+
+      if picture.caption?
+        html = content_tag(:h3, picture.caption).html_safe
+      end
+
+      html_options = { class: 'cms-slide cms-image ' }
+      html_options[:id] = picture.css_id if picture.css_id?
+      html_options[:class] << picture.css_class if picture.css_class?
+      if picture.css_clear.present? && picture.css_clear != 'none'
+        html_options[:style] = "clear: #{picture.css_clear}"
+      end
+
+      style_attr = ''
+      style_attr << "min-width:#{picture.width}px;" if picture.width?
+      style_attr << "min-height:#{picture.height}px;" if picture.height?
+      html_options[:style] = style_attr if style_attr.present?
+      html_options['data-image-src'] = picture.url
+      html_options['data-parallax'] = 'scroll'
+      html_options['data-position'] = 'top'
+      html_options['data-bleed'] = '10'
+
+      content_tag :div, html.html_safe, html_options
     end
   end
 

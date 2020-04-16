@@ -21,6 +21,9 @@ module Cms
     json_attribute :description, :string
     json_attribute :browser_title, :string
 
+    json_attribute :css, :string
+    json_attribute :css_compiled, :string
+
     has_many :widgets, class_name: '::Cms::PageWidget', dependent: :destroy, inverse_of: :page, foreign_key: :cms_page_id
     accepts_nested_attributes_for :widgets, reject_if: :all_blank, allow_destroy: true
 
@@ -32,7 +35,7 @@ module Cms
     before_validation :set_url_path, if: :is_app_page?
     after_validation :add_slash_to_url_path
     before_save :set_visibility
-    before_save :generate_auto_template, if: :use_auto_template?
+    before_save :compile_css
     after_update :expire #, if: :template_changed?
     after_destroy :expire
 
@@ -65,6 +68,14 @@ module Cms
 
     def expire
       Cms::PageRenderer.expire(self)
+    end
+
+    def compile_css
+      if css?
+        self.css_compiled = Cms::PageCssCompiler.run(self)
+      elsif css_compiled?
+        self.css_compiled = nil
+      end
     end
 
     attr_reader :clear_dummy_vars
