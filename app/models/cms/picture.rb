@@ -119,14 +119,7 @@ class Cms::Picture < Cms::PageWidget
     def render_image
       img_class = picture.bootstrap_class? ? "img-#{picture.bootstrap_class}" : nil
       return <<-EOD
-      <picture>
-      <!--[if IE 9]><video style="display: none;"><![endif]-->
-      <source srcset="/uploads/pictures/#{picture.id}/#{picture.style}/phone.jpg" media="(max-width:480px)">
-      <source srcset="/uploads/pictures/#{picture.id}/#{picture.style}/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
-      <source srcset="/uploads/pictures/#{picture.id}/#{picture.style}/desktop.jpg" media="(min-width:1025px)">
-      <!--[if IE 9]></video><![endif]-->
-      <img src="#{picture.url}" alt="#{picture.alt_text}" title="" class="img-responsive #{img_class}">
-      </picture>
+      <img src="#{picture.url}" alt="#{picture.alt_text}" title="" class="img #{img_class}">
       EOD
     end
   end
