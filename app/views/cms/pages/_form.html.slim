@@ -63,9 +63,9 @@
         = form.input :keywords, as: :string, label: 'Meta keywords'
         = form.input :description, as: :string, label: 'Meta description'
 
-      = panel 'Misc', collapsible: true do
-        = form.input :access_callback, as: :string, hint: 'Controller method that determines if the user can view this page if it is visible and published.'
-        = form.input :clear_dummy_vars, as: :boolean, inline_label: 'Rails templates updated - clear dummy vars!'
+      / = panel 'Misc', collapsible: true do
+      /   = form.input :access_callback, as: :string, hint: 'Controller method that determines if the user can view this page if it is visible and published.'
+      /   = form.input :clear_dummy_vars, as: :boolean, inline_label: 'Rails templates updated - clear dummy vars!'
 
 
     .tab-pane#template
@@ -81,7 +81,7 @@
           - @page.widgets.each do |item|
             code<> = "{{#{item.name}}}"
 
-        = form.text_area :template, class: 'codemirror', data: { mode: 'htmlmixed' }
+      = form.text_area :template, class: 'codemirror', data: { mode: 'htmlmixed' }
       br
       p Any admin notes about this page and template?
       = form.text_area :notes, style: 'width:100%;height:60px'
