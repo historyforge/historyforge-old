@@ -52,8 +52,8 @@ module Cms
 
     def self.generate
       page = new
-      body = Cms::Text.new name: 'body', human_name: 'Body'
-      page.widgets << body
+      # body = Cms::Text.new name: 'body', human_name: 'Body'
+      # page.widgets << body
       page
     end
 
