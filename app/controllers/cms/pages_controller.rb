@@ -85,7 +85,7 @@ class Cms::PagesController < ApplicationController
       @page = Cms::Page.find params[:id]
     elsif params[:path]
       url_path = "/#{params[:path]}"
-      @url_alias = Cms::Page.where(url_path: url_path).includes(:page_widgets).first
+      @url_alias = Cms::Page.where(url_path: url_path).includes(:widgets).first
       if @url_alias.blank?
         render_404
       elsif @url_alias.target_url_path.present?
