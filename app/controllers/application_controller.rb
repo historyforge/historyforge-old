@@ -73,8 +73,13 @@ class ApplicationController < ActionController::Base
   end
 
   def maybe_add_scope(param)
-    if current_user && params[param] && params[param] == '1'
+    if current_user
+      if params[:reset]
+        session.delete param
+      elsif (params[param] && params[param] == '1') || (session[param] && session[param] == '1')
+        session[param] = '1'
         @search.public_send "#{param}!"
+      end
     end
   end
 end

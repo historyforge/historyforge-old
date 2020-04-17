@@ -13,6 +13,7 @@ class CensusRecord < ApplicationRecord
 
   attr_accessor :ensure_building
   before_save :ensure_housing
+  before_save :match_to_person
 
   validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head, :profession,
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
@@ -42,7 +43,12 @@ class CensusRecord < ApplicationRecord
 
   has_paper_trail
 
-  multisearchable against: :name, if: :reviewed?
+  multisearchable against: :name,
+                  using: {
+                      tsearch: { prefix: true, any_word: true },
+                      trigram: {}
+                  },
+                  if: :reviewed?
 
   ransacker :name, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
     Arel::Nodes::NamedFunction.new('LOWER',
@@ -69,6 +75,7 @@ class CensusRecord < ApplicationRecord
 
   scope :unreviewed, -> { where(reviewed_at: nil) }
   scope :unhoused, -> { where(building_id: nil) }
+  scope :unmatched, -> { where(person_id: nil) }
 
   def field_for(field)
     respond_to?(field) ? public_send(field) : '?'
@@ -180,6 +187,25 @@ class CensusRecord < ApplicationRecord
 
   def year
     raise 'Need a year!'
+  end
+
+  def match_to_person!
+    match_to_person
+    update_column :person_id, person.id if person
+  end
+
+  def match_to_person
+    return if person_id.present?
+    match = Person.probable_match_for(self)
+    if match
+      self.person = match
+    else
+      generate_person_record! unless unmarried_female?
+    end
+  end
+
+  def unmarried_female?
+    sex == 'F' && %w{S W D}.include?(marital_status)
   end
 
   def generate_person_record!

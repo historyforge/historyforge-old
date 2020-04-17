@@ -113,6 +113,14 @@ class People::CensusRecordsController < ApplicationController
     redirect_back fallback_location: { action: :index }
   end
 
+  def make_person
+    @record = resource_class.find params[:id]
+    authorize! :create, resource_class
+    @person = @record.generate_person_record!
+    flash[:notice] = 'A new person record has been created from this census record.'
+    redirect_back fallback_location: { action: :index }
+  end
+
   private
 
   def page_title
@@ -159,6 +167,7 @@ class People::CensusRecordsController < ApplicationController
     if current_user
       maybe_add_scope :unreviewed
       maybe_add_scope :unhoused
+      maybe_add_scope :unmatched
     end
   end
 

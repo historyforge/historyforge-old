@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     resources :roles
   end
 
+  resources :people
+
   resources :vocabularies, only: :index do
     resources :terms do
       get 'peeps/:year' => 'terms#peeps'
@@ -59,6 +61,7 @@ Rails.application.routes.draw do
     member do
       put :save_as
       put :reviewed
+      put :make_person
     end
   end
 

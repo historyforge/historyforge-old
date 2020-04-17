@@ -1,9 +1,83 @@
 class Person < ApplicationRecord
   include PersonNames
+  include PgSearch::Model
   has_one :census_1900_record, dependent: :nullify
   has_one :census_1910_record, dependent: :nullify
   has_one :census_1920_record, dependent: :nullify
   has_one :census_1930_record, dependent: :nullify
   has_and_belongs_to_many :photos
   validates :last_name, :sex, :race, presence: true
+
+  pg_search_scope :last_name_search,
+                  against: :last_name,
+                  using: %i[dmetaphone]
+
+
+  def self.likely_matches_for(record)
+    matches = where(sex: record.sex, last_name: record.last_name, first_name: record.first_name).order(:first_name, :middle_name)
+    matches = last_name_search(record.last_name).where(sex: record.sex) unless matches.exists?
+    matches = where(sex: record.sex, last_name: record.last_name).order(:first_name, :middle_name) unless matches.exists?
+    matches = matches.includes(:census_1900_record, :census_1910_record, :census_1920_record, :census_1930_record)
+    matches.select { |match| match.census_records.blank? || match.similar_in_age?(record) }
+  end
+
+  def self.probable_match_for(record)
+    matches = where(sex: record.sex, last_name: record.last_name, first_name: record.first_name).order(:first_name, :middle_name)
+    probables = []
+    if matches.present?
+      matches.each do |match|
+        probables << match if match.similar_in_age?(record)
+      end
+      if probables.any?
+        return probables.first if probables.size == 1
+        probables.each do |match|
+          next if match.census_records.blank?
+          match.census_records.each do |match_record|
+            score = 0
+            score += 1 if match_record.street_address == record.street_address
+            score += 1 if match_record.relation_to_head == record.relation_to_head
+            score += 1 if match_record.profession == record.profession
+            match_record.fellows.each do |match_record_fellow|
+              record.fellows.each do |fellow|
+                score += 1 if fellow.first_name == match_record_fellow.first_name && fellow.relation_to_head == match_record_fellow.relation_to_head
+              end
+            end
+            return match if score >= 1
+          end
+        end
+      end
+    end
+    nil
+  end
+
+  def similar_in_age?(target)
+    (age_in_year(target.year) - target.age).abs <= 2
+  end
+
+  def age_in_year(year)
+    match = [census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact.first
+    return -1 if match.blank?
+    diff = match.year - year
+    match.age - diff
+  end
+
+  def census_records
+    @census_records ||= [census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact
+  end
+
+  def relation_to_head
+    census_records.map(&:relation_to_head).uniq.join(', ')
+  end
+
+  def profession
+    census_records.map(&:profession).uniq.join(', ')
+  end
+
+  def address
+    census_records.map(&:street_address).uniq.join(', ')
+  end
+
+  def estimated_birth_year
+    census_records.map { |r| r.year - r.age }.reduce(&:+) / census_records.size
+  end
 end

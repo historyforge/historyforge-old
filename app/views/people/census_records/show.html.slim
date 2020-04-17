@@ -34,6 +34,8 @@ h1.page-title= @record.name
 
 .card.mb-1
   .card-header
+    - if @record.person_id
+      = link_to 'Go to Person Record', @record.person, class: 'float-right'
     | Census Scope
   table.table.table-bordered.table-condensed
     thead
@@ -91,6 +93,7 @@ h1.page-title= @record.name
             td= row.age
             td= row.relation_to_head
             td= row.profession
+
 - if can?(:review, CensusRecord)
   .alert.alert-info
     = "Entered by #{@record.created_by.andand.name || 'a kind soul'} on #{@record.created_at.to_s(:long)}"
@@ -125,3 +128,38 @@ h1.page-title= @record.name
                     .col-4= t("simple_form.labels.census_record.#{key}", default: key.titleize)
                     .col-4= changes[0] || 'blank'
                     .col-4= changes[1] || 'blank'
+
+
+- if @record.person_id.blank? && can?(:review, @record)
+  - matches = Person.likely_matches_for(@record)
+  .card.mb-2
+    .card-header
+      = link_to 'Create New Person Record', [:make_person, @record], class: 'float-right', data: { method: :put, confirm: 'This will generate a new person record out of this census record.' }
+      | Match Person Record
+    - if matches.blank?
+      .card-body
+        p No matches on Last Name/First Name or Last Name.
+    - else
+      table.table.table-condensed
+        thead
+          tr
+            th Name
+            th Age in #{@record.year}
+            th Relation
+            th Profession
+            th Address
+            th
+        tbody
+          - matches.each do |match|
+            tr
+              td= link_to match, target: :_blank do
+                => match.name
+                i.fa.fa-external-link
+              td= match.age_in_year(@record.year)
+              td= match.relation_to_head
+              td= match.profession
+              td= match.address
+              td
+                = form_for @record do |form|
+                  = hidden_field_tag 'census_record[person_id]', match.id
+                  = form.submit 'Match!', class: 'btn btn-sm btn-secondary'

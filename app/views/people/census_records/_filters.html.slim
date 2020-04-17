@@ -32,6 +32,7 @@
   - if current_user
     = checkbox_button 'Unhoused', :unhoused, @search.unhoused?
     = checkbox_button 'Unreviewed', :unreviewed, @search.unreviewed?
+    = checkbox_button 'Unmatched', :unmatched, @search.unmatched?
 
   .modal.fade id="newAttributeFilter"
     .modal-dialog.modal-lg
