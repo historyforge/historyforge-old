@@ -82,6 +82,8 @@
   .card.mb-1
     .card-body
       = form.input :notes, as: :text, hint: notes_hint
+      - if form.object.persisted? && can?(:review, form.object)
+        = form.input :person_id, label: 'Person ID', hint: 'Use this to link this census record to a person record manually. Clearing out this field will detach any existing person link.'
       .form-actions
         => form.submit 'Save', class: 'btn btn-primary btn-lg'
         span<

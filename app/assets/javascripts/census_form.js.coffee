@@ -103,7 +103,7 @@ $(document).ready ->
     icon = $ '<i class="fa fa-question-circle float-right" data-toggle="popover" />'
     label.prepend icon
     title.on('click', () -> icon.popover('hide'))
-    icon.popover({ container: 'body', html: true, title: title, content: this.innerHTML }).on('show.bs.popover', () => $('[data-toggle=popover]').popover('hide'))
+    icon.popover({ container: 'body', html: true, title: title, content: this.innerHTML, trigger: 'hover' }).on('show.bs.popover', () => $('[data-toggle=popover]').popover('hide'))
     icon.on 'click', (e) ->
       e.stopPropagation()
       e.preventDefault()
