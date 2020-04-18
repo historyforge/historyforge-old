@@ -3,6 +3,7 @@ class Building < ApplicationRecord
   include AutoStripAttributes
   include Moderation
   include DefineEnumeration
+  include Flaggable
 
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
 

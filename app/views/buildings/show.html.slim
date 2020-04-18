@@ -1,11 +1,13 @@
-.float-right
+- set_page_title @building.name
+
+- content_for :pills do
+  - if can?(:create, Flag)
+    = render 'shared/flag_it', item: @record, item_class: 'btn btn-light'
   - if can?(:update, @building)
     = link_to 'Edit', [:edit, @building], class: 'btn btn-light'
   - if can?(:review, @building) && !@building.reviewed?
     = link_to 'Review', [:review, @building], class: 'btn btn-light', data: { method: :put }
   = link_to 'View All', buildings_path, class: 'btn btn-light'
-
-h1.page-title= @building.name
 
 .row
   .col-sm-8

@@ -1,6 +1,8 @@
 class Person < ApplicationRecord
   include PersonNames
   include PgSearch::Model
+  include Flaggable
+
   has_one :census_1900_record, dependent: :nullify
   has_one :census_1910_record, dependent: :nullify
   has_one :census_1920_record, dependent: :nullify

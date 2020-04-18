@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
 
   def maybe_add_scope(param)
     if current_user
-      if params[:reset]
+      if params[:reset] || (params[param] && params[param] == '0')
         session.delete param
       elsif (params[param] && params[param] == '1') || (session[param] && session[param] == '1')
         session[param] = '1'

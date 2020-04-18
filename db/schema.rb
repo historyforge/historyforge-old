@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_002329) do
+ActiveRecord::Schema.define(version: 2020_04_17_193045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -486,6 +486,22 @@ ActiveRecord::Schema.define(version: 2020_04_17_002329) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "flags", force: :cascade do |t|
+    t.string "flaggable_type"
+    t.bigint "flaggable_id"
+    t.bigint "user_id"
+    t.string "reason"
+    t.text "message"
+    t.text "comment"
+    t.bigint "resolved_by_id"
+    t.datetime "resolved_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["flaggable_type", "flaggable_id"], name: "index_flags_on_flaggable_type_and_flaggable_id"
+    t.index ["resolved_by_id"], name: "index_flags_on_resolved_by_id"
+    t.index ["user_id"], name: "index_flags_on_user_id"
+  end
+
   create_table "imports", id: :serial, force: :cascade do |t|
     t.string "path"
     t.string "name"
@@ -797,6 +813,8 @@ ActiveRecord::Schema.define(version: 2020_04_17_002329) do
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"
   add_foreign_key "cms_page_widgets", "cms_pages"
   add_foreign_key "cms_url_aliases", "cms_pages", column: "page_id"
+  add_foreign_key "flags", "users"
+  add_foreign_key "flags", "users", column: "resolved_by_id"
   add_foreign_key "people_photos", "people"
   add_foreign_key "people_photos", "photos"
   add_foreign_key "photographs", "buildings"

@@ -1,7 +1,8 @@
-.float-right
+= render 'shared/flag_resolution', item: @record
+- content_for :pills do
   = link_to 'View All', photographs_path, class: 'btn btn-light'
   = link_to 'View', @photograph, class: 'btn btn-light'
   = link_to 'Save', "javascript: $('#photo-wizard').submit()", class: 'btn btn-primary'
 
-h1.page-title Edit Photo
+- set_page_title Edit Photo
 = render 'form'

@@ -1,4 +1,8 @@
 - set_page_title @person.name
+= render 'shared/flag_resolution', item: @person
+- content_for :pills do
+  - if can?(:create, Flag)
+    = render 'shared/flag_it', item: @record, item_class: 'btn btn-light'
 
 dl
   dt Sex

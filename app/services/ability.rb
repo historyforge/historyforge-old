@@ -17,6 +17,7 @@ class Ability
       can :read, CensusRecord
       can :read, Building
       can :read, Photograph
+      can :create, Flag
 
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
@@ -25,6 +26,7 @@ class Ability
         can :manage, Architect
         can :manage, CensusRecord
         can :manage, Photograph
+        can :manage, Flag
       end
 
       if user.has_role?("census taker")

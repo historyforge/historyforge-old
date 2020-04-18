@@ -15,43 +15,6 @@ Rails.application.routes.draw do
              skip: [ :registerable, :confirmable ],
              controllers: { sessions: "sessions" } #, omniauth_callbacks: "omniauth_callbacks" }
 
-  resources :users do
-    member do
-      put 'enable'
-      put 'disable'
-      put 'disable_and_reset'
-      get 'mask'
-    end
-    resource :user_account
-    resources :roles
-  end
-
-  resources :people
-
-  resources :vocabularies, only: :index do
-    resources :terms do
-      get 'peeps/:year' => 'terms#peeps'
-      get 'peeps/:year/:page' => 'terms#peeps'
-    end
-  end
-
-  resources :street_conversions
-
-  resources :photographs do
-    patch :review, on: :member
-  end
-
-  resources :buildings do
-    collection do
-      get :autocomplete
-      get :advanced_search_filters
-    end
-    member do
-      put :review
-    end
-    resources :photographs
-  end
-
   concern :people_directory do
     collection do
       get :advanced_search_filters
@@ -65,7 +28,23 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :map_overlays
+  namespace :cms do
+    resources :menus do
+      resources :items, only: [:new, :create, :edit, :update, :destroy], controller: :menu_items
+    end
+    resources :pages
+  end
+
+  resources :buildings do
+    collection do
+      get :autocomplete
+      get :advanced_search_filters
+    end
+    member do
+      put :review
+    end
+    resources :photographs
+  end
 
   resources :census_1900_records,
             concerns: [:people_directory],
@@ -91,13 +70,34 @@ Rails.application.routes.draw do
             path: 'census/1930',
             as: 'census1930_records'
 
+  resources :flags
 
-  namespace :cms do
-    resources :menus do
-      resources :items, only: [:new, :create, :edit, :update, :destroy], controller: :menu_items
+  resources :map_overlays
+
+  resources :people
+
+  resources :photographs do
+    patch :review, on: :member
+  end
+
+  resources :street_conversions
+
+  resources :users do
+    member do
+      put 'enable'
+      put 'disable'
+      put 'disable_and_reset'
+      get 'mask'
     end
-    resources :pages
-    resources :url_aliases, except: [:show]
+    resource :user_account
+    resources :roles
+  end
+
+  resources :vocabularies, only: :index do
+    resources :terms do
+      get 'peeps/:year' => 'terms#peeps'
+      get 'peeps/:year/:page' => 'terms#peeps'
+    end
   end
 
   get 'uploads/pictures/:id/:style/:device' => 'cms/pictures#show', as: 'picture'

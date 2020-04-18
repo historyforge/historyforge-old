@@ -7,6 +7,7 @@ class CensusRecord < ApplicationRecord
   include Moderation
   include PersonNames
   include PgSearch::Model
+  include Flaggable
 
   belongs_to :building
   belongs_to :person

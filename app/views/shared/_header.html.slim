@@ -12,12 +12,18 @@ header
         ul.nav.navbar-nav.ml-auto
           - if user_signed_in?
             - if current_user.has_role?("administrator") || current_user.has_role?("super user")
+              - flags_count = Flag.unresolved.count
               li.dropdown.nav-item
                 a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+                  - if flags_count > 0
+                    span.badge.badge-danger= flags_count
+                    = ' '
                   | Admin
-                  = ' '
-                  span.caret
                 .dropdown-menu
+                  = link_to flags_path, class: 'dropdown-item' do
+                    | Flagged Content &nbsp;
+                    - if flags_count > 0
+                      span.badge.badge-danger= flags_count
                   = link_to "Photographs", photographs_path, class: 'dropdown-item'
                   = link_to "Administer Users", users_path, class: 'dropdown-item'
                   = link_to "Map Overlays", map_overlays_path, class: 'dropdown-item'
@@ -26,6 +32,13 @@ header
                   = link_to "CMS Pages", cms_pages_path, class: 'dropdown-item'
                   = link_to "CMS Edit Main Menu", cms_menu_path(1), class: 'dropdown-item'
                   = cms_link
+
+            - elsif current_user.has_role?("editor")
+              - flags_count = Flag.unresolved.count
+              li.nav-item= link_to flags_path, class: 'nav-link' do
+                | Flagged Content &nbsp;
+                - if flags_count > 0
+                  span.badge.badge-danger= flags_count
 
           = menu 'Main Menu'
 

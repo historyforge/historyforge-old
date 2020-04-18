@@ -24,6 +24,7 @@ pageLoad = ->
 
 jQuery(document).ready ->
   window.alertifyInit = alertify.init
+  $('[rel=tooltip]').tooltip()
   do pageLoad
 
 jQuery(document).on 'click', '.dropdown-item.checkbox', (e) -> e.stopPropagation()
@@ -62,3 +63,4 @@ jQuery(document).on 'change', '#building_address_house_number, #building_address
   unless buildingNamed
     buildingName = [jQuery('#building_address_house_number').val(), jQuery('#building_address_street_prefix').val(), jQuery('#building_address_street_name').val(), jQuery('#building_address_street_suffix').val()].join(' ')
     jQuery('#building_name').val(buildingName)
+

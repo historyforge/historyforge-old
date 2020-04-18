@@ -5,4 +5,5 @@
   - if can?(:destroy, @record)
     = link_to 'Delete', resource_path(@record), class: 'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? There is no undo.' }
 h1.page-title= @record.name
+= render 'shared/flag_resolution', item: @record
 = render 'form'

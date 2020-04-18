@@ -116,7 +116,8 @@ class People::CensusRecordsController < ApplicationController
   def make_person
     @record = resource_class.find params[:id]
     authorize! :create, resource_class
-    @person = @record.generate_person_record!
+    @person = @record.generate_person_record
+    @person.save
     flash[:notice] = 'A new person record has been created from this census record.'
     redirect_back fallback_location: { action: :index }
   end
