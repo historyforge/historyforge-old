@@ -1,4 +1,4 @@
-.float-right
+- content_for :pills do
   = link_to 'View All', buildings_path, class: 'btn btn-light'
-h1.page-title New Building
+- set_page_title "New Building"
 = render 'form'

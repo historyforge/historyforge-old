@@ -9,6 +9,53 @@ class PeopleController < ApplicationController
     authorize! :read, @person
   end
 
+  def new
+    authorize! :create, Person
+    @person = Person.new
+  end
+
+  def create
+    @person = Person.new resource_params
+    authorize! :create, @person
+    @person.created_by = current_user
+    if @person.save
+      flash[:notice] = 'Person created.'
+      redirect_to @person
+    else
+      flash[:errors] = 'Person not saved.'
+      render action: :new
+    end
+  end
+
+  def edit
+    @person = Person.find params[:id]
+    authorize! :update, @person
+  end
+
+  def update
+    @person = Person.find params[:id]
+    authorize! :update, @person
+    if @person.update resource_params
+      flash[:notice] = 'Person updated.'
+      redirect_to @person
+    else
+      flash[:errors] = 'Person not saved.'
+      render action: :edit
+    end
+  end
+
+  def destroy
+    @person = Person.find params[:id]
+    authorize! :destroy, @person
+    if @person.destroy
+      flash[:notice] = 'Person deleted.'
+      redirect_to action: :index
+    else
+      flash[:errors] = 'Unable to delete person.'
+      redirect_to :back
+    end
+  end
+
   def new_resource_path
     new_person_path
   end
@@ -16,6 +63,12 @@ class PeopleController < ApplicationController
   helper_method :new_resource_path
 
   private
+  
+  def resource_params
+    params.require(:person).permit :first_name, :last_name, :middle_name, 
+                                   :sex, :race, :name_prefix, :name_suffix, :birth_year, :is_birth_year_estimated, 
+                                   :pob, :is_pob_estimated
+  end
 
   def load_people
     authorize! :read, Person
