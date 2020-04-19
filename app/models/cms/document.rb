@@ -1,12 +1,15 @@
 class Cms::Document < Cms::PageWidget
 
   has_one_attached :file
-  delegate :url, :current_path, :content_type, :filename, :to => :file
 
   json_attribute :title, as: :string
   json_attribute :description, as: :string
 
   before_save :cache_html
+
+  def url
+    file.attached? && Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true)
+  end
 
   def render
     DocumentRenderer.new(self).render

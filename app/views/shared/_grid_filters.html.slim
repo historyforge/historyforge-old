@@ -2,7 +2,8 @@
   .float-right
     = form.submit 'Submit', style: 'display: none'
     => link_to 'CSV', params.permit!.merge(format: :csv), class: 'btn btn-sm btn-primary'
-    => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map', data: {year: controller.year}
+    - if controller.respond_to?(:year)
+      => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map', data: {year: controller.year}
     - if can?(:create, CensusRecord)
       = link_to 'Add New', new_resource_path, class: 'btn btn-sm btn-light'
     = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
@@ -29,10 +30,7 @@
       .form-actions
         button.btn.btn-light type="button" data-target="#newAttributeFilter" data-toggle="modal" Add Filter
 
-  - if current_user
-    = checkbox_button 'Unhoused', :unhoused, @search.unhoused?
-    = checkbox_button 'Unreviewed', :unreviewed, @search.unreviewed?
-    = checkbox_button 'Unmatched', :unmatched, @search.unmatched?
+  = yield :filter_buttons
 
   .modal.fade id="newAttributeFilter"
     .modal-dialog.modal-lg

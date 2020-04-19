@@ -74,7 +74,11 @@ Rails.application.routes.draw do
 
   resources :map_overlays
 
-  resources :people
+  resources :people do
+    collection do
+      get :advanced_search_filters
+    end
+  end
 
   resources :photographs do
     patch :review, on: :member

@@ -1,5 +1,5 @@
-- if can?(:resolve, Flag) && @record.flags.unresolved
-  - @record.flags.unresolved.each do |flag|
+- if can?(:resolve, Flag) && item.flags.unresolved
+  - item.flags.unresolved.each do |flag|
     .alert.alert-danger
       a.float-right.btn.btn-danger data-toggle="modal" href="#flagModal#{flag.id}" Resolve
       h4.alert-heading Flagged as #{flag.display_reason} by #{flag.flagged_by.name}

@@ -2,6 +2,10 @@ class Person < ApplicationRecord
   include PersonNames
   include PgSearch::Model
   include Flaggable
+  include DefineEnumeration
+
+  define_enumeration :sex, %w{M F}
+  define_enumeration :race, %w{W B M}
 
   has_one :census_1900_record, dependent: :nullify
   has_one :census_1910_record, dependent: :nullify
@@ -9,6 +13,9 @@ class Person < ApplicationRecord
   has_one :census_1930_record, dependent: :nullify
   has_and_belongs_to_many :photos
   validates :last_name, :sex, :race, presence: true
+
+  before_save :estimate_birth_year
+  before_save :estimate_pob
 
   pg_search_scope :last_name_search,
                   against: :last_name,
@@ -80,6 +87,20 @@ class Person < ApplicationRecord
   end
 
   def estimated_birth_year
-    census_records.map { |r| r.year - r.age }.reduce(&:+) / census_records.size
+    records = census_records&.select { |r| r.age.present? }
+    return if records.blank?
+    records.map { |r| r.year - r.age }.reduce(&:+) / census_records.size
+  end
+
+  private
+
+  def estimate_birth_year
+    self.birth_year = estimated_birth_year if birth_year.blank? && is_birth_year_estimated? && census_records.present?
+  end
+
+  def estimate_pob
+    return if pob.present? || !is_pob_estimated? || census_records.blank?
+    pobs = census_records.map(&:pob).compact.uniq
+    self.pob = pobs.first if pobs.present?
   end
 end

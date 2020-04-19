@@ -185,7 +185,7 @@ div.date {
   }
 }
 
-#buildings-filters, #census-records-filters {
+#grid-filters {
   .dropdown, .btn-group-toggle {
     display: inline-block;
     margin-right: 12px;
@@ -222,7 +222,7 @@ div.date {
   }
 }
 
-#buildings, #census-records {
+#grid {
   width: 100%;
   height: calc(100% - 140px);
   font-size:11px;

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_193045) do
+ActiveRecord::Schema.define(version: 2020_04_19_191715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -256,6 +256,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_193045) do
     t.index ["building_id"], name: "index_census_1910_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1910_records_on_created_by_id"
     t.index ["data"], name: "index_census_1910_records_on_data", using: :gin
+    t.index ["person_id"], name: "index_census_1910_records_on_person_id", unique: true
     t.index ["reviewed_by_id"], name: "index_census_1910_records_on_reviewed_by_id"
     t.index ["searchable_name"], name: "census_1910_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
@@ -578,6 +579,10 @@ ActiveRecord::Schema.define(version: 2020_04_17_193045) do
     t.string "name_prefix"
     t.string "name_suffix"
     t.text "searchable_name"
+    t.integer "birth_year"
+    t.boolean "is_birth_year_estimated", default: true
+    t.string "pob"
+    t.boolean "is_pob_estimated", default: true
     t.index ["searchable_name"], name: "people_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 

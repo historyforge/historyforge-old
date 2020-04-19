@@ -1,14 +1,14 @@
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', (event) => {
   $('#new_s').advancedSearch({
-    url: '<%= File.join(url_for().sub(/\/unhoused|\/unreviewed/, ''), 'advanced_search_filters.json') -%>',
+    url: '<%= File.join(url_for().sub(/\/unhoused|\/unreviewed|\/unmatched/, ''), 'advanced_search_filters.json') -%>',
     cache: true,
     timestamp: <%== AdvancedSearchFilterTimestamp.call(resource_class) -%>,
     fields: <%== @search.f.to_json.html_safe -%>,
     filters: <%== @search.s.to_json.html_safe -%>
   });
 
-  new agGrid.Grid(document.querySelector('#census-records'), {
+  new agGrid.Grid(document.querySelector('#grid'), {
     components: {
       actionCellRenderer: ActionCellRenderer,
       nameCellRenderer: NameCellRenderer,
