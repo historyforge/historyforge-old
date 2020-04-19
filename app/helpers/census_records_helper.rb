@@ -84,6 +84,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "Column 1.") if controller.year == 1920
     html << content_tag(:p, "The name of the street itself, i.e. Aurora. If you enter a space followed by the suffix into this column by mistake, make sure to delete both the suffix and the extra space.")
+    html << content_tag(:p, "<b>Note:</b> Street names can change at least once on the sheet.  These changes are often indicated by a hand-drawn line across the column separating the buildings on one street from the next.".html_safe)
     raw html
   end
 
