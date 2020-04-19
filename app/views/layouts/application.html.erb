@@ -58,6 +58,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js" type="text/javascript"></script>
   <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
   <%= javascript_include_tag 'application' %>
+  <%= javascript_pack_tag 'application' %>
   <% if can?(:update, Cms::Page) %>
   <%= javascript_include_tag 'cms_admin', 'data-turbolinks-track' => true %>
   <%= javascript_pack_tag 'cms' %>

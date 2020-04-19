@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     collection do
       get :advanced_search_filters
     end
+    resources :merges, only: %i[new create], controller: 'people/merges'
   end
 
   resources :photographs do

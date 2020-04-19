@@ -1,10 +1,13 @@
 - set_page_title @person.name
 = render 'shared/flag_resolution', item: @person
+= render 'merge_modal'
 - content_for :pills do
   - if can?(:create, Flag)
     = render 'shared/flag_it', item: @record, item_class: 'btn btn-light'
 
 dl
+  dt Person ID
+  dd= @person.id
   dt Sex
   dd= @person.sex
   dt Race

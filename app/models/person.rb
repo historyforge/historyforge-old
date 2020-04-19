@@ -11,7 +11,7 @@ class Person < ApplicationRecord
   has_one :census_1910_record, dependent: :nullify
   has_one :census_1920_record, dependent: :nullify
   has_one :census_1930_record, dependent: :nullify
-  has_and_belongs_to_many :photos
+  has_and_belongs_to_many :photographs
   validates :last_name, :sex, :race, presence: true
 
   before_save :estimate_birth_year
