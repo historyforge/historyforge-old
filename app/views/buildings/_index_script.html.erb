@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     filters: <%== @search.s.to_json.html_safe -%>
   });
 
-  new agGrid.Grid(document.querySelector('#buildings'), {
+  new agGrid.Grid(document.querySelector('#grid'), {
     components: {
       actionCellRenderer: ActionCellRenderer,
       nameCellRenderer: NameCellRenderer,
