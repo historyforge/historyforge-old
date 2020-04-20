@@ -25,7 +25,7 @@ class BuildingSearch
   end
 
   def as_json
-    sql = scoped.select("id,lat,lon").to_sql
+    sql = scoped.select("buildings.id,buildings.lat,buildings.lon").to_sql
     sql = "select array_to_json(array_agg(row_to_json(t))) as data, count(t.id) as meta from (#{sql}) t"
     data = ActiveRecord::Base.connection.execute(sql).first
 
@@ -63,7 +63,6 @@ class BuildingSearch
       end
 
       if expanded
-        # @scoped = @scoped.includes(:photos) #, :census_1900_records, :census_1910_records, :census_1920_records, :census_1930_records)
         if people.present?
           people_class = "Census#{people}Record".constantize
           people = people_class.where.not(reviewed_at: nil)
