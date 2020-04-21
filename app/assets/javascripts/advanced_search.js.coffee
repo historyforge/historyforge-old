@@ -133,8 +133,6 @@ jQuery(document).on 'click', '.attribute-filter button.close', ->
   $('#new_s').submit()
 
 $(document).on 'click', '#new_s .btn-group-toggle label', ->
-  if $(this).find('input').is(':checked')
-    $(this).find('input').removeAttr('checked').prop('checked', false)
   $('#new_s').submit()
 
 

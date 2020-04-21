@@ -121,7 +121,7 @@ class BuildingSearch
     item.sort = params[:sort] if params[:sort]
     item.people = params[:people] if params[:people]
     item.people_params = JSON.parse(params[:peopleParams]) if params[:peopleParams]
-    item.scope = params[:scope] && params[:scope].intern
+    item.scope = params[:scope] && params[:scope] != 'on' && params[:scope].intern
     item
   end
 

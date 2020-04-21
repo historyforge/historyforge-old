@@ -97,7 +97,7 @@ class CensusRecordSearch
     @per = per
     @from = from
     @to = to
-    @scope = scope&.intern
+    @scope = scope && scope != 'on' && scope.intern
   end
 
   def to_csv(csv)
