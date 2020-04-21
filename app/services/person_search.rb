@@ -4,7 +4,6 @@ class PersonSearch
   include ActiveModel::Validations
 
   attr_accessor :page, :s, :f, :fs, :g, :user, :sort, :paged, :per, :entity_class, :from, :to
-  attr_reader :unreviewed
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -31,7 +30,7 @@ class PersonSearch
                  elsif paged?
                    @scoped = @scoped.page(page).per(per)
                  end
-                 @scoped = @scoped.unreviewed if unreviewed?
+                 # @scoped = @scoped.unreviewed if unreviewed?
 
                  add_sorts
                end
