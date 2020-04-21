@@ -1,4 +1,4 @@
-= simple_form_for @search, url: url_for(), method: :get, as: :s do |form|
+= simple_form_for @search, url: buildings_path, method: :get, as: :s do |form|
   .float-right
     = form.submit 'Submit', style: 'display: none'
     => link_to 'CSV', params.permit!.merge(format: :csv), class: 'btn btn-sm btn-primary'

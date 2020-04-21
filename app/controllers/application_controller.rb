@@ -77,6 +77,7 @@ class ApplicationController < ActionController::Base
       if params[:reset] || (params[param] && params[param] == '0')
         session.delete param
       elsif (params[param] && params[param] == '1') || (session[param] && session[param] == '1')
+        Rails.logger.info "Triggering param #{param} with value of #{params[param].inspect} because value of #{session[param].inspect}!"
         session[param] = '1'
         @search.public_send "#{param}!"
       end
