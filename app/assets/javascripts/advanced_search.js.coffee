@@ -133,7 +133,7 @@ jQuery(document).on 'click', '.attribute-filter button.close', ->
   $('#new_s').submit()
 
 $(document).on 'click', '#new_s .btn-group-toggle', ->
-  setTimeout ($('#new_s').submit()), 250
+  $('#new_s').submit()
 
 
 jQuery(document).on 'click', '.checkall', (e) ->

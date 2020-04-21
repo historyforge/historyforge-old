@@ -98,7 +98,7 @@ module ApplicationHelper
     render 'shared/checkbox_button',
            active_class: checked ? 'active' : '',
            attr: attr,
-           label: label,
+           label_text: label,
            checked: checked
   end
 

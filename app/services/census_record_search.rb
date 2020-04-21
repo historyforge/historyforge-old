@@ -4,8 +4,7 @@ class CensusRecordSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :sort, :paged, :per, :entity_class, :from, :to
-  attr_reader :unhoused, :unreviewed, :unmatched
+  attr_accessor :page, :s, :f, :fs, :g, :user, :sort, :paged, :per, :entity_class, :from, :to, :scope
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -163,27 +162,15 @@ class CensusRecordSearch
   end
 
   def unhoused?
-    @unhoused
-  end
-
-  def unhoused!
-    @unhoused = true
-  end
-
-  def unreviewed!
-    @unreviewed = true
+    @scope == :unhoused
   end
 
   def unreviewed?
-    @unreviewed
+    @scope == :unreviewed
   end
 
   def unmatched?
-    @unmatched
-  end
-
-  def unmatched!
-    @unmatched = true
+    @scope == :unmatched
   end
 
   def column_def

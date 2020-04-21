@@ -71,16 +71,4 @@ class ApplicationController < ActionController::Base
     flash[:errors] = "Sorry you do not have permission to do that."
     redirect_to root_path
   end
-
-  def maybe_add_scope(param)
-    if current_user
-      if params[:reset] || (params[param] && params[param] == '0')
-        session.delete param
-      elsif (params[param] && params[param] == '1') || (session[param] && session[param] == '1')
-        Rails.logger.info "Triggering param #{param} with value of #{params[param].inspect} because value of #{session[param].inspect}!"
-        session[param] = '1'
-        @search.public_send "#{param}!"
-      end
-    end
-  end
 end

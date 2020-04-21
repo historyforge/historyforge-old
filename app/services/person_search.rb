@@ -128,14 +128,6 @@ class PersonSearch
     default_fields.include?(field.to_s)
   end
 
-  def unreviewed!
-    @unreviewed = true
-  end
-
-  def unreviewed?
-    @unreviewed
-  end
-
   def column_def
     columns.map { |column| column_config(column) }
   end

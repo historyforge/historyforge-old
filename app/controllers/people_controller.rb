@@ -73,9 +73,6 @@ class PeopleController < ApplicationController
   def load_people
     authorize! :read, Person
     @search = PersonSearch.generate params: params, user: current_user, paged: request.format.html?, per: 100
-    if current_user
-      maybe_add_scope :unreviewed
-    end
   end
 
   def render_people

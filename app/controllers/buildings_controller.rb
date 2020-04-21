@@ -134,6 +134,12 @@ class BuildingsController < ApplicationController
     redirect_to @photo.file.variant(resize: width)
   end
 
+
+  def new_resource_path
+    new_building_path
+  end
+  helper_method :new_resource_path
+
   private
 
   def building_params
@@ -155,11 +161,6 @@ class BuildingsController < ApplicationController
                                       user: current_user,
                                       paged: request.format.html?,
                                       per: 50
-    if current_user
-      maybe_add_scope :unreviewed
-      maybe_add_scope :unpeopled
-      maybe_add_scope :uninvestigated
-    end
   end
 
   def render_buildings

@@ -1,9 +1,10 @@
 - set_page_title "#{controller.year} U.S. Census"
 - if current_user
   - content_for :filter_buttons do
-    = checkbox_button 'Unhoused', :unhoused, @search.unhoused?
-    = checkbox_button 'Unreviewed', :unreviewed, @search.unreviewed?
-    = checkbox_button 'Unmatched', :unmatched, @search.unmatched?
+    .btn-group.btn-group-toggle data-toggle="buttons"
+      = checkbox_button 'Unhoused', :unhoused, @search.unhoused?
+      = checkbox_button 'Unreviewed', :unreviewed, @search.unreviewed?
+      = checkbox_button 'Unmatched', :unmatched, @search.unmatched?
 
 #grid-filters.mb-2= render 'shared/grid_filters'
 #grid.ag-theme-balham

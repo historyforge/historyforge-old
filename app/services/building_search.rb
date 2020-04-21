@@ -4,8 +4,7 @@ class BuildingSearch
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :sort, :paged, :per, :unpeopled, :unreviewed, :uninvestigated, :people, :people_params, :expanded, :from, :to
-  attr_reader :uninvestigated, :unpeopled, :unreviewed
+  attr_accessor :page, :s, :f, :fs, :g, :user, :c, :d, :sort, :paged, :per, :scope, :people, :people_params, :expanded, :from, :to
   attr_writer :scoped
   delegate :any?, :present?, :each, :first, :last,
            :current_page, :total_pages, :limit_value,
@@ -47,14 +46,14 @@ class BuildingSearch
 
   def scoped
     @scoped || begin
-      @f << 'investigate_reason' if uninvestigated
+      @f << 'investigate_reason' if uninvestigated?
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.includes(:building_type).ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
       add_order_clause
-      @scoped = @scoped.without_residents if unpeopled
-      @scoped = @scoped.where(reviewed_at: nil) if unreviewed
-      @scoped = @scoped.where(investigate: true) if uninvestigated
+      @scoped = @scoped.without_residents if unpeopled?
+      @scoped = @scoped.where(reviewed_at: nil) if unreviewed?
+      @scoped = @scoped.where(investigate: true) if uninvestigated?
 
       if from && to
         @scoped = @scoped.offset(from).limit(to.to_i - from.to_i).includes(:building_type)
@@ -122,9 +121,7 @@ class BuildingSearch
     item.sort = params[:sort] if params[:sort]
     item.people = params[:people] if params[:people]
     item.people_params = JSON.parse(params[:peopleParams]) if params[:peopleParams]
-    item.unpeopled = true if params[:unpeopled]
-    item.unreviewed = true if params[:unreviewed]
-    item.uninvestigated = true if params[:uninvestigated]
+    item.scope = params[:scope] && params[:scope].intern
     item
   end
 
@@ -200,27 +197,15 @@ class BuildingSearch
   end
 
   def unreviewed?
-    @unreviewed
-  end
-
-  def unreviewed!
-    @unreviewed = true
+    @scope == :unreviewed
   end
 
   def uninvestigated?
-    @uninvestigated
-  end
-
-  def uninvestigated!
-    @uninvestigated = true
+    @scope == :uninvestigated
   end
 
   def unpeopled?
-    @unpeopled
-  end
-
-  def unpeopled!
-    @unpeopled = true
+    @scope == :unpeopled
   end
 
   def pagination_dict(object)

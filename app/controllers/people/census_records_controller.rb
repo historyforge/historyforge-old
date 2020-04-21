@@ -165,11 +165,6 @@ class People::CensusRecordsController < ApplicationController
   def load_census_records
     authorize! :read, resource_class
     @search = census_record_search_class.generate params: params, user: current_user, entity_class: resource_class, paged: request.format.html?, per: 100
-    if current_user
-      maybe_add_scope :unreviewed
-      maybe_add_scope :unhoused
-      maybe_add_scope :unmatched
-    end
   end
 
   def render_census_records
