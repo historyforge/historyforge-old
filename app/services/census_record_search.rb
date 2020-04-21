@@ -81,10 +81,10 @@ class CensusRecordSearch
   end
 
   def self.generate(params: {}, user:nil, entity_class:nil, paged:true, per: 25)
-    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:sort], paged, per, params[:from], params[:to]
+    new user, entity_class, params[:s], params[:page], params[:f], params[:fs], params[:g], params[:sort], paged, per, params[:from], params[:to], params[:scope]
   end
 
-  def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort, paged, per, from, to)
+  def initialize(user, entity_class, scopes, page, fields, fieldsets, groupings, sort, paged, per, from, to, scope)
     @user = user
     @entity_class = entity_class
     @page = page || 1
@@ -97,6 +97,7 @@ class CensusRecordSearch
     @per = per
     @from = from
     @to = to
+    @scope = scope&.intern
   end
 
   def to_csv(csv)
