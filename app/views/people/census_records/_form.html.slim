@@ -55,7 +55,7 @@
 
           = form.input :street_suffix,
                   collection: CensusRecord.street_suffix_choices,
-                  input_html: { autocomplete: 'new-password' },
+                  input_html: { id: 'street_suffix', autocomplete: 'new-password' },
                   hint: street_suffix_hint
 
           = form.input :apartment_number,
