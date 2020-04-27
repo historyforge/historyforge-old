@@ -8,7 +8,7 @@ class CensusRecord1920Search < CensusRecordSearch
       name relation_to_head sex race age marital_status
       pob pob_father pob_mother
       mother_tongue mother_tongue_father mother_tongue_mother
-      foreign_born year_immigrated
+      foreign_born year_immigrated year_naturalized
       naturalized_alien
       profession industry employment employment_code
       owned_or_rented mortgage farm_or_house
