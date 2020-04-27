@@ -58,7 +58,7 @@ module ApplicationHelper
   end
 
   def yes_or_no(value)
-    value ? 'Yes' : 'No'
+    value ? 'Yes' : '' # 'No'
   end
 
   def snippet(thought, wordcount)

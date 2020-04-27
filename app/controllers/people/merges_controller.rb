@@ -1,11 +1,7 @@
 module People
   class MergesController < ApplicationController
+    before_action :load_and_authorize
     def new
-      authorize! :merge, Person
-      @target = Person.find params[:person_id]
-      @source = Person.find params[:merge_id]
-      @check = MergeEligibilityCheck.new(@source, @target)
-      @check.perform
     end
 
     def create
@@ -19,9 +15,20 @@ module People
         flash[:notice] = "The merge operation has been performed."
         redirect_to @target
       else
-        flash[:errors] = "You can't merge this people."
+        flash[:errors] = "You can't merge these people."
         redirect_back fallback_location: { action: :new }
       end
     end
+
+    private
+
+    def load_and_authorize
+      authorize! :merge, Person
+      @target = Person.find params[:person_id]
+      @source = Person.find params[:merge_id]
+      @check = MergeEligibilityCheck.new(@source, @target)
+      @check.perform
+    end
+
   end
 end

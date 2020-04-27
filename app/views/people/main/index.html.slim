@@ -6,4 +6,4 @@
   - count = @search.scoped.total_count
   .nav-item.mr-auto= "Found #{number_with_delimiter count} #{'record'.pluralize(count)}"
 
-= render 'shared/grid_script', resource_class: 'Person'
+= render 'shared/grid_script', resource_class: Person

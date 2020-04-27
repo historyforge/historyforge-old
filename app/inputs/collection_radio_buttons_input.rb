@@ -19,7 +19,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
     if items.first && items.first.is_a?(String)
       items = items.map { |item| [option_label(item), item]}
     end
-    items = with_extra_items(items)
+    items = with_extra_items(items) unless options[:bare]
     items
   end
 

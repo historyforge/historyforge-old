@@ -1,4 +1,4 @@
-class BuildingsController < ApplicationController
+class Buildings::MainController < ApplicationController
   include AdvancedRestoreSearch
 
   respond_to :json, only: %i[index show]

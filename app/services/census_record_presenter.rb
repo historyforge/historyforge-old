@@ -28,10 +28,22 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     end
   end
 
+  %w{can_read can_write can_speak_english foreign_born unemployed attended_school
+     blind deaf_dumb has_radio lives_on_farm can_read_write
+     worked_yesterday veteran}.each do |method|
+    define_method method do
+      yes_or_blank model.send(method)
+    end
+  end
+
   def field_for(field)
     return public_send(field) if respond_to?(field)
     return model.public_send(field) if model.respond_to?(field)
     '?'
+  end
+
+  def yes_or_blank(value)
+    value && 'Yes' || nil
   end
 
   def method_missing(method, *args)

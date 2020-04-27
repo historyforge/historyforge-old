@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     resources :pages
   end
 
-  resources :buildings do
+  resources :buildings, controller: 'buildings/main' do
     collection do
       get :autocomplete
       get :advanced_search_filters
@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       put :review
     end
     resources :photographs
+    resources :merges, only: %i[new create], controller: 'buildings/merges'
   end
 
   resources :census_1900_records,
@@ -74,7 +75,7 @@ Rails.application.routes.draw do
 
   resources :map_overlays
 
-  resources :people do
+  resources :people, controller: 'people/main' do
     collection do
       get :advanced_search_filters
     end
