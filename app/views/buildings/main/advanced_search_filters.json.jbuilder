@@ -21,7 +21,7 @@ json.filters do
     json.sortable 'city'
   end
 
-  AttributeBuilder.collection json, Building, :building_type_id, BuildingType.order(:name).map {|item| [ item.name.capitalize, item.id ]}
+  AttributeBuilder.collection json, Building, :building_types_id, BuildingType.order(:name).map {|item| [ item.name.capitalize, item.id ]}
   AttributeBuilder.collection json, Building, :lining_type_id, ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
   AttributeBuilder.collection json, Building, :frame_type_id, ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
   AttributeBuilder.text       json, :block_number

@@ -49,16 +49,16 @@ class BuildingSearch
       @f << 'investigate_reason' if uninvestigated?
       rp = ransack_params
       rp[:reviewed_at_not_null] = 1 unless user
-      @scoped = entity_class.includes(:building_type).ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
+      @scoped = entity_class.ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
       add_order_clause
       @scoped = @scoped.without_residents if unpeopled?
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed?
       @scoped = @scoped.where(investigate: true) if uninvestigated?
 
       if from && to
-        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i).includes(:building_type)
+        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i).includes(:building_types)
       elsif paged?
-        @scoped = @scoped.page(page).per(per).includes(:building_type)
+        @scoped = @scoped.page(page).per(per).includes(:building_types)
       end
 
       if expanded

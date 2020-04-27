@@ -89,6 +89,9 @@ en:
 
   simple_form:
     labels:
+      defaults:
+        building_type_ids: 'Building type'
+        building_types_id: 'Building type'
       building:
         id: 'ID'
         address: 'Street address'
@@ -103,6 +106,7 @@ en:
         address_street_name: 'Street Name'
         address_street_suffix: 'Suffix'
         building_type: 'Building type'
+        building_type_ids: 'Building type'
       census_record:
         id: 'ID'
         page_no: 'Sheet'

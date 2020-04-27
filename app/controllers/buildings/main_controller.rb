@@ -41,7 +41,7 @@ class Buildings::MainController < ApplicationController
   end
 
   def show
-    @building = Building.includes(:architects, :building_type).find params[:id]
+    @building = Building.includes(:architects, :building_types).find params[:id]
     authorize! :read, @building
     @building.with_filtered_residents params[:people], params[:peopleParams]
     if request.format.html?
@@ -148,7 +148,7 @@ class Buildings::MainController < ApplicationController
                                      :address, :city, :state, :postal_code,
                                      :address_house_number, :address_street_prefix,
                                      :address_street_name, :address_street_suffix,
-                                     :building_type_id, :lining_type_id, :frame_type_id,
+                                     { :building_type_ids => [] }, :lining_type_id, :frame_type_id,
                                      :lat, :lon, :architects_list,
                                      :investigate, :investigate_reason, :notes,
                                      { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] })

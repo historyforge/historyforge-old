@@ -2,7 +2,7 @@ class BuildingSerializer
   include FastJsonapi::ObjectSerializer
 
   attributes :id, :name, :year_earliest, :year_latest, :description,
-             :street_address, :city, :state, :postal_code, :building_type_id
+             :street_address, :city, :state, :postal_code, :building_type_ids
 
   has_many :architects, serializer: ArchitectSerializer
   has_many :photos, serializer: PhotoSerializer

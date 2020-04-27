@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_19_191715) do
+ActiveRecord::Schema.define(version: 2020_04_27_210720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -102,6 +102,14 @@ ActiveRecord::Schema.define(version: 2020_04_19_191715) do
     t.index ["frame_type_id"], name: "index_buildings_on_frame_type_id"
     t.index ["lining_type_id"], name: "index_buildings_on_lining_type_id"
     t.index ["reviewed_by_id"], name: "index_buildings_on_reviewed_by_id"
+  end
+
+  create_table "buildings_building_types", id: false, force: :cascade do |t|
+    t.bigint "building_id"
+    t.bigint "building_type_id"
+    t.index ["building_id", "building_type_id"], name: "buildings_building_types_unique_index", unique: true
+    t.index ["building_id"], name: "index_buildings_building_types_on_building_id"
+    t.index ["building_type_id"], name: "index_buildings_building_types_on_building_type_id"
   end
 
   create_table "buildings_photographs", id: false, force: :cascade do |t|
@@ -796,6 +804,8 @@ ActiveRecord::Schema.define(version: 2020_04_19_191715) do
   add_foreign_key "buildings", "building_types"
   add_foreign_key "buildings", "users", column: "created_by_id"
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
+  add_foreign_key "buildings_building_types", "building_types"
+  add_foreign_key "buildings_building_types", "buildings"
   add_foreign_key "buildings_photos", "buildings"
   add_foreign_key "buildings_photos", "photos"
   add_foreign_key "census_1900_records", "buildings"

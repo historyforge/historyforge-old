@@ -37,7 +37,7 @@
         .col-sm-6
           = form.input :name
         .col-sm-6
-          = form.input :building_type_id, collection: BuildingType.order(:name)
+          = form.input :building_type_ids, collection: BuildingType.order(:name), as: :check_boxes
       .row
         .col-sm-6
           = form.input :year_earliest

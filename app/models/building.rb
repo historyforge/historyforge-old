@@ -8,7 +8,8 @@ class Building < ApplicationRecord
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
 
   has_and_belongs_to_many :architects
-  belongs_to :building_type
+  # belongs_to :building_type
+  has_and_belongs_to_many :building_types, join_table: :buildings_building_types
   belongs_to :frame_type, class_name: 'ConstructionMaterial'
   belongs_to :lining_type, class_name: 'ConstructionMaterial'
   has_many :census_records, dependent: :nullify, class_name: 'Census1910Record'
@@ -23,7 +24,7 @@ class Building < ApplicationRecord
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
 
-  delegate :name, to: :building_type, prefix: true, allow_nil: true
+  # delegate :name, to: :building_type, prefix: true, allow_nil: true
   delegate :name, to: :frame_type, prefix: true, allow_nil: true
   delegate :name, to: :lining_type, prefix: true, allow_nil: true
 
@@ -86,6 +87,10 @@ class Building < ApplicationRecord
 
   def architects_list=(value)
     self.architects = value.split(',').map(&:strip).map {|item| Architect.where(name: item).first_or_create }
+  end
+
+  def building_type_name
+    building_types.map(&:name).join('/')
   end
 
   def street_address
