@@ -188,6 +188,8 @@ class AttributeBuilder::Text < AttributeBuilder::BaseAttribute
     json.set! "#{key}_end", 'ends with'
     json.set! "#{key}_has_any_term".to_sym, 'is one of'
     json.set! "#{key}_has_every_term".to_sym, 'is all of'
+    json.set! "#{key}_cont_any_term".to_sym, 'contains one of'
+    json.set! "#{key}_cont_every_term".to_sym, 'contains all of'
   end
   def extras
     super
