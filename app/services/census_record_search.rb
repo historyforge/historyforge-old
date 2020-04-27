@@ -65,16 +65,12 @@ class CensusRecordSearch
   end
 
   def street_address_order_clause(dir)
-    "street_name #{dir}, street_prefix #{dir}, street_house_number #{dir}, street_suffix #{dir}"
+    "street_name #{dir}, street_prefix #{dir}, street_suffix #{dir}, substring(street_house_number, '^[0-9]+')::int #{dir}"
   end
 
   def census_page_order_clause(dir)
     "ward #{dir}, enum_dist #{dir}, page_number #{dir}, page_side #{dir}, line_number #{dir}"
   end
-
-  # def add_name_order_clause
-  #   @scoped = @scoped.order entity_class.send(:sanitize_sql, name_order_clause)
-  # end
 
   def name_order_clause(dir)
     "last_name #{dir}, first_name #{dir}, middle_name #{dir}"

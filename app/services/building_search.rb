@@ -111,7 +111,7 @@ class BuildingSearch
   end
 
   def street_address_order_clause(dir)
-    "address_house_number #{dir}, address_street_prefix #{dir}, address_street_name #{dir}, address_street_suffix #{dir}"
+    "address_street_name #{dir}, address_street_prefix #{dir}, address_street_suffix #{dir}, substring(address_house_number, '^[0-9]+')::int #{dir}"
   end
 
   def self.generate(params:{}, user:nil, paged:true, per: 25)
