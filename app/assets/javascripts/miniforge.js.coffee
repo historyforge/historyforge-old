@@ -6,16 +6,16 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
   $scope.buildings = window.buildings
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
   wmslayer = null
-  highlighted = null
+  $scope.highlighted = null
 
   NgMap.getMap().then (map) ->
     map.overlayMapTypes.removeAt(0) if map.overlayMapTypes.length > 0
     wmslayer = loadWMS map, $scope.layer, 'top'
 
-  $scope.markerIcon = (building) ->
+  $scope.markerIcon = (id) ->
     return {
       path: google.maps.SymbolPath.CIRCLE
-      fillColor: if highlighted is building.id then 'blue' else 'red'
+      fillColor: if $scope.highlighted is id then 'blue' else 'red'
       fillOpacity: .9
       scale: 6
       strokeColor: '#333'
@@ -30,16 +30,17 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
     strokeColor: '#333'
     strokeWeight: 1
 
-  $scope.zIndexFor = (building) ->
-    return if building.highlighted then 100 else 10
+  $scope.zIndexFor = (id) ->
+    return if id is $scope.highlighted then 100 else 10
 
-  $scope.highlightBuilding = (event, building) ->
-    $rootScope.$broadcast 'building:highlighted', building.id
+  $scope.highlightBuilding = (event, id) ->
+    $rootScope.$broadcast 'building:highlighted', id
   $scope.unhighlightBuilding = (event, building) ->
-    $rootScope.$broadcast 'building:highlighted'
+    $rootScope.$broadcast 'building:highlighted', null
 
   $rootScope.$on 'building:highlighted', (event, id) ->
-    highlighted = id
+    console.log("Map says: Building highlighted: #{id}")
+    $scope.highlighted = id
 
   $scope.moveBuilding = (event, building) ->
     point = event.latLng
@@ -49,9 +50,7 @@ MiniMapController = ($scope, NgMap, $rootScope, $http) ->
       building:
         lat: point.lat()
         lon: point.lng()
-
     return
-
 
   jQuery("#layer-slider").slider
       value: 100,
@@ -64,19 +63,17 @@ MiniMapController.$inject = ['$scope', 'NgMap', '$rootScope', '$http']
 
 MiniBuildingListController = ($scope) ->
   $scope.buildings = window.buildings
-  # # for building in window.buildings
-  # #   $scope.buildings.push building.building
-  # return
 MiniBuildingListController.$inject = ['$scope']
 
 MiniBuildingController = ($scope, $rootScope) ->
   $scope.buildingClass = null
   $scope.highlightBuilding = (event) ->
-    $rootScope.$broadcast 'building:highlighted', $scope.building.id
+    $rootScope.$broadcast 'building:highlighted', $scope.building.data.attributes.id
   $scope.unhighlightBuilding = (event, building) ->
     $rootScope.$broadcast 'building:highlighted'
   $rootScope.$on 'building:highlighted', (event, id) ->
-    if id is $scope.building.id
+    console.log("List says: Building highlighted: #{id}")
+    if id is $scope.building.data.attributes.id
       $scope.buildingClass = 'highlighted'
     else
       $scope.buildingClass = null

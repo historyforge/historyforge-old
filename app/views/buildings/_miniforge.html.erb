@@ -16,12 +16,11 @@
 
     <marker ng-repeat="item in buildings track by $index"
             position="{{item.data.attributes.latitude}}, {{item.data.attributes.longitude}}"
-            z-index="{{ zIndexFor(item.data.attributes) }}"
-            icon="{{ markerIcon(item.data.attributes) }}"
-            on-mouseover="highlightBuilding(item.data.attributes)"
-            on-click="showBuilding(item.data.attributes)"
+            z-index="{{ zIndexFor(item.data.attributes.id) }}"
+            icon="{{ markerIcon(item.data.attributes.id) }}"
+            on-mouseover="highlightBuilding(item.data.attributes.id)"
+            on-click="showBuilding(item.data.attributes.id)"
             ng-if="item.data.attributes.latitude"></marker>
-
 
     <div id="layer-slider" ng-show="layer"><div class="ui-slider-handle"> </div> </div>
 

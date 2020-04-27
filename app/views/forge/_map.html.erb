@@ -10,8 +10,8 @@
     <button type="button" class="close" ng-click="hideBuilding()">&times;</button>
     <h5>{{ currentBuilding.name }}</h5>
     <div style="width:700px" class="row">
-      <div class="col-sm-3">
-        <picture ng-if="currentBuilding.photo">
+      <div class="col-sm-3" ng-if="currentBuilding.photo">
+        <picture>
           <!--[if IE 9]><video style="display: none;"><![endif]-->
           <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
           <source ng-srcset="/photos/{{currentBuilding.photo}}/15/tablet.jpg" media="(min-width:481px) and (max-width:1024px)">
@@ -19,9 +19,6 @@
           <!--[if IE 9]></video><![endif]-->
           <img src class="img-responsive img-thumbnail">
         </picture>
-        <p ng-if="!currentBuilding.photo">
-          No photo :(
-        </p>
       </div>
       <div class="col-sm-3">
         <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
