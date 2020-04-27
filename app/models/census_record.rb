@@ -20,7 +20,7 @@ class CensusRecord < ApplicationRecord
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
-  validates :age, :race, :marital_status, :sex, presence: true
+  validates :race, :marital_status, :sex, presence: true
   validates :age, numericality: {greater_than_or_equal_to: -1, allow_nil: true}
   validate :dont_add_same_person, on: :create
   validates :relation_to_head, vocabulary: { allow_blank: true }
