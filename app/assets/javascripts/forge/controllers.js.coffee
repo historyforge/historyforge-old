@@ -83,11 +83,13 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
     google.maps.event.addListener marker, 'mouseover', () -> $scope.highlightBuilding(building)
     marker
 
+  infoWindow = new google.maps.InfoWindow
+
   $scope.$on 'building:infoWindow', (event, building, e) ->
     $scope.currentBuilding = building
     if currentMarker and building
       NgMap.getMap().then (map) ->
-        infoWindow = new google.maps.InfoWindow content: building.street_address
+        infoWindow.setContent building.street_address
         infoWindow.open map, currentMarker
     else
       infoWindow.close()
