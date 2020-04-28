@@ -1,10 +1,6 @@
 window.forgeApp or= {}
 
 forgeApp.MainController = ($rootScope, $scope) ->
-  $scope.viewMode = 'map'
-  $scope.setViewMode = (mode) ->
-    $scope.viewMode = mode;
-    $rootScope.$broadcast 'viewMode:changed', mode
 
 forgeApp.MainController.$inject = ['$rootScope', '$scope']
 
@@ -22,9 +18,6 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
 
   $scope.$on 'layers:updated', (event, layers) ->
     $scope.layers = layers
-
-#  $scope.$on 'layers:selected', (event, layer) ->
-#    $scope.selectedLayers[layer.id] = layer
 
   $scope.$on 'buildings:updated', (event) ->
     $scope.meta = BuildingService.meta
@@ -64,77 +57,38 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
               slide: (e, ui) ->
                 thisLayer.setOpacity(ui.value / 100)
 
-#  $scope.$on 'layers:selected:top', (event, id) ->
-#    $scope.selectedLayers.top = id
-#    NgMap.getMap().then (map) ->
-#      if wmsLayerTop #and map.overlayMapTypes.getLength() > 0
-#        map.overlayMapTypes.forEach (layer, index) ->
-#          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerTop.name
-#      if id
-#        wmsLayerTop = loadWMS map, LayerService.topLayer, 'top'
-#        # debugger
-#        # map.overlayMapTypes.push wmsLayerTop
-#        jQuery(".layer-slider-top").slider
-#            value: 100,
-#            range: "min",
-#            slide: (e, ui) ->
-#              wmsLayerTop.setOpacity(ui.value / 100)
-#      else
-#        wmsLayerTop = null
-#  $scope.$on 'layers:selected:bottom', (event, id) ->
-#    $scope.selectedLayers.bottom = id
-#    NgMap.getMap().then (map) ->
-#      if wmsLayerBottom and map.overlayMapTypes.getLength() > 0
-#        map.overlayMapTypes.forEach (layer, index) ->
-#          map.overlayMapTypes.removeAt(index) if layer.name is wmsLayerBottom.name
-#      if id
-#        wmsLayerBottom = loadWMS map, LayerService.bottomLayer, 'bottom'
-#        # map.overlayMapTypes.insertAt(0, wmsLayerBottom)
-#        jQuery(".layer-slider-bottom").slider
-#            value: 100,
-#            range: "min",
-#            slide: (e, ui) ->
-#              wmsLayerBottom.setOpacity(ui.value / 100)
-#      else
-#        wmsLayerBottom = null
-
   mcOptions =
     imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
     minimumClusterSize: 10
     maxZoom: 16
   $scope.$on 'buildings:updated', (event, buildings) =>
     $scope.buildings = buildings
-#    $scope.meta = BuildingService.meta
     markers = $scope.buildings.map (building) -> $scope.createMarker(building)
     NgMap.getMap().then (map) =>
       @clusterer or= new MarkerClusterer(map, [], mcOptions)
       @clusterer.clearMarkers()
       @clusterer.addMarkers(markers)
-      #return new MarkerClusterer(map, markers, mcOptions)
 
+  currentMarker = null
   $scope.createMarker = (building) ->
     marker = new google.maps.Marker
       position: new google.maps.LatLng(building.lat, building.lon)
       icon: $scope.markerIcon(building)
       zIndex: $scope.zIndexFor(building)
-    google.maps.event.addListener marker, 'click', () -> $scope.showBuilding(building)
+    google.maps.event.addListener marker, 'click', () ->
+      currentMarker = marker
+      $scope.showBuilding(building)
     google.maps.event.addListener marker, 'mouseover', () -> $scope.highlightBuilding(building)
     marker
 
   $scope.$on 'building:infoWindow', (event, building, e) ->
     $scope.currentBuilding = building
-
-  $scope.$on 'viewMode:changed', (event, viewMode) ->
-    if $scope.selectedLayers.top or $scope.selectLayers.bottom
+    if currentMarker and building
       NgMap.getMap().then (map) ->
-        fn = ->
-          map.hideInfoWindow('building-iw')
-          google.maps.event.trigger(map, "resize")
-          $('#forge-right-col').removeAttr('style')
-          $timeout (fitToBoundingBox(map, $scope.layer.bbox)), 100
-        $timeout fn, 100
-        return
-
+        infoWindow = new google.maps.InfoWindow content: building.street_address
+        infoWindow.open map, currentMarker
+    else
+      infoWindow.close()
   $scope.markerIcon = (building) ->
     return {
       path: google.maps.SymbolPath.CIRCLE
@@ -150,11 +104,7 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
 
   currentWindowId = null
   $scope.showBuilding = (selectedBuilding) ->
-    if $scope.viewMode is 'map'
-      BuildingService.loadOne(selectedBuilding, event)
-    else if $scope.viewMode is 'list'
-      $anchorScroll.yOffset = 100
-      $anchorScroll "building-#{selectedBuilding.id}"
+    BuildingService.loadOne(selectedBuilding, event)
     for building in $scope.buildings
       if building.id is selectedBuilding.id
         building.current = yes
@@ -170,56 +120,12 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
   $scope.unhighlightBuilding = (building) ->
     BuildingService.highlight(null) if building.highlighted
 
-  jQuery('#forge-right-col').draggable()
-
   fitToBoundingBox = (map, bbox) ->
     boxValues = bbox.split(',')
     box = new google.maps.LatLngBounds()
     box.extend new google.maps.LatLng(parseFloat(boxValues[1]), parseFloat(boxValues[0]))
     box.extend new google.maps.LatLng(parseFloat(boxValues[3]), parseFloat(boxValues[2]))
-    console.log 'center map to layer bounds!'
     map.fitBounds(box)
 
   return
 forgeApp.MapController.$inject = ['$rootScope', '$scope', 'NgMap', '$anchorScroll', '$timeout', 'BuildingService', 'LayerService']
-
-forgeApp.BuildingListController = ($rootScope, $scope, BuildingService) ->
-  $scope.buildings = BuildingService.buildings
-  $scope.currentPage = 1;
-  $scope.pageSize = 15;
-
-  $scope.$on 'buildings:updated', (event, buildings) ->
-    $scope.buildings = buildings
-
-  return
-forgeApp.BuildingListController.$inject = ['$rootScope', '$scope', 'BuildingService']
-
-forgeApp.BuildingController = ($scope, BuildingService, NgMap) ->
-
-  if $scope.building.year_earliest
-    $scope.yearBuilt = "Built in #{$scope.building.year_earliest}."
-  if $scope.building.year_latest
-    $scope.yearDemolished = "Destroyed in #{$scope.building.year_latest}."
-  $scope.hasYears = $scope.building.data.attributes.year_earliest or $scope.building.data.attributes.year_latest
-
-  $scope.hasArchitects = $scope.building.architects.length > 0
-  if $scope.hasArchitects
-    $scope.architectNames = $scope.building.architects.map((item) -> item.name).join(', ')
-
-  $scope.buildingClassFor = () ->
-    return if $scope.building?.highlighted then 'highlighted' else ''
-  $scope.showBuilding = () ->
-    NgMap.getMap().then (map) =>
-      point = new google.maps.LatLng parseFloat($scope.building.latitude), parseFloat($scope.building.longitude)
-      map.setCenter point
-    for building in $scope.$parent.buildings
-      building.current = building.id is $scope.building.id
-    return
-
-  $scope.highlightBuilding = () ->
-    BuildingService.highlight $scope.building.id
-  $scope.unhighlightBuilding = () ->
-    BuildingService.highlight(null) if $scope.building.highlighted
-  return
-
-forgeApp.BuildingController.$inject = ['$scope', 'BuildingService', 'NgMap']

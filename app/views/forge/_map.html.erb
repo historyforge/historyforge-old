@@ -6,11 +6,26 @@
           center="[<%= AppConfig.latitude %>,<%= AppConfig.longitude %>]">
   </ng-map>
 
-  <div id="building-iw" ng-if="currentBuilding">
-    <button type="button" class="close" ng-click="hideBuilding()">&times;</button>
-    <h5>{{ currentBuilding.name }}</h5>
-    <div style="width:700px" class="row">
-      <div class="col-sm-3" ng-if="currentBuilding.photo">
+  <div id="forge-right-col">
+    <h3>Map Layers</h3>
+    <div ng-repeat="layer in layers" id="layer{{ layer.id }}" class="layer">
+      <input type="checkbox" ng-model="selectedLayers[layer.id]" id="layer-cb{{ layer.id }}" ng-click="toggleLayer(layer.id)" />
+      <label for="layer-cb{{ layer.id }}">{{ layer.name }}</label>
+      <div class="layer-slider" ng-if="!!selectedLayers[layer.id]">
+        <div class="ui-slider-handle"></div>
+      </div>
+    </div>
+    <hr />
+
+    <div ng-if="!currentBuilding">Click on a dot to see who lived there.</div>
+    <div id="building-details" ng-if="currentBuilding">
+      <a href="/buildings/{{ currentBuilding.id }}" target="_blank" class="float-right">
+        <i class="fa fa-external-link"></i>
+      </a>
+      <h5>
+        {{ currentBuilding.name }}
+      </h5>
+      <div ng-if="currentBuilding.photo">
         <picture>
           <!--[if IE 9]><video style="display: none;"><![endif]-->
           <source ng-srcset="/photos/{{currentBuilding.photo}}/15/phone.jpg" media="(max-width:480px)">
@@ -20,11 +35,10 @@
           <img src class="img-responsive img-thumbnail">
         </picture>
       </div>
-      <div class="col-sm-3">
+      <div>
         <p>{{ currentBuilding.street_address }}<br>{{ currentBuilding.city }}, {{ currentBuilding.state }}</p>
-        <p><a href="/buildings/{{ currentBuilding.id }}" target="_blank">Open in new tab</a>
       </div>
-      <div class="col-sm-6">
+      <div>
         <table class="table table-condensed">
           <thead>
           <tr>
@@ -51,12 +65,3 @@
 
 </div>
 
-<div id="forge-right-col" ng-show="layers.length">
-  <div ng-repeat="layer in layers" id="layer{{ layer.id }}" class="layer">
-    <input type="checkbox" ng-model="selectedLayers[layer.id]" id="layer-cb{{ layer.id }}" ng-click="toggleLayer(layer.id)" />
-    <label for="layer-cb{{ layer.id }}">{{ layer.name }}</label>
-    <div class="layer-slider" ng-if="!!selectedLayers[layer.id]">
-      <div class="ui-slider-handle"></div>
-    </div>
-  </div>
-</div>

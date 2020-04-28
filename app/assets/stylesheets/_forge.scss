@@ -7,26 +7,26 @@ nav.navbar.navbar-static {
   z-index:200;
 }
 
-#warper-maindiv {
-  margin-top:80px;
+.map-wrap {
+  width: 100%;
+  height: 100vh !important;
 }
 
 ng-map {
-  width: 100%;
-  height: 100% !important;
+  position: fixed;
+  width: calc(100% - 450px);
+  height: 100% !important ;
 }
 
 #forge-right-col {
   z-index: 19;
-  position:fixed;
-  top:110px;
-  right:20px;
-  width:30%;
+  position:relative;
+  top:80px;
+  margin-left: calc(100% - 450px);
+  width:450px;
   padding: 15px;
   box-sizing: border-box;
-  background-color:rgba(255, 255, 255, 0.7);
-  border-radius: 6px;
-  box-shadow: 4px 4px 4px #888;
+  background-color: white;
   .btn-group {
     margin-bottom:12px;
   }
@@ -35,25 +35,6 @@ ng-map {
   }
   .layer-slider {
     width: 400px;
-  }
-}
-
-#building-iw {
-  z-index: 20;
-  position: fixed;
-  left: 50%;
-  top: 25%;
-  margin-left: -350px;
-  width:700px;
-  font-size: 12px;
-  padding:15px;
-  background-color:rgba(255, 255, 255, 0.95);
-  border-radius: 6px;
-  box-shadow: 4px 4px 4px #888;
-  button.close {
-    position: absolute;
-    right: 15px;
-    top: 5px;
   }
 }
 
@@ -85,47 +66,6 @@ ng-map {
     z-index:120;
   }
 }
-.map {
-  .map-wrap {
-    position: absolute;
-    left:0px;
-    top:80px;
-    width:100%;
-    bottom:0px;
-  }
-  #forge-right-col {
-    cursor: move;
-  }
-}
-
-.list {
-
-  .map-wrap {
-    position: fixed;
-    width: 30%;
-    height:300px;
-    right:20px;
-    bottom:20px;
-  }
-
-  #building-list {
-    width:66%;
-  }
-
-  .highlighted {
-    border:none;
-    background: #f7f7f7;
-  }
-
-  .building {
-    padding:10px;
-    border-bottom:1px solid #ccc;
-    &:last-child {
-      border-bottom:none;
-    }
-  }
-}
-
 .gm-style-iw {
   div.row {
     margin-left:0;
