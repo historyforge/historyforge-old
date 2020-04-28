@@ -123,6 +123,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (6.0.1)
       railties (>= 3.2.16)
+    json (2.3.0)
     kaminari (1.2.0)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.0)
@@ -226,6 +227,8 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rbtree3 (0.6.0)
+    recaptcha (5.5.0)
+      json
     request_store (1.5.0)
       rack (>= 1.4)
     responders (3.0.0)
@@ -328,6 +331,7 @@ DEPENDENCIES
   puma
   rails (~> 6)
   ransack
+  recaptcha
   rubyXL
   sass-rails (~> 5)
   simple_form

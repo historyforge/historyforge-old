@@ -35,6 +35,7 @@ gem 'pg_search'
 gem 'puma'
 gem 'rails', '~>6'
 gem 'ransack'
+gem 'recaptcha'
 gem 'rubyXL', require: false
 gem 'sass-rails', '~>5'
 gem 'simple_form'

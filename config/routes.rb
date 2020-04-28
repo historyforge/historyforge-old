@@ -71,6 +71,9 @@ Rails.application.routes.draw do
             path: 'census/1930',
             as: 'census1930_records'
 
+  resources :contacts, only: %i[new create]
+  get '/contact' => 'contacts#new'
+
   resources :flags
 
   resources :map_overlays
