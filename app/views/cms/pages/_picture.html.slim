@@ -25,4 +25,9 @@
     = form.input :alt_text, placeholder: 'Alt Text'
     = form.input :caption, placeholder: 'Caption'
 
+  = panel 'Outlink' do
+    = form.input :outlink, hint: 'Open this URL when clicking on the image.'
+    = form.input :new_tab, as: :boolean, label: 'Open the link in a new tab by adding target="_blank"?'
+    = form.input :nofollow, as: :boolean, label: 'Deny this link search engine love by adding rel="nofollow"?'
+
   = render 'cms_widget_details', form: form

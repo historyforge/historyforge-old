@@ -9,6 +9,9 @@ class Cms::Picture < Cms::PageWidget
   json_attribute :alt_text, as: :string
   json_attribute :bootstrap_class, as: :enumeration, values: %w{thumbnail rounded circle}, strict: true
   json_attribute :alignment, as: :enumeration, values: %w{left center right parallax}, strict: true
+  json_attribute :outlink, as: :string
+  json_attribute :new_tab, as: :boolean, default: true
+  json_attribute :nofollow, as: :boolean, default: true
 
   before_save :cache_html
 
@@ -52,11 +55,17 @@ class Cms::Picture < Cms::PageWidget
     def render
       html = render_image.html_safe
 
+      if picture.outlink?
+        link_options = { href: picture.outlink }
+        link_options[:target] = '_blank' if picture.new_tab?
+        link_options[:rel] = 'nofollow' if picture.nofollow?
+        html = content_tag :a, html, link_options
+      end
       if picture.caption?
         html << content_tag(:p, picture.caption)
       end
 
-      html_options = { class: 'cms-slide cms-image ' }
+      html_options = { class: 'cms-image ' }
       html_options[:id] = picture.css_id if picture.css_id?
       html_options[:class] << picture.css_class if picture.css_class?
       if picture.css_clear.present? && picture.css_clear != 'none'
