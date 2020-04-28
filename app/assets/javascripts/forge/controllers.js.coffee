@@ -78,7 +78,10 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
       icon: $scope.markerIcon(building)
       zIndex: $scope.zIndexFor(building)
     google.maps.event.addListener marker, 'click', () ->
+      if currentMarker?
+        currentMarker.setIcon $scope.markerIcon(building, false)
       currentMarker = marker
+      currentMarker.setIcon $scope.markerIcon(building, true)
       $scope.showBuilding(building)
     google.maps.event.addListener marker, 'mouseover', () -> $scope.highlightBuilding(building)
     marker
@@ -93,10 +96,10 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
         infoWindow.open map, currentMarker
     else
       infoWindow.close()
-  $scope.markerIcon = (building) ->
+  $scope.markerIcon = (building, highlighted = no) ->
     return {
       path: google.maps.SymbolPath.CIRCLE
-      fillColor: if building.highlighted then 'blue' else 'red'
+      fillColor: if highlighted then 'blue' else 'red'
       fillOpacity: .9
       scale: 6
       strokeColor: '#333'
