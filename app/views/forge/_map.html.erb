@@ -9,9 +9,11 @@
   <div id="forge-right-col">
     <h3>Map Layers</h3>
     <div ng-repeat="layer in layers" id="layer{{ layer.id }}" class="layer">
-      <input type="checkbox" ng-model="selectedLayers[layer.id]" id="layer-cb{{ layer.id }}" ng-click="toggleLayer(layer.id)" />
-      <label for="layer-cb{{ layer.id }}">{{ layer.name }}</label>
-      <div class="layer-slider" ng-if="!!selectedLayers[layer.id]">
+      <div class="form-check" ng-click="toggleLayer(layer.id)">
+        <input class="form-check-input" type="checkbox" ng-checked="layer.selected" />
+        <span class="form-check-label">{{ layer.name }}</span>
+      </div>
+      <div class="layer-slider" ng-if="layer.selected">
         <div class="ui-slider-handle"></div>
       </div>
     </div>

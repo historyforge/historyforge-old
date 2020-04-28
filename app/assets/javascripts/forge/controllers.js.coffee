@@ -37,25 +37,27 @@ forgeApp.MapController = ($rootScope, $scope, NgMap, $anchorScroll, $timeout, Bu
 
   $scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=#{window.googleApiKey}";
 
-  $scope.selectedLayers = []
+  $scope.layerIsSelected = (layer) -> !!$scope.selectedLayers(layer.id)
 
   $scope.$on 'layers:toggled', (event, selectedLayers) ->
-    $scope.selectedLayers = selectedLayers
+    $scope.layers.forEach (layer) ->
+      layer.selected = selectedLayers.indexOf(layer.id) > -1
     NgMap.getMap().then (map) ->
       map.overlayMapTypes.forEach (layer, index) ->
-        if layer and $scope.selectedLayers.indexOf(layer.name) is -1
+        if layer and selectedLayers.indexOf(layer.name) is -1
           map.overlayMapTypes.removeAt(index)
-      $scope.selectedLayers.forEach (selectedLayer) ->
+      selectedLayers.forEach (selectedLayer) ->
         visible = []
         map.overlayMapTypes.forEach (layer) ->
           visible.push layer.name
         unless visible.indexOf(selectedLayer) > -1
           thisLayer = loadWMS map, LayerService.getLayerById(selectedLayer), selectedLayer
-          jQuery("#layer#{selectedLayer} .layer-slider").slider
-              value: 100,
-              range: "min",
-              slide: (e, ui) ->
-                thisLayer.setOpacity(ui.value / 100)
+          $timeout () ->
+            jQuery("#layer#{selectedLayer} .layer-slider").slider
+                value: 100,
+                range: "min",
+                slide: (e, ui) ->
+                  thisLayer.setOpacity(ui.value / 100)
 
   mcOptions =
     imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
