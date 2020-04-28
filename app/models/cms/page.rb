@@ -12,7 +12,7 @@ module Cms
     json_attribute :automatic_url_alias, :boolean, default: true
 
     json_attribute :template_sections, :array
-    json_attribute :template, :string, default: "{{body}}\r\n\r\n{{content}}"
+    json_attribute :template, :string, default: "{{content}}"
 
     json_attribute :title, :string
     json_attribute :show_title, :boolean, default: true
@@ -115,19 +115,5 @@ module Cms
         hash
       }
     end
-
-    def template_sections_manager
-      @template_sections_manager ||= Cms::PageTemplateSectionsManager.new(self)
-    end
-
-    def template_sections_for_editing
-      template_sections_manager.sections
-    end
-
-    def generate_auto_template
-      self.template = template_sections_manager.render
-      true
-    end
-
   end
 end

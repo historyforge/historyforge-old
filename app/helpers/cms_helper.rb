@@ -1,6 +1,6 @@
 module CmsHelper
 
-  def page_section_fields(form)
+  def page_text_fields(form)
     fields = new_child_fields(form, :widgets, object: Cms::Text.new, partial: 'text')
     content_for(:body_end) { content_tag(:script, fields, type: 'text/html', id: "new_text_fields") }
   end

@@ -16,6 +16,10 @@ module Cms
 
     def run
       guts = compiled_template.render template_vars
+      if guts =~ /\{\{/
+        liquid_guts = Liquid::Template.parse guts
+        guts = liquid_guts.render template_vars
+      end
       css_id = page.css_id.present? ? page.css_id : "page_#{page.id}"
       css_class = page.css_class.present? ? page.css_class : "page_#{page.id}"
 

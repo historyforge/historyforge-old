@@ -95,9 +95,7 @@ class Cms::PagesController < ApplicationController
       raise CanCan::AccessDenied
     end
     if @page.controller.present? && @page.action.present?
-      if can?(:update, @page)
-        flash[:notice] = "This is a Rails application page, not a CMS page. It is not accessible via a URL but only in the context of #{@page.controller}##{@page.action}."
-      else
+      unless can?(:update, @page)
         render_404
       end
     elsif !@page.published?
