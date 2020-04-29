@@ -12,6 +12,13 @@ nav.navbar.navbar-static {
   height: 100vh;
 }
 
+#forge {
+  ng-map {
+    position: fixed;
+    width: calc(100% - 450px);
+    height: 100% !important ;
+  }
+}
 
 #forge-right-col {
   z-index: 19;
@@ -30,12 +37,6 @@ nav.navbar.navbar-static {
   }
   .layer-slider {
     width: 400px;
-  }
-
-  ng-map {
-    position: fixed;
-    width: calc(100% - 450px);
-    height: 100% !important ;
   }
 }
 
