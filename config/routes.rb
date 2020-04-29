@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'search/buildings' => 'home#search_buildings', as: 'search_buildings'
 
   # get '/about' => 'home#about', as: 'about'
-  get '/photos/:id/:style/:device' => 'buildings#photo', as: 'photo'
+  get '/photos/:id/:style/:device' => 'buildings/main#photo', as: 'photo'
 
   get '/forge' => 'forge#index', as: 'forge'
   get '/forge/list' => 'forge#list', as: 'forge_list'
