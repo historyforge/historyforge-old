@@ -4,7 +4,7 @@
     => link_to 'CSV', params.permit!.merge(format: :csv), class: 'btn btn-sm btn-primary'
     - if controller.respond_to?(:year)
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map', data: {year: controller.year}
-    - elsif controller_name == 'buildings'
+    - elsif params[:controller] == 'buildings/main'
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
     - if can?(:create, resource_class)
       = link_to 'Add New', new_resource_path, class: 'btn btn-sm btn-light'
