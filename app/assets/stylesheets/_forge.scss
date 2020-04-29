@@ -12,11 +12,6 @@ nav.navbar.navbar-static {
   height: 100vh;
 }
 
-ng-map {
-  position: fixed;
-  width: calc(100% - 450px);
-  height: 100% !important ;
-}
 
 #forge-right-col {
   z-index: 19;
@@ -36,6 +31,12 @@ ng-map {
   .layer-slider {
     width: 400px;
   }
+
+  ng-map {
+    position: fixed;
+    width: calc(100% - 450px);
+    height: 100% !important ;
+  }
 }
 
 #miniforge {
@@ -44,6 +45,11 @@ ng-map {
     width:100%;
     height:400px;
     margin-bottom:30px;
+
+    ng-map {
+      width: 100%;
+      height: 100%;
+    }
   }
   .highlighted {
     border:none;
