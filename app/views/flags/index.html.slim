@@ -13,7 +13,7 @@
     tbody
       - @flags.each do |flag|
         tr
-          td= link_to flag.flaggable.name, flag.flaggable
+          td= flag.flaggable ? link_to(flag.flaggable.name, flag.flaggable) : 'Oops a stray'
           td= flag.display_reason
           td= flag.flagged_by&.name
           td= flag.created_at.strftime('%-m/%-d/%y')

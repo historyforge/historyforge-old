@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_28_132809) do
+ActiveRecord::Schema.define(version: 2020_05_02_143910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -420,6 +420,104 @@ ActiveRecord::Schema.define(version: 2020_04_28_132809) do
     t.index ["searchable_name"], name: "census_1930_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
 
+  create_table "census_1940_records", force: :cascade do |t|
+    t.bigint "building_id"
+    t.bigint "person_id"
+    t.bigint "created_by_id"
+    t.bigint "reviewed_by_id"
+    t.datetime "reviewed_at"
+    t.integer "page_number"
+    t.string "page_side", limit: 1
+    t.integer "line_number"
+    t.string "county", default: "Tompkins"
+    t.string "city", default: "Ithaca"
+    t.string "state", default: "NY"
+    t.string "ward"
+    t.string "enum_dist"
+    t.string "apartment_number"
+    t.string "street_prefix"
+    t.string "street_name"
+    t.string "street_suffix"
+    t.string "street_house_number"
+    t.string "dwelling_number"
+    t.string "family_id"
+    t.string "last_name"
+    t.string "first_name"
+    t.string "middle_name"
+    t.string "name_prefix"
+    t.string "name_suffix"
+    t.text "searchable_name"
+    t.string "owned_or_rented"
+    t.integer "home_value"
+    t.boolean "lives_on_farm"
+    t.string "relation_to_head"
+    t.string "relation_code"
+    t.string "sex"
+    t.string "race"
+    t.integer "age"
+    t.integer "age_months"
+    t.string "marital_status"
+    t.boolean "attended_school"
+    t.string "grade_completed"
+    t.string "education_code"
+    t.string "pob", default: "New York"
+    t.string "pob_code"
+    t.string "naturalized_alien"
+    t.string "residence_1935_town"
+    t.string "residence_1935_county"
+    t.string "residence_1935_state"
+    t.boolean "residence_1935_farm"
+    t.string "residence_1935_code"
+    t.boolean "private_work"
+    t.boolean "public_work"
+    t.boolean "seeking_work"
+    t.boolean "had_job"
+    t.string "no_work_reason"
+    t.string "no_work_code"
+    t.integer "private_hours_worked"
+    t.integer "unemployed_weeks"
+    t.string "profession", default: "None"
+    t.string "industry"
+    t.string "worker_class"
+    t.string "profession_code"
+    t.integer "full_time_weeks"
+    t.integer "income"
+    t.boolean "had_unearned_income"
+    t.string "farm_schedule"
+    t.string "pob_father", default: "New York"
+    t.string "pob_mother", default: "New York"
+    t.string "pob_father_code"
+    t.string "pob_mother_code"
+    t.string "mother_tongue"
+    t.string "mother_tongue_code"
+    t.boolean "veteran"
+    t.boolean "veteran_dead"
+    t.string "war_fought"
+    t.string "war_fought_code"
+    t.boolean "soc_sec"
+    t.boolean "deductions"
+    t.string "deduction_rate"
+    t.string "usual_profession"
+    t.string "usual_industry"
+    t.string "usual_worker_class"
+    t.string "usual_occupation_code"
+    t.string "usual_industry_code"
+    t.string "usual_worker_class_code"
+    t.boolean "multi_marriage"
+    t.integer "first_marriage_age"
+    t.integer "children_born"
+    t.text "notes"
+    t.boolean "provisional", default: false
+    t.boolean "foreign_born", default: false
+    t.boolean "taker_error", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["building_id"], name: "index_census_1940_records_on_building_id"
+    t.index ["created_by_id"], name: "index_census_1940_records_on_created_by_id"
+    t.index ["person_id"], name: "index_census_1940_records_on_person_id"
+    t.index ["reviewed_by_id"], name: "index_census_1940_records_on_reviewed_by_id"
+  end
+
   create_table "client_applications", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "url"
@@ -493,6 +591,12 @@ ActiveRecord::Schema.define(version: 2020_04_28_132809) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "contacts", id: :bigint, default: -> { "nextval('web_forms_id_seq'::regclass)" }, force: :cascade do |t|
+    t.jsonb "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "flags", force: :cascade do |t|
@@ -800,12 +904,6 @@ ActiveRecord::Schema.define(version: 2020_04_28_132809) do
     t.index ["machine_name"], name: "index_vocabularies_on_machine_name"
   end
 
-  create_table "web_forms", force: :cascade do |t|
-    t.jsonb "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buildings", "building_types"
   add_foreign_key "buildings", "users", column: "created_by_id"
@@ -832,6 +930,10 @@ ActiveRecord::Schema.define(version: 2020_04_28_132809) do
   add_foreign_key "census_1930_records", "people"
   add_foreign_key "census_1930_records", "users", column: "created_by_id"
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"
+  add_foreign_key "census_1940_records", "buildings"
+  add_foreign_key "census_1940_records", "people"
+  add_foreign_key "census_1940_records", "users", column: "created_by_id"
+  add_foreign_key "census_1940_records", "users", column: "reviewed_by_id"
   add_foreign_key "cms_page_widgets", "cms_pages"
   add_foreign_key "cms_url_aliases", "cms_pages", column: "page_id"
   add_foreign_key "flags", "users"
