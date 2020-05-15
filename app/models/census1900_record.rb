@@ -4,7 +4,7 @@ class Census1900Record < CensusRecord
 
   validates :attended_school, :years_in_us, :years_married,
             :num_children_born, :num_children_alive, :unemployed_months,
-            :birth_month, :birth_year, :age,
+            :birth_month, :birth_year, :age, :age_months,
             numericality: { greater_than_or_equal_to: -1, allow_blank: true }
 
   validates :language_spoken, vocabulary: { name: :language, allow_blank: true }
