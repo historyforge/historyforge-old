@@ -42,7 +42,7 @@ class People::CensusRecordsNineteenTenController < People::CensusRecordsControll
   end
 
   def page_title
-    '1910 Census Records'
+    '1910 US Census Records'
   end
 
   def census_record_search_class

@@ -71,6 +71,12 @@ Rails.application.routes.draw do
             path: 'census/1930',
             as: 'census1930_records'
 
+  resources :census_1940_records,
+            concerns: [:people_directory],
+            controller: 'people/census_records_nineteen_forty',
+            path: 'census/1940',
+            as: 'census1940_records'
+
   resources :contacts, only: %i[new create]
   get '/contact' => 'contacts#new'
 

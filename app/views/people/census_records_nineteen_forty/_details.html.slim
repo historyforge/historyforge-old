@@ -1,0 +1,80 @@
+.row
+  .col-sm-4
+    dl
+      dt Address
+      dd= @record.street_address || 'blank'
+    dl
+      dt Relation to Head
+      dd= @record.relation_to_head.andand.capitalize || 'blank'
+    dl
+      dt Home-Maker
+      dd= @record.homemaker? ? 'Yes' : 'No'
+    dl
+      dt Sex
+      dd= @record.sex || 'blank'
+    dl
+      dt Race
+      dd= @record.race || 'blank'
+    dl
+      dt Age in 1939
+      dd= @record.age || 'blank'
+    dl
+      dt Place of Birth
+      dd= "#{@record.pob} (#{@record.pob_code})" || 'blank'
+    dl
+      dt Foreign Born
+      dd= @record.foreign_born? ? 'Yes' : 'No'
+
+    - if @record.supplemental?
+      dl
+        dt Mother Tongue
+        dd= "#{@record.mother_tongue} (#{@record.mother_tongue_code})" || 'blank'
+      dl
+        dt Father's POB
+        dd= "#{@record.pob_father} (#{@record.pob_father_code})" || 'blank'
+      dl
+        dt Mother's POB
+        dd= "#{@record.pob_mother} (#{@record.pob_mother_code})" || 'blank'
+    dl
+      dt Naturalized Alien?
+      dd= @record.naturalized_alien || 'blank'
+
+  .col-sm-4
+    dl
+      dt Marital Status
+      dd= @record.marital_status || 'blank'
+    dl
+      dt Home Value
+      dd= @record.home_value || 'blank'
+    dl
+      dt Lives on Farm
+      dd= yes_no_na @record.lives_on_farm?
+    dl
+      dt Farm Schedule
+      dd= @record.farm_schedule || 'blank'
+
+  .col-sm-4
+    - if @record.profession.present?
+      dl
+        dt Profession
+        dd
+          = @record.profession
+          = " (#{@record.profession_code})"
+    - if @record.industry?
+      dl
+        dt Industry
+        dd= @record.industry
+        dd= @record.coded_industry&.name
+    dl
+      dt Class of Worker
+      dd= @record.worker_class || 'blank'
+    dl
+      dt Attended school or college in 1939?
+      dd= yes_no_na @record.attended_school
+    - if @record.supplemental?
+      dl
+        dt Veteran?
+        dd= yes_no_na @record.veteran
+      dl
+        dt War or Expedition
+        dd= @record.war_fought || 'blank'

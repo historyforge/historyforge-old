@@ -141,7 +141,8 @@ en:
         employment: 'Employment Status'
         occupation1930_code_id: 'Coded Occupation'
         industry1930_code_id: 'Coded Industry'
-
+      census1940_record:
+        worker_class: 'Class of Worker'
     hints:
       building:
         address: 'TBD - address when built. Ability to add multiple addresses?'

@@ -33,6 +33,13 @@ setHints = () ->
   $('.hint-toggle-btn').text if showHints then 'Showing hints' else 'Hiding hints'
   $('.census-hint-wrapper').hide() unless showHints
 
+setSupplementalRecord = () ->
+  line = parseInt $('#census_record_line_number').val()
+  if line is 15 or line is 49
+    $('.supplemental').show().find('input').removeAttr('disabled')
+  else
+    $('.supplemental').hide().find('input').attr('disabled', yes)
+
 $(document).ready ->
   setHints()
   $('.hint-toggle-btn').on 'click', toggleHints
@@ -42,12 +49,17 @@ $(document).ready ->
       e.preventDefault()
       return false
 
+  $('#census_record_line_number').on 'change', setSupplementalRecord
+  setSupplementalRecord()
+
   $('#new_census_record, #edit_census_record').find('input[data-type=other-radio-button]').each ->
     unless $(this).val().length
       $(this).attr('disabled', yes)
+
   $('#new_census_record, #edit_census_record').find('input[type=radio][value!=other]').on 'click', ->
     $input = $(this).closest('.form-group').find('input[data-type=other-radio-button]')
     $input.val(null).attr('disabled', yes)
+
   $('#new_census_record, #edit_census_record').find('input[type=radio][value=other]').on 'click', ->
     $input = $(this).next().find('input[type=text]')
     if $(this).is(':checked')

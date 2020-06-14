@@ -13,11 +13,14 @@ class Census1940Record < CensusRecord
   auto_strip_attributes :industry, :profession_code, :pob_code, :worker_class
 
   def year
-    1930
+    1940
   end
 
   def self.folder_name
     'census_records_nineteen_forty'
   end
 
+  def supplemental?
+    [15, 49].include?(line_number)
+  end
 end

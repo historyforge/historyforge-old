@@ -1,0 +1,124 @@
+- content_for :extra_buttons do
+  button.btn.btn-default.float-right.hint-toggle-btn type="button"
+
+.census-hint-wrapper style="display: none"
+  .census-hint
+
+.card.mb-1
+  .card-header
+    | Census Record
+  .card-body
+    .census-slider-wrapper
+      .census-slider.hidden
+        = form.input :last_name, input_html: { autocomplete: 'new-password' }
+        = form.input :first_name, input_html: { autocomplete: 'new-password' }
+        = form.input :middle_name, input_html: { autocomplete: 'new-password' }
+        = form.input :name_prefix, input_html: { autocomplete: 'new-password' }
+        = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
+        = form.input :owned_or_rented,
+                as: :radio_buttons,
+                collection: Census1940Record.owned_or_rented_choices,
+                label: 'Home owned or rented',
+                coded: true,
+                wrapper_html: { data: { depends_on: :relation_to_head } }
+        = form.input :home_value,
+                label: 'Value of home or monthly payment',
+                wrapper_html: { data: { depends_on: :relation_to_head } },
+                hint: 'Enter 999 for unknown or leave blank if taker left empty'
+        = form.input :lives_on_farm,
+                as: :boolean,
+                label: 'Live on Farm?',
+                inline_label: 'Yes',
+                wrapper_html: { data: { depends_on: :relation_to_head } }
+        = form.input :relation_to_head,
+                wrapper_html: { data: { dependents: 'Head' } },
+                input_html: { autocomplete: 'new-password' }
+        = form.input :relation_code,
+                wrapper_html: { data: { dependents: 'Head' } },
+                input_html: { autocomplete: 'new-password' }
+        = form.input :sex,
+                as: :radio_buttons,
+                collection: CensusRecord.sex_choices,
+                coded: true
+        = form.input :race,
+                as: :radio_buttons_other,
+                collection: Census1930Record.race_choices,
+                coded: true
+        = form.input :age,
+                hint: 'Enter 999 for unknown or leave blank if taker left empty'
+        = form.input :age_months,
+                hint: 'Only for children less than 5 years old'
+        = form.input :marital_status,
+                as: :radio_buttons,
+                collection: Census1930Record.marital_status_choices,
+                coded: true
+        = form.input :attended_school,
+                as: :boolean,
+                label: 'Attended school?',
+                inline_label: 'Yes'
+        = form.input :grade_completed,
+                input_html: { autocomplete: 'new-password' }
+        = form.input :education_code,
+                input_html: { autocomplete: 'new-password' }
+        = form.input :pob, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_code, input_html: { autocomplete: 'new-password' }
+        = form.input :foreign_born,
+                as: :boolean,
+                label: 'This person is foreign born',
+                inline_label: 'Yes',
+                wrapper_html: { data: { dependents: 'true' } }
+        = form.input :naturalized_alien,
+                as: :radio_buttons,
+                collection: CensusRecord.naturalized_alien_choices,
+                coded: true,
+                wrapper_html: { data: { depends_on: :foreign_born } }
+        = form.input :residence_1935_town, input_html: { autocomplete: 'new-password' }
+        = form.input :residence_1935_county, input_html: { autocomplete: 'new-password' }
+        = form.input :residence_1935_state, input_html: { autocomplete: 'new-password' }
+        = form.input :residence_1935_farm, as: :boolean, inline_label: 'Yes'
+        = form.input :residence_1935_code, input_html: { autocomplete: 'new-password' }
+        = form.input :private_work, as: :boolean, inline_label: 'Yes'
+        = form.input :public_work, as: :boolean, inline_label: 'Yes'
+        = form.input :seeking_work, as: :boolean, inline_label: 'Yes'
+        = form.input :had_job, as: :boolean, inline_label: 'Yes'
+        = form.input :no_work_reason, input_html: { autocomplete: 'new-password' }
+        = form.input :no_work_code, input_html: { autocomplete: 'new-password' }
+        = form.input :private_hours_worked, as: :integer, input_html: { autocomplete: 'new-password' }
+        = form.input :unemployed_weeks, as: :integer, input_html: { autocomplete: 'new-password' }
+        = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
+        = form.input :industry, input_html: { autocomplete: 'new-password' }
+        = form.input :worker_class, collection: Census1940Record.worker_class_choices, coded: true, as: :radio_buttons
+        = form.input :profession_code, input_html: { autocomplete: 'new-password' }
+        = form.input :full_time_weeks, as: :integer, input_html: { autocomplete: 'new-password' }
+        = form.input :income, as: :integer, input_html: { autocomplete: 'new-password' }
+        = form.input :had_unearned_income, as: :boolean, inline_label: 'Yes'
+        = form.input :farm_schedule, label: 'Farm Number'
+
+.card.mb-1.supplemental
+  .card-header
+    | Supplemental Record
+  .card-body
+    .census-slider-wrapper
+      .census-slider.hidden
+        = form.input :pob_father, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_father_code, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
+        = form.input :pob_mother_code, input_html: { autocomplete: 'new-password' }
+        = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
+        = form.input :mother_tongue_code, input_html: { autocomplete: 'new-password' }
+        = form.input :veteran, as: :boolean, label: 'Veteran?', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
+        = form.input :veteran_dead, as: :boolean, inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
+        = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1940Record.war_fought_choices, coded: true, wrapper_html: { data: { depends_on: :veteran } }
+        = form.input :war_fought_code, input_html: { autocomplete: 'new-password' }
+        = form.input :soc_sec, as: :boolean, inline_label: 'Yes'
+        = form.input :deductions, as: :boolean, inline_label: 'Yes'
+        = form.input :deduction_rate, input_html: { autocomplete: 'new-password' }
+        = form.input :usual_profession, input_html: { autocomplete: 'new-password' }
+        = form.input :usual_industry, input_html: { autocomplete: 'new-password' }
+        = form.input :usual_worker_class, input_html: { autocomplete: 'new-password' }
+        = form.input :usual_occupation_code, input_html: { autocomplete: 'new-password' }
+        = form.input :usual_industry_code, input_html: { autocomplete: 'new-password' }
+        = form.input :usual_worker_class_code, input_html: { autocomplete: 'new-password' }
+        = form.input :multi_marriage, as: :boolean, inline_label: 'Yes'
+        = form.input :first_marriage_age, input_html: { autocomplete: 'new-password' }
+        = form.input :children_born, input_html: { autocomplete: 'new-password' }
