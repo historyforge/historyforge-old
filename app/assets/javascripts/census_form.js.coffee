@@ -169,12 +169,12 @@ $(document).ready ->
   jQuery(document).on 'change', '#census_record_age', ->
     value = jQuery(this).val()
     if value and parseInt(value) < 10
-      jQuery('input[name="census_record[can_read]"]').val(null).prop('disabled', yes)
-      jQuery('input[name="census_record[can_write]"]').val(null).prop('disabled', yes)
+#      jQuery('input[name="census_record[can_read]"]').val(null).prop('disabled', yes)
+#      jQuery('input[name="census_record[can_write]"]').val(null).prop('disabled', yes)
       jQuery('#census_record_language_spoken').val(null).prop('disabled', yes)
     else
-      jQuery('input[name="census_record[can_read]"]').prop('disabled', no)
-      jQuery('input[name="census_record[can_write]"]').prop('disabled', no)
+#      jQuery('input[name="census_record[can_read]"]').prop('disabled', no)
+#      jQuery('input[name="census_record[can_write]"]').prop('disabled', no)
       jQuery('#census_record_language_spoken').val('English').prop('disabled', no)
 
   jQuery(document).on 'change', '#census_record_marital_status', ->
