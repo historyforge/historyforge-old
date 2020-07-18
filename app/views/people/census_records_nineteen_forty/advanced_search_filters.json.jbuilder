@@ -31,7 +31,7 @@ json.filters do
 
   json.profession do
     json.type 'text'
-    json.label 'Profession'
+    json.label 'Occupation'
     json.scopes do
       json.profession_cont 'contains'
       json.profession_not_cont 'does not contain'
@@ -39,7 +39,7 @@ json.filters do
       json.profession_has_any_term 'is one of'
       json.profession_has_every_term 'is all of'
     end
-    json.sortable 'profession'
+    json.sortable 'occupation'
   end
 
   json.industry do
@@ -81,18 +81,18 @@ json.filters do
   # AttributeBuilder.boolean json, :attended_school
   # AttributeBuilder.boolean json, :can_read_write
   AttributeBuilder.text json, :pob
-  # AttributeBuilder.text json, :pob_code
 
   # AttributeBuilder.text json, :pob_father
-  # AttributeBuilder.text json, :pob_father_code
   # AttributeBuilder.text json, :pob_mother
-  # AttributeBuilder.text json, :pob_mother_code
   # AttributeBuilder.text json, :mother_tongue
 
   AttributeBuilder.boolean json, :foreign_born
   AttributeBuilder.number json, :year_immigrated
   # AttributeBuilder.boolean json, :can_speak_english
-  AttributeBuilder.text json, :profession_code
+  AttributeBuilder.text json, :occupation_code
+  AttributeBuilder.text json, :industry_code
+  AttributeBuilder.text json, :worker_class_code
+
   AttributeBuilder.enumeration json, Census1940Record, :worker_class
   # AttributeBuilder.boolean json, :worked_yesterday
   # AttributeBuilder.text json, :unemployment_line
