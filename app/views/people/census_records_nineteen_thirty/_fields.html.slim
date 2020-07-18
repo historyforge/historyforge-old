@@ -25,7 +25,7 @@
         = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
         = form.input :relation_to_head, wrapper_html: { data: { dependents: 'Head' } }, input_html: { autocomplete: 'new-password' }
         = form.input :homemaker, as: :boolean, inline_label: 'Yes'
-        = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true }
+        = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true
         = form.input :home_value, label: 'Value of home or monthly payment', wrapper_html: { data: { depends_on: :relation_to_head } }, hint: 'Enter 999 for unknown or leave blank if taker left empty'
         = form.input :has_radio, as: :boolean, label: 'Radio Set', inline_label: 'Yes', wrapper_html: { data: { depends_on: :relation_to_head } }
         = form.input :lives_on_farm, as: :boolean, label: 'Live on Farm?', inline_label: 'Yes', wrapper_html: { data: { depends_on: :relation_to_head } }
