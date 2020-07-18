@@ -144,6 +144,8 @@ class People::CensusRecordsController < ApplicationController
     if params[:then].present?
       attrs = []
       attrs +=  case params[:then]
+                when 'street'
+                  %w{page_number page_size county city ward enum_dist street_prefix street_suffix street_name}
                 when 'enumeration'
                   %w{page_number page_side county city ward enum_dist}
                 when 'page'
