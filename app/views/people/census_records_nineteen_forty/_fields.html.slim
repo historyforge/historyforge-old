@@ -54,17 +54,12 @@
         = form.input :grade_completed,
                 input_html: { autocomplete: 'new-password' }
         = form.input :pob, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_code, input_html: { autocomplete: 'new-password' }
+        / = form.input :pob_code, input_html: { autocomplete: 'new-password' }
         = form.input :foreign_born,
                 as: :boolean,
                 label: 'This person is foreign born',
                 inline_label: 'Yes',
                 wrapper_html: { data: { dependents: 'true' } }
-        / = form.input :naturalized_alien,
-        /         as: :radio_buttons,
-        /         collection: CensusRecord.naturalized_alien_choices,
-        /         coded: true,
-        /         wrapper_html: { data: { depends_on: :foreign_born } }
         = form.input :residence_1935_town, input_html: { autocomplete: 'new-password' }
         = form.input :residence_1935_county, input_html: { autocomplete: 'new-password' }
         = form.input :residence_1935_state, input_html: { autocomplete: 'new-password' }
@@ -92,11 +87,11 @@
     .census-slider-wrapper
       .census-slider.hidden
         = form.input :pob_father, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_father_code, input_html: { autocomplete: 'new-password' }
+        / = form.input :pob_father_code, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_mother_code, input_html: { autocomplete: 'new-password' }
+        / = form.input :pob_mother_code, input_html: { autocomplete: 'new-password' }
         = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
-        = form.input :mother_tongue_code, input_html: { autocomplete: 'new-password' }
+        / = form.input :mother_tongue_code, input_html: { autocomplete: 'new-password' }
         = form.input :veteran, as: :boolean, label: 'Veteran?', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :veteran_dead, as: :boolean, inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1940Record.war_fought_choices, coded: true, wrapper_html: { data: { depends_on: :veteran } }

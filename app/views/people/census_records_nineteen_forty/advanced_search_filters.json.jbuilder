@@ -80,8 +80,8 @@ json.filters do
   # AttributeBuilder.age json, :age_married
   # AttributeBuilder.boolean json, :attended_school
   # AttributeBuilder.boolean json, :can_read_write
-  # AttributeBuilder.text json, :pob
-  AttributeBuilder.text json, :pob_code
+  AttributeBuilder.text json, :pob
+  # AttributeBuilder.text json, :pob_code
 
   # AttributeBuilder.text json, :pob_father
   # AttributeBuilder.text json, :pob_father_code

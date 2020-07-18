@@ -87,9 +87,9 @@ json.filters do
   AttributeBuilder.text json, :pob
   AttributeBuilder.text json, :pob_code
   AttributeBuilder.text json, :pob_father
-  AttributeBuilder.text json, :pob_father_code
+  # AttributeBuilder.text json, :pob_father_code
   AttributeBuilder.text json, :pob_mother
-  AttributeBuilder.text json, :pob_mother_code
+  # AttributeBuilder.text json, :pob_mother_code
   AttributeBuilder.text json, :mother_tongue
   AttributeBuilder.boolean json, :foreign_born
   AttributeBuilder.number json, :year_immigrated
