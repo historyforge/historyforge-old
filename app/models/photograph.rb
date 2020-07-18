@@ -1,5 +1,6 @@
 class Photograph < ApplicationRecord
   include PgSearch::Model
+  include Flaggable
 
   belongs_to :created_by, class_name: 'User'
   belongs_to :reviewed_by, class_name: 'User'
