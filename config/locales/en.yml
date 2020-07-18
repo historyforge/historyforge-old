@@ -150,6 +150,12 @@ en:
         employment: 'Employment Status'
         occupation1930_code_id: 'Coded Occupation'
         industry1930_code_id: 'Coded Industry'
+      census1920_record:
+        profession: 'Occupation'
+        profession_code: 'Occupation Code'
+      census1930_record:
+        profession: 'Occupation'
+        profession_code: 'Occupation Code'
       census1940_record:
         worker_class: 'Class of Worker'
         dwelling_number: 'House Number'
