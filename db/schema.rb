@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_14_162330) do
+ActiveRecord::Schema.define(version: 2020_07_18_201759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -451,7 +450,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
     t.integer "home_value"
     t.boolean "lives_on_farm"
     t.string "relation_to_head"
-    t.string "relation_code"
     t.string "sex"
     t.string "race"
     t.integer "age"
@@ -459,41 +457,33 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
     t.string "marital_status"
     t.boolean "attended_school"
     t.string "grade_completed"
-    t.string "education_code"
     t.string "pob", default: "New York"
-    t.string "pob_code"
     t.string "naturalized_alien"
     t.string "residence_1935_town"
     t.string "residence_1935_county"
     t.string "residence_1935_state"
     t.boolean "residence_1935_farm"
-    t.string "residence_1935_code"
     t.boolean "private_work"
     t.boolean "public_work"
     t.boolean "seeking_work"
     t.boolean "had_job"
     t.string "no_work_reason"
-    t.string "no_work_code"
     t.integer "private_hours_worked"
     t.integer "unemployed_weeks"
-    t.string "profession", default: "None"
+    t.string "occupation", default: "None"
     t.string "industry"
     t.string "worker_class"
-    t.string "profession_code"
+    t.string "occupation_code"
     t.integer "full_time_weeks"
     t.integer "income"
     t.boolean "had_unearned_income"
     t.string "farm_schedule"
     t.string "pob_father", default: "New York"
     t.string "pob_mother", default: "New York"
-    t.string "pob_father_code"
-    t.string "pob_mother_code"
     t.string "mother_tongue"
-    t.string "mother_tongue_code"
     t.boolean "veteran"
     t.boolean "veteran_dead"
     t.string "war_fought"
-    t.string "war_fought_code"
     t.boolean "soc_sec"
     t.boolean "deductions"
     t.string "deduction_rate"
@@ -512,6 +502,8 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
     t.boolean "taker_error", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "worker_class_code"
+    t.string "industry_code"
     t.index ["building_id"], name: "index_census_1940_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1940_records_on_created_by_id"
     t.index ["person_id"], name: "index_census_1940_records_on_person_id"
@@ -577,15 +569,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
     t.index ["url_path"], name: "index_cms_pages_on_url_path"
   end
 
-  create_table "cms_url_aliases", force: :cascade do |t|
-    t.string "url_path", null: false
-    t.string "target_url_path"
-    t.bigint "page_id"
-    t.index ["page_id"], name: "index_cms_url_aliases_on_page_id"
-    t.index ["url_path", "page_id"], name: "index_url_aliases_on_path_and_page"
-    t.index ["url_path"], name: "index_cms_url_aliases_on_url_path", unique: true
-  end
-
   create_table "construction_materials", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "color"
@@ -593,7 +576,7 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", id: :bigint, default: -> { "nextval('web_forms_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "contacts", force: :cascade do |t|
     t.jsonb "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -829,13 +812,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
     t.datetime "updated_at"
   end
 
-  create_table "spatial_ref_sys", primary_key: "srid", id: :integer, default: nil, force: :cascade do |t|
-    t.string "auth_name", limit: 256
-    t.integer "auth_srid"
-    t.string "srtext", limit: 2048
-    t.string "proj4text", limit: 2048
-  end
-
   create_table "street_conversions", force: :cascade do |t|
     t.string "from_prefix"
     t.string "to_prefix"
@@ -935,7 +911,6 @@ ActiveRecord::Schema.define(version: 2020_06_14_162330) do
   add_foreign_key "census_1940_records", "users", column: "created_by_id"
   add_foreign_key "census_1940_records", "users", column: "reviewed_by_id"
   add_foreign_key "cms_page_widgets", "cms_pages"
-  add_foreign_key "cms_url_aliases", "cms_pages", column: "page_id"
   add_foreign_key "flags", "users"
   add_foreign_key "flags", "users", column: "resolved_by_id"
   add_foreign_key "people_photos", "people"

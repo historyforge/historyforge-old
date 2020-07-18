@@ -54,7 +54,6 @@
         = form.input :grade_completed,
                 input_html: { autocomplete: 'new-password' }
         = form.input :pob, input_html: { autocomplete: 'new-password' }
-        / = form.input :pob_code, input_html: { autocomplete: 'new-password' }
         = form.input :foreign_born,
                 as: :boolean,
                 label: 'This person is foreign born',
@@ -71,9 +70,13 @@
         = form.input :no_work_reason, collection: Census1940Record.no_work_reason_choices, coded: true, as: :radio_buttons
         = form.input :private_hours_worked, as: :integer, input_html: { autocomplete: 'new-password' }
         = form.input :unemployed_weeks, as: :integer, input_html: { autocomplete: 'new-password' }
-        = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
+        = form.input :occupation, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
         = form.input :industry, input_html: { autocomplete: 'new-password' }
         = form.input :worker_class, collection: Census1940Record.worker_class_choices, coded: true, as: :radio_buttons
+        = form.input :occupation_code, input_html: {autocomplete: 'new-password'}
+        = form.input :industry_code, input_html: {autocomplete: 'new-password'}
+        = form.input :worker_class_code, input_html: {autocomplete: 'new-password'}
+
         = form.input :profession_code, input_html: { autocomplete: 'new-password' }
         = form.input :full_time_weeks, as: :integer, input_html: { autocomplete: 'new-password' }
         = form.input :income, as: :integer, input_html: { autocomplete: 'new-password' }
@@ -87,11 +90,8 @@
     .census-slider-wrapper
       .census-slider.hidden
         = form.input :pob_father, input_html: { autocomplete: 'new-password' }
-        / = form.input :pob_father_code, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
-        / = form.input :pob_mother_code, input_html: { autocomplete: 'new-password' }
         = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
-        / = form.input :mother_tongue_code, input_html: { autocomplete: 'new-password' }
         = form.input :veteran, as: :boolean, label: 'Veteran?', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :veteran_dead, as: :boolean, inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
         = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1940Record.war_fought_choices, coded: true, wrapper_html: { data: { depends_on: :veteran } }
@@ -104,6 +104,6 @@
         = form.input :usual_occupation_code, input_html: { autocomplete: 'new-password' }
         = form.input :usual_industry_code, input_html: { autocomplete: 'new-password' }
         = form.input :usual_worker_class_code, input_html: { autocomplete: 'new-password' }
-        = form.input :multi_marriage, as: :boolean, inline_label: 'Yes'
-        = form.input :first_marriage_age, input_html: { autocomplete: 'new-password' }
-        = form.input :children_born, input_html: { autocomplete: 'new-password' }
+        = form.input :multi_marriage, as: :boolean, inline_label: 'Yes', hint: 'Women only please!'
+        = form.input :first_marriage_age, input_html: { autocomplete: 'new-password' }, hint: 'Women only please!'
+        = form.input :children_born, input_html: { autocomplete: 'new-password' }, hint: 'Women only please!'
