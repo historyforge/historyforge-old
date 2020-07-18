@@ -73,7 +73,7 @@ json.filters do
   AttributeBuilder.boolean json, :foreign_born
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.number json, :year_in_us
-  AttributeBuilder.boolean json, :naturalized_alien
+  AttributeBuilder.enumeration json, Census1900Record, :naturalized_alien
   AttributeBuilder.text json, :industry
   AttributeBuilder.number json, :unemployed_months
   AttributeBuilder.boolean json, :can_read
