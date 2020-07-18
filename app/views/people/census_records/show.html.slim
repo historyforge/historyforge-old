@@ -3,9 +3,9 @@
 - content_for :pills do
   .dropdown style="display:inline-block"
     - if can?(:create, Flag)
-      = render 'shared/flag_it', item: @record.model, item_class: 'btn btn-secondary'
-    - if can?(:update, @record)
-      = link_to edit_resource_path(@record), class: 'btn btn-secondary' do
+      = render 'shared/flag_it', item: @model, item_class: 'btn btn-secondary'
+    - if can?(:update, @model)
+      = link_to edit_resource_path(@model), class: 'btn btn-secondary' do
         i.fa.fa-pencil
         | Edit
     a.btn.btn-primary.dropdown-toggle data-toggle='dropdown' href="#"
@@ -13,28 +13,28 @@
       = ' '
       span.caret
     .dropdown-menu
-      - if !@record.reviewed? && can?(:review, @record)
-        = link_to 'Mark as Reviewed', reviewed_resource_path(@record), method: :put, class: 'dropdown-item'
-      - if can?(:update, @record)
-        = link_to 'Edit', edit_resource_path(@record), class: 'dropdown-item'
-      - if can?(:destroy, @record)
-        = link_to 'Delete', resource_path(@record), data: { method: :delete, confirm: 'Are you sure? There is no return.' }, class: 'dropdown-item'
+      - if !@model.reviewed? && can?(:review, @model)
+        = link_to 'Mark as Reviewed', reviewed_resource_path(@model), method: :put, class: 'dropdown-item'
+      - if can?(:update, @model)
+        = link_to 'Edit', edit_resource_path(@model), class: 'dropdown-item'
+      - if can?(:destroy, @model)
+        = link_to 'Delete', resource_path(@model), data: { method: :delete, confirm: 'Are you sure? There is no return.' }, class: 'dropdown-item'
       = link_to 'View All', collection_path, class: 'dropdown-item'
-      - if @record.building_id?
-        = link_to 'View Building', building_path(@record.building_id), class: 'dropdown-item'
+      - if @model.building_id?
+        = link_to 'View Building', building_path(@model.building_id), class: 'dropdown-item'
 
   - if can?(:create, CensusRecord)
     | &nbsp;
     div style="display:inline-block"
-      = form_tag(save_as_resource_path(@record), method: :put, class: 'form-inline') do
+      = form_tag(save_as_resource_path(@model), method: :put, class: 'form-inline') do
         = select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On this page', 'page'], ['In this enumeration district', 'enumeration']], params[:then]), prompt: 'Select', class: 'form-control'
         = submit_tag 'Add Record', class: 'btn btn-primary'
 
-  - if !@record.reviewed? && can?(:review, @record)
+  - if !@model.reviewed? && can?(:review, @model)
     | &nbsp;
-    => link_to 'Good to go!', reviewed_resource_path(@record), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
+    => link_to 'Good to go!', reviewed_resource_path(@model), class: 'btn btn-danger', data: { method: :put, confirm: 'You are about to make this census record public.' }
 
-= render 'shared/flag_resolution', item: @record
+= render 'shared/flag_resolution', item: @model
 
 .card.mb-1
   .card-header
@@ -138,7 +138,7 @@
   - matches = Person.likely_matches_for(@record)
   .card.mb-2
     .card-header
-      = link_to 'Create New Person Record', [:make_person, @record], class: 'float-right', data: { method: :put, confirm: 'This will generate a new person record out of this census record.' }
+      = link_to 'Create New Person Record', [:make_person, @model], class: 'float-right', data: { method: :put, confirm: 'This will generate a new person record out of this census record.' }
       | Match Person Record
     - if matches.blank?
       .card-body
@@ -148,7 +148,7 @@
         thead
           tr
             th Name
-            th Age in #{@record.year}
+            th Age in #{@model.year}
             th Relation
             th Profession
             th Address
@@ -159,11 +159,11 @@
               td= link_to match, target: :_blank do
                 => match.name
                 i.fa.fa-external-link
-              td= match.age_in_year(@record.year)
+              td= match.age_in_year(@model.year)
               td= match.relation_to_head
               td= match.profession
               td= match.address
               td
-                = form_for @record do |form|
+                = form_for @model do |form|
                   = hidden_field_tag 'census_record[person_id]', match.id
                   = form.submit 'Match!', class: 'btn btn-sm btn-secondary'
