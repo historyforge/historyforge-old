@@ -35,7 +35,7 @@ setHints = () ->
 
 setSupplementalRecord = () ->
   line = parseInt $('#census_record_line_number').val()
-  if line is 15 or line is 29 or line is 55 or line is 68
+  if line is 14 or line is 29 or line is 55 or line is 68
     $('.supplemental').show().find('input').removeAttr('disabled')
   else
     $('.supplemental').hide().find('input').attr('disabled', yes)
