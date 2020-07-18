@@ -153,7 +153,7 @@ class People::CensusRecordsController < ApplicationController
                 when 'dwelling'
                   %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name building_id}
                 when 'family'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id}
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id last_name}
                 end
       attributes = attrs.inject({}) {|hash, item|
         hash[item] = @record.public_send(item)
