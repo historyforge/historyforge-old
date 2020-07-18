@@ -29,10 +29,10 @@
       dd= @record.mother_tongue || 'blank'
     dl
       dt Father's POB
-      dd= "#{@record.pob_father} (#{@record.pob_father_code})" || 'blank'
+      dd= @record.pob_father || 'blank'
     dl
       dt Mother's POB
-      dd= "#{@record.pob_mother} (#{@record.pob_mother_code})" || 'blank'
+      dd= @record.pob_mother || 'blank'
     - if @record.year_immigrated?
       dl
         dt Year Immigrated

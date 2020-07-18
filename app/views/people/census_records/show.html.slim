@@ -3,7 +3,7 @@
 - content_for :pills do
   .dropdown style="display:inline-block"
     - if can?(:create, Flag)
-      = render 'shared/flag_it', item: @record, item_class: 'btn btn-secondary'
+      = render 'shared/flag_it', item: @record.model, item_class: 'btn btn-secondary'
     - if can?(:update, @record)
       = link_to edit_resource_path(@record), class: 'btn btn-secondary' do
         i.fa.fa-pencil

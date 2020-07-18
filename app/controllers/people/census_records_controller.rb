@@ -63,8 +63,9 @@ class People::CensusRecordsController < ApplicationController
   end
 
   def show
-    @record = resource_class.find params[:id]
-    authorize! :read, @record
+    @model = resource_class.find params[:id]
+    authorize! :read, @model
+    @record = CensusRecordPresenter.new @model, current_user
   end
 
   def edit
