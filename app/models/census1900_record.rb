@@ -18,4 +18,14 @@ class Census1900Record < CensusRecord
   def self.folder_name
     'census_records_nineteen_aught'
   end
+
+  def birth_month=(value)
+    value = 999 if value == 'unknown'
+    write_attribute(:birth_month, value)
+  end
+
+  def birth_month
+    value = read_attribute(:birth_month)
+    value == 999 ? 'unknown' : value
+  end
 end
