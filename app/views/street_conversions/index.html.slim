@@ -1,6 +1,6 @@
 - content_for :pills do
   = link_to 'Add New', { action: :new }, class: 'btn btn-light btn-xs'
-- set_ppage_title 'Street Name Conversions'
+- set_page_title 'Street Name Conversions'
 
 - if @street_conversions.blank?
   p.alert.alert-info No records found.
