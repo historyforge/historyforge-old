@@ -11,6 +11,7 @@ class Person < ApplicationRecord
   has_one :census_1910_record, dependent: :nullify
   has_one :census_1920_record, dependent: :nullify
   has_one :census_1930_record, dependent: :nullify
+  has_one :census_1940_record, dependent: :nullify
   has_and_belongs_to_many :photographs
   validates :last_name, :sex, :race, presence: true
 
@@ -60,20 +61,20 @@ class Person < ApplicationRecord
   end
 
   def similar_in_age?(target)
-    return false if age.blank? || target.age.blank?
+    return false if target.age.blank?
 
     (age_in_year(target.year) - target.age).abs <= 2
   end
 
   def age_in_year(year)
-    match = [census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact.first
+    match = [census_1940_record, census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact.first
     return -1 if match.blank?
     diff = match.year - year
     match.age - diff
   end
 
   def census_records
-    @census_records ||= [census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact
+    @census_records ||= [census_1940_record, census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact
   end
 
   def relation_to_head

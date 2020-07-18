@@ -202,7 +202,7 @@ class CensusRecord < ApplicationRecord
     if match
       self.person = match
     else
-      generate_person_record! unless unmarried_female?
+      generate_person_record! #unless unmarried_female?
     end
   end
 
