@@ -439,3 +439,42 @@ SimpleForm.setup do |config|
   #   time:          :custom_multi_select
   # }
 end
+
+SimpleForm::FormBuilder.class_eval do
+  def lookup_model_names #:nodoc:
+    @lookup_model_names ||= begin
+                              child_index = options[:child_index]
+                              names = object_name.to_s.scan(/(?!\d)\w+/).flatten
+                              names.delete(child_index) if child_index
+                              names.each { |name| name.gsub!('_attributes', '') }
+                              if @object.respond_to?(:model_name)
+                                names.unshift @object.model_name.param_key
+                              end
+                              names.freeze
+                            end
+  end
+end
+
+SimpleForm::Inputs::Base.class_eval do
+  def translate_from_namespace(namespace, default = '')
+    model_names = lookup_model_names.dup
+    lookups     = []
+
+    model_names.each do |name|
+      lookups << :"#{name}.#{lookup_action}.#{reflection_or_attribute_name}"
+      lookups << :"#{name}.#{reflection_or_attribute_name}"
+    end
+
+    while !model_names.empty?
+      joined_model_names = model_names.join(".")
+      model_names.shift
+
+      lookups << :"#{joined_model_names}.#{lookup_action}.#{reflection_or_attribute_name}"
+      lookups << :"#{joined_model_names}.#{reflection_or_attribute_name}"
+    end
+    lookups << :"defaults.#{lookup_action}.#{reflection_or_attribute_name}"
+    lookups << :"defaults.#{reflection_or_attribute_name}"
+    lookups << default
+    I18n.t(lookups.shift, scope: :"#{i18n_scope}.#{namespace}", default: lookups).presence
+  end
+end
