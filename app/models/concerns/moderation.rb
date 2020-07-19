@@ -3,7 +3,7 @@ module Moderation
   included do
 
     belongs_to :created_by, class_name: 'User'
-    belongs_to :reviewed_by, class_name: 'User'
+    belongs_to :reviewed_by, class_name: 'User', optional: true
 
     def reviewed?
       reviewed_at.present?

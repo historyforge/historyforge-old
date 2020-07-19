@@ -10,14 +10,15 @@ class Building < ApplicationRecord
   has_and_belongs_to_many :architects
   # belongs_to :building_type
   has_and_belongs_to_many :building_types, join_table: :buildings_building_types
-  belongs_to :frame_type, class_name: 'ConstructionMaterial'
-  belongs_to :lining_type, class_name: 'ConstructionMaterial'
+  belongs_to :frame_type, class_name: 'ConstructionMaterial', optional: true
+  belongs_to :lining_type, class_name: 'ConstructionMaterial', optional: true
   has_many :census_records, dependent: :nullify, class_name: 'Census1910Record'
 
   has_many :census_1900_records, dependent: :nullify, class_name: 'Census1900Record'
   has_many :census_1910_records, dependent: :nullify, class_name: 'Census1910Record'
   has_many :census_1920_records, dependent: :nullify, class_name: 'Census1920Record'
   has_many :census_1930_records, dependent: :nullify, class_name: 'Census1930Record'
+  has_many :census_1940_records, dependent: :nullify, class_name: 'Census1930Record'
 
   has_and_belongs_to_many :photos, class_name: 'Photograph', dependent: :nullify
 
