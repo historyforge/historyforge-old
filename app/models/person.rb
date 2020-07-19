@@ -63,7 +63,7 @@ class Person < ApplicationRecord
   def similar_in_age?(target)
     return false if target.age.blank?
 
-    (age_in_year(target.year) - target.age).abs <= 2
+    (age_in_year(target.year) - target.age.to_i).abs <= 2
   end
 
   def age_in_year(year)
