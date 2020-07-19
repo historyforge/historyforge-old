@@ -25,7 +25,7 @@
 
   - if can?(:create, CensusRecord)
     | &nbsp;
-    div style="display:inline-block"
+    div style="display:inline-block;vertical-align:middle"
       = form_tag(save_as_resource_path(@model), method: :put, class: 'form-inline') do
         = select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On this page', 'page'], ['In this enumeration district', 'enumeration']], params[:then]), prompt: 'Select', class: 'form-control'
         = submit_tag 'Add Record', class: 'btn btn-primary'
