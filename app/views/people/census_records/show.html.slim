@@ -134,8 +134,8 @@
                     .col-4= changes[1] || 'blank'
 
 
-- if @record.person_id.blank? && can?(:review, @record)
-  - matches = Person.likely_matches_for(@record)
+- if @model.person_id.blank? && can?(:review, @model)
+  - matches = Person.likely_matches_for(@model)
   .card.mb-2
     .card-header
       = link_to 'Create New Person Record', [:make_person, @model], class: 'float-right', data: { method: :put, confirm: 'This will generate a new person record out of this census record.' }
