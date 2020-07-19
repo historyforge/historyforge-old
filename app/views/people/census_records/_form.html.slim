@@ -1,5 +1,5 @@
 = simple_form_for @record, as: :census_record, html: { autocomplete: 'off' } do |form|
-
+  = error_messages_for @record
   .card.mb-1
     .card-header
       | Census Scope
