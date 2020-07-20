@@ -2,8 +2,8 @@ class Flag < ApplicationRecord
   attr_reader :mark_resolved
   attr_accessor :editing_user
   belongs_to :flaggable, polymorphic: true
-  belongs_to :flagged_by, class_name: 'User', foreign_key: :user_id
-  belongs_to :resolved_by, class_name: 'User'
+  belongs_to :flagged_by, class_name: 'User', foreign_key: :user_id, optional: true
+  belongs_to :resolved_by, class_name: 'User', optional: true
 
   validates :reason, :message, presence: true
 

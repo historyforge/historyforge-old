@@ -160,7 +160,7 @@ class People::CensusRecordsController < ApplicationController
         hash[item] = @record.public_send(item)
         hash
       }
-      hash[:line_number] = @record.next_line_number
+      attributes[:line_number] = @record.next_line_number
       redirect_to action: :new, attributes: attributes
     else
       redirect_to @record

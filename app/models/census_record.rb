@@ -9,8 +9,8 @@ class CensusRecord < ApplicationRecord
   include PgSearch::Model
   include Flaggable
 
-  belongs_to :building
-  belongs_to :person
+  belongs_to :building, optional: true
+  belongs_to :person, optional: true
 
   attr_accessor :ensure_building
   before_save :ensure_housing

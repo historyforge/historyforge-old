@@ -1,5 +1,5 @@
 = simple_form_for @record, as: :census_record, html: { autocomplete: 'off' } do |form|
-
+  = error_messages_for @record
   .card.mb-1
     .card-header
       | Census Scope
@@ -88,5 +88,5 @@
         => form.submit 'Save', class: 'btn btn-primary btn-lg'
         span<
           | After saving, add another person:
-        =< select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On this page', 'page'], ['In this enumeration district', 'enumeration'], ['On the same street', 'street']], params[:then]), prompt: 'Select'
+        =< select_tag 'then', options_for_select([['In this family', 'family'], ['In this dwelling', 'dwelling'], ['On the same street', 'street'], ['On this page', 'page'], ['In this enumeration district', 'enumeration']], params[:then]), prompt: 'Select'
         = yield :extra_buttons

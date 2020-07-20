@@ -3,7 +3,7 @@ class Photograph < ApplicationRecord
   include Flaggable
 
   belongs_to :created_by, class_name: 'User'
-  belongs_to :reviewed_by, class_name: 'User'
+  belongs_to :reviewed_by, class_name: 'User', optional: true
   has_and_belongs_to_many :buildings
   has_and_belongs_to_many :people
   belongs_to :physical_type, optional: true
