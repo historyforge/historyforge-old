@@ -107,7 +107,7 @@ class CensusRecord < ApplicationRecord
   end
 
   def street_address
-    [street_house_number, street_prefix, street_name, street_suffix].join(' ')
+    [street_house_number, street_prefix, street_name, street_suffix, apartment_number ? "Apt. #{apartment_number}" : nil].compact.join(' ')
   end
 
   def latitude

@@ -8,9 +8,9 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     "#{last_name}, #{first_name} #{middle_name}".strip
   end
 
-  def street_address
-    [street_house_number, street_prefix, street_name, street_suffix].join(' ')
-  end
+  # def street_address
+  #   [street_house_number, street_prefix, street_name, street_suffix].join(' ')
+  # end
 
   def foreign_born
     model.foreign_born? ? 'Yes' : 'No'
