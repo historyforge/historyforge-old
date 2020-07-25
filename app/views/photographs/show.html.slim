@@ -8,7 +8,7 @@
         = link_to 'View All', photographs_path, class: 'btn btn-light'
         - if can? :update, @photograph
           = link_to 'Edit', [:edit, @photograph], class: 'btn btn-light'
-        = render 'shared/flag_it', item: @photograph
+        = render 'shared/flag_it', item: @photograph.model
       h1.page-title Photograph ##{@photograph.id}
       h2= @photograph.title
       h3 #{@photograph.creator}

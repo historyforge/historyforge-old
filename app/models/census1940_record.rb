@@ -1,6 +1,8 @@
 class Census1940Record < CensusRecord
   self.table_name = 'census_1940_records'
 
+  validate :validate_occupation_codes
+
   define_enumeration :worker_class, %w{PW GW E OA NP}
   define_enumeration :marital_status, %w{S W D M}
   define_enumeration :race, %w{W Neg In Ch Jp Fil Hin Kor}
@@ -23,5 +25,32 @@ class Census1940Record < CensusRecord
 
   def supplemental?
     [15, 49].include?(line_number)
+  end
+
+  def validate_code(field)
+    value = public_send(field)
+    return unless value
+
+    if value =~ /[a-zA-UWYZ]/
+      errors.add field, 'can only have letters V or X'
+    end
+    if value =~ /\W/
+      errors.add field, 'can only have digits and V or X'
+    end
+  end
+
+  def validate_worker_class_code(field)
+    value = public_send(field)
+    return unless value
+
+    errors.add(field, 'can only be 1 through 6') if value !~ /[1-6]/
+  end
+  def validate_occupation_codes
+    validate_code(:occupation_code)
+    validate_code(:industry_code)
+    validate_worker_class_code(:worker_class_code)
+    validate_code(:usual_occupation_code)
+    validate_code(:usual_industry_code)
+    validate_worker_class_code(:usual_worker_class_code)
   end
 end

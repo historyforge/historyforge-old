@@ -73,7 +73,8 @@
                     label: 'Add building with address',
                     inline_label: 'Yes'
 
-          = form.input :dwelling_number, hint: dwelling_number_hint
+          - unless form.object.year == 1940
+            = form.input :dwelling_number, hint: dwelling_number_hint
 
           = form.input :family_id, hint: family_id_hint
 
