@@ -18,7 +18,7 @@ class Building < ApplicationRecord
   has_many :census_1910_records, dependent: :nullify, class_name: 'Census1910Record'
   has_many :census_1920_records, dependent: :nullify, class_name: 'Census1920Record'
   has_many :census_1930_records, dependent: :nullify, class_name: 'Census1930Record'
-  has_many :census_1940_records, dependent: :nullify, class_name: 'Census1930Record'
+  has_many :census_1940_records, dependent: :nullify, class_name: 'Census1940Record'
 
   has_and_belongs_to_many :photos, class_name: 'Photograph', dependent: :nullify
 
