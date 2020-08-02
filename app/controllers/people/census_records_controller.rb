@@ -42,7 +42,7 @@ class People::CensusRecordsController < ApplicationController
                            elsif attribute == 'street_house_number'
                              'address_house_number'
                            end
-      results = Building.ransack(:"#{building_attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
+      results = Building.ransack(:"#{building_attribute}_start" => term).result.distinct.limit(15).pluck(building_attribute)
     else
       vocab = Vocabulary.controlled_attribute_for year, attribute
       results = if vocab
