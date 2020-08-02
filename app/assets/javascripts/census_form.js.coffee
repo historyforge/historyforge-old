@@ -81,14 +81,14 @@ $(document).ready ->
 
   $('[data-dependents]').find('input[type=radio]:checked, input[type=checkbox], input[type=text]').toggleDependents()
 
-  $('#census_record_age').on 'keyup', ->
-    value = this.value
-    if value? and parseInt(value) < 5
-      $('.census_record_age_months').enableWrapper()
-    else
-      $('.census_record_age_months').disableWrapper()
-
-  $('#census_record_age').trigger('keyup')
+#  $('#census_record_age').on 'keyup', ->
+#    value = this.value
+#    if value? and parseInt(value) < 5
+#      $('.census_record_age_months').enableWrapper()
+#    else
+#      $('.census_record_age_months').disableWrapper()
+#
+#  $('#census_record_age').trigger('keyup')
 
   $('#toggle-census-slider button').on 'click', ->
     orientation = $(this).data('orientation')
