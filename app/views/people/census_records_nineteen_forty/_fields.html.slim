@@ -86,18 +86,18 @@
                 input_html: { autocomplete: 'new-password' },
                 hint: pob_1940_hint(15)
 
+        = form.input :foreign_born,
+                as: :boolean,
+                label: 'This person is foreign born',
+                inline_label: 'Yes',
+                wrapper_html: { data: { dependents: 'true' } }
+
         = form.input :naturalized_alien,
                 as: :radio_buttons,
                 collection: Census1940Record.naturalized_alien_choices,
                 coded: true,
                 wrapper_html: { data: { depends_on: :foreign_born } },
                 hint: citizenship_hint
-
-        = form.input :foreign_born,
-                as: :boolean,
-                label: 'This person is foreign born',
-                inline_label: 'Yes',
-                wrapper_html: { data: { dependents: 'true' } }
 
         = form.input :residence_1935_town,
                 input_html: { autocomplete: 'new-password' },
