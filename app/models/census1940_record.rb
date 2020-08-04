@@ -1,6 +1,9 @@
 class Census1940Record < CensusRecord
   self.table_name = 'census_1940_records'
 
+  alias_attribute :profession, :occupation
+  alias_attribute :profession_code, :occupation_code
+
   validate :validate_occupation_codes
 
   define_enumeration :worker_class, %w{PW GW E OA NP}
@@ -13,7 +16,7 @@ class Census1940Record < CensusRecord
   define_enumeration :war_fought, %w{W S SW R Ot}
   define_enumeration :no_work_reason, %w{H S U O}
   define_enumeration :deduction_rate, %w{1 2 3}
-  auto_strip_attributes :industry, :profession_code, :pob_code, :worker_class
+  auto_strip_attributes :industry, :occupation_code, :pob_code, :worker_class
 
   def year
     1940
@@ -21,6 +24,10 @@ class Census1940Record < CensusRecord
 
   def self.folder_name
     'census_records_nineteen_forty'
+  end
+
+  def can_add_buildings?
+    false
   end
 
   def supplemental?
@@ -45,6 +52,7 @@ class Census1940Record < CensusRecord
 
     errors.add(field, 'can only be 1 through 6') if value !~ /[1-6]/
   end
+
   def validate_occupation_codes
     validate_code(:occupation_code)
     validate_code(:industry_code)
