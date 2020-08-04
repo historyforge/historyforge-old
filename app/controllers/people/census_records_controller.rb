@@ -36,12 +36,21 @@ class People::CensusRecordsController < ApplicationController
   def autocomplete
     attribute = params[:attribute]
     term = params[:term]
-    vocab = Vocabulary.controlled_attribute_for year, attribute
-    results = if vocab
-                vocab.terms.ransack(name_start: term).result.distinct.limit(15).pluck('name')
-              else
-                resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
-              end
+    if %w{street_name street_house_number}.include?(attribute)
+      building_attribute = if attribute == 'street_name'
+                             'address_street_name'
+                           elsif attribute == 'street_house_number'
+                             'address_house_number'
+                           end
+      results = Building.ransack(:"#{building_attribute}_start" => term).result.distinct.limit(15).pluck(building_attribute)
+    else
+      vocab = Vocabulary.controlled_attribute_for year, attribute
+      results = if vocab
+                  vocab.terms.ransack(name_start: term).result.distinct.limit(15).pluck('name')
+                else
+                  resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
+                end
+    end
     render json: results.map(&:strip).uniq
   end
 

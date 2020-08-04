@@ -2,7 +2,7 @@ module Moderation
   extend ActiveSupport::Concern
   included do
 
-    belongs_to :created_by, class_name: 'User'
+    belongs_to :created_by, class_name: 'User', optional: true
     belongs_to :reviewed_by, class_name: 'User', optional: true
 
     def reviewed?
