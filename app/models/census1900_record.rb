@@ -8,6 +8,7 @@ class Census1900Record < CensusRecord
             numericality: { greater_than_or_equal_to: -1, allow_blank: true }
 
   validates :language_spoken, vocabulary: { name: :language, allow_blank: true }
+  validates :dwelling_number, presence: true
 
   auto_strip_attributes :industry
 

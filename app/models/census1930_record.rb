@@ -6,6 +6,7 @@ class Census1930Record < CensusRecord
 
   before_validation :handle_profession_code, if: :profession_code_changed?
   validates :mother_tongue, vocabulary: { name: :language, allow_blank: true }
+  validates :dwelling_number, presence: true
 
   define_enumeration :worker_class, %w{E W OA NP}
   define_enumeration :war_fought, %w{WW Sp Civ Phil Box Mex}

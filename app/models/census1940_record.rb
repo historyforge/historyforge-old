@@ -48,6 +48,7 @@ class Census1940Record < CensusRecord
 
   def validate_worker_class_code(field)
     value = public_send(field)
+    value = nil if value.blank?
     return unless value
 
     errors.add(field, 'can only be 1 through 6') if value !~ /[1-6]/

@@ -16,11 +16,10 @@ class CensusRecord < ApplicationRecord
   before_save :ensure_housing
   before_save :match_to_person
 
-  validates :first_name, :last_name, :family_id, :dwelling_number, :relation_to_head, :profession,
+  validates :first_name, :last_name, :family_id, :relation_to_head, :profession,
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
 
-  # validates :race, :marital_status, :sex, presence: true
   validates :age, numericality: {greater_than_or_equal_to: -1, allow_nil: true}
   validate :dont_add_same_person, on: :create
   validates :relation_to_head, vocabulary: { allow_blank: true }
