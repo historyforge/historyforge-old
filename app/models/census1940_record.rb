@@ -16,7 +16,7 @@ class Census1940Record < CensusRecord
   define_enumeration :war_fought, %w{W S SW R Ot}
   define_enumeration :no_work_reason, %w{H S U O}
   define_enumeration :deduction_rate, %w{1 2 3}
-  auto_strip_attributes :industry, :occupation_code, :pob_code, :worker_class
+  auto_strip_attributes :industry, :occupation_code, :worker_class
 
   def year
     1940
