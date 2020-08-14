@@ -51,7 +51,7 @@
             <th>Sex</th>
           </tr>
           </thead>
-          <tbody ng-repeat="year in [1900, 1910, 1920, 1930]">
+          <tbody ng-repeat="year in [1900, 1910, 1920, 1930, 1940]">
           <tr ng-repeat="person in currentBuilding.census_records[year]">
             <td>{{ year }}</td>
             <td><a href="/census/{{year}}/{{person.id}}" target="_blank">{{ person.name }}</a></td>

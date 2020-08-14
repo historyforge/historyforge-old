@@ -10,7 +10,7 @@ forgeApp.LayersController = ($rootScope, $scope, BuildingService, LayerService) 
   $scope.form.buildingYear = null
   $scope.selectedLayers = {}
   $scope.buildingTypes = window.buildingTypes
-  $scope.buildingYears = [null, 1900, 1910, 1920, 1930]
+  $scope.buildingYears = [null, 1900, 1910, 1920, 1930, 1940]
   $scope.buildingTypes.unshift name: 'all buildings'
 
   $scope.applyFilters = -> BuildingService.load $scope.form

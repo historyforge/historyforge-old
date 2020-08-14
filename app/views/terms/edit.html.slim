@@ -4,5 +4,5 @@
 h1.page-title #{@term.name}
 = render 'form'
 
-- [1900, 1910, 1920, 1930].each do |year|
+- [1900, 1910, 1920, 1930, 1940].each do |year|
   div.term-peeps id="peeps_#{year}" data-year=year data-base-url=url_for([@vocabulary, @term])

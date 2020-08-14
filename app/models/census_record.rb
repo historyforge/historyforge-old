@@ -16,6 +16,7 @@ class CensusRecord < ApplicationRecord
   before_save :ensure_housing
   before_save :match_to_person
 
+  before_validation :clean_enum_dist
   validates :first_name, :last_name, :family_id, :relation_to_head, :profession,
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
@@ -87,6 +88,10 @@ class CensusRecord < ApplicationRecord
 
   def can_add_buildings?
     true
+  end
+
+  def clean_enum_dist
+    write_attribute(:enum_dist, enum_dist.sub(/\A\d+?\W/, '')) if enum_dist.present?
   end
 
   def dont_add_same_person
