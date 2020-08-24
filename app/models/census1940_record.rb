@@ -31,7 +31,7 @@ class Census1940Record < CensusRecord
   end
 
   def supplemental?
-    [15, 49].include?(line_number)
+    mother_tongue.present?
   end
 
   def validate_code(field)

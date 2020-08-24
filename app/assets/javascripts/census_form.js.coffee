@@ -33,12 +33,12 @@ setHints = () ->
   $('.hint-toggle-btn').text if showHints then 'Showing hints' else 'Hiding hints'
   $('.census-hint-wrapper').hide() unless showHints
 
-setSupplementalRecord = () ->
-  line = parseInt $('#census_record_line_number').val()
-  if line is 14 or line is 29 or line is 55 or line is 68
-    $('.supplemental').show().find('input').removeAttr('disabled')
-  else
-    $('.supplemental').hide().find('input').attr('disabled', yes)
+#setSupplementalRecord = () ->
+#  line = parseInt $('#census_record_line_number').val()
+#  if line is 14 or line is 29 or line is 55 or line is 68
+#    $('.supplemental').show().find('input').removeAttr('disabled')
+#  else
+#    $('.supplemental').hide().find('input').attr('disabled', yes)
 
 $(document).ready ->
   setHints()
@@ -49,8 +49,8 @@ $(document).ready ->
       e.preventDefault()
       return false
 
-  $('#census_record_line_number').on 'change', setSupplementalRecord
-  setSupplementalRecord()
+#  $('#census_record_line_number').on 'change', setSupplementalRecord
+#  setSupplementalRecord()
 
   $('#new_census_record, #edit_census_record').find('input[data-type=other-radio-button]').each ->
     unless $(this).val().length
