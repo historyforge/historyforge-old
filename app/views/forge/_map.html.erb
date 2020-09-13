@@ -21,11 +21,11 @@
 
     <div ng-if="!currentBuilding">Click on a dot to see who lived there.</div>
     <div id="building-details" ng-if="currentBuilding">
-      <a href="/buildings/{{ currentBuilding.id }}" target="_blank" class="float-right">
-        <i class="fa fa-external-link"></i>
-      </a>
       <h5>
-        {{ currentBuilding.name }}
+        <a href="/buildings/{{ currentBuilding.id }}" target="_blank" title="Open building record in new tab">
+          <u>{{ currentBuilding.name }}</u>
+          <i class="fa fa-external-link"></i>
+        </a>
       </h5>
       <div ng-if="currentBuilding.photo">
         <picture>
