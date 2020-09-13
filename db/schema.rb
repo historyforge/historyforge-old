@@ -570,15 +570,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
     t.index ["url_path"], name: "index_cms_pages_on_url_path"
   end
 
-  create_table "cms_url_aliases", force: :cascade do |t|
-    t.string "url_path", null: false
-    t.string "target_url_path"
-    t.bigint "page_id"
-    t.index ["page_id"], name: "index_cms_url_aliases_on_page_id"
-    t.index ["url_path", "page_id"], name: "index_url_aliases_on_path_and_page"
-    t.index ["url_path"], name: "index_cms_url_aliases_on_url_path", unique: true
-  end
-
   create_table "construction_materials", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "color"
@@ -586,7 +577,7 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "contacts", id: :bigint, default: -> { "nextval('web_forms_id_seq'::regclass)" }, force: :cascade do |t|
+  create_table "contacts", force: :cascade do |t|
     t.jsonb "data"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -928,7 +919,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
   add_foreign_key "census_1940_records", "users", column: "created_by_id"
   add_foreign_key "census_1940_records", "users", column: "reviewed_by_id"
   add_foreign_key "cms_page_widgets", "cms_pages"
-  add_foreign_key "cms_url_aliases", "cms_pages", column: "page_id"
   add_foreign_key "flags", "users"
   add_foreign_key "flags", "users", column: "resolved_by_id"
   add_foreign_key "people_photos", "people"

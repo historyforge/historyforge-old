@@ -175,16 +175,15 @@ class BuildingSearch
   end
 
   def default_fields
-    %w{name street_address city state building_type year_earliest}
+    %w{street_address city state building_type year_earliest}
   end
 
   def all_fields
-    %w{name
-       street_address city state postal_code
+    %w{street_address city state postal_code
        year_earliest year_latest
        description annotations stories block_number
        building_type lining_type frame_type
-       architects notes latitude longitude
+       architects notes latitude longitude name
     }
   end
 
@@ -246,7 +245,7 @@ class BuildingSearch
         resizable: true
     }
     options[:headerName] = 'Actions' if column == 'id'
-    options[:pinned] = 'left' if %w{id name}.include?(column)
+    options[:pinned] = 'left' if %w{id street_address}.include?(column)
     options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
     options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
     options[:width] = 200 if %w{name street_address description annotations}.include?(column)
