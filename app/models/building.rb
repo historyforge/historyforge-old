@@ -120,7 +120,7 @@ class Building < ApplicationRecord
   end
 
   def with_residents
-    @residents = [1900, 1910, 1920, 1930].map { |year| send("census_#{year}_records").to_a }.flatten
+    @residents = [1900, 1910, 1920, 1930, 1940].map { |year| send("census_#{year}_records").to_a }.flatten
     self
   end
 
