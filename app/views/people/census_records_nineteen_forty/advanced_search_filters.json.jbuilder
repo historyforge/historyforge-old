@@ -29,7 +29,7 @@ json.filters do
     json.sortable 'pob'
   end
 
-  json.profession do
+  json.occupation do
     json.type 'text'
     json.label 'Occupation'
     json.scopes do
