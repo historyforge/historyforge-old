@@ -53,7 +53,7 @@ class People::CensusRecordsController < ApplicationController
                   resource_class.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
                 end
               end
-    render json: results.map(&:strip).uniq
+    render json: results.compact.map(&:strip).uniq
   end
 
   def create
