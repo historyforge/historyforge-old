@@ -646,6 +646,8 @@ ActiveRecord::Schema.define(version: 2020_09_14_132614) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "locality_id"
+    t.index ["locality_id"], name: "index_map_overlays_on_locality_id"
   end
 
   create_table "oauth_nonces", id: :serial, force: :cascade do |t|
@@ -918,6 +920,7 @@ ActiveRecord::Schema.define(version: 2020_09_14_132614) do
   add_foreign_key "cms_page_widgets", "cms_pages"
   add_foreign_key "flags", "users"
   add_foreign_key "flags", "users", column: "resolved_by_id"
+  add_foreign_key "map_overlays", "localities"
   add_foreign_key "photographs", "buildings"
   add_foreign_key "photographs", "physical_formats"
   add_foreign_key "photographs", "physical_types"

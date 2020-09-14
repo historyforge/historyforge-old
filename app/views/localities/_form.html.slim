@@ -1,6 +1,7 @@
 = simple_form_for @map_overlay do |form|
 
   = form.input :name
+  = form.input :locality_id, collection: Locality.order(:position)
   = form.input :latitude
   = form.input :longitude
 

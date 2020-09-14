@@ -54,6 +54,6 @@ class LocalitiesController < ApplicationController
   private
 
   def resource_params
-    params.require(:street_conversion).permit!
+    params.require(:locality).permit!
   end
 end
