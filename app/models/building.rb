@@ -66,7 +66,7 @@ class Building < ApplicationRecord
   alias_attribute :longitude, :lon
 
   def has_proper_name?
-    !name.include?(address_house_number)
+    name && (address_house_number.blank? || !name.include?(address_house_number))
   end
 
   def full_street_address
