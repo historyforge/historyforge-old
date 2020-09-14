@@ -53,8 +53,9 @@ class AttributeBuilder::BaseAttribute
   end
 
   def label
-    I18n.t("simple_form.labels.census_record.#{key}", default:
-      I18n.t("simple_form.labels.defaults.#{key}", default: (@klass ? @klass : CensusRecord).human_attribute_name(key)))
+    I18n.t("simple_form.labels.#{@klass ? @klass.name.underscore : nil}.#{key}", default:
+      I18n.t("simple_form.labels.census_record.#{key}", default:
+        I18n.t("simple_form.labels.defaults.#{key}", default: (@klass ? @klass : CensusRecord).human_attribute_name(key))))
   end
 
   def extras
@@ -97,7 +98,9 @@ class AttributeBuilder::Enumeration < AttributeBuilder::BaseAttribute
   end
 
   def choices
-    klass.send("#{key}_choices")
+    klass.send("#{key}_choices").map do |item|
+      [I18n.t("census_codes.#{key}.#{item.downcase}", default: item), item]
+    end
   end
 end
 

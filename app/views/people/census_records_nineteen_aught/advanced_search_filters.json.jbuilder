@@ -19,7 +19,7 @@ json.filters do
 
   json.pob do
     json.type 'text'
-    json.label 'POB'
+    json.label 'Place of Birth'
     json.scopes do
       json.pob_cont 'contains'
       json.pob_not_cont 'does not contain'
