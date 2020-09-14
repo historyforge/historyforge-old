@@ -82,6 +82,8 @@ Rails.application.routes.draw do
 
   resources :flags
 
+  resources :localities
+
   resources :map_overlays
 
   resources :people, controller: 'people/main' do

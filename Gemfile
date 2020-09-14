@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.5.1'
 
 # gem 'activerecord-postgis-adapter'
+gem 'activerecord-precounter'
 gem 'active_storage_validations'
 gem 'acts_as_list'
 gem 'airbrake'

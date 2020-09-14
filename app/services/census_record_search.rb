@@ -31,6 +31,7 @@ class CensusRecordSearch
       elsif paged?
         @scoped = @scoped.page(page).per(per)
       end
+      @scoped = @scoped.includes(:locality)
       @scoped = @scoped.includes(:building) if f.include?('latitude') || f.include?('longitude')
       @scoped = @scoped.unhoused if unhoused?
       @scoped = @scoped.unreviewed if unreviewed?

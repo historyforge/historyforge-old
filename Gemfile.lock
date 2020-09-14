@@ -47,6 +47,8 @@ GEM
     activerecord (6.0.3.3)
       activemodel (= 6.0.3.3)
       activesupport (= 6.0.3.3)
+    activerecord-precounter (0.4.0)
+      activerecord (>= 5)
     activestorage (6.0.3.3)
       actionpack (= 6.0.3.3)
       activejob (= 6.0.3.3)
@@ -297,6 +299,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_storage_validations
+  activerecord-precounter
   acts_as_list
   airbrake
   ancestry

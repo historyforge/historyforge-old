@@ -3,6 +3,7 @@ class Census1930Record < CensusRecord
 
   belongs_to :coded_industry, class_name: 'Industry1930Code', optional: true, foreign_key: :industry1930_code_id
   belongs_to :coded_occupation, class_name: 'Occupation1930Code', optional: true, foreign_key: :occupation1930_code_id
+  belongs_to :locality, inverse_of: :census1930_records
 
   before_validation :handle_profession_code, if: :profession_code_changed?
   validates :mother_tongue, vocabulary: { name: :language, allow_blank: true }

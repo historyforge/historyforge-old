@@ -12,6 +12,7 @@ class Photograph < ApplicationRecord
   has_one_attached :file
 
   alias_attribute :caption, :description
+  alias_attribute :name, :title
 
   attr_writer :date_year, :date_month, :date_day
   attr_writer :date_year_end, :date_month_end, :date_day_end

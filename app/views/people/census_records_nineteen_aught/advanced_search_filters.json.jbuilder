@@ -1,4 +1,5 @@
 json.filters do
+  AttributeBuilder.collection json, Census1900Record,:locality_id, Locality.select_options
 
   json.census_scope do
     json.label 'Census Schedule'
@@ -52,6 +53,7 @@ json.filters do
   AttributeBuilder.number json, :line_number, sortable: false
   AttributeBuilder.text   json, :county
   AttributeBuilder.text   json, :city
+
   AttributeBuilder.number json, :ward
   AttributeBuilder.number json, :enum_dist
   AttributeBuilder.text   json, :street_address

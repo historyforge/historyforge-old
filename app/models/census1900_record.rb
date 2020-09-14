@@ -2,6 +2,8 @@ class Census1900Record < CensusRecord
 
   self.table_name = 'census_1900_records'
 
+  belongs_to :locality, inverse_of: :census1900_records
+
   validates :attended_school, :years_in_us, :years_married,
             :num_children_born, :num_children_alive, :unemployed_months,
             :birth_month, :birth_year, :age, :age_months,

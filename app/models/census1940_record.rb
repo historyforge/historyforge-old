@@ -1,6 +1,8 @@
 class Census1940Record < CensusRecord
   self.table_name = 'census_1940_records'
 
+  belongs_to :locality, inverse_of: :census1940_records
+
   alias_attribute :profession, :occupation
   alias_attribute :profession_code, :occupation_code
 

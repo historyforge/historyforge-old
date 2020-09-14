@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_14_004852) do
+ActiveRecord::Schema.define(version: 2020_09_14_132614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -181,8 +181,10 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
     t.text "searchable_name"
     t.string "apartment_number"
     t.integer "age_months"
+    t.bigint "locality_id"
     t.index ["building_id"], name: "index_census_1900_records_on_building_id"
     t.index ["data"], name: "index_census_1900_records_on_data", using: :gin
+    t.index ["locality_id"], name: "index_census_1900_records_on_locality_id"
     t.index ["person_id"], name: "index_census_1900_records_on_person_id"
     t.index ["searchable_name"], name: "census_1900_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
@@ -256,9 +258,11 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
     t.string "mother_tongue"
     t.string "mother_tongue_father"
     t.string "mother_tongue_mother"
+    t.bigint "locality_id"
     t.index ["building_id"], name: "index_census_1910_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1910_records_on_created_by_id"
     t.index ["data"], name: "index_census_1910_records_on_data", using: :gin
+    t.index ["locality_id"], name: "index_census_1910_records_on_locality_id"
     t.index ["person_id"], name: "index_census_1910_records_on_person_id", unique: true
     t.index ["reviewed_by_id"], name: "index_census_1910_records_on_reviewed_by_id"
     t.index ["searchable_name"], name: "census_1910_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
@@ -324,7 +328,9 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
     t.string "apartment_number"
     t.integer "age_months"
     t.string "employment_code"
+    t.bigint "locality_id"
     t.index ["building_id"], name: "index_census_1920_records_on_building_id"
+    t.index ["locality_id"], name: "index_census_1920_records_on_locality_id"
     t.index ["person_id"], name: "index_census_1920_records_on_person_id"
     t.index ["searchable_name"], name: "census_1920_records_name_trgm", opclass: :gist_trgm_ops, using: :gist
   end
@@ -406,9 +412,11 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
     t.boolean "homemaker"
     t.bigint "industry1930_code_id"
     t.bigint "occupation1930_code_id"
+    t.bigint "locality_id"
     t.index ["building_id"], name: "index_census_1930_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1930_records_on_created_by_id"
     t.index ["industry1930_code_id"], name: "index_census_1930_records_on_industry1930_code_id"
+    t.index ["locality_id"], name: "index_census_1930_records_on_locality_id"
     t.index ["occupation1930_code_id"], name: "index_census_1930_records_on_occupation1930_code_id"
     t.index ["person_id"], name: "index_census_1930_records_on_person_id"
     t.index ["reviewed_by_id"], name: "index_census_1930_records_on_reviewed_by_id"
@@ -500,8 +508,10 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "worker_class_code"
     t.string "industry_code"
+    t.bigint "locality_id"
     t.index ["building_id"], name: "index_census_1940_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1940_records_on_created_by_id"
+    t.index ["locality_id"], name: "index_census_1940_records_on_locality_id"
     t.index ["person_id"], name: "index_census_1940_records_on_person_id"
     t.index ["reviewed_by_id"], name: "index_census_1940_records_on_reviewed_by_id"
   end
@@ -615,6 +625,15 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
   create_table "industry1930_codes", force: :cascade do |t|
     t.string "code"
     t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "localities", force: :cascade do |t|
+    t.string "name"
+    t.decimal "latitude"
+    t.decimal "longitude"
+    t.integer "position"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -870,24 +889,29 @@ ActiveRecord::Schema.define(version: 2020_09_14_004852) do
   add_foreign_key "buildings_building_types", "building_types"
   add_foreign_key "buildings_building_types", "buildings"
   add_foreign_key "census_1900_records", "buildings"
+  add_foreign_key "census_1900_records", "localities"
   add_foreign_key "census_1900_records", "people"
   add_foreign_key "census_1900_records", "users", column: "created_by_id"
   add_foreign_key "census_1900_records", "users", column: "reviewed_by_id"
   add_foreign_key "census_1910_records", "buildings"
+  add_foreign_key "census_1910_records", "localities"
   add_foreign_key "census_1910_records", "people"
   add_foreign_key "census_1910_records", "users", column: "created_by_id"
   add_foreign_key "census_1910_records", "users", column: "reviewed_by_id"
   add_foreign_key "census_1920_records", "buildings"
+  add_foreign_key "census_1920_records", "localities"
   add_foreign_key "census_1920_records", "people"
   add_foreign_key "census_1920_records", "users", column: "created_by_id"
   add_foreign_key "census_1920_records", "users", column: "reviewed_by_id"
   add_foreign_key "census_1930_records", "buildings"
   add_foreign_key "census_1930_records", "industry1930_codes"
+  add_foreign_key "census_1930_records", "localities"
   add_foreign_key "census_1930_records", "occupation1930_codes"
   add_foreign_key "census_1930_records", "people"
   add_foreign_key "census_1930_records", "users", column: "created_by_id"
   add_foreign_key "census_1930_records", "users", column: "reviewed_by_id"
   add_foreign_key "census_1940_records", "buildings"
+  add_foreign_key "census_1940_records", "localities"
   add_foreign_key "census_1940_records", "people"
   add_foreign_key "census_1940_records", "users", column: "created_by_id"
   add_foreign_key "census_1940_records", "users", column: "reviewed_by_id"

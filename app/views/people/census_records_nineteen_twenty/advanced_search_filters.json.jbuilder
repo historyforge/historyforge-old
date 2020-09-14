@@ -1,4 +1,6 @@
 json.filters do
+  AttributeBuilder.collection json, Census1900Record,:locality_id, Locality.select_options
+
   json.census_scope do
     json.label 'Census Schedule'
     json.sortable 'census_scope'
