@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_18_201759) do
+ActiveRecord::Schema.define(version: 2020_09_14_004852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -115,11 +115,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
   create_table "buildings_photographs", id: false, force: :cascade do |t|
     t.bigint "photograph_id", null: false
     t.bigint "building_id", null: false
-  end
-
-  create_table "buildings_photos", id: false, force: :cascade do |t|
-    t.integer "building_id"
-    t.integer "photo_id"
   end
 
   create_table "census_1900_records", id: :serial, force: :cascade do |t|
@@ -687,11 +682,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
     t.bigint "person_id", null: false
   end
 
-  create_table "people_photos", id: false, force: :cascade do |t|
-    t.integer "person_id"
-    t.integer "photo_id"
-  end
-
   create_table "permissions", id: :serial, force: :cascade do |t|
     t.integer "role_id", null: false
     t.integer "user_id", null: false
@@ -738,21 +728,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
     t.index ["physical_type_id"], name: "index_photographs_on_physical_type_id"
     t.index ["reviewed_by_id"], name: "index_photographs_on_reviewed_by_id"
     t.index ["rights_statement_id"], name: "index_photographs_on_rights_statement_id"
-  end
-
-  create_table "photos", id: :serial, force: :cascade do |t|
-    t.integer "building_id"
-    t.integer "position"
-    t.string "photo_file_name"
-    t.string "photo_content_type"
-    t.integer "photo_size"
-    t.integer "width"
-    t.integer "height"
-    t.text "caption"
-    t.integer "year_taken"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["building_id"], name: "index_photos_on_building_id"
   end
 
   create_table "physical_formats", force: :cascade do |t|
@@ -894,8 +869,6 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
   add_foreign_key "buildings_building_types", "building_types"
   add_foreign_key "buildings_building_types", "buildings"
-  add_foreign_key "buildings_photos", "buildings"
-  add_foreign_key "buildings_photos", "photos"
   add_foreign_key "census_1900_records", "buildings"
   add_foreign_key "census_1900_records", "people"
   add_foreign_key "census_1900_records", "users", column: "created_by_id"
@@ -921,15 +894,12 @@ ActiveRecord::Schema.define(version: 2020_07_18_201759) do
   add_foreign_key "cms_page_widgets", "cms_pages"
   add_foreign_key "flags", "users"
   add_foreign_key "flags", "users", column: "resolved_by_id"
-  add_foreign_key "people_photos", "people"
-  add_foreign_key "people_photos", "photos"
   add_foreign_key "photographs", "buildings"
   add_foreign_key "photographs", "physical_formats"
   add_foreign_key "photographs", "physical_types"
   add_foreign_key "photographs", "rights_statements"
   add_foreign_key "photographs", "users", column: "created_by_id"
   add_foreign_key "photographs", "users", column: "reviewed_by_id"
-  add_foreign_key "photos", "buildings"
   add_foreign_key "profession_subgroups", "profession_groups"
   add_foreign_key "professions", "profession_groups"
   add_foreign_key "professions", "profession_subgroups"
