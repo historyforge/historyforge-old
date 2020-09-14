@@ -28,6 +28,10 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     end
   end
 
+  def race
+    I18n.t("census_codes.race.#{model.race.downcase}", default: model.race)
+  end
+
   %w{can_read can_write can_speak_english foreign_born unemployed attended_school
      blind deaf_dumb has_radio lives_on_farm can_read_write
      worked_yesterday veteran}.each do |method|
