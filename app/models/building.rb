@@ -65,6 +65,10 @@ class Building < ApplicationRecord
   alias_attribute :latitude, :lat
   alias_attribute :longitude, :lon
 
+  def has_proper_name?
+    !name.include?(address_house_number)
+  end
+
   def full_street_address
     "#{[street_address, city, state].join(' ')} #{postal_code}"
   end

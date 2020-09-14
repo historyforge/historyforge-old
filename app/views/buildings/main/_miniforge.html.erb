@@ -39,7 +39,10 @@
     <div class="pull-left">
       <p>
         <a href="/buildings/{{ building.data.id }}" target="_blank">{{ building.data.attributes.name }}</a><br>
-        {{ building.data.attributes.street_address }}<br>{{ building.data.attributes.city }}, {{ building.data.attributes.state }}
+        <span ng-if="building.data.attributes.name !== building.data.attributes.street_address">
+          {{ building.data.attributes.street_address }}<br>
+        </span>
+        {{ building.data.attributes.city }}, {{ building.data.attributes.state }}
       </p>
       <p ng-if="hasYears || hasArchitects">
         <span ng-if="hasYears">{{ yearBuilt }} {{ yearDemolished }}</span>

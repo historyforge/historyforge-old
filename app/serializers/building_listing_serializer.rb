@@ -3,9 +3,13 @@ class BuildingListingSerializer
 
   cache_options enabled: true
 
-  attributes :id, :name, :year_earliest, :year_latest,
+  attributes :id, :year_earliest, :year_latest,
              :street_address, :city, :state, :postal_code,  :building_type_ids,
              :latitude, :longitude
+
+  attribute :name do |object|
+    object.has_proper_name? ? object.name : object.street_address
+  end
 
   # has_many :architects, serializer: ArchitectSerializer
 

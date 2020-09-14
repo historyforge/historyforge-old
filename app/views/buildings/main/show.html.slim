@@ -1,4 +1,4 @@
-- set_page_title @building.name
+- set_page_title @building.has_proper_name? ? @building.name : @building.street_address
 
 = render 'shared/flag_resolution', item: @building
 = render 'merge_modal'
@@ -24,6 +24,11 @@
       .card-header Details
       .card-body
         dl
+          - if @building.has_proper_name?
+            dt Name
+            dd= @building.name
+          dt Address
+          dd= @building.full_street_address
           dt Years
           - if @building.year_earliest? || @building.year_latest?
             dd
@@ -79,7 +84,7 @@
                 = picture_tag photo: photo, style: 'quarter', img_class: 'img-thumbnail'
                 = simple_format photo.full_caption
 
-    - %w[1900 1910 1920 1930].each do |year|
+    - %w[1900 1910 1920 1930 1940].each do |year|
       - if @building.public_send("census_#{year}_records").present?
         .card.mb-1
           .card-header
