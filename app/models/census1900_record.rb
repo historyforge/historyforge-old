@@ -14,6 +14,8 @@ class Census1900Record < CensusRecord
 
   auto_strip_attributes :industry
 
+  define_enumeration :race, %w{W B Ch Jp In}
+
   def year
     1900
   end
