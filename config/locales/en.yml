@@ -178,6 +178,7 @@ en:
         deducation_rate: 'Other Deductions'
         usual_profession: 'Usual Occupation'
         naturalization: 'Citizenship'
+        worker_class: 'Worker Class'
     hints:
       building:
         address: 'TBD - address when built. Ability to add multiple addresses?'

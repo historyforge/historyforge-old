@@ -16,11 +16,12 @@
         - @search.all_fieldsets.each do |field|
           label.dropdown-item.checkbox for="fs_#{field}"
             = check_box_tag 'fs[]', field, @search.fieldsets.include?(field), id: "fs_#{field}", data: { default: @search.is_default_field?(field) }
+            = translated_label resource_class, field
             = t("simple_form.labels.census_record.#{field}", default: field.humanize)
         - @search.all_fields.each do |field|
           label.dropdown-item.checkbox for="f_#{field}"
             = check_box_tag 'f[]', field, @search.f.include?(field), id: "f_#{field}", data: { default: @search.is_default_field?(field) }
-            = t("simple_form.labels.census_record.#{field}", default: field.humanize)
+            = translated_label resource_class, field
       .form-actions
         = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary mr-auto'
         button.btn.btn-light.ml-auto.checkall data-scope="#fields" type="button" Check all

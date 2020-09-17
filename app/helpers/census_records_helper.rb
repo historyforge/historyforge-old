@@ -1,5 +1,11 @@
 module CensusRecordsHelper
 
+  def translated_label(klass, key)
+    I18n.t("simple_form.labels.#{klass ? klass.name.underscore : nil}.#{key}", default:
+      I18n.t("simple_form.labels.census_record.#{key}", default:
+        I18n.t("simple_form.labels.defaults.#{key}", default: (klass ? klass : CensusRecord).human_attribute_name(key))))
+  end
+
   def select_options_for(collection)
     [["blank", 'nil']] + collection.zip(collection)
   end
