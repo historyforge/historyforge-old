@@ -157,15 +157,15 @@ class People::CensusRecordsController < ApplicationController
       attrs = []
       attrs +=  case params[:then]
                 when 'street'
-                  %w{page_number page_side county city ward enum_dist street_prefix street_suffix street_name}
+                  %w{page_number page_side county city ward enum_dist street_prefix street_suffix street_name locality_id}
                 when 'enumeration'
-                  %w{page_number page_side county city ward enum_dist}
+                  %w{page_number page_side county city ward enum_dist locality_id}
                 when 'page'
-                  %w{page_number page_side county city ward enum_dist}
+                  %w{page_number page_side county city ward enum_dist locality_id}
                 when 'dwelling'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name building_id}
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name building_id locality_id}
                 when 'family'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id last_name}
+                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id last_name locality_id}
                 end
       attributes = attrs.inject({}) {|hash, item|
         hash[item] = @record.public_send(item)

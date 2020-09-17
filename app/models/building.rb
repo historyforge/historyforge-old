@@ -148,4 +148,7 @@ class Building < ApplicationRecord
   def families_in_1930
     census_1930_records.group_by(&:dwelling_number)
   end
+  def families_in_1940
+    census_1940_records.group_by(&:family_id)
+  end
 end
