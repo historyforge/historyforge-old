@@ -38,7 +38,9 @@ class CensusRecordPresenter < Struct.new(:model, :user)
 
   %w{can_read can_write can_speak_english foreign_born unemployed attended_school
      blind deaf_dumb has_radio lives_on_farm can_read_write
-     worked_yesterday veteran}.each do |method|
+     worked_yesterday veteran residence_1935_farm private_work public_work
+     seeking_work had_job had_unearned_income veteran_dead soc_sec deductions multi_marriage
+  }.each do |method|
     define_method method do
       yes_or_blank model.send(method)
     end
