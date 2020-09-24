@@ -1,5 +1,5 @@
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bootsnap-1.4.8/ext/bootsnap
-/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-10ctcw9.rb extconf.rb
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-143150-bnp6e3.rb extconf.rb
 creating Makefile
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bootsnap-1.4.8/ext/bootsnap
@@ -23,4 +23,4 @@ linking shared-object bootsnap/bootsnap.so
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bootsnap-1.4.8/ext/bootsnap
 make "DESTDIR=" install
-/usr/bin/install -m 0755 bootsnap.so ./.gem.20200924-114676-1vgz9xg/bootsnap
+/usr/bin/install -m 0755 bootsnap.so ./.gem.20200924-143150-qxsei8/bootsnap

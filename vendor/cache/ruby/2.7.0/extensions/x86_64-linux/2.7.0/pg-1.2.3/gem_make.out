@@ -1,5 +1,5 @@
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/pg-1.2.3/ext
-/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-p5whrj.rb extconf.rb
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-143150-zkfju4.rb extconf.rb
 checking for pg_config... yes
 Using config values from /usr/bin/pg_config
 checking for libpq-fe.h... yes
@@ -50,4 +50,4 @@ linking shared-object pg_ext.so
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/pg-1.2.3/ext
 make "DESTDIR=" install
-/usr/bin/install -m 0755 pg_ext.so ./.gem.20200924-114676-sjg5l0
+/usr/bin/install -m 0755 pg_ext.so ./.gem.20200924-143150-zwftqh

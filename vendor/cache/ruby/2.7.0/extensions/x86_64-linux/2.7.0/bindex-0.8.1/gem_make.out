@@ -1,5 +1,5 @@
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bindex-0.8.1/ext/skiptrace
-/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-a6aw7i.rb extconf.rb
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-143150-13hp9sh.rb extconf.rb
 creating Makefile
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bindex-0.8.1/ext/skiptrace
@@ -12,4 +12,4 @@ linking shared-object skiptrace/internal/cruby.so
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bindex-0.8.1/ext/skiptrace
 make "DESTDIR=" install
-/usr/bin/install -m 0755 cruby.so ./.gem.20200924-114676-16s6644/skiptrace/internal
+/usr/bin/install -m 0755 cruby.so ./.gem.20200924-143150-17uju8y/skiptrace/internal

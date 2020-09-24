@@ -1,5 +1,5 @@
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/msgpack-1.3.3/ext/msgpack
-/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-101osmz.rb extconf.rb
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-143150-18wouro.rb extconf.rb
 checking for ruby/st.h... yes
 checking for st.h... yes
 checking for rb_str_replace() in ruby.h... yes
@@ -82,4 +82,4 @@ linking shared-object msgpack/msgpack.so
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/msgpack-1.3.3/ext/msgpack
 make "DESTDIR=" install
-/usr/bin/install -m 0755 msgpack.so ./.gem.20200924-114676-au4tlt/msgpack
+/usr/bin/install -m 0755 msgpack.so ./.gem.20200924-143150-1opgdac/msgpack

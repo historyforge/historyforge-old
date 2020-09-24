@@ -1,5 +1,5 @@
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/puma-5.0.0/ext/puma_http11
-/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-ko66dp.rb extconf.rb
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-143150-p65i8z.rb extconf.rb
 checking for BIO_read() in -lcrypto... yes
 checking for SSL_CTX_new() in -lssl... yes
 checking for openssl/bio.h... yes
@@ -32,4 +32,4 @@ linking shared-object puma/puma_http11.so
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/puma-5.0.0/ext/puma_http11
 make "DESTDIR=" install
-/usr/bin/install -m 0755 puma_http11.so ./.gem.20200924-114676-1p16773/puma
+/usr/bin/install -m 0755 puma_http11.so ./.gem.20200924-143150-1sfjs1i/puma

@@ -1,5 +1,5 @@
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bcrypt-3.1.16/ext/mri
-/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-rs720d.rb extconf.rb
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-143150-12ik3n5.rb extconf.rb
 creating Makefile
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bcrypt-3.1.16/ext/mri
@@ -22,4 +22,4 @@ linking shared-object bcrypt_ext.so
 
 current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/bcrypt-3.1.16/ext/mri
 make "DESTDIR=" install
-/usr/bin/install -m 0755 bcrypt_ext.so ./.gem.20200924-114676-l3hr1v
+/usr/bin/install -m 0755 bcrypt_ext.so ./.gem.20200924-143150-rkxvck
