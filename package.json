@@ -1,12 +1,12 @@
 {
   "dependencies": {
     "@rails/actiontext": "^6.0.2-2",
-    "@rails/webpacker": "5.0.1",
+    "@rails/webpacker": "5.2.1",
     "activestorage": "^5.2.4-2",
     "codemirror": "^5.52.2",
     "trix": "^1.0.0"
   },
   "devDependencies": {
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   }
 }
