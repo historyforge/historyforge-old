@@ -1,12 +1,15 @@
 module Cms
   module MenuHelper
 
-    def menu(name, *args)
+    def menu(name, *args, &block)
       options = args.extract_options!
       menu = Cms::Menu.where(name: name).first
-      return unless menu
-      presenter = options[:presenter] || Cms::MenuPresenter
-      presenter.new(menu, current_user, self).to_html
+      if menu
+        presenter = options[:presenter] || Cms::MenuPresenter
+        presenter.new(menu, current_user, self).to_html
+      else
+        capture(&block) if block_given?
+      end
     end
 
     def menu_list(menu, items)

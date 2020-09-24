@@ -29,9 +29,9 @@
     <% if @onload -%>
       <%= javascript_tag "document.body.onload=\"#{@onload}\"" %>
     <%end%>
-  <%= render 'shared/header' %>
+    <%= render 'shared/header' %>
     <% if @full_layout %>
-    <%== yield %>
+      <%== yield %>
     <% else %>
       <div class="container<%= @full_layout ? '-fluid' : '' %>">
 
