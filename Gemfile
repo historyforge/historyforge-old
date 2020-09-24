@@ -1,8 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '2.5.1'
-
-# gem 'activerecord-postgis-adapter'
 gem 'activerecord-precounter'
 gem 'active_storage_validations'
 gem 'acts_as_list'
@@ -21,6 +18,7 @@ gem 'dotenv-rails'
 gem 'fast_jsonapi'
 gem 'font-awesome-rails'
 gem 'geocoder'
+gem 'image_processing'
 gem 'jbuilder', '~> 2.0'
 gem 'jquery-rails'
 gem "jquery-ui-rails"
@@ -37,6 +35,7 @@ gem 'puma'
 gem 'rails', '~>6'
 gem 'ransack'
 gem 'recaptcha'
+gem 'ruby-vips'
 gem 'rubyXL', require: false
 gem 'sass-rails', '~>5'
 gem 'simple_form'

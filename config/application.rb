@@ -44,6 +44,7 @@ module HistoryForge
     config.assets.precompile += %w{forge.js miniforge.js}
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
+    config.active_storage.variant_processor = :vips
     config.active_storage.service = :local
   end
 end
