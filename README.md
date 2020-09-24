@@ -85,4 +85,9 @@ Once you've filled in all the blanks, copy the whole file and paste it into your
 ```
 git push dokku master
 ```
-It should churn and gurgle for a long time with messages about fetching buildpacks, installing, detecting, writing, etc.
+It should churn and gurgle for a long time with messages about fetching buildpacks, installing, detecting, writing, etc. Once it's done, you should be able to open it in a web browser.
+
+10. Secure it with SSL. SSH back into the droplet and type:
+```
+dokku letsencrypt hf
+```

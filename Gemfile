@@ -41,6 +41,7 @@ gem 'sass-rails', '~>5'
 gem 'simple_form'
 gem 'slim'
 gem 'spawnling' #, '~>2.1'
+# gem 'strong_password'
 gem 'uglifier'
 gem 'webpacker'
 
