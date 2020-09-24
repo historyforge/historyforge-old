@@ -91,3 +91,9 @@ It should churn and gurgle for a long time with messages about fetching buildpac
 ```
 dokku letsencrypt hf
 ```
+
+11. Initialize the application. In the same place as you just did the letsencrypt thing, now type:
+```
+dokku run hf init
+```
+It should churn and gurgle for a bit as it loads data. Then it will ask you for a user name and email to generate a super user account. Its final act will be to give you the password.
