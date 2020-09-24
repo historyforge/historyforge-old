@@ -94,6 +94,11 @@ dokku letsencrypt hf
 
 11. Initialize the application. In the same place as you just did the letsencrypt thing, now type:
 ```
-dokku run hf init
+dokku enter hf web
 ```
-It should churn and gurgle for a bit as it loads data. Then it will ask you for a user name and email to generate a super user account. Its final act will be to give you the password.
+You should soon see a prompt that starts with `herokuishuser`. Then type:
+```
+bundle exec rails init
+```
+
+It should churn and gurgle for a bit as it loads data. Then it will ask you for a user name and email to generate a super user account. Its final act will be to give you the password. Finally, `exit` to get out of the dokku shell.
