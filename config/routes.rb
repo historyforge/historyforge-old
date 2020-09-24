@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get '/check.txt', to: proc {[200, {}, ['simple_check']]}
+
   root 'home#index'
   get 'stats' => 'home#stats'
   get 'search/people' => 'home#search_people', as: 'search_people'
