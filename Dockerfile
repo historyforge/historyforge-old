@@ -51,4 +51,4 @@ RUN bash default_user.bash && rm -f default_user.bash
 RUN chown -R herokuishuser /app
 USER herokuishuser
 
-EXPOSE 5000
+#EXPOSE 5000
