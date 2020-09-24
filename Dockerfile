@@ -39,6 +39,10 @@ ADD Gemfile.lock ./Gemfile.lock
 RUN bundle config set without 'development:test' \
     && bundle install --jobs 20 --retry 5
 
+# Install yarn packages
+COPY package.json yarn.lock .yarnclean /app/
+RUN yarn install
+
 # Copy the main application.
 COPY . .
 

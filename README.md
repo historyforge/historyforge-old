@@ -57,10 +57,16 @@ dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
 
 dokku apps:create hf
 cd /var/lib/dokku/data/storage
-mkdir hf
-chown -R 32767:32767 hf
+mkdir storage
+mkdir packs
+mkdir assets
+chown -R 32767:32767 storage
+chown -R 32767:32767 packs
+chown -R 32767:32767 assets
 cd
-dokku storage:mount hf /var/lib/dokku/data/storage/hf:/app/storage
+dokku storage:mount hf /var/lib/dokku/data/storage/storage:/app/storage
+dokku storage:mount hf /var/lib/dokku/data/storage/packs:/app/packs
+dokku storage:mount hf /var/lib/dokku/data/storage/assets:/app/assets
 dokku postgres:create hf
 dokku postgres:link hf hf
 dokku domains:add yourdomain.com www.yourdomain.com

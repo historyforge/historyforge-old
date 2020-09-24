@@ -1,0 +1,19 @@
+current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/byebug-11.1.3/ext/byebug
+/usr/share/rvm/rubies/ruby-2.7.0/bin/ruby -I /usr/share/rvm/rubies/ruby-2.7.0/lib/ruby/2.7.0 -r ./siteconf20200924-114676-z4i180.rb extconf.rb
+creating Makefile
+
+current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/byebug-11.1.3/ext/byebug
+make "DESTDIR=" clean
+
+current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/byebug-11.1.3/ext/byebug
+make "DESTDIR="
+compiling breakpoint.c
+compiling byebug.c
+compiling context.c
+compiling locker.c
+compiling threads.c
+linking shared-object byebug/byebug.so
+
+current directory: /home/david/Documents/historyforge/vendor/cache/ruby/2.7.0/gems/byebug-11.1.3/ext/byebug
+make "DESTDIR=" install
+/usr/bin/install -m 0755 byebug.so ./.gem.20200924-114676-1ak3qn3/byebug
