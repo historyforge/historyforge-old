@@ -33,13 +33,18 @@ RUN gem install bundler
 RUN mkdir /app
 WORKDIR /app
 
-# Copy the main application.
-COPY . .
+ADD Gemfile ./Gemfile
+ADD Gemfile.lock ./Gemfile.lock
 
 RUN bundle config set without 'development:test' \
-    && bundle install --jobs 20 --retry 5 --path=vendor/cache
+    && bundle install --jobs 20 --retry 5
 
+# Install yarn packages
+COPY package.json yarn.lock .yarnclean /app/
 RUN yarn install
+
+# Copy the main application.
+COPY . .
 
 COPY lib/docker/default_user.bash ./default_user.bash
 RUN bash default_user.bash && rm -f default_user.bash
