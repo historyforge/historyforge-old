@@ -65,8 +65,8 @@ chown -R 32767:32767 packs
 chown -R 32767:32767 assets
 cd
 dokku storage:mount hf /var/lib/dokku/data/storage/storage:/app/storage
-dokku storage:mount hf /var/lib/dokku/data/storage/packs:/app/packs
-dokku storage:mount hf /var/lib/dokku/data/storage/assets:/app/assets
+dokku storage:mount hf /var/lib/dokku/data/storage/packs:/app/public/packs
+dokku storage:mount hf /var/lib/dokku/data/storage/assets:/app/public/assets
 dokku postgres:create hf
 dokku postgres:link hf hf
 dokku domains:add yourdomain.com www.yourdomain.com
