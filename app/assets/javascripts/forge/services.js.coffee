@@ -55,9 +55,7 @@ forgeApp.BuildingService = ($http, $rootScope) ->
         params.people = window.forgeSearchParams.people
         params.peopleParams = window.forgeSearchParams.s
       $http.get(url, params: params).then (response) =>
-        base = response.data.data.attributes
-#        base.census_records = building.residents if condensed
-        $rootScope.$broadcast 'building:infoWindow', base
+        $rootScope.$broadcast 'building:infoWindow', response.data.data.attributes
   }
 
 forgeApp.BuildingService.$inject = ['$http', '$rootScope']

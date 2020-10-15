@@ -38,7 +38,8 @@ class BuildingSerializer
         1900 => object.census_1900_records.andand.map { |item| CensusRecordSerializer.new(item).as_json['data']['attributes'] },
         1910 => object.census_1910_records.andand.map { |item| CensusRecordSerializer.new(item).as_json['data']['attributes'] },
         1920 => object.census_1920_records.andand.map { |item| CensusRecordSerializer.new(item).as_json['data']['attributes'] },
-        1930 => object.census_1930_records.andand.map { |item| CensusRecordSerializer.new(item).as_json['data']['attributes'] }
+        1930 => object.census_1930_records.andand.map { |item| CensusRecordSerializer.new(item).as_json['data']['attributes'] },
+        1940 => object.census_1940_records.andand.map { |item| CensusRecordSerializer.new(item).as_json['data']['attributes'] }
       }
     end
   end
