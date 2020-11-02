@@ -23,7 +23,7 @@ class Cms::PicturesController < ActionController::Base
       end
     end
 
-    redirect_to @picture.file.variant(resize: width)
+    redirect_to @picture.file.variant(resize_to_fit: [width, width * 3])
   end
 
 end

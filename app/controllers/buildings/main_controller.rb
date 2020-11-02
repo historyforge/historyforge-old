@@ -131,7 +131,7 @@ class Buildings::MainController < ApplicationController
       end
     end
 
-    redirect_to @photo.file.variant(resize: width)
+    redirect_to @photo.file.variant(resize_to_fit: [width, width * 3])
   end
 
 
