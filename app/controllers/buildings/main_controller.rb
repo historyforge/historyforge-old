@@ -18,7 +18,9 @@ class Buildings::MainController < ApplicationController
     render json: @buildings.map { |building| {
         id: building.id,
         name: building.name,
-        address: building.full_street_address
+        address: building.full_street_address,
+        lat: building.lat,
+        lon: building.lon
     }}
   end
 

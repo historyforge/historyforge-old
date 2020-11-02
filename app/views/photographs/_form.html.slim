@@ -62,7 +62,7 @@
     .card-body
       .row
         .col-8
-          input.form-control.mb-3#pac-input type="text" placeholder="Enter a location"
+          input.form-control.mb-3#pac-input type="text" placeholder="Enter a location to find on map"
           #map.mb-3 data-center="[#{form.object.latitude || AppConfig.latitude},#{form.object.longitude || AppConfig.longitude}]"
           .row
             .col-6= form.input :latitude
