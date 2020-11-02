@@ -76,7 +76,7 @@ class PhotoWizard {
           json.forEach((building) => {
             buildings.push(`<div class="list-group-item list-group-item-action" data-building=${building.id}>${building.address}</div>`)
           })
-          $('#building-results').append(buildings).show()
+          $('#building-results').html(buildings).show()
           $('#building-results .list-group-item').on('click', (e) => {
             const id = e.target.dataset.building
             const address = e.target.innerHTML
@@ -92,7 +92,7 @@ class PhotoWizard {
     const formId = `photograph_building_ids_${id}`
     $(`#${formId}`).closest('.form-check').remove()
     const html = `<div class="form-check"><input type="checkbox" class="form-check-input" name="photograph[building_ids][]" id="${formId}" value="${id}" checked /><label class="form-check-label" for="${formId}">${address}</label></div>`
-    $('.photograph_building_ids').append(html)
+    $('.photograph_photograph_building_ids').append(html)
   }
 
   addStepNumbers() {

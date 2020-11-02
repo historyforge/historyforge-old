@@ -32,6 +32,7 @@ class Building < ApplicationRecord
   scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
   scope :as_of_year_eq, -> (year) { where("(year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
   scope :without_residents, -> { joins("LEFT OUTER JOIN census_1910_records ON census_1910_records.building_id=buildings.id").where("census_1910_records.id IS NULL").where(building_type_id: BuildingType::RESIDENCE) }
+  scope :by_street_address, -> { order("address_street_name asc, address_street_prefix asc, address_house_number asc") }
 
   def self.ransackable_scopes(auth_object=nil)
     %i{as_of_year without_residents as_of_year_eq}
