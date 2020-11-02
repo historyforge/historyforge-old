@@ -4,6 +4,7 @@
     "@rails/webpacker": "5.2.1",
     "activestorage": "^5.2.4-2",
     "codemirror": "^5.52.2",
+    "stimulus": "^1.1.1",
     "trix": "^1.0.0"
   },
   "devDependencies": {

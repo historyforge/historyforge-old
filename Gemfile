@@ -37,6 +37,7 @@ gem 'ransack'
 gem 'recaptcha'
 gem 'ruby-vips'
 gem 'rubyXL', require: false
+gem 'rubyzip', require: false
 gem 'sass-rails', '~>5'
 gem 'simple_form'
 gem 'slim'

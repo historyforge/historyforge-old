@@ -343,6 +343,7 @@ DEPENDENCIES
   recaptcha
   ruby-vips
   rubyXL
+  rubyzip
   sass-rails (~> 5)
   simple_form
   slim

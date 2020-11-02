@@ -1,10 +1,15 @@
 = render 'shared/flag_resolution', item: @photograph
+- content_for :pills do
+  .dropdown.ml-auto#cart data-controller="cart"
+
 #photograph-page
   .row.mb-3
     .col-6
       = image_tag @photograph.file, class: 'img img-thumbnail', id: 'photograph'
     .col-6
       .float-right
+        button.btn.btn-secondary.btn-sm type="button" title="Add to Cart" data-controller="add-to-cart" data-cart-add=@photograph.id rel="tooltip"
+          | &#128722;
         = link_to 'View All', photographs_path, class: 'btn btn-light'
         - if can? :update, @photograph
           = link_to 'Edit', [:edit, @photograph], class: 'btn btn-light'

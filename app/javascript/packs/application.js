@@ -18,3 +18,8 @@
 window.showSubmitButton = function() {
   document.getElementById('contact-submit-btn').style.display = 'block'
 }
+
+import Cart from './../js/cart'
+import "controllers"
+
+window.cart = new Cart()

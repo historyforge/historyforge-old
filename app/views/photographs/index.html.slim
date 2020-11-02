@@ -2,6 +2,9 @@
   - content_for :pills do
     = link_to 'Add Photo', { action: :new }, class: 'btn btn-light'
 
+- content_for :pills do
+  span.dropdown.btn.btn-light.btn-xs#cart data-controller="cart"
+
 - set_page_title 'Photographs'
 
 .row
@@ -18,13 +21,15 @@
                 = thumb_for photo
               - else
                 .alert.alert-danger No Photo!
-            .col-xl-8.col-lg-7.col-sm-7.col-md-7.widest
+            .col-xl-7.col-lg-6.col-sm-6.col-md-6.widest
               - unless record.reviewed?
                 span.badge.badge-danger UNREVIEWED
                 br
               = [photo.title, truncate(photo.description, length: 100), photo.date].select(&:present?).join('<br />').html_safe
               = photo.buildings.map { |building| link_to(building.street_address, building) }.join('<br />').html_safe
-            .col-2.text-right
+            .col-3.text-right
+              button.btn.btn-light.btn-xs type="button" title="Add to Cart" data-controller="add-to-cart" data-cart-add=photo.id
+                | &#128722;
               = link_to record, class: 'btn btn-xs btn-light' do
                 i.fa.fa-eye
               - if can?(:update, record)
