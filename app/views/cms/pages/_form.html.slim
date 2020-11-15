@@ -35,7 +35,7 @@
         a.nav-link.dropdown-toggle href='#' data-toggle='dropdown' Media
         .dropdown-menu
           - @page.widgets.each do |widget|
-            a.dropdown-item href="##{widget.name.parameterize}" data-toggle="tab" = widget.human_name
+            a.dropdown-item href="#widget#{widget.id}" data-toggle="tab" = widget.human_name
 
   .tab-content
     .tab-pane#metadata class=(@page.new_record? ? 'active' : '')
