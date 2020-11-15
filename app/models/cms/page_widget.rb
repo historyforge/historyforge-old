@@ -6,6 +6,7 @@ class Cms::PageWidget < ActiveRecord::Base
 
   belongs_to :page, class_name: 'Cms::Page', foreign_key: 'cms_page_id'
   validates :name, :human_name, presence: true
+  validates :name, uniqueness: { scope: :cms_page_id }
 
   json_attribute :name, as: :string
   json_attribute :human_name, as: :string

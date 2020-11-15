@@ -3,14 +3,12 @@ class UsersController < ApplicationController
 
   before_action :authenticate_user!, only: [:show, :edit, :update]
 
-  before_action :check_super_user_role, only: [:index, :new, :create, :destroy, :enable, :disable, :stats, :disable_and_reset, :force_confirm]
+  before_action :check_super_user_role, only: [:index, :new, :create, :destroy, :enable, :disable, :disable_and_reset]
 
   rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
   def index
     @html_title = "Users"
-    # sort_init 'email'
-    # sort_update
     @query = params[:query]
     @field = %w(login email provider).detect{|f| f == (params[:field])}
     if @query && @query.strip.length > 0 && @field
