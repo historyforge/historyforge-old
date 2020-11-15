@@ -243,7 +243,7 @@ class BuildingSearch
     options[:headerName] = 'Actions' if column == 'id'
     options[:pinned] = 'left' if %w{id street_address}.include?(column)
     options[:cellRenderer] = 'actionCellRenderer' if column == 'id'
-    options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
+    options[:cellRenderer] = 'nameCellRenderer' if column == 'street_address'
     options[:width] = 200 if %w{name street_address description annotations}.include?(column)
     options[:sortable] = true unless column == 'id'
     options
@@ -254,7 +254,7 @@ class BuildingSearch
       hash = { id: record.id }
       columns.each do |column|
         value = record.field_for(column)
-        if column == 'name'
+        if column == 'street_address'
           value = { name: value, reviewed: record.reviewed? }
         end
         hash[column] = value
