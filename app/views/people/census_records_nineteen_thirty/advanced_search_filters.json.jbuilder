@@ -100,7 +100,7 @@ json.filters do
   AttributeBuilder.text json, :occupation_code
   AttributeBuilder.enumeration json, Census1930Record, :worker_class
   AttributeBuilder.boolean json, :worked_yesterday
-  AttributeBuilder.text json, :unemployment_line
+  # AttributeBuilder.text json, :unemployment_line
   AttributeBuilder.boolean json, :veteran
   AttributeBuilder.enumeration json, Census1930Record, :war_fought
   AttributeBuilder.text json, :farm_schedule

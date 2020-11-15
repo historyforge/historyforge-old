@@ -80,9 +80,9 @@
     dl
       dt Worked Yesterday?
       dd= yes_no_na @record.worked_yesterday
-    dl
-      dt Unemployment Schedule
-      dd= @record.unemployment_line || 'blank'
+    / dl
+    /   dt Unemployment Line
+    /   dd= @record.unemployment_line || 'blank'
     dl
       dt Can speak English?
       dd= yes_no_na @record.can_speak_english
