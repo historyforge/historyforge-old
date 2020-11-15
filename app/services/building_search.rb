@@ -100,7 +100,7 @@ class BuildingSearch
       @d = 'asc' unless %w{asc desc}.include?(@d)
       if @c
         if @c == 'street_address'
-          @scoped = @scoped.order entity_class.send(:sanitize_sql, "address_house_number #{@d}, address_street_prefix #{@d}, address_street_name #{@d}, address_street_suffix #{@d}")
+          @scoped = @scoped.order entity_class.send(:sanitize_sql, street_address_order_clause(@d)) # "address_house_number #{@d}, address_street_prefix #{@d}, address_street_name #{@d}, address_street_suffix #{@d}")
         elsif Building.columns.map(&:name).include?(@c)
           @scoped = @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
         else
