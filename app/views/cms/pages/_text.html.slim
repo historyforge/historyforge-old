@@ -1,14 +1,8 @@
 .tab-pane.page-section id="widget#{form.object.id}"
-  h3= form.object.human_name
+  = render 'cms/pages/cms_widget_name', form: form
   = form.hidden_field :id, class: 'id'
-  = form.hidden_field :type
 
   = form.rich_text_area :html, style: 'min-height:300px'
   br
-
-  = panel 'Field Info' do
-    = form.input :human_name, input_html: {class: 'human_name'}
-    = form.input :name, input_html: {class: 'name'}
-    = form.hidden_field :type
 
   = render 'cms_widget_details', form: form
