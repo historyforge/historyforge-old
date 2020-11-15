@@ -154,6 +154,7 @@ en:
       census1920_record:
         profession: 'Occupation'
         profession_code: 'Occupation Code'
+        employment_code: 'Occupation Code'
       census1930_record:
         profession: 'Occupation'
         profession_code: 'Occupation Code'
