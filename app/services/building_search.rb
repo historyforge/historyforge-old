@@ -87,8 +87,8 @@ class BuildingSearch
   def add_order_clause
     if sort.present?
       order = []
-      sort&.each do |key, sort_unit|
-        Rails.logger.info sort_unit
+      sort&.each do |_key, sort_unit|
+        # Rails.logger.info sort_unit
         col, dir = sort_unit.values
         if Building.columns.map(&:name).include?(col)
           order << "#{col} #{dir}"

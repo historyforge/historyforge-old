@@ -203,7 +203,7 @@ class Buildings::MainController < ApplicationController
       end
     end
     if params[:q][:s].blank?
-      params[:q][:s] = 'name asc'
+      params[:q][:s] = 'street_address asc'
     end
   end
 end
