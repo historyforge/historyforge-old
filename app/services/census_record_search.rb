@@ -196,7 +196,7 @@ class CensusRecordSearch
 
   def row_data(records)
     records.map do |record|
-      columns.inject({id: record.id}) do |hash, column|
+      columns.inject({ id: record.id} ) do |hash, column|
         value = record.field_for(column)
         if column == 'name'
           value = { name: value, reviewed: record.reviewed? }

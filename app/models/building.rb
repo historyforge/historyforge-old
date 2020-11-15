@@ -8,7 +8,6 @@ class Building < ApplicationRecord
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
 
   has_and_belongs_to_many :architects
-  # belongs_to :building_type
   has_and_belongs_to_many :building_types, join_table: :buildings_building_types
   belongs_to :frame_type, class_name: 'ConstructionMaterial', optional: true
   belongs_to :lining_type, class_name: 'ConstructionMaterial', optional: true
@@ -25,7 +24,6 @@ class Building < ApplicationRecord
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
 
-  # delegate :name, to: :building_type, prefix: true, allow_nil: true
   delegate :name, to: :frame_type, prefix: true, allow_nil: true
   delegate :name, to: :lining_type, prefix: true, allow_nil: true
 

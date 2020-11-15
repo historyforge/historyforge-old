@@ -98,7 +98,6 @@ class BuildingSearch
       @scoped = @scoped.order Building.send(:sanitize_sql, order.join(', '))
     else
       @d = 'asc' unless %w{asc desc}.include?(@d)
-
       @scoped = if @c && Building.columns.map(&:name).include?(@c)
         @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
       else
@@ -129,7 +128,7 @@ class BuildingSearch
     @f = fields || default_fields
     @fs = fieldsets || []
     @g = groupings || {}
-    @c = sort_col || 'name'
+    @c = sort_col || 'street_address'
     @d = sort_dir || 'asc'
     @paged = paged
     @per = per
