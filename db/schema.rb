@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_194952) do
+ActiveRecord::Schema.define(version: 2020_11_15_220300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -114,11 +114,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
   create_table "buildings_photographs", id: false, force: :cascade do |t|
     t.bigint "photograph_id", null: false
     t.bigint "building_id", null: false
-  end
-
-  create_table "buildings_photos", id: false, force: :cascade do |t|
-    t.integer "building_id"
-    t.integer "photo_id"
   end
 
   create_table "census_1900_records", id: :serial, force: :cascade do |t|
@@ -364,7 +359,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
     t.string "middle_name"
     t.string "relation_to_head"
     t.string "owned_or_rented"
-    t.integer "home_value"
+    t.decimal "home_value"
     t.boolean "has_radio"
     t.boolean "lives_on_farm"
     t.string "sex"
@@ -455,7 +450,7 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
     t.string "name_suffix"
     t.text "searchable_name"
     t.string "owned_or_rented"
-    t.integer "home_value"
+    t.decimal "home_value"
     t.boolean "lives_on_farm"
     t.string "relation_to_head"
     t.string "sex"
@@ -577,15 +572,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["controller", "action"], name: "index_cms_pages_on_controller_and_action"
     t.index ["url_path"], name: "index_cms_pages_on_url_path"
-  end
-
-  create_table "cms_url_aliases", force: :cascade do |t|
-    t.string "url_path", null: false
-    t.string "target_url_path"
-    t.bigint "page_id"
-    t.index ["page_id"], name: "index_cms_url_aliases_on_page_id"
-    t.index ["url_path", "page_id"], name: "index_url_aliases_on_path_and_page"
-    t.index ["url_path"], name: "index_cms_url_aliases_on_url_path", unique: true
   end
 
   create_table "construction_materials", id: :serial, force: :cascade do |t|
@@ -716,11 +702,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
     t.bigint "person_id", null: false
   end
 
-  create_table "people_photos", id: false, force: :cascade do |t|
-    t.integer "person_id"
-    t.integer "photo_id"
-  end
-
   create_table "permissions", id: :serial, force: :cascade do |t|
     t.integer "role_id", null: false
     t.integer "user_id", null: false
@@ -767,21 +748,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
     t.index ["physical_type_id"], name: "index_photographs_on_physical_type_id"
     t.index ["reviewed_by_id"], name: "index_photographs_on_reviewed_by_id"
     t.index ["rights_statement_id"], name: "index_photographs_on_rights_statement_id"
-  end
-
-  create_table "photos", id: :serial, force: :cascade do |t|
-    t.integer "building_id"
-    t.integer "position"
-    t.string "photo_file_name"
-    t.string "photo_content_type"
-    t.integer "photo_size"
-    t.integer "width"
-    t.integer "height"
-    t.text "caption"
-    t.integer "year_taken"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["building_id"], name: "index_photos_on_building_id"
   end
 
   create_table "physical_formats", force: :cascade do |t|
@@ -916,7 +882,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
   add_foreign_key "buildings_building_types", "building_types"
   add_foreign_key "buildings_building_types", "buildings"
-  add_foreign_key "buildings_photos", "photos"
   add_foreign_key "census_1900_records", "buildings"
   add_foreign_key "census_1900_records", "localities"
   add_foreign_key "census_1900_records", "people"
@@ -948,7 +913,6 @@ ActiveRecord::Schema.define(version: 2020_09_24_194952) do
   add_foreign_key "flags", "users"
   add_foreign_key "flags", "users", column: "resolved_by_id"
   add_foreign_key "map_overlays", "localities"
-  add_foreign_key "people_photos", "photos"
   add_foreign_key "photographs", "buildings"
   add_foreign_key "photographs", "physical_formats"
   add_foreign_key "photographs", "physical_types"
