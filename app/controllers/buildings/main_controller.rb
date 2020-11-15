@@ -48,7 +48,8 @@ class Buildings::MainController < ApplicationController
     @building.with_filtered_residents params[:people], params[:peopleParams]
     if request.format.html?
       @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
-      @layer = MapOverlay.where(year_depicted: 1910).first
+      # TODO: layer selector for miniforge
+      @layer = MapOverlay.where(active: true, year_depicted: 1910).first
     elsif request.format.json?
       serializer = BuildingSerializer.new(@building) #, { params: { condensed: params.key?(:condensed) } })
       render json: serializer
