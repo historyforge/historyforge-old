@@ -79,21 +79,9 @@ class TermsController < ApplicationController
   end
 
   def import
-    @file = params[:file].path
-    found = 0
-    added = 0
-    require 'csv'
-    CSV.foreach(@file, headers: false) do |row|
-      name = row[0]
-      term = @vocabulary.terms.find_or_initialize_by(name: name)
-      if term.new_record?
-        term.save
-        added += 1
-      else
-        found += 1
-      end
-    end
-    flash[:notice] = "Added #{added} terms to #{@vocabulary.name}. Found #{found} already existing."
+    service = ImportTerms.new(params[:file], @vocabulary)
+    service.run
+    flash[:notice] = "Added #{service.added} terms to #{@vocabulary.name}. Found #{service.found} already existing."
   rescue
     flash[:errors] = "An error got in the way. Check that your file is a CSV with a single column containing the terms you wish to import."
   ensure
