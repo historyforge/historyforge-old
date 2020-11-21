@@ -38,6 +38,13 @@ class Building < ApplicationRecord
 
   has_paper_trail
 
+  Geocoder.configure(
+    timeout: 2,
+    use_https: true,
+    lookup: :google,
+    api_key: AppConfig.geocoding_key
+  )
+
   geocoded_by :full_street_address, latitude: :lat, longitude: :lon
   after_validation :do_the_geocode, if: :new_record?
 

@@ -17,16 +17,15 @@ class Census1930Record < CensusRecord
   define_enumeration :name_suffix, %w{Jr Sr}
   define_enumeration :name_prefix, %w{Dr Mr Mrs}
 
-  # after_initialize :set_defaults
   auto_strip_attributes :industry, :profession_code, :pob_code, :worker_class
 
   def year
     1930
   end
 
-  def set_defaults
-    self.pob_code ||= 56
-  end
+  # def set_defaults
+  #   self.pob_code ||= 56
+  # end
 
   def coded_occupation_name
     coded_occupation&.name_with_code

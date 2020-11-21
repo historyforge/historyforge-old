@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_15_220300) do
+ActiveRecord::Schema.define(version: 2020_11_21_222208) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -128,9 +128,9 @@ ActiveRecord::Schema.define(version: 2020_11_15_220300) do
     t.integer "page_number"
     t.string "page_side", limit: 1
     t.integer "line_number"
-    t.string "county", default: "Tompkins"
-    t.string "city", default: "Ithaca"
-    t.string "state", default: "NY"
+    t.string "county"
+    t.string "city"
+    t.string "state"
     t.string "ward"
     t.string "enum_dist"
     t.string "street_prefix"
@@ -200,9 +200,9 @@ ActiveRecord::Schema.define(version: 2020_11_15_220300) do
     t.integer "page_number"
     t.string "page_side", limit: 1
     t.integer "line_number"
-    t.string "county", default: "Tompkins"
-    t.string "city", default: "Ithaca"
-    t.string "state", default: "NY"
+    t.string "county"
+    t.string "city"
+    t.string "state"
     t.string "ward"
     t.string "enum_dist"
     t.string "street_prefix"
@@ -274,9 +274,9 @@ ActiveRecord::Schema.define(version: 2020_11_15_220300) do
     t.integer "page_number"
     t.string "page_side", limit: 1
     t.integer "line_number"
-    t.string "county", default: "Tompkins"
-    t.string "city", default: "Ithaca"
-    t.string "state", default: "NY"
+    t.string "county"
+    t.string "city"
+    t.string "state"
     t.string "ward"
     t.string "enum_dist"
     t.string "street_prefix"
@@ -343,9 +343,9 @@ ActiveRecord::Schema.define(version: 2020_11_15_220300) do
     t.integer "page_number"
     t.string "page_side", limit: 1
     t.integer "line_number"
-    t.string "county", default: "Tompkins"
-    t.string "city", default: "Ithaca"
-    t.string "state", default: "NY"
+    t.string "county"
+    t.string "city"
+    t.string "state"
     t.string "ward"
     t.string "enum_dist"
     t.string "street_prefix"
@@ -431,9 +431,9 @@ ActiveRecord::Schema.define(version: 2020_11_15_220300) do
     t.integer "page_number"
     t.string "page_side", limit: 1
     t.integer "line_number"
-    t.string "county", default: "Tompkins"
-    t.string "city", default: "Ithaca"
-    t.string "state", default: "NY"
+    t.string "county"
+    t.string "city"
+    t.string "state"
     t.string "ward"
     t.string "enum_dist"
     t.string "apartment_number"

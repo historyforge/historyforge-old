@@ -26,6 +26,8 @@ class CensusRecord < ApplicationRecord
   validates :relation_to_head, vocabulary: { allow_blank: true }
   validates :pob, :pob_father, :pob_mother, vocabulary: { name: :pob, allow_blank: true }
 
+  after_initialize :set_defaults
+
   auto_strip_attributes :first_name, :middle_name, :last_name, :street_house_number, :street_name,
                         :street_prefix, :street_suffix, :apartment_number, :profession
 
@@ -83,7 +85,11 @@ class CensusRecord < ApplicationRecord
   end
 
   def set_defaults
+    return if persisted?
 
+    self.city ||= AppConfig.city
+    self.county ||= AppConfig.county
+    self.state ||= AppConfig.state
   end
 
   def can_add_buildings?

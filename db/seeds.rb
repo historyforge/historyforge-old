@@ -46,6 +46,7 @@ end
   ImportTerms.new(file, vocabulary).run
 end
 
+Setting.add 'county', value: ENV['APP_PLACE_COUNTY'] || "Tompkins", group: 'Census Record Defaults'
 Setting.add 'city', value: ENV['APP_PLACE_CITY'] || "Ithaca", group: 'Census Record Defaults'
 Setting.add 'state', value: ENV['APP_PLACE_STATE'] || "NY", group: 'Census Record Defaults'
 Setting.add 'organization', value: ENV['APP_ORG_NAME'] || "The History Center in Tompkins County", group: 'Sponsor'
