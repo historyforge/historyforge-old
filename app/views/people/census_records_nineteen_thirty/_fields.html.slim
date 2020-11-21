@@ -50,6 +50,6 @@
         = form.input :profession_code, input_html: { autocomplete: 'new-password' }
         = form.input :worker_class, label: 'Worker Class', collection: Census1930Record.worker_class_choices, coded: true, as: :radio_buttons
         = form.input :worked_yesterday, as: :boolean, label: 'At work yesterday?', inline_label: 'Yes'
-        = form.input :veteran, as: :boolean, label: 'Veteran?', inline_label: 'Yes', wrapper_html: { data: { dependents: 'true' } }
-        = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1930Record.war_fought_choices, coded: true, wrapper_html: { data: { depends_on: :veteran } }
+        = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1930Record.war_fought_choices, coded: true
+        = form.input :veteran, as: :boolean, label: 'Veteran?', inline_label: 'Yes'
         = form.input :farm_schedule, label: 'Farm Number'
