@@ -20,7 +20,7 @@
       dd= @record.age || 'blank'
     dl
       dt Place of Birth
-      dd= "#{@record.pob} (#{@record.pob_code})" || 'blank'
+      dd= @record.pob || 'blank'
     dl
       dt Foreign Born
       dd= @record.foreign_born? ? 'Yes' : 'No'
