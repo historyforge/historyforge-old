@@ -138,20 +138,6 @@ $(document).ready ->
     $hint.html "<b>HINT:</b> #{hints.join(' ')}"
     $('.census-hint-wrapper').show() if showHints
 
-  # TODO: Refactor these to use the data-dependent API
-  jQuery(document).on 'change', '#census_record_relation_to_head', ->
-    value = jQuery(this).val()
-#    value = value.replace /\b\w/g, (l) -> l.toUpperCase()
-    jQuery(this).val(value)
-    if value is 'Head'
-      jQuery('input[name="census_record[owned_or_rented]"]').prop('disabled', no).filter('[value=nil]').prop('checked', yes)
-      jQuery('input[name="census_record[mortgage]"]').prop('disabled', no).filter('[value=nil]').prop('checked', yes)
-      jQuery('input[name="census_record[farm_or_house]"]').prop('disabled', no).filter('[value=nil]').prop('checked', yes)
-    else
-      jQuery('input[name="census_record[owned_or_rented]"]').prop('checked', no).prop('disabled', yes)
-      jQuery('input[name="census_record[mortgage]"]').prop('checked', no).prop('disabled', yes)
-      jQuery('input[name="census_record[farm_or_house]"]').prop('checked', no).prop('disabled', yes)
-
   jQuery(document).on 'change', '#census_record_sex', ->
     value = jQuery(this).val()
     if value is 'M'
