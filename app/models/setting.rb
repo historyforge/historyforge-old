@@ -1,7 +1,9 @@
 class Setting < ApplicationRecord
   def self.value_of(key)
+    return unless table_exists?
+
     setting = find_by(key: key)
-    setting && setting.cast_value
+    setting&.cast_value
   end
 
   def cast_value
