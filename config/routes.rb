@@ -122,6 +122,7 @@ Rails.application.routes.draw do
     resources :terms do
       get 'peeps/:year' => 'terms#peeps'
       get 'peeps/:year/:page' => 'terms#peeps'
+      post :import, on: :collection
     end
   end
 

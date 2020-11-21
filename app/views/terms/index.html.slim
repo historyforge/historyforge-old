@@ -1,6 +1,12 @@
 - content_for :pills do
   = link_to 'Add New', { action: :new }, class: 'btn btn-light'
   = link_to 'All Vocabularies', :vocabularies, class: 'btn btn-light'
+  = link_to url_for(format: :csv), class: 'btn btn-light' do
+    i.fa.fa-sign-out
+    | &nbsp; Export
+  = link_to '#importModal', class: 'btn btn-light', data: {toggle: 'modal'} do
+    i.fa.fa-sign-in
+    | &nbsp; Import
 
 - set_page_title "#{@vocabulary.name} Terms"
 
@@ -33,3 +39,18 @@ table.table.table-condensed.table-striped
           = link_to 'Edit', [:edit, @vocabulary, term], class: 'btn btn-xs btn-light'
 
 = paginate @terms
+
+- content_for :body_end do
+  .modal.fade id="importModal"
+    .modal-dialog.modal-lg
+      = form_with method: :post, url: import_vocabulary_terms_path(@vocabulary), builder: SimpleForm::FormBuilder, html: { data: { remote: false } } do |form|
+        .modal-content
+          .modal-header
+            h5.modal-title Import Terms
+            button.close(type="button" data-dismiss="modal") &times;
+          .modal-body
+            p.lead Import a list of terms to this vocabulary.
+            p.lead Be sure it is the correct vocabulary, or you will have to delete the terms you accidentally import.
+            = form.input :file, as: :file
+          .modal-footer
+            = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary'

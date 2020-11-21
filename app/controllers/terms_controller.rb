@@ -7,7 +7,18 @@ class TermsController < ApplicationController
     params[:q] ||= {}
     params[:q][:s] ||= 'name asc'
     @search = @vocabulary.terms.ransack(params[:q])
-    @terms = @search.result.page(params[:page] || 1)
+
+    respond_to do |format|
+      format.csv do
+        @terms = @search.result
+        require 'csv'
+        headers['Content-Disposition'] = "attachment; filename=\"#{@vocabulary.name}.csv\""
+        headers['Content-Type'] = "text/csv"
+      end
+      format.html do
+        @terms = @search.result.page(params[:page] || 1)
+      end
+    end
   end
 
   def show
@@ -65,6 +76,28 @@ class TermsController < ApplicationController
       flash[:errors] = "Sorry couldn't do it."
       redirect_back fallback_location: { action: :index }
     end
+  end
+
+  def import
+    @file = params[:file].path
+    found = 0
+    added = 0
+    require 'csv'
+    CSV.foreach(@file, headers: false) do |row|
+      name = row[0]
+      term = @vocabulary.terms.find_or_initialize_by(name: name)
+      if term.new_record?
+        term.save
+        added += 1
+      else
+        found += 1
+      end
+    end
+    flash[:notice] = "Added #{added} terms to #{@vocabulary.name}. Found #{found} already existing."
+  rescue
+    flash[:errors] = "An error got in the way. Check that your file is a CSV with a single column containing the terms you wish to import."
+  ensure
+    redirect_to action: :index
   end
 
   private
