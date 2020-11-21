@@ -81,14 +81,9 @@ $(document).ready ->
 
   $('[data-dependents]').find('input[type=radio]:checked, input[type=checkbox], input[type=text]').toggleDependents()
 
-#  $('#census_record_age').on 'keyup', ->
-#    value = this.value
-#    if value? and parseInt(value) < 5
-#      $('.census_record_age_months').enableWrapper()
-#    else
-#      $('.census_record_age_months').disableWrapper()
-#
-#  $('#census_record_age').trigger('keyup')
+  $('.census1930_record_census_record_war_fought').find('input[type=radio]').on 'click', ->
+    war_fought = $('input[name="census_record[war_fought]"]:checked').val()
+    $('#census_record_veteran').attr 'checked', war_fought.length && war_fought isnt 'on'
 
   $('#toggle-census-slider button').on 'click', ->
     orientation = $(this).data('orientation')
