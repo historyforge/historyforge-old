@@ -4,6 +4,10 @@ class ContactsController < ApplicationController
   end
 
   def create
+    Recaptcha.configure do |config|
+      config.site_key = AppConfig.recaptcha_site_key
+      config.secret_key = AppConfig.recaptcha_secret_key
+    end
     @contact = Contact.new params.require(:contact).permit(:name, :email, :subject, :phone, :message, :organization)
     if verify_recaptcha(model: @contact) && @contact.save
       ContactMailer.contact_email(@contact).deliver_now

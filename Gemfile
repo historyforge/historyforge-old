@@ -49,6 +49,7 @@ gem 'webpacker'
 group :development do
   gem "byebug"
   gem "letter_opener"
+  gem "letter_opener_web"
   gem "pry"
   # gem "rubocop", require: false
   # gem "rubocop-rails"

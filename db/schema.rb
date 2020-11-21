@@ -808,6 +808,17 @@ ActiveRecord::Schema.define(version: 2020_11_15_220300) do
     t.datetime "updated_at"
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.string "key"
+    t.string "name"
+    t.string "hint"
+    t.string "input_type"
+    t.string "group"
+    t.text "value"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "street_conversions", force: :cascade do |t|
     t.string "from_prefix"
     t.string "to_prefix"

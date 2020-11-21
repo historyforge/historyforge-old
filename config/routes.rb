@@ -23,6 +23,8 @@ Rails.application.routes.draw do
              skip: [ :registerable, :confirmable ],
              controllers: { sessions: "sessions" } #, omniauth_callbacks: "omniauth_callbacks" }
 
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
+
   concern :people_directory do
     collection do
       get :advanced_search_filters
@@ -104,6 +106,8 @@ Rails.application.routes.draw do
   resources :photographs do
     patch :review, on: :member
   end
+
+  resources :settings, only: %i[index create]
 
   resources :street_conversions
 
