@@ -142,6 +142,7 @@ en:
         mother_tongue_mother: 'Mother Tongue - Mother'
         mother_tongue: 'Mother Tongue'
         farm_schedule: 'Farm Number'
+        num_farm_sched: 'Farm Schedule No.'
         dwelling_number: 'Dwelling No.'
         naturalized_alien: 'Naturalization'
         homemaker: 'Home-maker'
@@ -151,6 +152,10 @@ en:
         employment: 'Employment Status'
         occupation1930_code_id: 'Coded Occupation'
         industry1930_code_id: 'Coded Industry'
+      census1910_record:
+        unemployed: 'Without Work'
+        civil_war_vet: 'Civil War Vet'
+        deaf_dumb: 'Deaf & Dumb'
       census1920_record:
         profession: 'Occupation'
         profession_code: 'Occupation Code'

@@ -98,6 +98,7 @@ json.filters do
   AttributeBuilder.enumeration json, Census1910Record, :owned_or_rented
   AttributeBuilder.enumeration json, Census1910Record, :mortgage
   AttributeBuilder.enumeration json, Census1910Record, :farm_or_house
+  AttributeBuilder.number json, Census1910Record, :num_farm_sched
   AttributeBuilder.boolean json, :blind
   AttributeBuilder.enumeration json, Census1910Record, :civil_war_vet
   AttributeBuilder.boolean json, :deaf_dumb

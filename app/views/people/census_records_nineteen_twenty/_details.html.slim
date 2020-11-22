@@ -64,7 +64,7 @@
   .col-sm-4
     - if @record.profession.present?
       dl
-        dt Profession
+        dt Occupation
         dd= @record.profession
     - if @record.industry?
       dl
@@ -76,7 +76,7 @@
         dd= @record.employment
     - if @record.employment_code?
       dl
-        dt Employment Code
+        dt Occupation Code
         dd= @record.employment_code
     - if @record.farm_schedule?
       dl

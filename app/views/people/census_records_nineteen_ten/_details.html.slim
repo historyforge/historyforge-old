@@ -70,6 +70,9 @@
     dl
       dt Farm or House?
       dd= @record.farm_or_house || 'blank'
+    dl
+      dt Farm Schedule No.
+      dd= @record.num_farm_sched || 'blank'
 
   .col-sm-4
     - if @record.profession.present?

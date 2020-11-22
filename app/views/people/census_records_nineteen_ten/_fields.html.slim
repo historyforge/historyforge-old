@@ -52,6 +52,7 @@
         = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, coded: true
         = form.input :mortgage, as: :radio_buttons, collection: Census1910Record.mortgage_choices, coded: true
         = form.input :farm_or_house, as: :radio_buttons, collection: Census1910Record.farm_or_house_choices, coded: true
+        = form.input :num_farm_sched, as: :integer
         = form.input :civil_war_vet, as: :radio_buttons, label: 'Civil War', collection: Census1910Record.civil_war_vet_choices, coded: true
         = form.input :blind, as: :boolean, label: 'Blind', inline_label: 'Yes'
         = form.input :deaf_dumb, as: :boolean, label: 'Deaf and Dumb', inline_label: 'Yes'
