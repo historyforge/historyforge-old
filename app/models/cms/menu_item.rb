@@ -25,6 +25,8 @@ module Cms
         my_url = if is_external?
           if url !~ /http/
             "http://#{url}"
+          else
+            url
           end
         elsif url.present? && !url.starts_with?('/')
           "/#{url}"
@@ -38,6 +40,10 @@ module Cms
 
     def to_url
       formatted_url
+    end
+
+    def is_external?
+      url.starts_with?('http')
     end
 
   end
