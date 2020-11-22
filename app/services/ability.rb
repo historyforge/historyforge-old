@@ -18,10 +18,13 @@ class Ability
       can :read, Building
       can :read, Photograph
       can :create, Flag
+      can :read, Document
 
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
       elsif user.has_role?("editor")
+        can :manage, Document
+        can :manage, DocumentCategory
         can :manage, Building
         can :manage, Architect
         can :manage, CensusRecord

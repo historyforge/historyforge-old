@@ -90,6 +90,21 @@ Rails.application.routes.draw do
   resources :contacts, only: %i[new create]
   get '/contact' => 'contacts#new'
 
+  concern :moveable do
+    member do
+      put :move_up
+      put :move_down
+      put :move_to_top
+      put :move_to_bottom
+    end
+  end
+
+  resources :document_categories, only: %i[index new create edit update destroy], concerns: %i[moveable] do
+    resources :documents, concerns: %i[moveable]
+  end
+
+  resources :documents, concerns: %i[moveable]
+
   resources :flags
 
   resources :localities

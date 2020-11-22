@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_22_165759) do
+ActiveRecord::Schema.define(version: 2020_11_22_212348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -587,6 +587,25 @@ ActiveRecord::Schema.define(version: 2020_11_22_165759) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "document_categories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "documents", force: :cascade do |t|
+    t.bigint "document_category_id"
+    t.string "file"
+    t.string "name"
+    t.text "description"
+    t.integer "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["document_category_id"], name: "index_documents_on_document_category_id"
+  end
+
   create_table "flags", force: :cascade do |t|
     t.string "flaggable_type"
     t.bigint "flaggable_id"
@@ -921,6 +940,7 @@ ActiveRecord::Schema.define(version: 2020_11_22_165759) do
   add_foreign_key "census_1940_records", "users", column: "created_by_id"
   add_foreign_key "census_1940_records", "users", column: "reviewed_by_id"
   add_foreign_key "cms_page_widgets", "cms_pages"
+  add_foreign_key "documents", "document_categories"
   add_foreign_key "flags", "users"
   add_foreign_key "flags", "users", column: "resolved_by_id"
   add_foreign_key "map_overlays", "localities"

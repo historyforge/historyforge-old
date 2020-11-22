@@ -1,0 +1,17 @@
+- set_page_title 'Transcriber\'s Corner'
+
+.col-xs-9#documents
+  - if @documents.blank?
+    p No documents yet!
+  - else
+    - @categories.each do |category|
+      - if @documents[category.id]
+        h3= category.name
+        = render 'table', documents: @documents[category.id]
+  - if @documents[nil]
+    h3 Uncategorized
+    = render 'table', documents: @documents[nil]
+- if can? :create, Document
+  .col-xs-3
+    = panel 'Upload' do
+      = render 'form'

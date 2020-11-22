@@ -1,0 +1,6 @@
+= simple_form_for @document do |form|
+  = form.input :file, as: :file
+  = form.input :name, as: :string
+  = form.input :description, as: :text
+  = form.input :document_category_id, collection: DocumentCategory.all
+  = form.submit 'Upload', class: 'btn btn-primary', data: { disable_with: 'Submitting...' }
