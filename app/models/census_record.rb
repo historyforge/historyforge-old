@@ -36,7 +36,7 @@ class CensusRecord < ApplicationRecord
   define_enumeration :street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
   define_enumeration :sex, %w{M F}
   define_enumeration :race, %w{W B M}
-  define_enumeration :marital_status, %w{S W D M M1 M2 M3 M4 M5 M6}
+  define_enumeration :marital_status, %w{S M Wd D}
   define_enumeration :naturalized_alien, %w{Na Pa Al}
   define_enumeration :employment, %w{W Emp OA}
   define_enumeration :owned_or_rented, %w{O R Neither}

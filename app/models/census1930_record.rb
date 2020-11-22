@@ -11,7 +11,6 @@ class Census1930Record < CensusRecord
 
   define_enumeration :worker_class, %w{E W OA NP}
   define_enumeration :war_fought, %w{WW Sp Civ Phil Box Mex}
-  define_enumeration :marital_status, %w{S M Wd D}
   define_enumeration :race, %w{W Neg Mex In Ch Jp Fil Hin Kor}
   define_enumeration :relation_to_head, %w{Head Wife Son Daughter Lodger Roomer Boarder Sister Servant}
   define_enumeration :name_suffix, %w{Jr Sr}

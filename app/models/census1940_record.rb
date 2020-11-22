@@ -9,7 +9,6 @@ class Census1940Record < CensusRecord
   validate :validate_occupation_codes
 
   define_enumeration :worker_class, %w{PW GW E OA NP}
-  define_enumeration :marital_status, %w{S M Wd D}
   define_enumeration :race, %w{W Neg In Ch Jp Fil Hin Kor}
   define_enumeration :name_suffix, %w{Jr Sr}
   define_enumeration :name_prefix, %w{Dr Mr Mrs}
