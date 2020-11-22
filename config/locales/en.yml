@@ -152,10 +152,13 @@ en:
         employment: 'Employment Status'
         occupation1930_code_id: 'Coded Occupation'
         industry1930_code_id: 'Coded Industry'
+        can_speak_english: 'Can Speak English?'
       census1910_record:
         unemployed: 'Without Work'
         civil_war_vet: 'Civil War Vet'
         deaf_dumb: 'Deaf & Dumb'
+        can_read: 'Can Read?'
+        can_write: 'Can Write?'
       census1920_record:
         profession: 'Occupation'
         profession_code: 'Occupation Code'
