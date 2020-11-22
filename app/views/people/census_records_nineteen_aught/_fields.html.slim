@@ -35,10 +35,28 @@
         = form.input :pob, input_html: { autocomplete: 'new-password' }
         = form.input :pob_father, input_html: { autocomplete: 'new-password' }
         = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
-        = form.input :foreign_born, as: :boolean, label: 'This person is foreign born.', inline_label: 'Yes'
-        = form.input :year_immigrated, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :years_in_us, as: :integer
-        = form.input :naturalized_alien
+        = form.input :foreign_born,
+                as: :boolean,
+                label: 'This person is foreign born',
+                inline_label: 'Yes',
+                wrapper_html: {data: {dependents: 'true'}}
+
+        = form.input :year_immigrated,
+                as: :integer,
+                hint: 'Enter 999 for unknown or leave blank if taker left empty',
+                wrapper_html: {data: {depends_on: :foreign_born}}
+
+        = form.input :years_in_us,
+                as: :integer,
+                wrapper_html: {data: {depends_on: :foreign_born}}
+
+        = form.input :naturalized_alien,
+                as: :radio_buttons,
+                collection: Census1900Record.naturalized_alien_choices,
+                coded: true,
+                wrapper_html: { data: { depends_on: :foreign_born } },
+                hint: citizenship_hint
+
         = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
         = form.input :industry, input_html: { autocomplete: 'new-password' }
         = form.input :unemployed_months, as: :integer

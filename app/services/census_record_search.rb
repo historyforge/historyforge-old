@@ -18,7 +18,20 @@ class CensusRecordSearch
 
   def ransack_params
     @s = @s.to_unsafe_hash if @s.respond_to?(:to_unsafe_hash)
-    @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
+    p = Hash.new
+    @s.each do |key, value|
+      if value.is_a?(Array) && value.include?('blank')
+        p[:g] ||= []
+        if key =~ /_not_in$/
+          p[:g] << { m: 'and', key.to_sym => value, key.sub(/not_in$/, 'present').to_sym => true }
+        elsif key =~ /_in$/
+          p[:g] << { m: 'or', key.to_sym => value, key.sub(/in$/, 'present').to_sym => true }
+        end
+      else
+        p[key.to_sym] = value
+      end
+    end
+    p
   end
 
   def scoped

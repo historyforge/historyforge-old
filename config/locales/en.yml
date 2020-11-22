@@ -68,12 +68,21 @@ en:
       em: 'Employer'
       w: 'Wage or salary worker'
       oa: 'Own account'
+    usual_worker_class:
+      pw: 'Private wage or salary worker'
+      gw: 'Government wage or salary worker'
+      e: 'Employer'
+      oa: 'Own account'
+      np: 'Unpaid family worker'
     worker_class:
       e: 'Employer'
       emp: 'Employer'
       w: 'Wage or salary worker'
       o: 'Own account'
+      oa: 'Own account'
       np: 'Unpaid family worker'
+      pw: 'Private wage or salary worker'
+      gw: 'Government wage or salary worker'
     war_fought:
       ww: 'World War'
       sp: 'Spanish-American War'
@@ -81,6 +90,11 @@ en:
       phil: 'Philippine Insurrection'
       box: 'Boxer Rebellion'
       mex: 'Mexican Expedition'
+      w: 'World War'
+      s: 'Spanish-American War, Philippine Insurrection, or Boxer Rebellion'
+      sw: 'Spanish-American War and World War'
+      r: 'Regular establishment (Army, Navy, or Marine Corps) peace-time service only'
+      ot: 'Other war or expedition'
     civil_war_vet:
       ua: 'Union Army'
       un: 'Union Navy'
@@ -152,6 +166,9 @@ en:
         employment: 'Employment Status'
         occupation1930_code_id: 'Coded Occupation'
         industry1930_code_id: 'Coded Industry'
+        can_speak_english: 'Can Speak English?'
+        can_read: 'Can Read?'
+        can_write: 'Can Write?'
       census1910_record:
         unemployed: 'Without Work'
         civil_war_vet: 'Civil War Vet'
