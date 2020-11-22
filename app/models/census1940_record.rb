@@ -14,8 +14,8 @@ class Census1940Record < CensusRecord
   define_enumeration :name_prefix, %w{Dr Mr Mrs}
   define_enumeration :grade_completed, %w{0 1 2 3 4 5 6 7 8 H-1 H-2 H-3 H-4 C-1 C-2 C-3 C-4 C-5}
   define_enumeration :naturalized_alien, %w{Na Pa Al AmCit}
-  define_enumeration :war_fought, %w{W S SW R Ot}
-  define_enumeration :no_work_reason, %w{H S U O}
+  define_enumeration :war_fought, %w{W S SW R}
+  define_enumeration :no_work_reason, %w{H S U Ot}
   define_enumeration :deduction_rate, %w{1 2 3}
   auto_strip_attributes :industry, :occupation_code, :worker_class
 

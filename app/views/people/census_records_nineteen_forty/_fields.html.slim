@@ -227,6 +227,7 @@
         = form.input :war_fought,
                 label: 'What War?',
                 as: :radio_buttons_other,
+                other_label: 'Ot - Other war or expedition',
                 collection: Census1940Record.war_fought_choices,
                 coded: true,
                 wrapper_html: { data: { depends_on: :veteran } },
