@@ -16,7 +16,7 @@
           tr
             td style="white-space:nowrap"= row.name
             td= row.description
-            td= row.documents.count
+            td= link_to row.documents.count, document_category_documents_path(row)
             td style="white-space:nowrap"
               - if can? :update, row
                 = link_to 'Edit', edit_document_category_path(row), class: 'btn btn-xs btn-default'
@@ -26,7 +26,7 @@
                   i.fa.fa-arrow-up
                 = link_to move_down_document_category_path(row), class: 'btn btn-sm btn-light', data: {method: :put} do
                   i.fa.fa-arrow-down
-                = link_to move_to_bottom_category_document_path(row), class: 'btn btn-sm btn-light', data: {method: :put} do
+                = link_to move_to_bottom_document_category_path(row), class: 'btn btn-sm btn-light', data: {method: :put} do
                   i.fa.fa-long-arrow-down
 
               - if can? :destroy, row

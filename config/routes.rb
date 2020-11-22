@@ -99,7 +99,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :document_categories, only: %i[index new create edit update destroy], concerns: %i[moveable] do
+  resources :document_categories, concerns: %i[moveable] do
     resources :documents, concerns: %i[moveable]
   end
 
