@@ -91,6 +91,9 @@ class CensusRecord < ApplicationRecord
     self.county ||= AppConfig.county
     self.state ||= AppConfig.state
     self.pob ||= AppConfig.pob
+
+    # Don't autofill these for 1940 because they are supplemental only
+    return if year == 1940
     self.pob_mother ||= AppConfig.pob
     self.pob_father ||= AppConfig.pob
   end

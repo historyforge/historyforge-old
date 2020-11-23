@@ -43,7 +43,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
   end
 
   def add_blanks(items)
-    items << ["Unknown", 'unknown']
+    items << ["Un - Unknown", 'unknown']
     items.unshift ["Left blank", nil]
     items
   end
