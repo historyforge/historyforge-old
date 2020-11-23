@@ -90,6 +90,9 @@ class CensusRecord < ApplicationRecord
     self.city ||= AppConfig.city
     self.county ||= AppConfig.county
     self.state ||= AppConfig.state
+    self.pob ||= AppConfig.pob
+    self.pob_mother ||= AppConfig.pob
+    self.pob_father ||= AppConfig.pob
   end
 
   def can_add_buildings?
