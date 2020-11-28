@@ -11,7 +11,18 @@ RUN bundle config set without 'development:test' \
 
 COPY . .
 
-COPY lib/docker/default_user.bash ./default_user.bash
-RUN bash default_user.bash && rm -f default_user.bash
-RUN chown -R herokuishuser /app
+RUN addgroup --quiet --gid "32767" "herokuishuser" && \
+    adduser \
+        --shell /bin/bash \
+        --disabled-password \
+        --force-badname \
+        --no-create-home \
+        --uid "32767" \
+        --gid "32767" \
+        --gecos '' \
+        --quiet \
+        --home "/app" \
+        "herokuishuser" && \
+    chown -R herokuishuser /app
+
 USER herokuishuser

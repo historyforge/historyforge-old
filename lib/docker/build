@@ -2,5 +2,5 @@ set -e
 rm -rf public/packs
 NODE_ENV=production rake assets:precompile RAILS_ENV=production DEPLOYING=true
 sudo docker pull gorges/railsready:latest
-sudo docker build --no-cache -t gorges/historyforge -f ./lib/docker/Dockerfile .
+sudo docker build -t gorges/historyforge -f ./lib/docker/Dockerfile .
 sudo docker push gorges/historyforge

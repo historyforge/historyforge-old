@@ -7,12 +7,9 @@ storage/
 node_modules/
 public/packs-test/
 tmp/
-lib/docker/
 node_modules/
 bitbucket-pipelines.yml
 config/master.key
-config/database.yml
-config/secrets.yml
 docker-compose.yml
 .dockerignore
 Dockerfile
