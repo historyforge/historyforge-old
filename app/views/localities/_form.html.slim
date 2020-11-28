@@ -1,4 +1,4 @@
-= simple_form_for @map_overlay do |form|
+= simple_form_for @locality do |form|
 
   = form.input :name
   = form.input :locality_id, collection: Locality.order(:position)
