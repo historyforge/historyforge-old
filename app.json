@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dokku": {
-      "predeploy": "./bin/pre-deploy.sh"
+      "predeploy": "bundle exec rails db:migrate db:seed"
     }
   }
 }
