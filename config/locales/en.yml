@@ -25,6 +25,10 @@ en:
       other: 'Other'
       blank: 'Left blank'
       unk: 'Unknown'
+    grade_completed:
+      h1: 'H-1 or 9'
+      h4: 'H-4 or 5'
+      c5: 'C-5 or over'
     owned_or_rented:
       o: 'Owned'
       r: 'Rented'
