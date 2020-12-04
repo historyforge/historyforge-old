@@ -68,9 +68,10 @@ class Person < ApplicationRecord
 
   def age_in_year(year)
     match = [census_1940_record, census_1930_record, census_1920_record, census_1910_record, census_1900_record].compact.first
-    return -1 if match.blank?
     diff = match.year - year
     match.age - diff
+  rescue
+    -1
   end
 
   def census_records
