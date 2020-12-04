@@ -77,7 +77,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
                 td= link_to 'View', row
 
 - if @check.okay?
-  = form_with url: building_merges_url(@source) do |form|
+  = form_with url: building_merges_url(@source), data: { remote: false } do |form|
     = hidden_field_tag 'merge_id', @target.id
     = form.submit 'Yes Please', class: 'btn btn-danger btn-lg'
 - else
