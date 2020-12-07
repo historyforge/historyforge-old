@@ -11,6 +11,7 @@
         = form.input :phone
     = form.input :subject
     = form.input :message, as: :text
+    = form.input :how_heard, as: :text, label: 'How did you hear about us?'
     = recaptcha_tags callback: 'showSubmitButton'
     br
     = form.submit 'Submit', class: 'btn btn-lg btn-primary', style: 'display:none', id: 'contact-submit-btn'

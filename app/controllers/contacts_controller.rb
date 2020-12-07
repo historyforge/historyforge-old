@@ -6,7 +6,7 @@ class ContactsController < ApplicationController
   end
 
   def create
-    @contact = Contact.new params.require(:contact).permit(:name, :email, :subject, :phone, :message, :organization)
+    @contact = Contact.new params.require(:contact).permit(:name, :email, :subject, :phone, :message, :organization, :how_heard)
     if verify_recaptcha(model: @contact) && @contact.save
       ContactMailer.contact_email(@contact).deliver_now
       flash[:notice] = "Thanks! Your message has been sent."
