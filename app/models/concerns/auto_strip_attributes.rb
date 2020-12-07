@@ -66,6 +66,9 @@ class AutoStripAttributes::Config
       set_filter :delete_whitespaces => false do |value|
         value.respond_to?(:delete) ? value.delete(" \t") : value
       end
+      set_filter :capitalize => true do |value|
+        value.respond_to?(:capitalize) && value.upcase != value ? value.capitalize : value
+      end
     end
 
     instance_eval(&block) if block_given?
