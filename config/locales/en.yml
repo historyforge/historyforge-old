@@ -135,6 +135,7 @@ en:
         building_type: 'Building type'
         building_type_ids: 'Building type'
       census_record:
+        census_scope: 'Census Scope'
         id: 'ID'
         page_no: 'Sheet'
         page_number: 'Sheet'
