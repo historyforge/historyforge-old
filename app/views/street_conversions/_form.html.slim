@@ -6,6 +6,7 @@
         .card-header
           | From Criteria
         .card-body
+          = form.input :from_house_number
           = form.input :from_city
           = form.input :from_prefix
           = form.input :from_name
@@ -15,6 +16,7 @@
         .card-header
           | To Criteria
         .card-body
+          = form.input :to_house_number
           = form.input :to_city
           = form.input :to_prefix
           = form.input :to_name
