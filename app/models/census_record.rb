@@ -29,7 +29,7 @@ class CensusRecord < ApplicationRecord
   after_initialize :set_defaults
 
   auto_strip_attributes :first_name, :middle_name, :last_name, :street_house_number, :street_name,
-                        :street_prefix, :street_suffix, :apartment_number, :profession
+                        :street_prefix, :street_suffix, :apartment_number, :profession, :name_prefix, :name_suffix
 
   define_enumeration :page_side, %w{A B}, true
   define_enumeration :street_prefix, %w{N S E W}
@@ -188,12 +188,13 @@ class CensusRecord < ApplicationRecord
   end
 
   def building_from_address
+    my_house_number = modern_address.house_number
     my_street_name = modern_address.street_name
     my_street_suffix = modern_address.street_suffix
     my_street_prefix = modern_address.street_prefix
     self.building ||= matching_building(my_street_name) || Building.create(
         name: "#{my_street_name} #{my_street_suffix} - #{my_street_prefix} - ##{street_house_number}",
-        address_house_number: street_house_number,
+        address_house_number: my_house_number,
         address_street_prefix: my_street_prefix,
         address_street_name: my_street_name,
         address_street_suffix: my_street_suffix,

@@ -49,13 +49,13 @@
 
         = form.input :sex,
                 as: :radio_buttons,
-                collection: CensusRecord.sex_choices,
+                collection: Census1940Record.sex_choices,
                 coded: true,
                 hint: sex_hint
 
         = form.input :race,
                 as: :radio_buttons_other,
-                collection: Census1930Record.race_choices,
+                collection: Census1940Record.race_choices,
                 coded: true,
                 hint: race_hint
 
@@ -67,7 +67,7 @@
 
         = form.input :marital_status,
                 as: :radio_buttons,
-                collection: Census1930Record.marital_status_choices,
+                collection: Census1940Record.marital_status_choices,
                 coded: true,
                 hint: marital_status_hint
 
