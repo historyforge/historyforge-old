@@ -29,7 +29,7 @@ class CensusRecord < ApplicationRecord
   after_initialize :set_defaults
 
   auto_strip_attributes :first_name, :middle_name, :last_name, :street_house_number, :street_name,
-                        :street_prefix, :street_suffix, :apartment_number, :profession
+                        :street_prefix, :street_suffix, :apartment_number, :profession, :name_prefix, :name_suffix
 
   define_enumeration :page_side, %w{A B}, true
   define_enumeration :street_prefix, %w{N S E W}
