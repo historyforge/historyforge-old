@@ -12,6 +12,7 @@
 
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym 'US'
-  inflect.acronym 'DPW'
+  %w{us dpw wpa nya ccc glf rr md ny nys po}.each do |letters|
+    inflect.acronym letters.upcase
+  end
 end
