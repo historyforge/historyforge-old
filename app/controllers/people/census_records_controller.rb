@@ -29,7 +29,7 @@ class People::CensusRecordsController < ApplicationController
     record.street_suffix = params[:suffix]
     record.city = params[:city]
     buildings = record.buildings_on_street
-    buildings = buildings.map { |b| BuildingPresenter.new(b, current_user) }.map {|building| { id: building.id, name: building.street_address } }
+    buildings = buildings.map {|building| { id: building.id, name: building.name } }
     render json: buildings.to_json
   end
 
