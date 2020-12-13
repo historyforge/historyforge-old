@@ -28,6 +28,7 @@ class People::CensusRecordsController < ApplicationController
     record.street_name = params[:street]
     record.street_suffix = params[:suffix]
     record.city = params[:city]
+    record.auto_strip_attributes
     buildings = record.buildings_on_street
     buildings = buildings.map {|building| { id: building.id, name: building.name } }
     render json: buildings.to_json

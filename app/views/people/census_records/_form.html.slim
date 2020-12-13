@@ -59,7 +59,8 @@
                   hint: street_suffix_hint
 
           = form.input :apartment_number,
-                  input_html: { autocomplete: 'new-password' }
+                  input_html: { autocomplete: 'new-password' },
+                  hint: apartment_number_hint
 
           = form.input :building_id,
                   as: :select,
@@ -73,7 +74,10 @@
                     label: 'Add building with address',
                     inline_label: 'Yes'
 
-          = form.input :locality_id, collection: Locality.order(:position), as: :select
+          = form.input :locality_id,
+                  collection: Locality.order(:position),
+                  as: :select,
+                  hint: locality_hint
 
           - unless form.object.year == 1940
             = form.input :dwelling_number, hint: dwelling_number_hint

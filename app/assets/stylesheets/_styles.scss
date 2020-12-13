@@ -445,3 +445,10 @@ abbr[title] {
   padding: 40px;
   .lead { margin: 0; font-size: 1.5rem; }
 }
+
+.popover {
+  max-width: 350px;
+  img {
+    max-width: 320px;
+  }
+}

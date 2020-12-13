@@ -10,14 +10,16 @@ module AutoStripAttributes
       end
       self.autostrippable_attributes += attributes
 
-      before_validation do |record|
-        self.class.autostrippable_attributes.each do |attribute|
-          value = record[attribute]
-          AutoStripAttributes::Config.filters_order.each do |filter_name|
-            next unless options[filter_name]
-            value = AutoStripAttributes::Config.filters[filter_name].call value
-            record[attribute] = value
-          end
+      before_validation :auto_strip_attributes
+    end
+
+    def auto_strip_attributes
+      self.class.autostrippable_attributes.each do |attribute|
+        value = self[attribute]
+        AutoStripAttributes::Config.filters_order.each do |filter_name|
+          next unless options[filter_name]
+          value = AutoStripAttributes::Config.filters[filter_name].call value
+          self[attribute] = value
         end
       end
     end
