@@ -3,11 +3,11 @@ module AutoStripAttributes
   included do
     class_attribute :autostrippable_attributes
     self.autostrippable_attributes ||= []
+    class_attribute :autostrip_options
+    self.autostrip_options = {}
     def self.auto_strip_attributes(*attributes)
-      options = AutoStripAttributes::Config.filters_enabled
-      if attributes.last.is_a?(Hash)
-        options = options.merge(attributes.pop)
-      end
+      self.autostrip_options = AutoStripAttributes::Config.filters_enabled
+      self.autostrip_options.merge!(attributes.pop) if attributes.last.is_a?(Hash)
       self.autostrippable_attributes += attributes
 
       before_validation :auto_strip_attributes
@@ -17,7 +17,7 @@ module AutoStripAttributes
       self.class.autostrippable_attributes.each do |attribute|
         value = self[attribute]
         AutoStripAttributes::Config.filters_order.each do |filter_name|
-          next unless options[filter_name]
+          next unless self.class.autostrip_options[filter_name]
           value = AutoStripAttributes::Config.filters[filter_name].call value
           self[attribute] = value
         end
