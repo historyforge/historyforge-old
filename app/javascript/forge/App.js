@@ -1,6 +1,6 @@
 import React from 'react'
 import Layers from "./Layers"
-import Map from './Map2'
+import Map from './Map'
 import Building from './Building'
 
 import { createLogger } from 'redux-logger'
