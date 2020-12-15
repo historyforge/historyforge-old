@@ -1,9 +1,17 @@
 {
   "dependencies": {
+    "@babel/preset-react": "^7.12.10",
     "@rails/actiontext": "^6.0.2-2",
     "@rails/webpacker": "5.2.1",
     "activestorage": "^5.2.4-2",
+    "axios": "^0.21.0",
     "codemirror": "^5.52.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-google-maps": "^9.4.5",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-logger": "^3.0.6",
     "stimulus": "^1.1.1",
     "trix": "^1.0.0"
   },

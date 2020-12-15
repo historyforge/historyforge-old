@@ -95,13 +95,13 @@ class BuildingSearch
         end
       end
       order << street_address_order_clause('asc') if order.blank?
-      @scoped = @scoped.order Building.send(:sanitize_sql, order.join(', '))
+      @scoped = @scoped.order Arel.sql(Building.send(:sanitize_sql, order.join(', ')))
     else
       @d = 'asc' unless %w{asc desc}.include?(@d)
       @scoped = if @c && Building.columns.map(&:name).include?(@c)
-        @scoped.order entity_class.send(:sanitize_sql, "#{@c} #{@d}")
+        @scoped.order Arel.sql(entity_class.send(:sanitize_sql, "#{@c} #{@d}"))
       else
-        @scoped.order entity_class.send(:sanitize_sql, street_address_order_clause(@d))
+        @scoped.order Arel.sql(entity_class.send(:sanitize_sql, street_address_order_clause(@d)))
       end
     end
   end

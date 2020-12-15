@@ -1,10 +1,10 @@
 class ForgeController < ApplicationController
 
+  # The AngularJS version
   def index
-
   end
 
-  def list
-    render action: :index
+  # The React version
+  def index2
   end
 end

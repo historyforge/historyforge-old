@@ -1,17 +1,17 @@
 <% @full_layout = true %>
-<div id="forge" ng-app="forge" ng-controller="MainCtrl" class="{{viewMode}}" ng-cloak>
+<div id="forge"></div>
 
-  <div ng-controller="LayersCtrl">
-    <%= render 'map' %>
-  </div>
-</div>
+<script type="text/javascript">
+  window.initialState = {
+      layers: { layers: <%== MapOverlay.order(:position).where(active: true).to_json %> },
+      buildingTypes: { types: <%== BuildingType.order(:name).to_json %> },
+      buildings: { buildings: null },
+      search: { params: <%== params.to_json %> }
+  }
+  window.googleApiKey = '<%== AppConfig.google_api_key %>'
+  window.mapCenter = [<%= AppConfig.latitude %>, <%= AppConfig.longitude %>]
+</script>
 
-<%= javascript_tag "window.layers = #{ MapOverlay.order(:position).where(active: true).to_json };" %>
-<%= javascript_tag "window.buildingTypes = #{ BuildingType.order(:name).to_json };" %>
-<%= javascript_tag "window.forgeSearchParams = #{params.to_json};" %>
-<%= javascript_tag "window.googleApiKey = '#{AppConfig.google_api_key}';" %>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= AppConfig.google_api_key -%>&libraries="></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-<%= javascript_include_tag 'forge' %>
+<%= javascript_pack_tag 'forge' %>
 
-<%= render 'pagination_directive' %>
