@@ -23,15 +23,17 @@ class Ability
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
       elsif user.has_role?("editor")
-        can :manage, Document
-        can :manage, DocumentCategory
-        can :manage, Building
-        can :manage, Architect
-        can :manage, CensusRecord
-        can :manage, Photograph
-        can :manage, Flag
-        can :manage, Person
-        can :manage, StreetConversion
+        can :manage, :all
+        cannot :manage, User
+        # can :manage, Document
+        # can :manage, DocumentCategory
+        # can :manage, Building
+        # can :manage, Architect
+        # can :manage, CensusRecord
+        # can :manage, Photograph
+        # can :manage, Flag
+        # can :manage, Person
+        # can :manage, StreetConversion
       end
 
       if user.has_role?("census taker")
