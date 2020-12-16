@@ -30,6 +30,8 @@ class Ability
         can :manage, CensusRecord
         can :manage, Photograph
         can :manage, Flag
+        can :manage, Person
+        can :manage, StreetConversion
       end
 
       if user.has_role?("census taker")
