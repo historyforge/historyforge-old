@@ -59,10 +59,10 @@ class Building < ApplicationRecord
                                                                      ])])
   end
 
-  auto_strip_attributes :name, :city, :postal_code, :description, :address_house_number,
+  auto_strip_attributes :name, :city, :postal_code, :address_house_number,
                         :address_street_name,
                         :address_street_prefix, :address_house_number, :address_street_suffix,
-                        :stories, :annotations
+                        :stories
 
   def field_for(field)
     respond_to?(field) ? public_send(field) : '?'
