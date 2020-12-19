@@ -59,32 +59,34 @@ class Building extends React.PureComponent {
                     {building.description && building.description.length && (
                         <SimpleFormat text={building.description} />
                     )}
-                    <div>
-                        <table className="table table-condensed">
-                            <thead>
-                            <tr>
-                                <th>Year</th>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Race</th>
-                                <th>Sex</th>
-                            </tr>
-                            </thead>
-                            {[1900, 1910, 1920, 1930, 1940].map(year => (
-                                <tbody key={year}>
-                                {building.census_records[year] && building.census_records[year].map(person => (
-                                    <tr key={person.id}>
-                                        <td>{year}</td>
-                                        <td><a href={`/census/${year}/${person.id}`} target="_blank">{person.name}</a></td>
-                                        <td>{person.age}</td>
-                                        <td>{person.race}</td>
-                                        <td>{person.sex}</td>
-                                    </tr>
+                    {building.census_records && building.census_records.length && (
+                        <div>
+                            <table className="table table-condensed">
+                                <thead>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Race</th>
+                                    <th>Sex</th>
+                                </tr>
+                                </thead>
+                                {[1900, 1910, 1920, 1930, 1940].map(year => (
+                                    <tbody key={year}>
+                                    {building.census_records[year] && building.census_records[year].map(person => (
+                                        <tr key={person.id}>
+                                            <td>{year}</td>
+                                            <td><a href={`/census/${year}/${person.id}`} target="_blank">{person.name}</a></td>
+                                            <td>{person.age}</td>
+                                            <td>{person.race}</td>
+                                            <td>{person.sex}</td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
                                 ))}
-                                </tbody>
-                            ))}
-                        </table>
-                    </div>
+                            </table>
+                        </div>
+                    )}
                 </div>
         )
         } else {
