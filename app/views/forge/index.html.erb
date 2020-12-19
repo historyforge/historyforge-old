@@ -10,7 +10,16 @@
   }
   window.googleApiKey = '<%== AppConfig.google_api_key %>'
   window.mapCenter = [<%= AppConfig.latitude %>, <%= AppConfig.longitude %>]
+  <% if ENV['AIRBRAKE_KEY'] %>
+  window.airbrakeCreds = {
+      app_id: '<%== ENV['AIRBRAKE_ID'] %>',
+      api_key: '<%== ENV['AIRBRAKE_KEY'] %>',
+      host: '<%== ENV['AIRBRAKE_URL'] %>'
+  }
+  window.env = "<%= Rails.env.to_s %>"
+  <% end %>
 </script>
+
 
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= AppConfig.google_api_key -%>&libraries="></script>
 <%= javascript_pack_tag 'forge' %>

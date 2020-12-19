@@ -2,6 +2,7 @@ import React from 'react'
 import Layers from "./Layers"
 import Map from './Map'
 import Building from './Building'
+import ErrorBoundary from "./ErrorBoundary";
 
 import { createLogger } from 'redux-logger'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
@@ -17,15 +18,17 @@ export default class App extends React.PureComponent {
     mapRef = React.createRef()
     render() {
         return (
-            <Provider store={store}>
-                <div className={'map-wrap'}>
-                    <Map />
-                    <div id={'forge-right-col'}>
-                        <Layers />
-                        <Building />
+            <ErrorBoundary>
+                <Provider store={store}>
+                    <div className={'map-wrap'}>
+                        <Map />
+                        <div id={'forge-right-col'}>
+                            <Layers />
+                            <Building />
+                        </div>
                     </div>
-                </div>
-            </Provider>
+                </Provider>
+            </ErrorBoundary>
         )
     }
 

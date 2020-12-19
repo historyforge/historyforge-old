@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from "react-redux";
+import SimpleFormat from './SimpleFormat'
 
 class Building extends React.PureComponent {
     render() {
@@ -54,6 +55,9 @@ class Building extends React.PureComponent {
                                 <img className="img-responsive img-thumbnail" alt="Building photo" />
                             </picture>
                         </div>
+                    )}
+                    {building.description && building.description.length && (
+                        <SimpleFormat text={building.description} />
                     )}
                     <div>
                         <table className="table table-condensed">
