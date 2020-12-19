@@ -29,8 +29,8 @@ class ErrorBoundary extends React.PureComponent {
     render() {
         if (this.state.hasError) {
             // You can render any custom fallback UI
-            if (window.env === 'production')
-                wait(2).then(() => document.location.reload())
+            // if (window.env === 'production')
+                // .then(() => document.location.reload())
             return <h1>Something went wrong.</h1>;
         }
         return this.props.children;
