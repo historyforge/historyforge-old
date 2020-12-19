@@ -1,7 +1,7 @@
 class FixBuildingDescriptions < ActiveRecord::Migration[6.0]
   def change
     Building.find_each do |row|
-      next if row.description =~ /\W/ || row.annotations =~ /\W/
+      next if row.description =~ /\W/ && row.annotations =~ /\W/
 
       fix_it(row, row.paper_trail.previous_version)
     end
