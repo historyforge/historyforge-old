@@ -5,11 +5,23 @@ class BuildingSerializer
     object.has_proper_name? ? object.name : object.street_address
   end
 
-  attributes :id, :year_earliest, :year_latest, :description,
+  attributes :id, :year_earliest, :year_latest, :description, :stories,
              :street_address, :city, :state, :postal_code, :building_type_ids
 
   has_many :architects, serializer: ArchitectSerializer
   has_many :photos, serializer: PhotoSerializer
+
+  attribute :type do |object|
+    object.building_type_name
+  end
+
+  attribute :frame do |object|
+    object.frame_type_name
+  end
+
+  attribute :lining do |object|
+    object.lining_type_name
+  end
 
   attribute :photo do |object|
     object.photos.andand.first.andand.id

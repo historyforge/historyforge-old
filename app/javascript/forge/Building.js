@@ -12,9 +12,36 @@ class Building extends React.PureComponent {
                         <a href={`/buildings/${ building.id }`} target="_blank"
                            title="Open building record in new tab">
                             <u>{building.street_address}</u>
-                            <i className="fa fa-external-link" />
                         </a>
                     </h5>
+
+                    {(building.year_earliest || building.year_latest) && (
+                        <dl className="mb-0">
+                            <dt>Years</dt>
+                            <dd>
+                                {building.year_earliest && `Built in ${building.year_earliest}.`}
+                                {building.year_latest ? ` Torn down in ${building.year_latest}.` : ' Still standing.'}
+                            </dd>
+                        </dl>
+                    )}
+                    {building.architects && building.architects.length && (
+                        <dl className="mb-0">
+                            <dt>Architects</dt>
+                            <dd>{building.architects.map(architect => architect.name).join(', ')}</dd>
+                        </dl>
+                    )}
+                    <dl>
+                        <dt>Type</dt>
+                        <dd>{building.type || 'Not specified'}</dd>
+                        <dt>Construction</dt>
+                        <dd>
+                            {building.stories && `${building.stories}-story `}
+                            {building.frame && `${building.frame} structure`}
+                            {building.lining && ` with ${building.lining} lining`}
+                            {!building.stories && !building.frame && !building.lining && 'Not specified'}
+                            .
+                        </dd>
+                    </dl>
                     {building.photo && (
                         <div>
                             <picture>
