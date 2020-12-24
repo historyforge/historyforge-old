@@ -59,7 +59,7 @@ class Building extends React.PureComponent {
                     {building.description && building.description.length && (
                         <SimpleFormat text={building.description} />
                     )}
-                    {building.census_records && building.census_records.length && (
+                    {building.census_records && building.census_records !== {} && (
                         <div>
                             <table className="table table-condensed">
                                 <thead>
