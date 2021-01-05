@@ -16,7 +16,7 @@ class DocumentsController < ApplicationController
     @document = Document.new resource_params
     authorize! :create, @document
     if @document.save
-      flash[:document] = 'Good job uploading the document!'
+      flash[:notice] = 'Good job uploading the document!'
       redirect_to action: :index
     else
       flash[:errors] = 'This document failed to upload. Usually it means the file type is not allowed.'

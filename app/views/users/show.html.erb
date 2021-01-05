@@ -17,7 +17,7 @@
         <%= @user.created_at.to_s(:long) %>
       </dd>
     </dl>
-    <%= render :partial => 'users/admin_tools', :object => @user %>
+    <%= render 'users/admin_tools', object: @user %>
   </div>
 </div>
 
