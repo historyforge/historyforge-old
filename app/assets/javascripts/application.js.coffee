@@ -44,10 +44,12 @@ jQuery(document).on 'blur', '#city, #street_name, #street_suffix', ->
   city = null if city is ''
   street = jQuery('#street_name').val()
   street = null if street is ''
+  prefix = jQuery('#street_prefix').val()
+  prefix = null if street is ''
   suffix = jQuery('#street_suffix').val()
   suffix = null if street is ''
   if city and street
-    params = city: city, street: street, suffix: suffix
+    params = city: city, street: street, prefix: prefix, suffix: suffix
     # TODO: call the right year!
     jQuery.getJSON '/census/1910/building_autocomplete', params, (json) ->
       building = jQuery('#building_id')

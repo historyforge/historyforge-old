@@ -25,6 +25,7 @@ class People::CensusRecordsController < ApplicationController
   def building_autocomplete
     record = resource_class.new
     record.street_house_number = params[:house]
+    record.street_prefix = params[:prefix]
     record.street_name = params[:street]
     record.street_suffix = params[:suffix]
     record.city = params[:city]
