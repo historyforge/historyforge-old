@@ -101,6 +101,9 @@ GEM
     devise-bootstrap-views (1.1.0)
     devise-encryptable (0.2.0)
       devise (>= 2.1.0)
+    devise_invitable (2.0.3)
+      actionmailer (>= 5.0)
+      devise (>= 4.6)
     dotenv (2.7.6)
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
@@ -321,6 +324,7 @@ DEPENDENCIES
   devise
   devise-bootstrap-views (~> 1.0)
   devise-encryptable
+  devise_invitable
   dotenv-rails
   fast_jsonapi
   font-awesome-rails

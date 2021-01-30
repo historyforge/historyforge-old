@@ -53,12 +53,13 @@ class ApplicationController < ActionController::Base
     true
   end
 
-
   protected
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit :sign_up, keys: %i[login description email password password_confirmation]
     devise_parameter_sanitizer.permit :account_update, keys: %i[login description email password password_confirmation current_password]
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: %i[login password password_confirmation])
+    devise_parameter_sanitizer.permit(:invite, keys: %i[login email])
   end
 
   def check_role(role)
@@ -71,4 +72,11 @@ class ApplicationController < ActionController::Base
     flash[:errors] = "Sorry you do not have permission to do that."
     redirect_to root_path
   end
+
+  private
+
+  def after_invite_path_for(_user)
+    users_path
+  end
+
 end

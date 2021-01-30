@@ -12,6 +12,7 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
   end
 
   IGNORED_ERRORS = %w{
+    ActionController::InvalidAuthenticityToken
     ActiveRecord::RecordNotFound
     AbstractController::ActionNotFound
     SIGTERM
