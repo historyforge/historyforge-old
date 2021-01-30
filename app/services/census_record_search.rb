@@ -59,9 +59,9 @@ class CensusRecordSearch
     order = []
     streeted = false
     censused = false
-    sort&.each do |key, sort_unit|
-      Rails.logger.info sort_unit
-      col, dir = sort_unit.values
+    sort&.each do |_key, sort_unit|
+      col = sort_unit['colId']
+      dir = sort_unit['sort']
       if col == 'name'
         order << name_order_clause(dir)
       elsif col =~ /street/
