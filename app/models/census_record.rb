@@ -195,7 +195,7 @@ class CensusRecord < ApplicationRecord
     my_street_suffix = modern_address.street_suffix
     my_street_prefix = modern_address.street_prefix
     self.building ||= matching_building(my_street_name) || Building.create(
-        name: "#{my_street_name} #{my_street_suffix} - #{my_street_prefix} - ##{street_house_number}",
+        name: "#{my_street_name} #{my_street_suffix} - #{my_street_prefix} - ##{my_house_number}",
         address_house_number: my_house_number,
         address_street_prefix: my_street_prefix,
         address_street_name: my_street_name,
