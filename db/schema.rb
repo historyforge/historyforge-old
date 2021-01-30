@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_19_162840) do
+ActiveRecord::Schema.define(version: 2021_01_30_185420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -68,9 +68,9 @@ ActiveRecord::Schema.define(version: 2020_12_19_162840) do
 
   create_table "buildings", id: :serial, force: :cascade do |t|
     t.string "name", null: false
-    t.string "city", default: "Ithaca", null: false
-    t.string "state", default: "NY", null: false
-    t.string "postal_code", default: "14850", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.string "postal_code", null: false
     t.integer "year_earliest"
     t.integer "year_latest"
     t.integer "building_type_id"
@@ -888,6 +888,17 @@ ActiveRecord::Schema.define(version: 2020_12_19_162840) do
     t.datetime "reset_password_sent_at"
     t.string "provider"
     t.string "uid"
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.bigint "invited_by_id"
+    t.integer "invitations_count", default: 0
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by_type_and_invited_by_id"
   end
 
   create_table "versions", force: :cascade do |t|

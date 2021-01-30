@@ -2,6 +2,12 @@
 <div class="float-right">
   <%= link_to 'Edit', edit_user_path(@user), class: 'btn btn-sm btn-light' %>
   <%= link_to 'Impersonate', mask_user_path(@user), class: 'btn btn-sm btn-light' %>
+  <% if @user.invitation_accepted_at.blank? && !@user.enabled? %>
+  <%= link_to 'Resend Invite',
+              resend_invitation_user_path(@user),
+              data: { method: :put },
+              class: 'btn btn-sm btn-light' %>
+  <% end %>
 </div>
 <% end %>
 <h1>

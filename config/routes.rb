@@ -131,6 +131,7 @@ Rails.application.routes.draw do
       put 'disable'
       put 'disable_and_reset'
       get 'mask'
+      put :resend_invitation
     end
     resource :user_account
     resources :roles

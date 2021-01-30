@@ -22,6 +22,7 @@ class Building < ApplicationRecord
   has_and_belongs_to_many :photos, class_name: 'Photograph', dependent: :nullify
 
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
+  validates :address_house_number, presence: true, if: :residence?
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
 
   delegate :name, to: :frame_type, prefix: true, allow_nil: true
@@ -29,7 +30,11 @@ class Building < ApplicationRecord
 
   scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
   scope :as_of_year_eq, -> (year) { where("(year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
-  scope :without_residents, -> { joins("LEFT OUTER JOIN census_1910_records ON census_1910_records.building_id=buildings.id").where("census_1910_records.id IS NULL").where(building_type_id: BuildingType::RESIDENCE) }
+  scope :without_residents, -> {
+    joins("LEFT OUTER JOIN census_1910_records ON census_1910_records.building_id=buildings.id")
+      .joins(:building_types)
+      .where("census_1910_records.id IS NULL")
+      .where(building_types: { name: 'residence' }) }
   scope :by_street_address, -> { order("address_street_name asc, address_street_prefix asc, address_house_number asc") }
 
   def self.ransackable_scopes(auth_object=nil)
@@ -73,6 +78,10 @@ class Building < ApplicationRecord
 
   def has_proper_name?
     name && (address_house_number.blank? || !name.include?(address_house_number))
+  end
+
+  def residence?
+    building_types.include?(BuildingType.find_by(name: 'residence'))
   end
 
   def full_street_address

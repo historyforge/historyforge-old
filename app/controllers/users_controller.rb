@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
   layout 'application'
 
-  before_action :authenticate_user!, only: [:show, :edit, :update]
+  before_action :authenticate_user!,
+                only: %i[show edit update]
 
-  before_action :check_super_user_role, only: [:index, :new, :create, :destroy, :enable, :disable, :disable_and_reset]
+  before_action :check_super_user_role,
+                only: %i[index new create destroy enable disable disable_and_reset resend_invitation]
 
   rescue_from ActiveRecord::RecordNotFound, with: :bad_record
 
@@ -148,6 +150,13 @@ class UsersController < ApplicationController
     session[:mask] = current_user.id
     sign_in @user
     redirect_to root_path
+  end
+
+  def resend_invitation
+    user = User.find params[:id]
+    user.deliver_invitation
+    flash[:notice] = 'Resent the invitation!'
+    redirect_to action: :edit
   end
 
   private

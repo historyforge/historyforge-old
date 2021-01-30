@@ -88,8 +88,8 @@ class BuildingSearch
     if sort.present?
       order = []
       sort&.each do |_key, sort_unit|
-        # Rails.logger.info sort_unit
-        col, dir = sort_unit.values
+        col = sort_unit['colId']
+        dir = sort_unit['sort']
         if Building.columns.map(&:name).include?(col)
           order << "#{col} #{dir}"
         end

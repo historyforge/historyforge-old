@@ -59,9 +59,9 @@ class CensusRecordSearch
     order = []
     streeted = false
     censused = false
-    sort&.each do |key, sort_unit|
-      Rails.logger.info sort_unit
-      col, dir = sort_unit.values
+    sort&.each do |_key, sort_unit|
+      col = sort_unit['colId']
+      dir = sort_unit['sort']
       if col == 'name'
         order << name_order_clause(dir)
       elsif col =~ /street/
@@ -116,7 +116,7 @@ class CensusRecordSearch
 
     headers = ['ID']
     columns.each do |field|
-      headers << I18n.t("simple_form.labels.census_record.#{field}", default: field.humanize)
+      headers << translated_label(field)
     end
     csv << CSV.generate_line(headers)
 
@@ -190,7 +190,7 @@ class CensusRecordSearch
 
   def column_config(column)
     options = {
-        headerName: I18n.t("simple_form.labels.census_record.#{column}", default: column.humanize),
+        headerName: translated_label(column), # I18n.t("simple_form.labels.census_record.#{column}", default: column.humanize),
         field: column,
         resizable: true
     }
@@ -218,5 +218,11 @@ class CensusRecordSearch
         hash
       end
     end
+  end
+
+  def translated_label(key)
+    I18n.t("simple_form.labels.#{entity_class.name.underscore}.#{key}", default:
+      I18n.t("simple_form.labels.census_record.#{key}", default:
+        I18n.t("simple_form.labels.defaults.#{key}", default: entity_class.human_attribute_name(key))))
   end
 end
