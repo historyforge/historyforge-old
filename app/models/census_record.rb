@@ -202,7 +202,7 @@ class CensusRecord < ApplicationRecord
         address_street_suffix: my_street_suffix,
         city: city,
         state: state,
-        building_type_ids: [BuildingType.where(name: 'residence').first.id]
+        building_types: [BuildingType.find_by(name: 'residence')]
     )
   end
 
