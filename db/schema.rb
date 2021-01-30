@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_30_185420) do
+ActiveRecord::Schema.define(version: 2021_01_30_200740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2021_01_30_185420) do
     t.string "name", null: false
     t.string "city", null: false
     t.string "state", null: false
-    t.string "postal_code", null: false
+    t.string "postal_code"
     t.integer "year_earliest"
     t.integer "year_latest"
     t.integer "building_type_id"
