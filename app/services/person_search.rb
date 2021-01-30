@@ -117,7 +117,8 @@ class PersonSearch
   end
 
   def all_fields
-    %w{}
+    default_fields
+    # %w{}
   end
 
   def all_fieldsets

@@ -68,8 +68,8 @@ class AutoStripAttributes::Config
       set_filter :delete_whitespaces => false do |value|
         value.respond_to?(:delete) ? value.delete(" \t") : value
       end
-      set_filter :titleize => true do |value|
-        value.respond_to?(:titleize) && value.upcase != value ? value.titleize : value
+      set_filter :capitalize => true do |value|
+        value.respond_to?(:capitalize) && value.upcase != value ? CapitalizeNames.capitalize(value) : value
       end
     end
 
