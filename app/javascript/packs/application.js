@@ -21,5 +21,16 @@ window.showSubmitButton = function() {
 
 import Cart from './../js/cart'
 import "controllers"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Forge from '../forge/App'
+import MiniForge from '../miniforge/App'
 
 window.cart = new Cart()
+
+document.addEventListener('DOMContentLoaded', () => {
+  const forge = document.getElementById('forge')
+  if (forge) ReactDOM.render(<Forge />, forge)
+  const miniforge = document.getElementById('miniforge')
+  if (miniforge) ReactDOM.render(<MiniForge />, miniforge)
+})

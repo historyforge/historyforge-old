@@ -1,7 +1,8 @@
 class Buildings::MainController < ApplicationController
   include AdvancedRestoreSearch
 
-  respond_to :json, only: %i[index show]
+  wrap_parameters format: []
+  respond_to :json, only: %i[index show update]
   respond_to :csv, only: :index
   respond_to :html
 
@@ -65,7 +66,6 @@ class Buildings::MainController < ApplicationController
   def update
     @building = Building.find params[:id]
     authorize! :update, @building
-
     if params[:Review] && can?(:review, @building) && !@building.reviewed?
       @building.reviewed_by = current_user
       @building.reviewed_at = Time.now

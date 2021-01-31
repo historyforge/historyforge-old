@@ -51,7 +51,6 @@ module HistoryForge
         password:       ENV['SMTP_PASSWORD']
     }
 
-    config.assets.precompile += %w{forge.js miniforge.js}
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
     config.active_storage.variant_processor = :vips

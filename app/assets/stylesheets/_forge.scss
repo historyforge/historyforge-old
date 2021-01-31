@@ -56,25 +56,25 @@ nav.navbar.navbar-static {
   position:relative;
   .map-wrap {
     width:100%;
-    height:400px;
-    margin-bottom:30px;
-
-    ng-map {
+    height: auto;
+    #map {
       width: 100%;
-      height: 100%;
+      height: 300px;
+      margin-bottom:30px;
+    }
+    select {
+      margin-bottom: 30px;
+    }
+    .building p {
+      margin: 0;
+    }
+    .building.active p a {
+      color: white;
     }
   }
   .highlighted {
     border:none;
     background: #ffffff;
-  }
-  .building {
-    padding:5px;
-  }
-  [ng-controller=MiniBuildingCtrl] {
-    p {
-      margin-top:0;
-    }
   }
   #layer-slider {
     position:absolute;

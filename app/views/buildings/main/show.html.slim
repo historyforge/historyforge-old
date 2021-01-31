@@ -118,16 +118,6 @@
   .col-sm-4.card.bg-light
     .card-body
       - if @building.lat?
-        / Map
-        #miniforge ng-app="miniforge"
-
-          = render 'miniforge'
-
-        = javascript_tag "window.googleApiKey = '#{AppConfig.google_api_key}';"
-        script src="https://maps.googleapis.com/maps/api/js?key=#{AppConfig.google_api_key}&libraries="
-        script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"
-        = javascript_tag "window.buildings=#{@neighbors.to_json};"
-        = javascript_tag "window.layer=#{@layer.to_json};"
-        = javascript_include_tag 'miniforge'
+        = render 'map'
       - else
         .alert.alert-danger Building is not yet mapped!

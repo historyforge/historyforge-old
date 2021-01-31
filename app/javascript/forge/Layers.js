@@ -25,7 +25,6 @@ class Layer extends React.PureComponent {
 
 class Layers extends React.PureComponent {
     render() {
-        console.log(this.props)
         const { layers } = this.props
         if (!layers || !layers.length) return null
 
