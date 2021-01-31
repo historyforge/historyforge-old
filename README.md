@@ -63,7 +63,7 @@ cd
 dokku storage:mount hf /var/lib/dokku/data/storage/storage:/app/storage
 dokku postgres:create hf
 dokku postgres:link hf hf
-dokku domains:add yourdomain.com www.yourdomain.com
+dokku domains:add hf yourdomain.com www.yourdomain.com
 ```
 
 8. Open up the file ".exampleconfig" in the project folder. Here is the most tedious part of the whole enterprise.

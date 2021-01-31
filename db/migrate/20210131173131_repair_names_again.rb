@@ -1,4 +1,4 @@
-class RepairPeopleNames < ActiveRecord::Migration[6.0]
+class RepairNamesAgain < ActiveRecord::Migration[6.0]
   def up
     [1900, 1910, 1920, 1930, 1940].each do |year|
       "Census#{year}Record".constantize.find_each do |row|
