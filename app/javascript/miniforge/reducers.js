@@ -5,6 +5,10 @@ export const layers = function(state = {}, action) {
         return {...state, layers: [...state.layers], layer: layer, layeredAt: new Date().getTime()}
     }
 
+    if (action.type === 'LAYER_OPACITY') {
+        return {...state, opacity: action.opacity, opacityAt: new Date().getTime()}
+    }
+
     return state
 }
 

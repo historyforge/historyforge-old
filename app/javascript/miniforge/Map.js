@@ -8,7 +8,7 @@ class Map extends React.PureComponent {
         zoom: 18,
         disableDefaultUI: true,
         gestureHandling: 'cooperative',
-        zoomControl: false,
+        zoomControl: true,
         mapTypeControl: false,
         streetViewControl: true,
         styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}]
@@ -31,24 +31,23 @@ class Map extends React.PureComponent {
         }
     }
 
-    // TODO: only add the markers when the buildings are different
     componentDidUpdate(prevProps, prevState, snapshot) {
         if ((!prevProps.layeredAt && this.props.layeredAt) || (prevProps.layeredAt !== this.props.layeredAt)) {
             this.addLayers()
         }
-        if ((!prevProps.loadedAt && this.props.loadedAt) || (prevProps.loadedAt !== this.props.loadedAt)) {
-            this.addMarkers()
+        if ((!prevProps.opacityAt && this.props.opacityAt) || (prevProps.opacityAt !== this.props.opacityAt)) {
+            this.doOpacity()
         }
         if (prevProps.highlighted && prevProps.highlighted !== this.props.highlighted) {
             this.unhighlightMarker(prevProps.highlighted)
         }
         if (this.props.highlighted) {
             this.highlightMarker(this.props.highlighted)
-            if (this.props.building) {
-                const buildingId = parseInt(this.props.building.id)
-                if (buildingId !== this.props.highlighted)
-                    this.unhighlightMarker(buildingId)
-            }
+            // if (this.props.building) {
+            //     const buildingId = parseInt(this.props.building.id)
+            //     if (buildingId !== this.props.highlighted)
+            //         this.unhighlightMarker(buildingId)
+            // }
         } else if (this.props.building) {
             this.highlightMarker(parseInt(this.props.building.id))
         }
@@ -149,6 +148,16 @@ class Map extends React.PureComponent {
             map.overlayMapTypes.removeAt(0)
         }
         loadWMS(map, layer, layer.name)
+        this.doOpacity()
+    }
+
+    doOpacity() {
+        const { map } = this.state
+        const opacity = this.props.opacity || 100
+        const currentLayers = map.overlayMapTypes.getArray()
+        currentLayers.forEach(layer => {
+            layer.setOpacity(opacity / 100)
+        })
     }
 }
 

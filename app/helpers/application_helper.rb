@@ -41,7 +41,7 @@ module ApplicationHelper
   end
 
   def admin_authorized?
-    user_signed_in? && current_user.has_role?('administrator')
+    can?(:manage, User)
   end
 
   def message_for_item(message, item = nil)

@@ -19,7 +19,6 @@ class UsersController < ApplicationController
       conditions = nil
     end
     @users = User.where(conditions).order('login asc').page(params[:page] || 1).per(30)
-
   end
 
   def show
