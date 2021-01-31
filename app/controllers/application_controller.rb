@@ -49,7 +49,13 @@ class ApplicationController < ActionController::Base
       @page.template = "The page was not found :(\r\n\r\n{{content}}"
       @page.save!
     end
-    render('cms/pages/page_404', status: 404, layout: 'cms')
+    # This weirdness is needed so that it doesn't render the xml template for html
+    respond_to do |format|
+      format.html { render('cms/pages/page_404', status: 404, layout: 'cms') }
+      format.json { render('cms/pages/page_404', status: 404, layout: 'cms') }
+      format.xml  { render('cms/pages/page_404', status: 404, layout: 'cms') }
+    end
+
     true
   end
 

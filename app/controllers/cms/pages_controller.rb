@@ -1,7 +1,7 @@
 class Cms::PagesController < ApplicationController
 
   layout 'application', except: [:show]
-  before_action :load_page, only: [ :show, :edit, :update, :destroy ]
+  before_action :load_page, only: %i[show edit update destroy]
   before_action :check_page_access, only: [:show]
 
   def index
@@ -10,8 +10,6 @@ class Cms::PagesController < ApplicationController
     @pages = @search.result.page(params[:page] || 1)
   end
 
-  # TODO: access and theme callbacks!
-  # TODO: don't show an application page this way!
   def show
     render layout: 'cms'
   end
