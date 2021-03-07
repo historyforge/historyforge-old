@@ -19,7 +19,10 @@
       h3
         - if row.url.present?
           = link_to row.name, row.url, target: '_blank'
-        - else
+        - elsif row.file.attached?
           = link_to row.name, row.file, target: '_blank'
+        - else
+          = row.name
+          span.badge.badge-danger MISSING FILE
       = simple_format row.description
 
