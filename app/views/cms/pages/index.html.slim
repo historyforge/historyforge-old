@@ -29,8 +29,8 @@
               /td= yes_or_no row.visible?
               td
                 - if row.visible?
-                  => link_to 'View', row.formatted_url, class: 'btn btn-default btn-xs'
-                = link_to 'Edit', edit_cms_page_path(row), class: 'btn btn-default btn-xs'
+                  => link_to 'View', row.formatted_url, class: 'btn btn-default btn-sm'
+                = link_to 'Edit', edit_cms_page_path(row), class: 'btn btn-default btn-sm'
       = paginate @pages
 
   .col-3
