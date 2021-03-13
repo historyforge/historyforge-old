@@ -69,7 +69,11 @@ class AutoStripAttributes::Config
         value.respond_to?(:delete) ? value.delete(" \t") : value
       end
       set_filter :capitalize => true do |value|
-        value.respond_to?(:capitalize) && value.upcase != value ? CapitalizeNames.capitalize(value) : value
+        if value.respond_to?(:capitalize)
+          words = value.split(' ')
+          words[0] = words[0].capitalize
+          words.join(' ')
+        end
       end
     end
 
@@ -77,7 +81,7 @@ class AutoStripAttributes::Config
   end
 
   def self.set_filter(filter,&block)
-    if filter.is_a?(Hash) then
+    if filter.is_a?(Hash)
       filter_name = filter.keys.first
       filter_enabled = filter.values.first
     else
