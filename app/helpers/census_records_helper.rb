@@ -16,6 +16,12 @@ module CensusRecordsHelper
     fields.map { |name| [translated_label(resource_class, name), name] }
   end
 
+  def bulk_update_field_for(field, form)
+    "Census#{year}FormFields".safe_constantize.field_config(field.intern, form)
+  rescue
+    "Census#{year}SupplementalFormFields".safe_constantize.field_config(field.intern, form)
+  end
+
   def select_options_for(collection)
     [["blank", 'nil']] + collection.zip(collection)
   end

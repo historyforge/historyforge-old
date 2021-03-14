@@ -23,9 +23,9 @@
           td= pluralize count, 'record'
           td
             - if count > 0
-              = link_to 'View', { action: :show, id: row.id }, class: 'btn btn-light btn-sm'
+              = link_to 'View', "/census/#{year}/bulk/#{row.id}", class: 'btn btn-light btn-sm'
             - else
-              = link_to 'Edit', { action: :edit, id: row.id }, class: 'btn btn-light btn-sm'
+              = link_to 'Edit', "/census/#{year}/bulk/#{row.id}/edit", class: 'btn btn-light btn-sm'
   = paginate @bulk_updates
 - else
   p.lead None yet!

@@ -10,8 +10,8 @@ class BulkUpdate < ApplicationRecord
     targets.each do |record|
       record[field] = value_to
       record.comment = comment
-      if record.save
-        records.create record: record
+      if record.save!
+        records.create! record: record
       end
     end
   end

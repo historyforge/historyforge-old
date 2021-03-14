@@ -7,9 +7,8 @@
             data: { remote: false },
             id: 'edit_census_record' do |form|
 
-  = form.hidden_field :field
   h3= "Change \"#{translated_label(resource_class, @bulk_update.field)}\":"
-  - options = "Census#{controller.year}FormFields".constantize.field_config(@bulk_update.field.intern, form)
+  - options = bulk_update_field_for @bulk_update.field, form
   .row
     .col-6
       - options[:label] = 'From'
