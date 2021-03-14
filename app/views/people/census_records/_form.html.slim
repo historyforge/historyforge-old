@@ -77,7 +77,8 @@
           = form.input :locality_id,
                   collection: Locality.order(:position),
                   as: :select,
-                  hint: locality_hint
+                  hint: locality_hint,
+                  required: true
 
           - unless form.object.year == 1940
             = form.input :dwelling_number, hint: dwelling_number_hint

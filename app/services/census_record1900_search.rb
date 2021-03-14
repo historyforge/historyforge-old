@@ -1,6 +1,6 @@
 class CensusRecord1900Search < CensusRecordSearch
   def default_fields
-    %w[name sex race age marital_status relation_to_head profession pob street_address locality]
+    %w[name sex race age marital_status relation_to_head profession pob street_address]
   end
 
   def all_fields
