@@ -7,6 +7,7 @@
             data: { remote: false },
             id: 'edit_census_record' do |form|
 
+  = form.hidden_field :field
   h3= "Change \"#{translated_label(resource_class, @bulk_update.field)}\":"
   - options = bulk_update_field_for @bulk_update.field, form
   .row

@@ -28,7 +28,7 @@ class People::BulkUpdatesController < ApplicationController
   def update
     authorize! :bulk_update, BulkUpdate
     @bulk_update = BulkUpdate.find params[:id]
-    @bulk_update.attributes = params.require(:bulk_update).permit(:value_from, :value_to, :confirm)
+    @bulk_update.attributes = params.require(:bulk_update).permit(:field, :value_from, :value_to, :confirm)
     if @bulk_update.save
       if @bulk_update.confirmed?
         @bulk_update.perform

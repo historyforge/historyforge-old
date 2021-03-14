@@ -17,7 +17,7 @@ class BulkUpdate < ApplicationRecord
   end
 
   def targets
-    resource_class.where(field => value_from)
+    value_from.present? && resource_class.where(field => value_from) || []
   end
 
   def comment
