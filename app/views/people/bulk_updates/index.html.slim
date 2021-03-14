@@ -1,6 +1,6 @@
 - set_page_title "Bulk Updates for #{controller.year}"
 - content_for :pills do
-  = link_to 'Start Bulk Update', action: :new, class: 'btn btn-primary'
+  = link_to 'Start Bulk Update', "/census/#{year}/bulk/new", class: 'btn btn-primary'
 - if @bulk_updates.any?
   = page_entries_info @bulk_updates
   = table do
@@ -29,4 +29,4 @@
   = paginate @bulk_updates
 - else
   p.lead None yet!
-  = link_to "Care to start?", action: :new
+  = link_to "Care to start?", "/census/#{year}/bulk/new"
