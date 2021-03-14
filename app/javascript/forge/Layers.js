@@ -10,7 +10,7 @@ class Layer extends React.PureComponent {
         return (
             <div className="layer">
                 <div className="form-check" >
-                    <input type="checkbox" className="form-check-input" checked={selected} onChange={() => toggle(id)} />
+                    <input type="checkbox" className="form-check-input" checked={selected} onChange={toggle} />
                     <span className="form-check-label">{name}</span>
                 </div>
                 {selected && <input type="range"

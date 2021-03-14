@@ -53,8 +53,8 @@ group :development do
   gem "letter_opener"
   gem "letter_opener_web"
   gem "pry"
-  # gem "rubocop", require: false
-  # gem "rubocop-rails"
+  gem "rubocop", require: false
+  gem "rubocop-rails"
   gem "spring"
   gem "web-console" #, "~> 2.0"
 end
