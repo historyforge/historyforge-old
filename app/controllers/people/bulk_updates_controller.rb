@@ -30,7 +30,7 @@ class People::BulkUpdatesController < ApplicationController
     @bulk_update = BulkUpdate.find params[:id]
     @bulk_update.attributes = params.require(:bulk_update).permit(:value_from, :value_to, :confirm)
     if @bulk_update.save
-      if @bulk_update.confirm
+      if @bulk_update.confirmed?
         @bulk_update.perform
         count = @bulk_update.records.count
         flash[:notice] = "Bulk update completed! #{count} record(s) were changed."

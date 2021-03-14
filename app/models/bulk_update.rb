@@ -27,4 +27,8 @@ class BulkUpdate < ApplicationRecord
   def resource_class
     "Census#{year}Record".safe_constantize
   end
+
+  def confirmed?
+    confirm && confirm == '1'
+  end
 end

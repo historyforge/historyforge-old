@@ -5,9 +5,11 @@ class Census1940FormFields < CensusFormFields
                label: 'Home owned or rented',
                coded: true,
                hint: -> {owned_or_rented_hint}
+
   input :home_value,
                label: 'Value of home or monthly payment',
                hint: -> {home_value_hint}
+
   input :lives_on_farm,
                as: :boolean,
                label: 'Live on Farm?',
@@ -181,5 +183,4 @@ class Census1940FormFields < CensusFormFields
   input :farm_schedule,
                label: 'Farm Number',
                hint: 'Column 34. Enter as written.'
-
 end

@@ -100,7 +100,7 @@ class AttributeBuilder::Enumeration < AttributeBuilder::BaseAttribute
   def choices
     klass.send("#{key}_choices").map do |item|
       [I18n.t("census_codes.#{key}.#{item.downcase}", default: item), item]
-    end.concat([["Left blank", 'blank'], ['Unknown', 'unknown']])
+    end.concat(key == :page_side ? [] : [["Left blank", 'blank'], ['Unknown', 'unknown']])
   end
 end
 

@@ -9,9 +9,9 @@ module CensusRecordsHelper
   def census_fields_select
     year = controller.year
     fields = if year == 1940
-               "Census#{year}FormFields".constantize.fields.concat("Census#{year}SupplementalFormFields".constantize.fields)
+               "Census#{year}FormFields".constantize.fields.dup.concat("Census#{year}SupplementalFormFields".constantize.fields.dup)
              else
-               "Census#{year}FormFields".constantize.fields
+               "Census#{year}FormFields".constantize.fields.dup
              end
     fields.map { |name| [translated_label(resource_class, name), name] }
   end
