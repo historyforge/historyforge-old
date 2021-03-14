@@ -1,3 +1,4 @@
+- set_page_title "Finalize Bulk Update for #{year}"
 - records = @bulk_update.targets
 
 = form_with url: "/census/#{year}/bulk/#{@bulk_update.id}",
@@ -18,7 +19,7 @@
       = form.input :value_to, **options
 
   - if records.any?
-    = form.input :confirm, as: :boolean, label: "Confirm that you want to update #{pluralize records.size, 'record'}.", inline_label: "I hereby solemnly swear that I, #{current_user.name}, understand the consequence of this bulk update."
+    = form.input :confirm, as: :boolean, label: "Confirm that you want to update #{pluralize records.size, 'record'}.", inline_label: "I hereby solemnly swear that I, #{current_user.name}, understand the consequences of changing these #{pluralize records.size, 'record'}."
 
   .card-footer
     = form.submit 'Submit', class: 'btn btn-lg btn-primary'
@@ -33,5 +34,6 @@
       - records.each do |row|
         tr
           td= row.name
+          td= row.profession
           td= row.street_address
           td= link_to 'View', row, class: 'btn btn-sm btn-light'

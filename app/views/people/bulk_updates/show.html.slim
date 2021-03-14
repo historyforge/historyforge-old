@@ -1,7 +1,8 @@
-- set_page_title "Bulk Edit"
-/- content_for :pills do
+- set_page_title "Bulk Update for #{year}"
+- content_for :pills do
+  = link_to 'View All', { action: :index }, class: 'btn btn-light'
 
-h3= "#{controller.year} - #{@bulk_update.field} changed from #{@bulk_update.value_from} to #{@bulk_update.value_to}."
+h3= "#{translated_label(resource_class, @bulk_update.field)} changed from #{@bulk_update.value_from} to #{@bulk_update.value_to}."
 h3= "#{pluralize @bulk_update.records.count, "Record"} affected:"
 = table do
   tbody
