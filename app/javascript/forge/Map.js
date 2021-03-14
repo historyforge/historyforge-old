@@ -127,7 +127,7 @@ class Map extends React.PureComponent {
 
     addLayers() {
         const selectedLayers = this.props.layers.filter(layer => layer.selected)
-        if (!selectedLayers.length) return
+        // if (!selectedLayers.length) return
 
         const { map } = this.state
         const currentLayers = map.overlayMapTypes.getArray()
