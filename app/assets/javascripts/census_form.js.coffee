@@ -67,9 +67,12 @@ $(document).ready ->
     else
       $input.attr('disabled', yes)
 
+  isBulkUpdate = $('#bulk_update_field').val() isnt null
   $('#new_census_record, #edit_census_record').find('input[autocomplete=new-password]').each ->
-    name = this.getAttribute('name')
-    attribute_name = name.match(/census_record\[(\w+)\]/)[1]
+    attribute_name = if isBulkUpdate
+      $('#bulk_update_field').val()
+    else
+      this.getAttribute('name').match(/census_record\[(\w+)\]/)[1]
     urlParts = document.location.pathname.split('/');
     url = "/census/#{urlParts[2]}/autocomplete?attribute=#{attribute_name}"
     $(this).autocomplete source: url, select: => $(this).trigger('click')

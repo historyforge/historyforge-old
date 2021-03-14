@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_31_173131) do
+ActiveRecord::Schema.define(version: 2021_03_14_004904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -114,6 +114,25 @@ ActiveRecord::Schema.define(version: 2021_01_31_173131) do
   create_table "buildings_photographs", id: false, force: :cascade do |t|
     t.bigint "photograph_id", null: false
     t.bigint "building_id", null: false
+  end
+
+  create_table "bulk_updated_records", force: :cascade do |t|
+    t.bigint "bulk_update_id"
+    t.string "record_type"
+    t.bigint "record_id"
+    t.index ["bulk_update_id"], name: "index_bulk_updated_records_on_bulk_update_id"
+    t.index ["record_type", "record_id"], name: "index_bulk_updated_records_on_record_type_and_record_id"
+  end
+
+  create_table "bulk_updates", force: :cascade do |t|
+    t.integer "year"
+    t.string "field"
+    t.string "value_from"
+    t.string "value_to"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_bulk_updates_on_user_id"
   end
 
   create_table "census_1900_records", id: :serial, force: :cascade do |t|
@@ -909,6 +928,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_173131) do
     t.text "object"
     t.datetime "created_at"
     t.text "object_changes"
+    t.string "comment"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
@@ -926,6 +946,8 @@ ActiveRecord::Schema.define(version: 2021_01_31_173131) do
   add_foreign_key "buildings", "users", column: "reviewed_by_id"
   add_foreign_key "buildings_building_types", "building_types"
   add_foreign_key "buildings_building_types", "buildings"
+  add_foreign_key "bulk_updated_records", "bulk_updates"
+  add_foreign_key "bulk_updates", "users"
   add_foreign_key "census_1900_records", "buildings"
   add_foreign_key "census_1900_records", "localities"
   add_foreign_key "census_1900_records", "people"

@@ -137,6 +137,28 @@ class People::CensusRecordsController < ApplicationController
     redirect_back fallback_location: { action: :index }
   end
 
+  # def bulk_edit
+  #   authorize! :bulk_update, resource_class
+  #   @bulk_update = BulkUpdate.new user: current_user, year: year
+  #   if params[:bulk_update] && params[:bulk_update][:field]
+  #     @bulk_update.field = params[:bulk_update][:field]
+  #   end
+  # end
+  #
+  # def bulk_update
+  #   authorize! :bulk_update, resource_class
+  #   @bulk_update = BulkUpdate.new user: current_user, year: year
+  #   @bulk_update.attributes = params.require(:bulk_update).permit(:field, :value_from, :value_to)
+  #   if @bulk_update.save
+  #     count = @bulk_update.perform
+  #     flash[:notice] = "Bulk update completed! #{count} record(s) were changed."
+  #     redirect_to action: :index
+  #   else
+  #     flash[:errors] = "Bulk update failed. Did you fill in the form?"
+  #     render action: :bulk_edit
+  #   end
+  # end
+
   private
 
   def page_title

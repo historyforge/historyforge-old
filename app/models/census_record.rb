@@ -11,6 +11,8 @@ class CensusRecord < ApplicationRecord
 
   belongs_to :building, optional: true
   belongs_to :person, optional: true
+  has_many :bulk_updated_records, as: :record
+  has_many :bulk_updates, through: :bulk_updated_records
 
   attr_accessor :ensure_building
   before_save :ensure_housing
@@ -44,7 +46,8 @@ class CensusRecord < ApplicationRecord
   define_enumeration :farm_or_house, %w{F H}
   define_enumeration :civil_war_vet, %w{UA UN CA CN}
 
-  has_paper_trail
+  attr_accessor :comment
+  has_paper_trail meta: { comment: :comment }
 
   multisearchable against: :name,
                   using: {

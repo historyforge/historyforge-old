@@ -1,0 +1,37 @@
+- records = @bulk_update.targets
+
+= form_with url: "/census/#{year}/bulk/#{@bulk_update.id}",
+            model: @bulk_update,
+            builder: SimpleForm::FormBuilder,
+            data: { remote: false },
+            id: 'edit_census_record' do |form|
+
+  = form.hidden_field :field
+  h3= "Change \"#{translated_label(resource_class, @bulk_update.field)}\":"
+  - options = "Census#{controller.year}FormFields".constantize.field_config(@bulk_update.field.intern, form)
+  .row
+    .col-6
+      - options[:label] = 'From'
+      = form.input :value_from, **options
+    .col-6
+      -  options[:label] = 'To'
+      = form.input :value_to, **options
+
+  - if records.any?
+    = form.input :confirm, as: :boolean, label: "Confirm that you want to update #{pluralize records.size, 'record'}.", inline_label: "I hereby solemnly swear that I, #{current_user.name}, understand the consequence of this bulk update."
+
+  .card-footer
+    = form.submit 'Submit', class: 'btn btn-lg btn-primary'
+    = link_to 'Never Mind', "/census/#{year}/bulk/#{@bulk_update.id}", class: 'btn btn-lg btn-secondary', data: { method: :delete }
+
+- if records.any?
+  br
+  br
+  h3 These records would be affected:
+  = table do
+    tbody
+      - records.each do |row|
+        tr
+          td= row.name
+          td= row.street_address
+          td= link_to 'View', row, class: 'btn btn-sm btn-light'

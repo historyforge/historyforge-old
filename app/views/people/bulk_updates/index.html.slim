@@ -1,0 +1,27 @@
+- set_page_title "Bulk Updates for #{controller.year}"
+- content_for :pills do
+  = link_to 'Start Bulk Update', action: :new, class: 'btn btn-primary'
+- if @bulk_updates.any?
+  = table do
+    thead
+      tr
+        th Field
+        th From
+        th To
+        th Date
+        th Action
+    tbody
+      - @bulk_updates.each do |row|
+        tr
+          td= row.field
+          td= row.value_from
+          td= row.value_to
+          td= row.created_at
+          td
+            - if row.value_from && row.value_to
+              = link_to 'View', { action: :show, id: row.id }, class: 'btn btn-light btn-sm'
+            - else
+              = link_to 'Edit', { action: :edit, id: row.id }, class: 'btn btn-light btn-sm'
+- else
+  p.lead None yet!
+  = link_to "Care to start?", action: :new

@@ -56,6 +56,10 @@ Rails.application.routes.draw do
     resources :merges, only: %i[new create], controller: 'buildings/merges'
   end
 
+  [1900, 1910, 1920, 1930, 1940].each do |year|
+    resources :bulk, controller: 'people/bulk_updates', path: "census/#{year}/bulk", as: "census_#{year}_bulk"
+  end
+
   resources :census_1900_records,
             concerns: [:people_directory],
             controller: 'people/census_records_nineteen_aught',

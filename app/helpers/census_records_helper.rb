@@ -6,6 +6,16 @@ module CensusRecordsHelper
         I18n.t("simple_form.labels.defaults.#{key}", default: (klass ? klass : CensusRecord).human_attribute_name(key))))
   end
 
+  def census_fields_select
+    year = controller.year
+    fields = if year == 1940
+               "Census#{year}FormFields".constantize.fields.concat("Census#{year}SupplementalFormFields".constantize.fields)
+             else
+               "Census#{year}FormFields".constantize.fields
+             end
+    fields.map { |name| [translated_label(resource_class, name), name] }
+  end
+
   def select_options_for(collection)
     [["blank", 'nil']] + collection.zip(collection)
   end

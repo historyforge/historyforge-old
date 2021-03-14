@@ -18,38 +18,5 @@
   .card-body
     .census-slider-wrapper
       .census-slider.hidden
-        = form.input :last_name, input_html: { autocomplete: 'new-password' }
-        = form.input :first_name, input_html: { autocomplete: 'new-password' }
-        = form.input :middle_name, input_html: { autocomplete: 'new-password' }
-        = form.input :name_prefix, input_html: { autocomplete: 'new-password' }
-        = form.input :name_suffix, input_html: { autocomplete: 'new-password' }
-        = form.input :relation_to_head, input_html: { autocomplete: 'new-password' }
-        = form.input :homemaker, as: :boolean, inline_label: 'Yes'
-        = form.input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true
-        = form.input :home_value, label: 'Value of home or monthly payment', hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :has_radio, as: :boolean, label: 'Radio Set', inline_label: 'Yes'
-        = form.input :lives_on_farm, as: :boolean, label: 'Live on Farm?', inline_label: 'Yes'
-        = form.input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices, coded: true
-        = form.input :race, as: :radio_buttons_other, collection: Census1930Record.race_choices, coded: true
-        = form.input :age, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :age_months, hint: 'Only for children less than 5 years old'
-        = form.input :marital_status, as: :radio_buttons, collection: Census1930Record.marital_status_choices, coded: true
-        = form.input :age_married, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :attended_school, as: :boolean, label: 'Attended school?', inline_label: 'Yes'
-        = form.input :can_read_write, as: :boolean, label: 'Able to read and write?', inline_label: 'Yes'
-        = form.input :pob, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_father, input_html: { autocomplete: 'new-password' }
-        = form.input :pob_mother, input_html: { autocomplete: 'new-password' }
-        = form.input :foreign_born, as: :boolean, label: 'This person is foreign born', inline_label: 'Yes'
-        = form.input :mother_tongue, input_html: { autocomplete: 'new-password' }
-        = form.input :year_immigrated, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-        = form.input :naturalized_alien, as: :radio_buttons, collection: CensusRecord.naturalized_alien_choices, coded: true
-        = form.input :can_speak_english, as: :boolean, label: 'Speaks English?', inline_label: 'Yes'
-        = form.input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
-        = form.input :industry, input_html: { autocomplete: 'new-password' }
-        = form.input :profession_code, input_html: { autocomplete: 'new-password' }
-        = form.input :worker_class, label: 'Worker Class', collection: Census1930Record.worker_class_choices, coded: true, as: :radio_buttons
-        = form.input :worked_yesterday, as: :boolean, label: 'At work yesterday?', inline_label: 'Yes'
-        = form.input :war_fought, label: 'What War?', as: :radio_buttons_other, collection: Census1930Record.war_fought_choices, coded: true
-        = form.input :veteran, as: :boolean, label: 'Veteran?', inline_label: 'Yes'
-        = form.input :farm_schedule, label: 'Farm Number'
+        - Census1930FormFields.render(form)
+
