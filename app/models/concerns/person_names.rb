@@ -1,7 +1,7 @@
 module PersonNames
   extend ActiveSupport::Concern
   included do
-    before_validation :capitalize_name, on: :create
+    # before_validation :capitalize_name, on: :create
     before_validation :clean_middle_name
     before_save :set_searchable_name
 
@@ -19,11 +19,11 @@ module PersonNames
 
     private
 
-    def capitalize_name
-      self.first_name = CapitalizeNames.capitalize(first_name) if first_name.present?
-      self.last_name = CapitalizeNames.capitalize(last_name) if last_name.present?
-    end
-
+    # def capitalize_name
+    #   self.first_name = CapitalizeNames.capitalize(first_name) if first_name.present?
+    #   self.last_name = CapitalizeNames.capitalize(last_name) if last_name.present?
+    # end
+    #
     def clean_middle_name
       return if middle_name.blank?
       self.middle_name = middle_name.gsub(/\W/, ' ').strip.squish
