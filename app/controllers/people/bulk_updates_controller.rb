@@ -14,7 +14,7 @@ class People::BulkUpdatesController < ApplicationController
     @bulk_update = BulkUpdate.new user: current_user, year: year
     @bulk_update.attributes = params.require(:bulk_update).permit(:field)
     if @bulk_update.save
-      redirect_to action: :edit, id: @bulk_update.id
+      redirect_to "/census/#{year}/bulk/#{@bulk_update.id}/edit" #action: :edit, id: @bulk_update.id
     else
       render action: :new
     end
@@ -34,7 +34,7 @@ class People::BulkUpdatesController < ApplicationController
         @bulk_update.perform
         count = @bulk_update.records.count
         flash[:notice] = "Bulk update completed! #{count} record(s) were changed."
-        redirect_to action: :show
+        redirect_to "/census/#{year}/bulk/#{@bulk_update.id}"
       else
         render action: :edit
       end
@@ -53,7 +53,7 @@ class People::BulkUpdatesController < ApplicationController
     authorize! :bulk_update, BulkUpdate
     @bulk_update = BulkUpdate.find params[:id]
     @bulk_update.destroy
-    redirect_to action: :index
+    redirect_to "/census/#{year}/bulk"
   end
 
   def year

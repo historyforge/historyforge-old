@@ -20,7 +20,7 @@
     <%= link_to('Delete User', user_path(@user.id), :method => :delete, :data => {:confirm => 'Are you sure'}, class: 'btn btn-light' ) -%>
   </dt>
   <dd>
-    This cannot be undone. Removes all their data.
+    This cannot be undone. All the census records they've added won't be deleted but will be separated from this user account.
   </dd>
 </dl>
 <dl>
