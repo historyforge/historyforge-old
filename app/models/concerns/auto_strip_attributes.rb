@@ -71,7 +71,7 @@ class AutoStripAttributes::Config
       set_filter :capitalize => true do |value|
         if value.respond_to?(:capitalize)
           words = value.split(' ')
-          words[0] = words[0].capitalize
+          words[0] = words[0].capitalize unless words[0] =~ /^(van|von|de|le)/
           words.join(' ')
         end
       end

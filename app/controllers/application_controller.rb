@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
   if Rails.env.production?
     rescue_from ActiveRecord::RecordNotFound,
                 ActionController::RoutingError,
+                Mime::Type::InvalidMimeType,
                 ActionController::MethodNotAllowed, with: :render_404
   end
 

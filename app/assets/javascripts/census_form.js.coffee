@@ -67,7 +67,7 @@ $(document).ready ->
     else
       $input.attr('disabled', yes)
 
-  isBulkUpdate = $('#bulk_update_field').val() isnt null
+  isBulkUpdate = $('#bulk_update_field').val()?.length
   $('#new_census_record, #edit_census_record').find('input[autocomplete=new-password]').each ->
     attribute_name = if isBulkUpdate
       $('#bulk_update_field').val()
