@@ -36,14 +36,16 @@ entries.each do |row|
   RightsStatement.find_or_create_by name: entry[0], description: entry[1], url: entry[2]
 end
 
-[
-  ['Language Spoken', 'language'],
-  ['Place of Birth', 'pob'],
-  ['Relation to Head', 'relation_to_head']
-].each do |item|
-  file = File.open(Rails.root.join('db', "#{item[0]}.csv"))
-  vocabulary = Vocabulary.find_or_create_by(name: item[0], machine_name: item[1])
-  ImportTerms.new(file, vocabulary).run
+if Vocabulary.count == 0
+  [
+    ['Language Spoken', 'language'],
+    ['Place of Birth', 'pob'],
+    ['Relation to Head', 'relation_to_head']
+  ].each do |item|
+    file = File.open(Rails.root.join('db', "#{item[0]}.csv"))
+    vocabulary = Vocabulary.find_or_create_by(name: item[0], machine_name: item[1])
+    ImportTerms.new(file, vocabulary).run
+  end
 end
 
 Setting.add 'county', value: ENV['APP_PLACE_COUNTY'] || "Tompkins", group: 'Census Record Defaults'
