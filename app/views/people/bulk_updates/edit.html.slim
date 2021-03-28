@@ -13,10 +13,10 @@
   .row
     .col-6
       - options[:label] = 'From'
-      = form.input :value_from, **options
+      = form.input :value_from, **options.dup
     .col-6
       -  options[:label] = 'To'
-      = form.input :value_to, **options
+      = form.input :value_to, **options.dup
 
   - if records.any?
     = form.input :confirm, as: :boolean, label: "Confirm that you want to update #{pluralize records.size, 'record'}.", inline_label: "I hereby solemnly swear that I, #{current_user.name}, understand the consequences of changing these #{pluralize records.size, 'record'}."
