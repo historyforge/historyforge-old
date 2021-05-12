@@ -1,4 +1,3 @@
 set -e
-sudo docker pull gorges/railsready:latest
-sudo docker build -t gorges/historyforge -f ./lib/docker/Dockerfile .
-sudo docker push gorges/historyforge
+docker build -t dfurber/historyforge -f ./lib/docker/Dockerfile .
+docker push dfurber/historyforge
