@@ -24,8 +24,7 @@ class MergeBuilding
 
   def merge_census_records
     @source.with_residents.residents.each do |record|
-      record.building = @target
-      record.save
+      record.update_column :building_id, @target.id
     end
   end
 
