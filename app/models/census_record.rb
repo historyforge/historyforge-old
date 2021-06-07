@@ -158,6 +158,9 @@ class CensusRecord < ApplicationRecord
     @buildings_on_street = @buildings_on_street.where(address_street_suffix: street_suffix) if street_suffix.present?
     @buildings_on_street = @buildings_on_street.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
     @buildings_on_street = @buildings_on_street + buildings_on_modern_street
+    if building_id && !@buildings_on_street.detect { |b| b.id == building_id }
+      @buildings_on_street.unshift Building.find(building_id)
+    end
   end
 
   def buildings_on_modern_street
