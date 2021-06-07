@@ -52,24 +52,48 @@ module CensusRecordsHelper
     end
   end
 
+  def is_1900?
+    controller.year == 1900
+  end
+
+  def is_1910?
+    controller.year == 1910
+  end
+
+  def is_1920?
+    controller.year == 1920
+  end
+
+  def is_1930?
+    controller.year == 1930
+  end
+
+  def is_1940?
+    controller.year == 1940
+  end
+
   def sheet_hint
     html = content_tag(:p, "The <u>Sheet</u> or page number is in the upper right corner in the header.".html_safe)
-    html << image_tag('1910/sheet-side.png') if controller.year == 1910
-    html << image_tag('1920/sheet-side.png') if controller.year == 1920
-    html << image_tag('1940/sheet-side.png') if controller.year == 1940
+    html << image_tag('1900/sheet-side.png') if is_1900?
+    html << image_tag('1910/sheet-side.png') if is_1910?
+    html << image_tag('1920/sheet-side.png') if is_1920?
+    html << image_tag('1940/sheet-side.png') if is_1940?
     raw html
   end
 
   def side_hint
     html = content_tag(:p, "Each census sheet has side <u>A</u> and <u>B</u>.".html_safe)
-    html << image_tag('1910/sheet-side.png') if controller.year == 1910
-    html << image_tag('1920/sheet-side.png') if controller.year == 1920
-    html << image_tag('1940/sheet-side.png') if controller.year == 1940
+    html << image_tag('1900/sheet-side.png') if is_1900?
+    html << image_tag('1910/sheet-side.png') if is_1910?
+    html << image_tag('1920/sheet-side.png') if is_1920?
+    html << image_tag('1940/sheet-side.png') if is_1940?
     raw html
   end
 
   def line_number_hint
-    if controller.year == 1940
+    if is_1900?
+      html = content_tag(:p, "The <u>Line</u> numbers are located in the margins on the left and right sides of the sheet.".html_safe)
+    elsif is_1940?
       html = content_tag(:p, 'Each sheet has 40 lines. The line numbers are located on the left and right side of the sheet.'.html_safe)
       html << content_tag(:p, 'Side A usually contains lines 1-40 and Side B lines 41-80.'.html_safe)
     else
@@ -80,15 +104,19 @@ module CensusRecordsHelper
   end
 
   def ward_hint
-    if controller.year == 1910
+    if is_1900?
+      html = content_tag(:p, "The <u>Ward</u> is in the upper right corner of the sheet underneath the Sheet Number. Enter as a number (4).")
+      html << image_tag('1900/ward.png')
+      raw html
+    elsif is_1910?
       html = content_tag :p, "The ward is in the upper right corner in the header underneath the Enumeration District. Enter ward as a number (4).".html_safe
       html << image_tag('1910/sheet-side.png')
       raw html
-      elsif controller.year == 1920
+    elsif is_1920?
       html = content_tag :p, "The ward is in the upper right corner in the header underneath the Enumeration District. Enter ward as a number (2).".html_safe
       html << image_tag('1920/sheet-side.png')
       raw html
-    elsif controller.year == 1940
+    elsif is_1940?
       html = content_tag :p, "The ward is to the left of the center title \"Sixteenth Census of the United States: 1940\". Enter ward as a number (2).".html_safe
       html << image_tag('1940/ward.png')
       raw html
@@ -96,15 +124,19 @@ module CensusRecordsHelper
   end
 
   def enumeration_district_hint
-    if controller.year == 1910
+    if is_1900?
+      html = content_tag :p, "The <u>Enumeration District</u> is in the upper right corner in the header. Enter as a number (156).".html_safe
+      html << image_tag('1900/ed.png')
+      raw html
+    elsif is_1910?
       html = content_tag :p, "The Enumeration District is in the upper right corner in the header. Enter as a number (185).".html_safe
       html << image_tag('1910/sheet-side.png')
       raw html
-    elsif controller.year == 1920
+    elsif is_1920?
       html = content_tag :p, "The Enumeration District is in the upper right corner in the header underneath the Supervisor's District. Enter as a number (185).".html_safe
       html << image_tag('1920/sheet-side.png')
       raw html
-    elsif controller.year == 1940
+    elsif is_1940?
       html = content_tag :p, "The Enumeration District (ED) is in the upper right corner in the header next to the sheet number. Enter the last 2 digits only.".html_safe
       html << image_tag('1940/sheet-side.png')
       raw html
@@ -113,7 +145,7 @@ module CensusRecordsHelper
 
   def house_number_hint
     html = ''
-    html << content_tag(:p, "<u>Column 2.</u>".html_safe) if controller.year == 1920 || controller.year == 1940
+    html << content_tag(:p, "<u>Column 2.</u>".html_safe) if is_1920? || controller.year == 1940
     html << content_tag(:p, "If the number includes a fraction leave a space between the number and the fraction. i.e. 102 ½.".html_safe)
     html << content_tag(:p, "If the number indicates rear (as in rear apartment) enter the street number followed by a space and the word Rear, i.e. 313 Rear.".html_safe)
     html << content_tag(:p, "If the number includes a range enter as written, i.e. 102-104.".html_safe)
@@ -122,12 +154,12 @@ module CensusRecordsHelper
 
   def street_prefix_hint
     html = ''
-    if controller.year == 1910
+    if is_1910?
       html << content_tag(:p, "The <u>Prefix</u> is located in the first column from the left.".html_safe)
       html << content_tag(:p, "It is the North, South, East, West preceding the street name.".html_safe)
       html << content_tag(:p, "<b>* Note:</b> On occasion, the street name will include North, South, East, or West, as in South Hill Terrace. In this case, you would include South in the street name, not the prefix.".html_safe)
     else
-      html << content_tag(:p, "<u>Column 1.</u>".html_safe) if controller.year == 1920 || controller.year == 1940
+      html << content_tag(:p, "<u>Column 1.</u>".html_safe) if is_1920? || controller.year == 1940
 
       html << content_tag(:p, "North, South, East, West preceding the street name.".html_safe)
       html << content_tag(:p, "<b>Exception:</b> on occasion the street name will include North, South, East or West, as in South Hill Terrace.  In this case you would include South in the street address, not the prefix.".html_safe)
@@ -137,12 +169,12 @@ module CensusRecordsHelper
 
   def street_name_hint
     html = ''
-    if controller.year == 1910
+    if is_1910?
       html << content_tag(:p, "The <u>Street Name</u> is written horizontally in the first column from the left.".html_safe)
       html << content_tag(:p, "This refers to the name of the street itself (i.e. Tioga).".html_safe)
       html << content_tag(:p, "<b>* Note:</b> Street names can change at least once on the sheet. If there are multiple street names in column 1, look for a hand-drawn line separating the buildings on one street from the next.".html_safe)
     else
-      html << content_tag(:p, "<u>Column 1.</u>".html_safe) if controller.year == 1920 || controller.year == 1940
+      html << content_tag(:p, "<u>Column 1.</u>".html_safe) if is_1920? || controller.year == 1940
       html << content_tag(:p, "The name of the street itself, i.e. Aurora. If you enter a space followed by the suffix into this column by mistake, make sure to delete both the suffix and the extra space.".html_safe)
       html << content_tag(:p, "<b>Note:</b> Street names can change at least once on the sheet.  These changes are often indicated by a hand-drawn line across the column separating the buildings on one street from the next.".html_safe)
     end
@@ -151,12 +183,12 @@ module CensusRecordsHelper
 
   def street_suffix_hint
     html = ''
-    if controller.year == 1910
+    if is_1910?
       html << content_tag(:p, "The <u>Suffix</u> is located in the first column from the left.".html_safe)
       html << content_tag(:p, "It is the Ave, Rd, St, etc, following the street name.".html_safe)
       html << content_tag(:p, "<b>* Note:</b> If the enumerator omits the suffix, please check for the correct suffix and enter accordingly.".html_safe)
     else
-      html << content_tag(:p, "Column 1.".html_safe) if controller.year == 1920 || controller.year == 1940
+      html << content_tag(:p, "Column 1.".html_safe) if is_1920? || controller.year == 1940
       html << content_tag(:p, "Avenue, Road, Street, etc. If you are unsure, check the city directory or search the HF building database for the street name to see how it has been entered before.".html_safe)
     end
     raw html
@@ -181,8 +213,8 @@ module CensusRecordsHelper
 
   def dwelling_number_hint
     html = ''
-    html << content_tag(:p, "<u>Column 1.</u>".html_safe) if controller.year == 1910
-    html << content_tag(:p, "<u>Column 3.</u>".html_safe) if controller.year == 1920
+    html << content_tag(:p, "<u>Column 1.</u>".html_safe) if is_1910?
+    html << content_tag(:p, "<u>Column 3.</u>".html_safe) if is_1920?
     html << content_tag(:p, 'Enumerators were asked to number the dwellings in order of visitation. A building with multiple families but one entrance usually has a single dwelling number.'.html_safe)
     html << content_tag(:p, 'If the first person on the sheet is not the head of household, the dwelling and family numbers might be on the previous sheet.'.html_safe)
     html << content_tag(:p, '<b>* Note:</b> Dwelling and Family numbers are generally sequential.'.html_safe)
@@ -193,10 +225,10 @@ module CensusRecordsHelper
 
   def family_id_hint
     html = ''
-    html << content_tag(:p, "<u>Column 2.</u>".html_safe) if controller.year == 1910
-    html << content_tag(:p, "<u>Column 4.</u>".html_safe) if controller.year == 1920
-    html << content_tag(:p, "<u>Column 3.</u>".html_safe) if controller.year == 1940
-    if controller.year == 1910
+    html << content_tag(:p, "<u>Column 2.</u>".html_safe) if is_1910?
+    html << content_tag(:p, "<u>Column 4.</u>".html_safe) if is_1920?
+    html << content_tag(:p, "<u>Column 3.</u>".html_safe) if is_1940?
+    if is_1910?
       html << content_tag(:p, 'Enumerators were asked to number the families in order of visitation.'.html_safe)
       html << content_tag(:p, "<b>Note:</b> Dwelling and Family numbers are generally sequential.".html_safe)
     else
@@ -207,7 +239,14 @@ module CensusRecordsHelper
   end
 
   def name_hint
-    if controller.year == 1910
+    if is_1910?
+      html = content_tag(:p, '<u>Column 3.</u>'.html_safe)
+      html << content_tag(:p, "Names are listed in the following order: Last, First, Middle.".html_safe)
+      html << content_tag(:p, "The last name will be listed in the first record only, with a line or a blank space in the following records indicating it is to be repeated.".html_safe)
+      html << image_tag('1910/names.png')
+      html << content_tag(:p, '<u>If the line is written over with a new last name, enter that as the last name.</u>'.html_safe)
+      html << content_tag(:p, '<b>* Note:</b> If the record is in the same household as the previous record, the last name will be automatically populated after saving the previous record in this family. If the new record contains a different last name, highlight the last name and type in the correct one.'.html_safe)
+    elsif is_1910?
       html = content_tag(:p, '<u>Column 3.</u>'.html_safe)
       html << content_tag(:p, "Names are listed in the following order: Last, First, Middle.".html_safe)
       html << content_tag(:p, "The last name will be listed in the first record only, with a line or a blank space in the following records indicating it is to be repeated.".html_safe)
@@ -224,65 +263,90 @@ module CensusRecordsHelper
 
   def last_name_hint
     html = ''
-    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if controller.year == 1920
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "Names are listed Last, First, Middle.".html_safe)
     html << content_tag(:p, "If several members of a family have the same last name, the last name will be listed in the first record and in following records it will be replaced by a line.".html_safe)
     html << content_tag(:p, "Enter the last name for each individual.".html_safe)
-    html << image_tag('1920/names.png')
+    if is_1920?
+      html << image_tag('1920/names.png')
+    elsif is_1940?
+      html << image_tag('1940/names.png')
+    else
+      html << image_tag('1910/names.png')
+    end
     raw html
   end
 
   def middle_name_hint
     html = ''
-    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if controller.year == 1920
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "Names are listed Last, First, Middle.".html_safe)
     html << content_tag(:p, "If there is no middle name or initial leave the field blank.".html_safe)
-    html << image_tag('1920/names.png')
+    if is_1920?
+      html << image_tag('1920/names.png')
+    elsif is_1940?
+      html << image_tag('1940/names.png')
+    else
+      html << image_tag('1910/names.png')
+    end
     raw html
   end
 
   def first_name_hint
     html = ''
-    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if controller.year == 1920
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "Names are listed Last, First, Middle.".html_safe)
-    html << image_tag('1920/names.png')
+    if is_1920?
+      html << image_tag('1920/names.png')
+    elsif is_1940?
+      html << image_tag('1940/names.png')
+    else
+      html << image_tag('1910/names.png')
+    end
     raw html
   end
 
   def name_prefix_hint
     html = ''
-    html << content_tag(:p, '<u>Column 3.</u>'.html_safe)
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, 'Enter <u>only</u> if there is a Title (i.e. Dr., Mrs.) on the census sheet. If blank, leave blank. Omit periods.'.html_safe)
     raw html
   end
 
   def name_suffix_hint
     html = ''
-    html << content_tag(:p, '<u>Column 3.</u>'.html_safe)
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, 'Enter <u>only</u> if there is a Suffix (i.e. Jr., Sr.) on the census sheet. If blank, leave blank. Omit periods.'.html_safe)
     raw html
   end
 
   def title_hint
     html = ''
-    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if controller.year == 1920
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "Enter as written, if no title leave the field(s) blank.".html_safe)
     raw html
   end
 
   def suffix_hint
     html = ''
-    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if controller.year == 1920
+    html << content_tag(:p, '<u>Column 3.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "Enter as written, if no suffix leave the field(s) blank.".html_safe)
     raw html
   end
 
   def relation_to_head_hint
     html = ''
-    html << content_tag(:p, '<u>Column 4.</u>'.html_safe) if controller.year == 1910
-    html << content_tag(:p, '<u>Column 6.</u>'.html_safe) if controller.year == 1920
-    html << content_tag(:p, '<u>Column 7.</u>'.html_safe) if controller.year == 1940
-    if controller.year == 1910
+    html << content_tag(:p, '<u>Column 4.</u>'.html_safe) if is_1900? || is_1910?
+    html << content_tag(:p, '<u>Column 6.</u>'.html_safe) if is_1920?
+    html << content_tag(:p, '<u>Column 7.</u>'.html_safe) if is_1940?
+    if is_1900? || is_1910?
       html << content_tag(:p, "Enter as written. If this field is blank, enter the word <u>Blank</u> so you can save it.".html_safe)
     else
       html << content_tag(:p, "This field indicates the relationship of each person to the Head of the family (i.e. Head, Wife, Mother, Father, Son, Daughter, Grandson, Daughter-in-Law, Aunt, Uncle, Nephew, Niece, Boarder, Lodger, Servant, etc.). For the Head of household enter Head, do not the number to the right of Head.".html_safe)
@@ -325,14 +389,14 @@ module CensusRecordsHelper
 
   def mortgage_hint
     html = ''
-    html << content_tag(:p, '<u>Column 8.</u>'.html_safe) if controller.year == 1920
+    html << content_tag(:p, '<u>Column 8.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "For head of household only.  Enter as written, generally M-Mortgage, F-Free of Mortgage.  If the response is Un (see image below), enter as Unknown.".html_safe)
     html << image_tag('1920/unknown-scribble.png')
     raw html
   end
 
   def sex_hint
-    if controller.year == 1910
+    if is_1910?
       html = ''
       html << content_tag(:p, '<u>Column 5.</u>'.html_safe)
       html << content_tag(:p, 'Select the option that corresponds to the answer indicated.'.html_safe)
@@ -347,7 +411,7 @@ module CensusRecordsHelper
   end
 
   def race_hint
-    if controller.year == 1910
+    if is_1910?
       html = ''
       html << content_tag(:p, '<u>Column 6.</u>'.html_safe)
       html << content_tag(:p, 'Select the option that corresponds to the answer indicated.'.html_safe)
@@ -363,15 +427,15 @@ module CensusRecordsHelper
 
   def age_hint
     html = ''
-    html << content_tag(:p, '<u>Column 7.</u>'.html_safe) if controller.year == 1910
-    html << content_tag(:p, '<u>Column 11.</u>'.html_safe) if controller.year == 1920 || controller.year == 1940
+    html << content_tag(:p, '<u>Column 7.</u>'.html_safe) if is_1910?
+    html << content_tag(:p, '<u>Column 11.</u>'.html_safe) if is_1920? || controller.year == 1940
 
-    if controller.year == 1910
+    if is_1910?
       html << content_tag(:p, "Enter as written. If the response is un (unknown), see image below, enter <u>999</u> in the <u>Age</u> field.".html_safe)
       html << image_tag('1910/unknown-scribble.png')
     else
       html << content_tag(:p, "Enter 999 for unknown or leave blank if taker left empty".html_safe)
-      if controller.year == 1940
+      if is_1940?
         html << content_tag(:p, "A child that is <b>less than one year of age</b> will be listed by their age in months i.e. 3/12 or 11/12.".html_safe)
       else
         html << content_tag(:p, "A child 5 years of age or under will likely be listed by their age in years and months i.e. 4 and 3/12 or 11/12. If the child is 5 or under enter the age in years in the Age field and the age in months in Age (months).".html_safe)
@@ -389,7 +453,7 @@ module CensusRecordsHelper
   end
 
   def marital_status_hint
-    if controller.year == 1910
+    if is_1910?
       html = content_tag(:p, '<u>Column 8.</u>'.html_safe)
     else
       html = content_tag(:p, '<u>Column 12.</u>'.html_safe)
@@ -406,7 +470,7 @@ module CensusRecordsHelper
 
   def years_married_hint
     html = ''
-    html << content_tag(:p, "<u>Column 9.</u>".html_safe) if controller.year == 1910
+    html << content_tag(:p, "<u>Column 9.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Enter as written. If the answer is un (unknown), see image below, enter <u>999</u>. If blank, leave blank.".html_safe)
     html << image_tag('1910/unknown-scribble.png')
     raw html
@@ -414,14 +478,14 @@ module CensusRecordsHelper
 
   def num_children_born_hint
     html = ''
-    html << content_tag(:p, "<u>Column 10.</u>".html_safe) if controller.year == 1910
+    html << content_tag(:p, "<u>Column 10.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Enter as written.".html_safe)
     raw html
   end
 
   def num_children_alive_hint
     html = ''
-    html << content_tag(:p, "<u>Column 11.</u>".html_safe) if controller.year == 1910
+    html << content_tag(:p, "<u>Column 11.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Enter as written.".html_safe)
     raw html
   end
@@ -440,7 +504,7 @@ module CensusRecordsHelper
 
   def year_immigrated_hint
     html = ''
-    html << content_tag(:p, "<u>Column 15.</u>".html_safe) if controller.year == 1910
+    html << content_tag(:p, "<u>Column 15.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Enter as written. If blank, leave blank. If the response is un (unknown), see image below, choose <u>Unknown</u>.".html_safe)
     html << image_tag('1910/unknown-scribble.png')
     raw html
@@ -448,7 +512,7 @@ module CensusRecordsHelper
 
   def naturalization_hint
     html = ''
-    html << content_tag(:p, "<u>Column 16.</u>".html_safe) if controller.year == 1910
+    html << content_tag(:p, "<u>Column 16.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Select the option that corresponds to the answer indicated. If the response is un (unknown), see image below, choose <u>Unknown</u>.".html_safe)
     html << image_tag('1910/unknown-scribble.png')
     html << content_tag(:p, "<u>* Enter naturalization status if it was recorded for a native-born woman.</u> From 1907 to 1922, native-born women who married foreign-born men acquired the citizenship status of their husband.".html_safe)
@@ -565,8 +629,8 @@ module CensusRecordsHelper
 
   def attended_school_hint
     html = ''
-    html << content_tag(:p, '<u>Column 16.</u>'.html_safe) if controller.year == 1920
-    html << content_tag(:p, '<u>Column 13.</u>'.html_safe) if controller.year == 1940
+    html << content_tag(:p, '<u>Column 16.</u>'.html_safe) if is_1920?
+    html << content_tag(:p, '<u>Column 13.</u>'.html_safe) if is_1940?
     html << content_tag(:p, "Only check if the response is yes.".html_safe)
     raw html
   end

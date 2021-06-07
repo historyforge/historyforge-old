@@ -43,4 +43,6 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :letter_opener
 
   config.web_console.whiny_requests = false
+
+  config.hosts << 'local.test'
 end

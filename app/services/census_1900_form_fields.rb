@@ -1,20 +1,76 @@
 class Census1900FormFields < CensusFormFields
-  input :last_name, input_html: { autocomplete: 'new-password' }
-  input :first_name, input_html: { autocomplete: 'new-password' }
-  input :middle_name, input_html: { autocomplete: 'new-password' }
-  input :name_prefix, input_html: { autocomplete: 'new-password' }
-  input :name_suffix, input_html: { autocomplete: 'new-password' }
-  input :relation_to_head, input_html: { autocomplete: 'new-password' }
-  input :race, as: :radio_buttons, collection: Census1900Record.race_choices, coded: true
-  input :sex, as: :radio_buttons, collection: Census1900Record.sex_choices, coded: true
-  input :birth_month, as: :radio_buttons, collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] }, include_blank: true
+  input :last_name,
+        input_html: { autocomplete: 'new-password' },
+        hint: -> { name_hint }
+
+  input :first_name,
+        input_html: { autocomplete: 'new-password' },
+        hint: -> { name_hint }
+
+  input :middle_name,
+        input_html: { autocomplete: 'new-password' },
+        hint: -> { name_hint }
+
+  input :name_prefix,
+        input_html: { autocomplete: 'new-password' },
+        hint: -> { name_prefix_hint }
+
+  input :name_suffix,
+        input_html: { autocomplete: 'new-password' },
+        hint: -> { name_suffix_hint }
+
+  input :relation_to_head,
+        input_html: { autocomplete: 'new-password' },
+        hint: -> { relation_to_head_hint }
+
+  input :race,
+        as: :radio_buttons,
+        collection: Census1900Record.race_choices,
+        coded: true,
+        hint: -> { race_hint }
+
+  input :sex,
+        as: :radio_buttons,
+        collection: Census1900Record.sex_choices,
+        coded: true,
+        hint: -> { sex_hint }
+
+  # birth year
+  # birth month
+  input :birth_month,
+        as: :radio_buttons,
+        collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] },
+        include_blank: true
+
   input :birth_year
-  input :age, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-  input :age_months, hint: 'Only for children less than 5 years old'
-  input :marital_status, as: :radio_buttons, collection: Census1900Record.marital_status_choices, coded: true
-  input :years_married, as: :integer, input_html: { min: 0 }
-  input :num_children_born, as: :integer, input_html: { min: 0 }
-  input :num_children_alive, as: :integer, input_html: { min: 0 }
+
+  input :age, hint: -> { age_hint }
+
+  input :age_months, hint: -> { age_months_hint }
+
+  input :marital_status,
+        as: :radio_buttons,
+        collection: Census1900Record.marital_status_choices,
+        coded: true,
+        hint: -> { marital_status_hint }
+
+  input :years_married,
+        as: :integer,
+        input_html: { min: 0 },
+        hint: -> { years_married_hint }
+
+  input :num_children_born,
+        as: :integer,
+        input_html: { min: 0 },
+        hint: -> { num_children_born_hint }
+
+  input :num_children_alive,
+        as: :integer,
+        input_html: { min: 0 },
+        hint: -> { num_children_alive_hint }
+
+
+  # Original starts here
   input :pob, input_html: { autocomplete: 'new-password' }
   input :pob_father, input_html: { autocomplete: 'new-password' }
   input :pob_mother, input_html: { autocomplete: 'new-password' }

@@ -64,6 +64,7 @@ dokku storage:mount hf /var/lib/dokku/data/storage/storage:/app/storage
 dokku postgres:create hf
 dokku postgres:link hf hf
 dokku domains:add hf yourdomain.com www.yourdomain.com
+dokku config:set hf PROXY_BUFFERS="8 512k" PROXY_BUFFER_SIZE="512k" PROXY_BUSY_BUFFERS_SIZE="512k"
 ```
 
 8. Open up the file ".exampleconfig" in the project folder. Here is the most tedious part of the whole enterprise.

@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.7.2'
 
 gem 'activerecord-precounter'
 gem 'active_storage_validations'
