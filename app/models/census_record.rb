@@ -161,6 +161,7 @@ class CensusRecord < ApplicationRecord
     if building_id && !@buildings_on_street.detect { |b| b.id == building_id }
       @buildings_on_street.unshift Building.find(building_id)
     end
+    @buildings_on_street
   end
 
   def buildings_on_modern_street
