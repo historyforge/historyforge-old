@@ -30,8 +30,7 @@ class People::CensusRecordsController < ApplicationController
     record.street_suffix = params[:suffix]
     record.city = params[:city]
     record.auto_strip_attributes
-    buildings = record.buildings_on_street
-    buildings = buildings.map {|building| { id: building.id, name: building.name } }
+    buildings = BuildingsOnStreet.new(record).perform.map {|building| { id: building.id, name: building.name } }
     render json: buildings.to_json
   end
 
@@ -40,11 +39,11 @@ class People::CensusRecordsController < ApplicationController
     term = params[:term]
     results = if %w{street_name street_house_number}.include?(attribute)
                 building_attribute = if attribute == 'street_name'
-                                       'address_street_name'
+                                       'name'
                                      elsif attribute == 'street_house_number'
-                                       'address_house_number'
+                                       'house_number'
                                      end
-                Building.ransack(:"#{building_attribute}_start" => term).result.distinct.limit(15).pluck(building_attribute)
+                Address.ransack(:"#{building_attribute}_start" => term).result.distinct.limit(15).pluck(building_attribute)
               elsif %w{first_name middle_name last_name}.include?(attribute)
                 Person.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
               else

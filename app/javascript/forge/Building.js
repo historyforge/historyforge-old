@@ -12,7 +12,7 @@ class Building extends React.PureComponent {
                     <h5>
                         <a href={`/buildings/${ building.id }`} target="_blank"
                            title="Open building record in new tab">
-                            <u>{building.street_address}</u>
+                            <SimpleFormat text={building.street_address} />
                         </a>
                     </h5>
 

@@ -64,7 +64,7 @@
 
           = form.input :building_id,
                   as: :select,
-                  collection: form.object.buildings_on_street,
+                  collection: BuildingsOnStreet.new(form.object).perform,
                   input_html: { id: 'building_id' },
                   hint: building_hint
 

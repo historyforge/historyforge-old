@@ -149,69 +149,14 @@ class CensusRecord < ApplicationRecord
   def buildings_on_street
     return [] unless (street_name.present? && city.present?)
     return @buildings_on_street if defined?(@buildings_on_street)
-    @buildings_on_street = Building
-                               .where(address_street_name: street_name,
-                                      city: city)
-                               .order(:address_street_name, :address_street_suffix, :address_street_prefix, :address_house_number)
-                               .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
-    @buildings_on_street = @buildings_on_street.where(address_street_prefix: street_prefix) if street_prefix.present?
-    @buildings_on_street = @buildings_on_street.where(address_street_suffix: street_suffix) if street_suffix.present?
-    @buildings_on_street = @buildings_on_street.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
-    @buildings_on_street = @buildings_on_street + buildings_on_modern_street
-    if building_id && !@buildings_on_street.detect { |b| b.id == building_id }
-      @buildings_on_street.unshift Building.find(building_id)
-    end
-    @buildings_on_street
-  end
 
-  def buildings_on_modern_street
-    return [] unless (street_name.present? && city.present?)
-    modern_street_name = modern_address.street_name
-    return [] if modern_street_name == street_name
-    buildings = Building
-                    .where(address_street_name: modern_street_name,
-                           city: city)
-                    .order(:address_house_number)
-                    .select('id, concat_ws(\' \', address_house_number, address_street_prefix, address_street_name, address_street_suffix) as name')
-    buildings = buildings.where("address_house_number LIKE ?", "#{street_house_number[0]}%") if street_house_number.present?
-    buildings
-  end
-
-  def matching_building(my_street_name = nil)
-    my_street_name ||= modern_address.street_name
-    my_street_prefix = modern_address.street_prefix
-    @matching_building ||= Building.where(address_house_number: street_house_number,
-                                          address_street_prefix: my_street_prefix,
-                                          address_street_name: my_street_name,
-                                          city: city).first
+    @buildings_on_street = BuildingsOnStreet.new(self).perform
   end
 
   def ensure_housing
-    building_from_address if building_id.blank? && ensure_building == '1' && street_name.present? && city.present? && street_house_number.present?
-  end
+    return unless (building_id.blank? && ensure_building == '1' && street_name.present? && city.present? && street_house_number.present?)
 
-  def modern_address
-    @modern_address ||= Address.new(self).modernize
-  end
-
-  def building_from_address
-    my_house_number = modern_address.house_number
-    my_street_name = modern_address.street_name
-    return if my_house_number.blank? || my_street_name.blank?
-
-    my_street_suffix = modern_address.street_suffix
-    my_street_prefix = modern_address.street_prefix
-    self.building ||= matching_building(my_street_name) || Building.create(
-        name: "#{my_street_name} #{my_street_suffix} - #{my_street_prefix} - ##{my_house_number}",
-        address_house_number: my_house_number,
-        address_street_prefix: my_street_prefix,
-        address_street_name: my_street_name,
-        address_street_suffix: my_street_suffix,
-        city: city,
-        state: state,
-        postal_code: AppConfig.postal_code,
-        building_types: [BuildingType.find_by(name: 'residence')]
-    )
+    self.building = BuildingFromAddress.new(self).perform
   end
 
   def year

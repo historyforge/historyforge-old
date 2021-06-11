@@ -146,15 +146,13 @@ class Buildings::MainController < ApplicationController
   private
 
   def building_params
-    params.require(:building).permit(:name, :description, :annotations, :stories, :block_number,
+    params.require(:building).permit :name, :description, :annotations, :stories, :block_number,
                                      :year_earliest, :year_latest, :year_latest_circa, :year_earliest_circa,
-                                     :address, :city, :state, :postal_code,
-                                     :address_house_number, :address_street_prefix,
-                                     :address_street_name, :address_street_suffix,
                                      { :building_type_ids => [] }, :lining_type_id, :frame_type_id,
-                                     :lat, :lon, :architects_list,
+                                     :lat, :lon, :state, :postal_code, :architects_list,
                                      :investigate, :investigate_reason, :notes,
-                                     { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] })
+                                     { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] },
+                                     { addresses_attributes: [:_destroy, :id, :is_primary, :house_number, :prefix, :name, :suffix, :city, :postal_code] }
   end
 
   def load_buildings

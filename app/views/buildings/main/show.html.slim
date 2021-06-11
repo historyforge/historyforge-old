@@ -28,7 +28,8 @@
             dt Name
             dd= @building.name
           dt Address
-          dd= @building.full_street_address
+          - @building.addresses.each do |address|
+            dd= address.address
           dt Years
           - if @building.year_earliest? || @building.year_latest?
             dd
@@ -47,15 +48,13 @@
           dt Construction
           dd
             - if @building.stories
-              => "#{@building.stories}-story"
+              => "#{@building.stories.to_i}-story"
             - if @building.frame_type_id
               = "#{@building.frame_type.name} structure"
             - if @building.lining_type_id
               = " with #{@building.lining_type.name} lining."
             - if !@building.stories && !@building.frame_type_id && !@building.lining_type_id
               = 'not specified'
-          dt Address
-          dd= @building.address_parts.join("<br>").html_safe
           - if @building.annotations.present?
             dt Annotations
             dd= simple_format @building.annotations
