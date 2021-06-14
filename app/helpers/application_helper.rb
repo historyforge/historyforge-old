@@ -151,4 +151,16 @@ module ApplicationHelper
     attrs['data-sortable'] = true if attrs.delete(:sortable)
     content_tag :table, capture(&block), attrs.merge(:class => 'table table-striped table-condensed')
   end
+
+  def link_to_building(building)
+    return 'Unhoused' if building.blank?
+
+    link_to(building.street_address.gsub("\n", "<br />").html_safe, building, target: :_blank)
+  end
+
+  def birthday(record)
+    return record.birth_year || 'unknown' if record.birth_month.blank?
+
+    "#{Date::MONTHNAMES[record.birth_month]} #{record.birth_year}"
+  end
 end

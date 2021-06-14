@@ -1,8 +1,8 @@
 .row
   .col-sm-4
     dl
-      dt ConvertibleAddress
-      dd= @record.street_address || 'blank'
+      dt Address
+      dd= link_to_building @record.building
     dl
       dt Relation to Head
       dd= @record.relation_to_head.andand.capitalize || 'blank'
@@ -13,11 +13,14 @@
       dt Race
       dd= @record.race || 'blank'
     dl
-      dt Birth Month
-      dd= @record.birth_month || 'blank'
-    dl
-      dt Birth Year
-      dd= @record.birth_year || 'blank'
+      dt Born
+      dd= birthday(@record)
+    / dl
+    /   dt Birth Month
+    /   dd= @record.birth_month || 'blank'
+    / dl
+    /   dt Birth Year
+    /   dd= @record.birth_year || 'blank'
     dl
       dt Age in 1899
       dd= @record.age || 'blank'

@@ -1,8 +1,8 @@
 .row
   .col-sm-4
     dl
-      dt ConvertibleAddress
-      dd= @record.street_address || 'blank'
+      dt Address
+      dd= link_to_building @record.building
     dl
       dt Relation to Head
       dd= @record.relation_to_head.andand.capitalize || 'blank'

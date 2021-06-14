@@ -39,9 +39,11 @@
     .card-header Geography
     .card-body
       .row
-        .col-sm-6
+        .col-sm-4
+          = form.input :city
+        .col-sm-4
           = form.input :state
-        .col-sm-6
+        .col-sm-4
           = form.input :postal_code
       .row
         .col-sm-6

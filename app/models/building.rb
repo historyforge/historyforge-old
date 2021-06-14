@@ -7,7 +7,7 @@ class Building < ApplicationRecord
   define_enumeration :address_street_prefix, %w{N S E W}
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
 
-  has_many :addresses, dependent: :destroy
+  has_many :addresses, dependent: :destroy, autosave: true
   accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: :all_blank
 
   has_and_belongs_to_many :architects
@@ -23,8 +23,8 @@ class Building < ApplicationRecord
 
   has_and_belongs_to_many :photos, class_name: 'Photograph', dependent: :nullify
 
-  validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
-  validates :address_house_number, presence: true, if: :residence?
+  validates :name, presence: true, length: { maximum: 255 }
+  # validates :address_house_number, presence: true, if: :residence?
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
   validate :validate_primary_address
 

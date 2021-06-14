@@ -9,7 +9,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
     dl
       dt Building ID
       dd= @source.id
-      dt ConvertibleAddress
+      dt Address
       dd= @source.full_street_address
 
     - @source.census_records.each do |row|
@@ -22,7 +22,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
                 th Name
                 td= row.name
               tr
-                th ConvertibleAddress
+                th Address
                 td= row.street_address
               tr
                 th Age in #{row.year - 1}
@@ -46,7 +46,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
     dl
       dt Building ID
       dd= @target.id
-      dt ConvertibleAddress
+      dt Address
       dd= @target.full_street_address
     - @target.census_records.each do |row|
       .card.mb-3
@@ -58,7 +58,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
                 th Name
                 td= row.name
               tr
-                th ConvertibleAddress
+                th Address
                 td= row.street_address
               tr
                 th Age in #{row.year - 1}

@@ -10,14 +10,16 @@ class BuildingFromAddress
     return original_address.building if original_address.persisted?
     return modern_address.building if modern_address.persisted?
 
-    building = Building.new name: modern_address.street_address,
+    building = Building.new name: modern_address.address,
+                            city: record.city,
                             state: record.state,
                             postal_code: AppConfig.postal_code,
                             building_types: [BuildingType.find_by(name: 'residence')]
 
+    modern_address.is_primary = true
     building.addresses << modern_address
-    building.addresses << original_address unless original_address.eql?(modern_address)
-    building.save
+    building.addresses << original_address unless original_address.address == modern_address.address
+    raise(building.errors.inspect) unless building.save
     building
   end
 
