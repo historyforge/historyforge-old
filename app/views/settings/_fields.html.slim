@@ -6,6 +6,8 @@
         = simple_fields_for setting do |form|
           - if setting.name =~ /city/
             = form.input :value, as: :select, collection: City.all.map { |city| [city.name, city.key] }, label: setting.name, hint: setting.hint, input_html: { name: "settings[#{setting.id}][value]" }
+          - elsif setting.input_type == 'boolean'
+            = form.input :value, as: :boolean, label: setting.name, inline_label: setting.hint, input_html: { name: "settings[#{setting.id}][value]" }
           - else
             = form.input :value, as: setting.input_type.to_sym, label: setting.name, hint: setting.hint, input_html: { name: "settings[#{setting.id}][value]" }
   br
