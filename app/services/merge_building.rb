@@ -4,6 +4,7 @@ class MergeBuilding
   end
 
   def perform
+    merge_addresses
     merge_building_data
     merge_census_records
     merge_photographs
@@ -12,6 +13,16 @@ class MergeBuilding
   end
 
   private
+
+  def merge_addresses
+    @source.addresses.each do |address|
+      next if target.addresses.any? { |addr| addr.equals?(address) }
+
+      address.is_primary = false
+      address.building = @target
+      address.save
+    end
+  end
 
   def merge_building_data
     @source.attributes.keys.each do |attr|

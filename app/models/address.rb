@@ -1,14 +1,40 @@
-class Address
-  attr_accessor :house_number, :street_prefix, :street_name, :street_suffix, :city, :modern
-  def initialize(attrs=Census1910Record.new)
-    @house_number = attrs.street_house_number
-    @street_prefix = attrs.street_prefix
-    @street_name = attrs.street_name
-    @street_suffix = attrs.street_suffix
-    @city = attrs.city
+class Address < ApplicationRecord
+  include AutoStripAttributes
+
+  belongs_to :building
+
+  auto_strip_attributes :city, :house_number, :name, :prefix, :suffix
+
+  def address
+    [house_number, prefix, name, suffix].join(' ')
   end
 
-  def modernize
-    StreetConversion.convert(self)
+  def equals?(address)
+    house_number == address.house_number && prefix == address.prefix && name == address.name && suffix == address.suffix
+  end
+
+  def self.from(item)
+    if item.kind_of?(Building)
+      item.addresses.find_or_create_by(
+        house_number: item.read_attribute(:address_house_number),
+        prefix:       item.read_attribute(:address_street_prefix),
+        name:         item.read_attribute(:address_street_name),
+        suffix:       item.read_attribute(:address_street_suffix),
+        city:         item.read_attribute(:city),
+        # postal_code:  item.postal_code,
+        is_primary:   true
+      )
+    elsif item.kind_of?(CensusRecord)
+      return if item.building_id.blank?
+
+      item.building.addresses.find_or_create_by(
+        house_number: item.read_attribute(:street_house_number),
+        prefix:       item.read_attribute(:street_prefix),
+        name:         item.read_attribute(:street_name),
+        suffix:       item.read_attribute(:street_suffix),
+        city:         item.read_attribute(:city),
+        # postal_code:  item.postal_code,
+      )
+    end
   end
 end

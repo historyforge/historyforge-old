@@ -24,19 +24,10 @@ module AddChildLinkHelper
     end
   end
 
-# def add_child_link(name, f, method, *args)
-#   options = args.extract_options!
-#   fields = new_child_fields(f, method, options)
-#   html = content_tag(:script, fields, type: 'text/html', id: "#{method}_fields")
-#   html << content_tag(:a, name, 'data-insert-fields' => method, :class => "btn btn-default")
-#   html
-# end
-
   def add_child_link(name, f, method, *args)
     options = args.extract_options!
     fields = new_child_fields(f, method, options)
     content_for(:body_end) { content_tag(:script, fields, type: 'text/html', id: "#{method}_#{f.object_id}_fields") }
-    content_tag(:button, name, 'data-insert-fields' => "#{method}_#{f.object_id}", class: "btn btn-default add-child-button", type: 'button')
+    content_tag(:button, name, 'data-form-selector' => options[:selector], 'data-insert-fields' => "#{method}_#{f.object_id}", class: "btn btn-primary add-child-button", type: 'button')
   end
-
 end

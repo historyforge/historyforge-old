@@ -4,16 +4,14 @@ import SimpleFormat from '../forge/SimpleFormat'
 
 class Building extends React.PureComponent {
     render() {
-        const { id, street_address, city, state } = this.props
+        const { id, street_address } = this.props
         return(
             <div className={`list-group-item building ${this.highlighted && 'active'}`}>
                 <p>
                     <a href={`/buildings/${ id }`} target="_blank"
                        title="Open building record in new tab">
-                        {street_address}
+                        <SimpleFormat text={street_address} />
                     </a>
-                    <br />
-                    {city}, {state}
                 </p>
             </div>
         )

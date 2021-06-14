@@ -6,7 +6,7 @@ class BuildingSerializer
   end
 
   attributes :id, :year_earliest, :year_latest, :description, :stories,
-             :street_address, :city, :state, :postal_code, :building_type_ids
+             :street_address, :building_type_ids
 
   has_many :architects, serializer: ArchitectSerializer
   has_many :photos, serializer: PhotoSerializer

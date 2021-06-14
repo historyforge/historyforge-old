@@ -12,6 +12,7 @@
 #= require buildings
 #= require terms
 #= require home_page
+#= require add_child
 
 pageLoad = ->
   window.alerts or= []

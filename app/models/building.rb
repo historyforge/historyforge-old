@@ -1,17 +1,19 @@
 class Building < ApplicationRecord
-
   include AutoStripAttributes
   include Moderation
   include DefineEnumeration
   include Flaggable
 
+  define_enumeration :address_street_prefix, %w{N S E W}
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
+
+  has_many :addresses, dependent: :destroy
+  accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: :all_blank
 
   has_and_belongs_to_many :architects
   has_and_belongs_to_many :building_types, join_table: :buildings_building_types
   belongs_to :frame_type, class_name: 'ConstructionMaterial', optional: true
   belongs_to :lining_type, class_name: 'ConstructionMaterial', optional: true
-  has_many :census_records, dependent: :nullify, class_name: 'Census1910Record'
 
   has_many :census_1900_records, dependent: :nullify, class_name: 'Census1900Record'
   has_many :census_1910_records, dependent: :nullify, class_name: 'Census1910Record'
@@ -24,6 +26,7 @@ class Building < ApplicationRecord
   validates :name, :address_street_name, :city, :state, presence: true, length: { maximum: 255 }
   validates :address_house_number, presence: true, if: :residence?
   validates :year_earliest, :year_latest, numericality: { minimum: 1500, maximum: 2100, allow_nil: true }
+  validate :validate_primary_address
 
   delegate :name, to: :frame_type, prefix: true, allow_nil: true
   delegate :name, to: :lining_type, prefix: true, allow_nil: true
@@ -31,11 +34,18 @@ class Building < ApplicationRecord
   scope :as_of_year, -> (year) { where("(year_earliest is null and year_latest is null) or (year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
   scope :as_of_year_eq, -> (year) { where("(year_earliest<=:year and (year_latest is null or year_latest>=:year)) or (year_earliest is null and year_latest>=:year)", year: year)}
   scope :without_residents, -> {
+    joins("LEFT OUTER JOIN census_1900_records ON census_1910_records.building_id=buildings.id")
     joins("LEFT OUTER JOIN census_1910_records ON census_1910_records.building_id=buildings.id")
+    joins("LEFT OUTER JOIN census_1920_records ON census_1910_records.building_id=buildings.id")
+    joins("LEFT OUTER JOIN census_1930_records ON census_1910_records.building_id=buildings.id")
+    joins("LEFT OUTER JOIN census_1940_records ON census_1910_records.building_id=buildings.id")
       .joins(:building_types)
-      .where("census_1910_records.id IS NULL")
+      .where("census_1900_records.id IS NULL AND census_1910_records.id IS NULL AND census_1920_records.id IS NULL AND census_1930_records.id IS NULL AND census_1940_records.id IS NULL")
       .where(building_types: { name: 'residence' }) }
-  scope :by_street_address, -> { order("address_street_name asc, address_street_prefix asc, address_house_number asc") }
+  scope :by_street_address, -> {
+    left_outer_joins(:addresses)
+      .order("addresses.name asc, addresses.prefix asc, addresses.house_number asc")
+  }
 
   def self.ransackable_scopes(auth_object=nil)
     %i{as_of_year without_residents as_of_year_eq}
@@ -53,21 +63,19 @@ class Building < ApplicationRecord
   geocoded_by :full_street_address, latitude: :lat, longitude: :lon
   after_validation :do_the_geocode, if: :new_record?
 
-  ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
+  ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do
+    addresses = Address.arel_table
     Arel::Nodes::NamedFunction.new('LOWER',
                                    [Arel::Nodes::NamedFunction.new('concat_ws',
                                                                    [Arel::Nodes::Quoted.new(' '),
-                                                                     parent.table[:address_house_number],
-                                                                     parent.table[:address_street_prefix],
-                                                                     parent.table[:address_street_name],
-                                                                     parent.table[:address_street_suffix]
-                                                                     ])])
+                                                                    addresses[:house_number],
+                                                                    addresses[:prefix],
+                                                                    addresses[:name],
+                                                                    addresses[:suffix]
+                                                                   ])])
   end
 
-  auto_strip_attributes :name, :city, :postal_code, :address_house_number,
-                        :address_street_name,
-                        :address_street_prefix, :address_house_number, :address_street_suffix,
-                        :stories
+  auto_strip_attributes :name, :stories
 
   def field_for(field)
     respond_to?(field) ? public_send(field) : '?'
@@ -96,11 +104,6 @@ class Building < ApplicationRecord
     end
   end
 
-  def address_parts
-    parts = [street_address].compact
-    parts << [[city, state].join(", "), postal_code].join(' ')
-  end
-
   def architects_list
     architects.map(&:name).join(', ')
   end
@@ -113,8 +116,34 @@ class Building < ApplicationRecord
     building_types.map(&:name).join('/')
   end
 
+  def address
+    return @address if defined?(@address)
+
+    @address = addresses&.detect(&:is_primary)
+  end
+
+  def address_house_number
+    address&.house_number
+  end
+
+  def address_street_prefix
+    address&.prefix
+  end
+
+  def address_street_name
+    address&.name
+  end
+
+  def address_street_suffix
+    address&.suffix
+  end
+
+  def city
+    address&.city
+  end
+
   def street_address
-    [address_house_number, address_street_prefix, address_street_name, address_street_suffix].join(' ')
+    addresses.map(&:address).join("\n")
   end
 
   def neighbors
@@ -154,16 +183,34 @@ class Building < ApplicationRecord
   def families_in_1900
     census_1900_records.group_by(&:dwelling_number)
   end
+
   def families_in_1910
     census_1910_records.group_by(&:dwelling_number)
   end
+
   def families_in_1920
     census_1920_records.group_by(&:dwelling_number)
   end
+
   def families_in_1930
     census_1930_records.group_by(&:dwelling_number)
   end
+
   def families_in_1940
     census_1940_records.group_by(&:family_id)
+  end
+
+  private
+
+  # This doesn't work
+  def validate_primary_address
+    primary_addresses = addresses.select(&:is_primary)
+    if primary_addresses.blank?
+      errors.add(:base, 'Primary address missing.')
+    elsif primary_addresses.size > 1
+      primary_addresses.each do |address|
+        address.errors.add(:is_primary, 'must be unique.')
+      end
+    end
   end
 end

@@ -13,7 +13,7 @@ class ReverseStreetConversion
   end
 
   def convert
-    target = Address.new
+    target = ConvertibleAddress.new
     target.street_prefix = convert_attribute 'prefix'
     target.street_name   = convert_attribute 'name'
     target.street_suffix = convert_attribute 'suffix'
@@ -45,7 +45,7 @@ class ReverseStreetConversion
   end
 
   def self.from_string(address_str)
-    address = Address.new
+    address = ConvertibleAddress.new
     bits = address_str.split(' ')
     number = bits.shift if bits.first.to_i > 0
     start = bits.shift
