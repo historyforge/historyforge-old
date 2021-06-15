@@ -6,6 +6,10 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+['super user', 'editor', 'reviewer', 'administrator', 'developer', 'builder', 'census taker'].each do |role|
+  Role.find_or_create_by name: role
+end
+
 BuildingType.where(name: 'public').first_or_create
 BuildingType.where(name: 'residence').first_or_create
 BuildingType.where(name: 'religious').first_or_create
@@ -71,75 +75,3 @@ Setting.add 'recaptcha_secret_key', value: nil, group: 'API Keys'
   Setting.add "add_buildings_#{year}", type: :boolean, value: '1', group: group, name: 'Add Buildings', hint: 'Allows census taker to create a new building from address.'
 end
 
-menu = Cms::Menu.find_or_initialize_by(name: 'Main Menu')
-if menu.new_record?
-  menu.theme_callback = 'menu_list_items'
-  menu.item_theme_callback = 'menu_list_item'
-  menu.save!
-
-  menu.items.create! title: 'Log In',
-                     url: '/u/sign_in',
-                     enabled: true,
-                     access_callback: 'guest_user?',
-                     active_callback: 'current_page?'
-  menu.items.create! title: 'The Forge',
-                     url: '/forge',
-                     enabled: true,
-                     active_callback: 'current_page?'
-  menu.items.create! title: 'Buildings',
-                     url: '/buildings',
-                     enabled: true,
-                     active_callback: 'current_page?'
-  ppl = menu.items.create! title: 'People',
-                           url: '#',
-                           enabled: true,
-                           show_as_expanded: true,
-                           active_callback: 'current_page?'
-  ppl.children.create! title: '1900 US Census',
-                       url: '/census/1900',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  ppl.children.create! title: '1910 US Census',
-                       url: '/census/1910',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  ppl.children.create! title: '1920 US Census',
-                       url: '/census/1920',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  ppl.children.create! title: '1930 US Census',
-                       url: '/census/1930',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  ppl.children.create! title: '1940 US Census',
-                       url: '/census/1940',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  ppl.children.create! title: 'All People',
-                       url: '/people',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  ppl.children.create! title: 'For Transcribers',
-                       url: '/transcribers-corner',
-                       enabled: true,
-                       menu: menu,
-                       active_callback: 'current_page?'
-  menu.items.create! title: 'About',
-                     url: '/about',
-                     enabled: true,
-                     active_callback: 'current_page?'
-  menu.items.create! title: 'Contact',
-                     url: '/contact',
-                     enabled: true,
-                     active_callback: 'current_page?'
-  menu.items.create! title: 'Volunteer',
-                     url: '/volunteer',
-                     enabled: true,
-                     active_callback: 'current_page?'
-end
