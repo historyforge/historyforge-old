@@ -111,6 +111,19 @@ class Buildings::MainController < ApplicationController
     end
   end
 
+  def bulk_review
+    authorize! :review, Building
+    load_buildings
+    @search.scoped.where(reviewed_at: nil).each do |record|
+      record.reviewed_by ||= current_user
+      record.reviewed_at ||= Time.now
+      record.save
+    end
+
+    flash[:notice] = 'The census records are marked as reviewed and available for public view.'
+    redirect_back fallback_location: { action: :index }
+  end
+
   def photo
     @photo = Photograph.find params[:id]
 
