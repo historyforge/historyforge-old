@@ -455,6 +455,7 @@ module CensusRecordsHelper
   def marital_status_hint
     if is_1910?
       html = content_tag(:p, '<u>Column 8.</u>'.html_safe)
+      html << content_tag(:p, 'M or M1: first marriage<br />M2 or M3: subsequent marriages'.html_safe)
     else
       html = content_tag(:p, '<u>Column 12.</u>'.html_safe)
     end
