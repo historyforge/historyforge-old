@@ -1,6 +1,6 @@
 class CensusRecord1930Search < CensusRecordSearch
   def default_fields
-    %w{name sex race age marital_status relation_to_head profession industry pob street_address}
+    %w{census_scope name sex race age marital_status relation_to_head profession industry pob street_address}
   end
 
   def all_fields

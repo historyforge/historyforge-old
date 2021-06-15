@@ -67,14 +67,14 @@ class CensusRecordSearch
       elsif col =~ /street/
         order << street_address_order_clause(dir) unless streeted
         streeted = true
-      elsif %w{ward enum_dist page_number page_size line_number}.include?(col)
+      elsif %w{census_scope ward enum_dist page_number page_size line_number}.include?(col)
         order << census_page_order_clause(dir) unless censused
         censused = true
       elsif entity_class.columns.map(&:name).include?(col)
         order << "#{col} #{dir}"
       end
     end
-    order << name_order_clause('asc') if sort.blank?
+    order << census_page_order_clause('asc') if sort.blank?
     @scoped = @scoped.order entity_class.send(:sanitize_sql, order.join(', '))
   end
 
@@ -145,7 +145,8 @@ class CensusRecordSearch
   end
 
   def fieldsets
-    @fs.present? ? @fs : %w{census_scope}
+    @fs
+    # @fs.present? ? @fs : %w{census_scope}
   end
 
   def default_fields
@@ -200,7 +201,7 @@ class CensusRecordSearch
     options[:cellRenderer] = 'nameCellRenderer' if column == 'name'
     options[:width] = 50 if census_scope_fields.include?(column) || %w{age sex marital_status}.include?(column)
     options[:width] = 60 if %w{id ward enum_dist dwelling_number family_id}.include?(column)
-    options[:width] = 130 if %w{profession industry}.include?(column)
+    options[:width] = 130 if %w{census_scope profession industry}.include?(column)
     options[:width] = 160 if %w{name street_address notes profession}.include?(column)
     options[:width] = 250 if %w{coded_occupation_name coded_industry_name}.include?(column)
     options[:sortable] = true unless column == 'id'
