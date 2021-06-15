@@ -21,28 +21,22 @@ class Ability
 
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
-      elsif user.has_role?("editor")
+      end
+
+      if user.has_role?("editor")
         can :create, CensusRecord
         can :update, CensusRecord
-      elsif user.has_role?("reviewer")
-        can :manage, CensusRecord
-        cannot :bulk_update, CensusRecord
-        can :manage, Photograph
-        can :manage, Flag
-        can :manage, Person
+      end
 
-        # can :manage, :all
-        # cannot :bulk_update, :all
-        # cannot :manage, User
-        # can :manage, Document
-        # can :manage, DocumentCategory
-        # can :manage, Building
-        # can :manage, Architect
-        # can :manage, CensusRecord
-        # can :manage, Photograph
-        # can :manage, Flag
-        # can :manage, Person
-        # can :manage, StreetConversion
+      if user.has_role?("reviewer")
+        can :review, CensusRecord
+        can :review, Building
+        can :review, Photograph
+      end
+
+      if user.has_role?("photographer")
+        can :create, Photograph
+        can :update, Photograph
       end
 
       if user.has_role?("census taker")
@@ -58,3 +52,19 @@ class Ability
     end
   end
 end
+
+# can :manage, Photograph
+# can :manage, Flag
+# can :manage, Person
+# can :manage, :all
+# cannot :bulk_update, :all
+# cannot :manage, User
+# can :manage, Document
+# can :manage, DocumentCategory
+# can :manage, Building
+# can :manage, Architect
+# can :manage, CensusRecord
+# can :manage, Photograph
+# can :manage, Flag
+# can :manage, Person
+# can :manage, StreetConversion

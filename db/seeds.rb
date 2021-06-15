@@ -6,10 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-['super user', 'editor', 'reviewer', 'administrator', 'developer', 'builder', 'census taker'].each do |role|
-  Role.find_or_create_by name: role
-end
-
 BuildingType.where(name: 'public').first_or_create
 BuildingType.where(name: 'residence').first_or_create
 BuildingType.where(name: 'religious').first_or_create

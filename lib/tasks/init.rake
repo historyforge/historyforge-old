@@ -2,12 +2,12 @@ namespace :init do
   task do_it: [:build, :ocodes_1920, :load_ocodes, :new_admin_user]
 
   task new_admin_user: :environment do
-    admin_role = Role.find_or_initialize_by(name: 'super user')
+    admin_role = Role.find_or_initialize_by(name: 'administrator')
     if admin_role.new_record?
       admin_role.save
       Role.find_or_create_by name: 'editor'
-      Role.find_or_create_by name: 'administrator'
-      Role.find_or_create_by name: 'developer'
+      Role.find_or_create_by name: 'reviewer'
+      Role.find_or_create_by name: 'photographer'
       Role.find_or_create_by name: 'census taker'
       Role.find_or_create_by name: 'builder'
     end
