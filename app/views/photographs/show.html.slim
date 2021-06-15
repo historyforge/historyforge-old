@@ -20,6 +20,9 @@
       h4 #{@photograph.physical_format} - #{@photograph.date}
       = simple_format @photograph.description
 
+      - if @photograph.caption.present?
+        h4 Caption for HistoryForge
+        = simple_format @photograph.caption
       - if @photograph.buildings.present?
         h4 Buildings
         p= @photograph.buildings.map { |building| link_to(building.street_address, building) }.join('<br />').html_safe
