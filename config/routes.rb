@@ -38,9 +38,6 @@ Rails.application.routes.draw do
   end
 
   namespace :cms do
-    resources :menus do
-      resources :items, only: [:new, :create, :edit, :update, :destroy], controller: :menu_items
-    end
     resources :pages
   end
 

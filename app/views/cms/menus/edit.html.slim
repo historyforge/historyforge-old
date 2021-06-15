@@ -1,7 +1,0 @@
-- set_page_title 'Edit Menu'
-= render 'form'
-
-- content_for :pills do
-  = link_to 'All Menus', cms_menus_path, class: 'btn btn-default'
-  = link_to 'List Links', cms_menu_path(@menu), class: 'btn btn-default'
-  = link_to 'Delete Menu', cms_menu_path(@menu), class:'btn btn-danger', data: { method: :delete, confirm: 'Are you sure? The menu will be irretrievably gone.' }

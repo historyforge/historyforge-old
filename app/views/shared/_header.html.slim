@@ -33,7 +33,6 @@ header
                   = link_to "Settings", settings_path, class: 'dropdown-item'
                   = link_to "Documents", documents_path, class: 'dropdown-item'
                   = link_to "CMS Pages", cms_pages_path, class: 'dropdown-item'
-                  = link_to "CMS Edit Main Menu", cms_menu_path(1), class: 'dropdown-item'
                   = cms_link
 
             - elsif current_user.has_role?("editor")
