@@ -129,6 +129,19 @@ class People::CensusRecordsController < ApplicationController
     redirect_back fallback_location: { action: :index }
   end
 
+  def bulk_review
+    authorize! :review, resource_class
+    load_census_records
+    @search.scoped.where(reviewed_at: nil).each do |record|
+      record.reviewed_by ||= current_user
+      record.reviewed_at ||= Time.now
+      record.save
+    end
+
+    flash[:notice] = 'The census records are marked as reviewed and available for public view.'
+    redirect_back fallback_location: { action: :index }
+  end
+
   def make_person
     @record = resource_class.find params[:id]
     authorize! :create, resource_class

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       get :advanced_search_filters
       get :building_autocomplete
       get :autocomplete
+      post :bulk_review
     end
     member do
       put :save_as
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
     collection do
       get :autocomplete
       get :advanced_search_filters
+      post :bulk_review
     end
     member do
       put :review
