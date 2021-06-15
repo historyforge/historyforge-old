@@ -200,20 +200,20 @@ class PhotoWizard {
 
 $.fn.activateCard = function () {
     return this.each(function () {
-        $(this).addClass('activating')
-        window.setTimeout(() => {
+        // $(this).addClass('activating')
+        // window.setTimeout(() => {
             $(this).addClass('active')
-        }, 100)
+        // }, 100)
         return this
     })
 }
 
 $.fn.deactivateCard = function () {
     return this.each(function () {
-        $(this).removeClass('active').addClass('deactivating')
-        window.setTimeout(() => {
-            $(this).removeClass('deactivating')
-        }, 1000)
+        $(this).removeClass('active') //.addClass('deactivating')
+        // window.setTimeout(() => {
+        //     $(this).removeClass('deactivating')
+        // }, 1000)
         return this
     })
 }
