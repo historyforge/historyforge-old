@@ -90,6 +90,8 @@ class Census1940FormFields < CensusFormFields
                wrapper_html: { data: { depends_on: :foreign_born } },
                hint: -> { citizenship_hint }
 
+  divider "Status in 1935"
+
   input :residence_1935_town,
                input_html: { autocomplete: 'new-password' },
                hint: -> { residence_1935_town_hint }
@@ -106,6 +108,8 @@ class Census1940FormFields < CensusFormFields
                as: :boolean,
                inline_label: 'Yes',
                hint: "Column 20. Check if the response is yes."
+
+  divider "Employment & Income"
 
   input :private_work,
                as: :boolean,
