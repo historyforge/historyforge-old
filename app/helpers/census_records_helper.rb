@@ -648,6 +648,7 @@ module CensusRecordsHelper
 
   def citizenship_hint
     html = content_tag(:p, '<u>Column 16.</u>'.html_safe)
+    html << content_tag(:p, 'The number 4 is a code for "Unknown".')
     html << image_tag('1940/citizenship.png')
     raw html
   end
@@ -664,7 +665,7 @@ module CensusRecordsHelper
     html = content_tag(:p, "<u>Column #{column}.</u>".html_safe)
     html << content_tag(:p, 'This is a three-figure code followed by a two-figure industry code and a 1-figure worker class code.'.html_safe)
     html << content_tag(:p, 'The <b>occupation</b> code can contain a <b>"V"</b> or an <b>"X"</b> as well as numbers.'.html_safe)
-    html << content_tag(:p, 'The <b>indurstry</b> code can contain a <b>"V"</b> or an <b>"X"</b> as well as numbers.'.html_safe)
+    html << content_tag(:p, 'The <b>industry</b> code can contain a <b>"V"</b> or an <b>"X"</b> as well as numbers.'.html_safe)
     html << content_tag(:p, 'The <b>worker class</b> code is a number from 1 to 6.'.html_safe)
     html << image_tag('1940/occupation-codes.png')
     raw html

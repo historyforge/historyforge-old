@@ -8,9 +8,13 @@
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
     - if can?(:create, resource_class)
       = link_to 'Add New', new_resource_path, class: 'btn btn-sm btn-light'
-    = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
     - if can?(:bulk_update, resource_class) && controller.respond_to?(:year)
       = link_to 'Bulk Update', "/census/#{controller.year}/bulk", class: 'btn btn-sm btn-light'
+    - if can?(:review, resource_class)
+      - count = @search.scoped.where(reviewed_at: nil).count
+      - if count > 0
+        = link_to "Mark #{count} Reviewed", url_for(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
+    = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
   .dropdown
     button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.columns.size, 'Field'
     .dropdown-menu

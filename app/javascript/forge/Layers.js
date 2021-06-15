@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 class Layer extends React.PureComponent {
     render() {
         const selected = this.props.selected || false
-        const opacity = this.props.opacity || 100
+        const opacity = this.props.opacity === undefined ? 100 : this.props.opacity
         const { id, name, toggle, setOpacity } = this.props
 
         return (

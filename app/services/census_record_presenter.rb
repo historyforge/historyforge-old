@@ -46,6 +46,10 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     end
   end
 
+  def census_scope
+    "W #{model.ward} ED #{model.enum_dist} p. #{model.page_number}#{model.page_side} # #{model.line_number}"
+  end
+
   def field_for(field)
     return public_send(field) if respond_to?(field)
     return model.public_send(field) if model.respond_to?(field)

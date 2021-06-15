@@ -11,7 +11,7 @@ class Photograph < ApplicationRecord
   belongs_to :rights_statement, optional: true
   has_one_attached :file
 
-  alias_attribute :caption, :description
+  # alias_attribute :caption, :description
   alias_attribute :name, :title
 
   attr_writer :date_year, :date_month, :date_day

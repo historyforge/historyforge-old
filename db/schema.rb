@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_144735) do
+ActiveRecord::Schema.define(version: 2021_06_15_165015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -795,6 +795,7 @@ ActiveRecord::Schema.define(version: 2021_06_15_144735) do
     t.bigint "physical_type_id"
     t.bigint "physical_format_id"
     t.integer "date_type", default: 0
+    t.text "caption"
     t.index ["building_id"], name: "index_photographs_on_building_id"
     t.index ["created_by_id"], name: "index_photographs_on_created_by_id"
     t.index ["physical_format_id"], name: "index_photographs_on_physical_format_id"

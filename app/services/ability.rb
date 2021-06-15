@@ -23,6 +23,7 @@ class Ability
         can :manage, :all
       elsif user.has_role?("editor")
         can :manage, :all
+        cannot :bulk_update, :all
         cannot :manage, User
         # can :manage, Document
         # can :manage, DocumentCategory

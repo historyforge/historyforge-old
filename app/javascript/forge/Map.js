@@ -149,8 +149,11 @@ class Map extends React.PureComponent {
         const { map } = this.state
         const currentLayers = map.overlayMapTypes.getArray()
         currentLayers.forEach(layer => {
-            const opacity = this.props.layers.find(l => l.id === layer.name).opacity || 100
-            layer.setOpacity(opacity / 100)
+            const opacity = this.props.layers.find(l => l.id === layer.name).opacity
+            if (typeof(opacity) === 'number')
+                layer.setOpacity(opacity / 100)
+            else
+                layer.setOpacity(100)
         })
     }
 }

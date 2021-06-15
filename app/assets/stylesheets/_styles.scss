@@ -318,12 +318,17 @@ form table {
   }
   &.horizontal {
     flex-wrap: nowrap;
+    overflow-x: scroll;
   }
   &.hidden {
     display: none;
   }
-  overflow-x: scroll;
   margin: -1.125rem;
+  h3 {
+    border-top: 1px solid $border-color;
+    padding: 2rem 1.125rem 1.125rem;
+    flex-basis: 100%;
+  }
   fieldset {
     min-width: auto;
   }
@@ -456,3 +461,4 @@ abbr[title] {
 .removed {
   opacity: 0.5;
 }
+

@@ -9,6 +9,13 @@ class CensusFormFields
     inputs[field] = options
   end
 
+  def self.divider(title)
+    self.fields ||= []
+    self.inputs ||= {}
+    fields << title
+    inputs[title] = { as: :divider, label: title }
+  end
+
   def initialize(form)
     @fields = self.class.fields.dup
     @inputs = self.class.inputs.dup
@@ -16,7 +23,12 @@ class CensusFormFields
   end
 
   def render_field(field)
-    form.input(field, field_config(field)).html_safe
+    config = field_config(field)
+    if config[:as] == :divider
+      "<h3>#{config[:label]}</h3>".html_safe
+    else
+      form.input(field, config).html_safe
+    end
   end
 
   def field_config(field)

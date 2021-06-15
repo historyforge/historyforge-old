@@ -21,6 +21,19 @@
     .card-body
       .row
         .col-8
+          = form.input :caption, as: :text, label: "Caption for HistoryForge", hint: "When this photo appears with buildings and people, this text will be used. Title and description are reserved for NYHeritage metadata."
+        .col-3.offset-1.thumb= thumb_for form.object
+    .card-footer.d-flex.justify-content-center
+      button.btn.btn-secondary.btn-lg.btn-prev type="button" &laquo; Previous
+      button.btn.btn-secondary.btn-lg.btn-next type="button" Next &raquo;
+
+  .card
+    .float-right
+      button.btn.btn-secondary.btn-prev type="button" &laquo; Previous
+      button.btn.btn-secondary.btn-next type="button" Next &raquo;
+    .card-body
+      .row
+        .col-8
           = form.input :title
           = form.input :description, as: :text
           = form.input :creator, hint: 'Who took the photo?'

@@ -50,11 +50,13 @@ class PhotographsController < ApplicationController
   def update
     @photograph = model_class.find params[:id]
     authorize! :update, @photograph
-    if @photograph.update resource_params
+    @photograph.attributes = resource_params
+    @photograph.save validate: false
+    if @photograph.valid?
       flash[:notice] = 'The photograph has been updated.'
       redirect_to @building ? [@building, @photograph] : @photograph
     else
-      flash[:errors] = 'Sorry we could not save the photograph. Please correct the errors and try again.'
+      flash[:errors] = 'The photograph has been saved, but cannot be marked as reviewed until it has been fully dressed.'
       @photograph.prepare_for_review
       render action: :edit
     end
@@ -109,7 +111,7 @@ class PhotographsController < ApplicationController
   def resource_params
     params
         .require(:photograph)
-        .permit :file, :title, :description,
+        .permit :file, :title, :description, :caption,
                 :creator, :subject, { building_ids: [], person_ids: [] },
                 :latitude, :longitude,
                 :date_text, :date_start, :date_end, :date_type,

@@ -2,7 +2,7 @@ class PhotoCartsController < ApplicationController
   def fetch
     @photos = Photograph.where(id: params[:ids])
     render json: @photos.map { |photo| { id: photo.id,
-                                             title: photo.description[0..40],
+                                             title: (photo.caption || photo.description)[0..40],
                                              photo: url_for(photo.file.variant(resize_to_fit: [300, 300])) } }
   end
 
