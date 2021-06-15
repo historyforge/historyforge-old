@@ -117,9 +117,7 @@ class CensusRecord < ApplicationRecord
         street_name_eq: street_name,
         last_name_eq: last_name,
         first_name_eq: first_name,
-        name_prefix_eq: name_prefix,
-        name_suffix_eq: name_suffix,
-        age_eq: age
+        age_eq: age || 0
     ).result.count > 0
   end
 

@@ -648,6 +648,7 @@ module CensusRecordsHelper
 
   def citizenship_hint
     html = content_tag(:p, '<u>Column 16.</u>'.html_safe)
+    html << content_tag(:p, 'The number 4 is a code for "Unknown".')
     html << image_tag('1940/citizenship.png')
     raw html
   end

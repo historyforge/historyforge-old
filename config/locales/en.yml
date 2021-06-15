@@ -67,6 +67,7 @@ en:
       al: 'Alien'
       pa: 'Papers'
       na: 'Naturalized'
+      amcit: 'American Citizen'
     employment:
       e: 'Employer'
       emp: 'Employer'
@@ -208,9 +209,13 @@ en:
         usual_profession: 'Usual Occupation'
         naturalization: 'Citizenship'
         worker_class: 'Worker Class'
+        residence_1935_town: 'Town'
+        residence_1935_county: 'County'
+        residence_1935_state: 'State'
+        residence_1935_farm: 'On a Farm?'
     hints:
       building:
-        address: 'TBD - address when built. Ability to add multiple addresses?'
+        address: 'Address'
         architects_list: 'comma-separated list of names'
         year_earliest: 'Year built or first mentioned.'
         year_latest: 'Year in which the building was demolished.'
