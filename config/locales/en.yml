@@ -194,7 +194,7 @@ en:
         private_work: 'Private Work?'
         public_work: 'Public Work?'
         seeking_work: 'Seeking Work?'
-        had_job: 'Has Work?'
+        had_job: 'Employed but Temporarily Absent'
         private_hours_worked: 'Hours Worked Week Prior to Census'
         unemployed_weeks: 'Duration of Unemployment in Weeks'
         profession: 'Occupation'
