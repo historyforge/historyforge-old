@@ -22,9 +22,18 @@ class Ability
       if user.has_role?("administrator") || user.has_role?("super user")
         can :manage, :all
       elsif user.has_role?("editor")
-        can :manage, :all
-        cannot :bulk_update, :all
-        cannot :manage, User
+        can :create, CensusRecord
+        can :update, CensusRecord
+      elsif user.has_role?("reviewer")
+        can :manage, CensusRecord
+        cannot :bulk_update, CensusRecord
+        can :manage, Photograph
+        can :manage, Flag
+        can :manage, Person
+
+        # can :manage, :all
+        # cannot :bulk_update, :all
+        # cannot :manage, User
         # can :manage, Document
         # can :manage, DocumentCategory
         # can :manage, Building
