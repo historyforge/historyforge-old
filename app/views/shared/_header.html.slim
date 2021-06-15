@@ -43,21 +43,24 @@ header
                 - if flags_count > 0
                   span.badge.badge-danger= flags_count
 
-          = menu('Main Menu') do
-            - unless user_signed_in?
-              li.nav-item= link_to 'Log In', '/u/sign_in', class: 'nav-link'
-            li.nav-item= link_to 'The Forge', '/forge', class: 'nav-link'
-            li.nav-item= link_to 'Buildings', '/buildings', class: 'nav-link'
-            li.nav-item.dropdown
-              a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-                | People
-              .dropdown-menu
-                = link_to '1900 US Census', '/census/1900', class: 'dropdown-item'
-                = link_to '1910 US Census', '/census/1910', class: 'dropdown-item'
-                = link_to '1920 US Census', '/census/1920', class: 'dropdown-item'
-                = link_to '1930 US Census', '/census/1930', class: 'dropdown-item'
-                = link_to '1940 US Census', '/census/1940', class: 'dropdown-item'
-            li.nav-item= link_to 'Contact', '/contact', class: 'nav-link'
+          - unless user_signed_in?
+            li.nav-item= link_to 'Log In', '/u/sign_in', class: 'nav-link'
+          li.nav-item= link_to 'The Forge', '/forge', class: 'nav-link'
+          li.nav-item= link_to 'Buildings', '/buildings', class: 'nav-link'
+          li.nav-item.dropdown
+            a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
+              | People
+            .dropdown-menu
+              = link_to '1900 US Census', '/census/1900', class: 'dropdown-item' if can_census?(1900)
+              = link_to '1910 US Census', '/census/1910', class: 'dropdown-item' if can_census?(1910)
+              = link_to '1920 US Census', '/census/1920', class: 'dropdown-item' if can_census?(1920)
+              = link_to '1930 US Census', '/census/1930', class: 'dropdown-item' if can_census?(1930)
+              = link_to '1940 US Census', '/census/1940', class: 'dropdown-item' if can_census?(1940)
+              = link_to 'All People', '/people', class: 'dropdown-item'
+              = link_to 'For Transcribers', '/documents', class: 'dropdown-item'
+          li.nav-item= link_to 'About', '/about', class: 'nav-link'
+          li.nav-item= link_to 'Contact', '/contact', class: 'nav-link'
+          li.nav-item= link_to 'Volunteer', '/volunteer', class: 'nav-link'
 
           - if user_signed_in?
             li.nav-item.dropdown

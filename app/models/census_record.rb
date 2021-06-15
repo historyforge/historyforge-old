@@ -101,10 +101,6 @@ class CensusRecord < ApplicationRecord
     self.pob_father ||= AppConfig.pob
   end
 
-  def can_add_buildings?
-    true
-  end
-
   def clean_enum_dist
     write_attribute(:enum_dist, enum_dist.sub(/\A\d+?\W/, '')) if enum_dist.present?
   end

@@ -31,4 +31,16 @@ class Setting < ApplicationRecord
     setting.hint = hint
     setting.save
   end
+
+  def self.can_add_buildings?(year)
+    value_of "add_buildings_#{year}"
+  end
+
+  def self.can_view_public?(year)
+    value_of "enabled_public_#{year}"
+  end
+
+  def self.can_view_private?(year)
+    value_of "enabled_private_#{year}"
+  end
 end

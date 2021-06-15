@@ -20,8 +20,4 @@ class Census1920Record < CensusRecord
   end
 
   define_enumeration :race, %w{W B Mu In Ch Jp Fil Hin Kor Ot}
-
-  # def can_add_buildings?
-  #   false
-  # end
 end

@@ -38,6 +38,11 @@ class ApplicationController < ActionController::Base
     @page = Cms::Page.where(controller: self.class.name, action: a).first
   end
 
+  def can_census?(year)
+    Setting.can_view_public?(year) || (user_signed_in? && Setting.can_view_private?(year))
+  end
+  helper_method :can_census?
+
   def cms_choose_layout
     @page.present? ? 'cms' : 'application'
   end

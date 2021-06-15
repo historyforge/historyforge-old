@@ -68,7 +68,7 @@
                   input_html: { id: 'building_id' },
                   hint: building_hint
 
-          - if form.object.building_id.blank? && form.object.can_add_buildings?
+          - if form.object.building_id.blank? && Setting.can_add_buildings?(controller.year)
             = form.input :ensure_building,
                     as: :boolean,
                     label: 'Add building with address',

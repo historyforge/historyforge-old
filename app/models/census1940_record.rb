@@ -28,10 +28,6 @@ class Census1940Record < CensusRecord
     'census_records_nineteen_forty'
   end
 
-  # def can_add_buildings?
-  #   false
-  # end
-
   def supplemental?
     mother_tongue.present?
   end
