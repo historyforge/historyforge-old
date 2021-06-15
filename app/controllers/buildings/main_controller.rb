@@ -114,7 +114,9 @@ class Buildings::MainController < ApplicationController
   def bulk_review
     authorize! :review, Building
     load_buildings
-    @search.scoped.where(reviewed_at: nil).each do |record|
+    @search.scoped.to_a.each do |record|
+      next if record.reviewed?
+
       record.reviewed_by ||= current_user
       record.reviewed_at ||= Time.now
       record.save
