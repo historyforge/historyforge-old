@@ -4,7 +4,7 @@ class CensusRecord1910Search < CensusRecordSearch
   end
 
   def all_fields
-    %w[page_number page_side line_number county city ward enum_dist street_address locality dwelling_number family_id
+    %w[census_scope page_number page_side line_number county city ward enum_dist street_address locality dwelling_number family_id
       name relation_to_head sex race age marital_status years_married
       num_children_born num_children_alive pob mother_tongue pob_father mother_tongue_father pob_mother mother_tongue_mother
       foreign_born year_immigrated naturalized_alien language_spoken profession industry employment

@@ -4,7 +4,7 @@ class CensusRecord1940Search < CensusRecordSearch
   end
 
   def all_fields
-    %w[page_number page_side line_number county city ward enum_dist street_address locality family_id
+    %w[census_scope page_number page_side line_number county city ward enum_dist street_address locality family_id
       owned_or_rented home_value lives_on_farm name relation_to_head sex race age marital_status
       attended_school grade_completed pob foreign_born naturalized_alien
       residence_1935_town residence_1935_county residence_1935_state residence_1935_farm

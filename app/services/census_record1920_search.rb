@@ -4,7 +4,7 @@ class CensusRecord1920Search < CensusRecordSearch
   end
 
   def all_fields
-    %w[page_number page_side line_number county city ward enum_dist street_address locality dwelling_number family_id
+    %w[census_scope page_number page_side line_number county city ward enum_dist street_address locality dwelling_number family_id
       name relation_to_head owned_or_rented mortgage sex race age marital_status
       foreign_born year_immigrated naturalized_alien year_naturalized
       attended_school can_read can_write

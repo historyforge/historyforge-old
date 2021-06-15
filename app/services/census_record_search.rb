@@ -158,7 +158,7 @@ class CensusRecordSearch
   end
 
   def all_fieldsets
-    %w{census_scope location}
+    %w{location}
   end
 
   def census_scope_fields
