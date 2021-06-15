@@ -19,7 +19,7 @@ class BuildingsOnStreet
     items = items.where(addresses: { prefix: street_prefix }) if street_prefix.present?
     items = items.where(addresses: { suffix: street_suffix }) if street_suffix.present?
     items = items.where("addresses.house_number LIKE ?", "#{street_house_number[0]}%" ) if street_house_number.present?
-    items = items.unshift(Building.find(building_id)) if building_id && !items.detect { |b| b.id == building_id }
+    items = items.to_a.unshift(Building.find(building_id)) if building_id && !items.detect { |b| b.id == building_id }
     items.map { |item| OpenStruct.new(id: item.id, name: item.street_address.gsub("\n", ", "))}
   end
 
