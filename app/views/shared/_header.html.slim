@@ -57,7 +57,8 @@ header
               = link_to '1940 US Census', '/census/1940', class: 'dropdown-item' if can_census?(1940)
               = link_to 'All People', '/people', class: 'dropdown-item'
               = link_to 'For Transcribers', '/documents', class: 'dropdown-item'
-          li.nav-item= link_to 'About', '/about', class: 'nav-link'
+          - if request.subdomain.blank? || %w{www ithaca}.include?(request.subdomain)
+            li.nav-item= link_to 'About', '/about', class: 'nav-link'
           li.nav-item= link_to 'Contact', '/contact', class: 'nav-link'
           li.nav-item= link_to 'Volunteer', '/volunteer', class: 'nav-link'
 
