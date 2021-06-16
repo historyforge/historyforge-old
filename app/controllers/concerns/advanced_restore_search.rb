@@ -2,7 +2,7 @@ module AdvancedRestoreSearch
   extend ActiveSupport::Concern
 
   included do
-    before_action :restore_search, :only => :index, unless: :is_json_request?
+    before_action :restore_search, only: %i[index bulk_review], unless: :is_json_request?
   end
 
   private
