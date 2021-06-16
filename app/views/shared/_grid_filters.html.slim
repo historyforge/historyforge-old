@@ -16,7 +16,7 @@
         = link_to "Mark #{count} Reviewed", url_for(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
     = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
   .dropdown
-    button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.columns.size, 'Field'
+    button.btn.btn-sm.btn-light type="button" data-toggle="dropdown" = pluralize @search.columns.size, 'Field'
     .dropdown-menu
       .value-input-container.column-count-3.checkboxes#fields
         - @search.all_fieldsets.each do |field|
@@ -31,7 +31,7 @@
         = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary mr-auto'
         button.btn.btn-light.ml-auto.checkall data-scope="#fields" type="button" Check all
   .dropdown
-    button.btn.btn-light type="button" data-toggle="dropdown" = pluralize @search.s.keys.size, 'Filter'
+    button.btn.btn-sm.btn-light type="button" data-toggle="dropdown" = pluralize @search.s.keys.size, 'Filter'
     .dropdown-menu
       #attribute-filters
         em.dropdown-item No filters have been applied.

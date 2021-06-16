@@ -22,6 +22,10 @@ class Person < ApplicationRecord
                   against: :last_name,
                   using: %i[dmetaphone]
 
+  # To make the "Mark n Reviewed" button work for now...
+  def reviewed?
+    true
+  end
 
   def self.likely_matches_for(record)
     matches = where(sex: record.sex, last_name: record.last_name, first_name: record.first_name).order(:first_name, :middle_name)

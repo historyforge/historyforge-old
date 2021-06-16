@@ -188,7 +188,9 @@ div.date {
 #grid-filters {
   .dropdown, .btn-group-toggle {
     display: inline-block;
+    vertical-align: top;
     margin-right: 12px;
+    margin-bottom: 12px;
     .form-actions {
       display: flex;
     }
