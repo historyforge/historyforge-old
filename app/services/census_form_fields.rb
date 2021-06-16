@@ -37,7 +37,7 @@ class CensusFormFields
       options[:hint] = form.template.instance_exec &options[:hint]
     end
     options
-  rescue Exception => error
+  rescue StandardError => error
     Rails.logger.error "*** Field Config Missing for #{field}! ***"
     raise error
   end

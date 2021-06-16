@@ -1,6 +1,6 @@
 window.GridDataSource = {
   getRows: (options) => {
-    params = {
+    const params = {
       from: options.startRow,
       to: options.endRow,
       sort: options.sortModel
@@ -12,7 +12,7 @@ window.GridDataSource = {
   }
 }
 
-function ActionCellRenderer () {}
+const ActionCellRenderer = function() {}
 
 // gets called once before the renderer is used
 ActionCellRenderer.prototype.init = function(params) {
@@ -41,7 +41,7 @@ ActionCellRenderer.prototype.refresh = function(params) {
 ActionCellRenderer.prototype.destroy = function() {};
 
 
-function NameCellRenderer () {}
+const NameCellRenderer = function() {}
 
 // gets called once before the renderer is used
 NameCellRenderer.prototype.init = function(params) {
@@ -73,3 +73,6 @@ NameCellRenderer.prototype.refresh = function(params) {
 
 // gets called when the cell is removed from the grid
 NameCellRenderer.prototype.destroy = function() {};
+
+window.ActionCellRenderer = ActionCellRenderer
+window.NameCellRenderer = NameCellRenderer

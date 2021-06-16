@@ -11,7 +11,7 @@ require "action_mailer/railtie"
 require "action_text/engine"
 require "action_view/railtie"
 # require "action_cable/engine"
-require "sprockets/railtie"
+# require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -50,8 +50,6 @@ module HistoryForge
         user_name:      ENV['SMTP_USERNAME'],
         password:       ENV['SMTP_PASSWORD']
     }
-
-    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
 
     config.active_storage.variant_processor = :vips
     config.active_storage.service = :local

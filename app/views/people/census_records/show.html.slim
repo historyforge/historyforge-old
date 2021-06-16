@@ -36,34 +36,35 @@
 
 = render 'shared/flag_resolution', item: @model
 
-.card.mb-1
+.card.mb-3
   .card-header
     - if @record.person_id
       = link_to 'Go to Person Record', @record.person, class: 'float-right'
     | Census Scope
-  table.table.table-bordered.table-condensed
-    thead
-      tr
-        th Year
-        th County
-        th City
-        th Ward
-        th Enum Dist
-        th Page
-        th Line
-        th Dwelling
-        th Family ID
-    tbody
-      tr
-        td= controller.year
-        td= @record.county
-        td= @record.city
-        td= @record.ward
-        td= @record.enum_dist
-        td= "#{@record.page_number}#{@record.page_side}"
-        td= @record.line_number
-        td= @record.dwelling_number
-        td= @record.family_id
+  .card-body.p-0
+    table.table.table-bordered.table-condensed.mb-0
+      thead
+        tr
+          th Year
+          th County
+          th City
+          th Ward
+          th Enum Dist
+          th Page
+          th Line
+          th Dwelling
+          th Family ID
+      tbody
+        tr
+          td= controller.year
+          td= @record.county
+          td= @record.city
+          td= @record.ward
+          td= @record.enum_dist
+          td= "#{@record.page_number}#{@record.page_side}"
+          td= @record.line_number
+          td= @record.dwelling_number
+          td= @record.family_id
 
 .card.mb-3
   .card-header

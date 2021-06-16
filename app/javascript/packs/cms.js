@@ -18,6 +18,7 @@
 import 'trix/dist/trix.css'
 import '../css/cms'
 
+require('../js/cms_admin')
 require("trix")
 require("@rails/actiontext")
 require("@rails/activestorage").start()

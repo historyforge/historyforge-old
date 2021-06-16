@@ -22,11 +22,11 @@ class CensusRecord < ApplicationRecord
   validates :first_name, :last_name, :family_id, :relation_to_head, :profession,
             :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
             presence: true
-
   validates :age, numericality: {greater_than_or_equal_to: -1, allow_nil: true}
   validate :dont_add_same_person, on: :create
   validates :relation_to_head, vocabulary: { allow_blank: true }
   validates :pob, :pob_father, :pob_mother, vocabulary: { name: :pob, allow_blank: true }
+  validates :person_id, uniqueness: true
 
   after_initialize :set_defaults
 
@@ -106,9 +106,9 @@ class CensusRecord < ApplicationRecord
   end
 
   def dont_add_same_person
-    if new_record? && likely_matches?
-      errors.add :last_name, 'A person with the same street number, street name, last name, and first name is already in the system.'
-    end
+    return if persisted? || !likely_matches?
+
+    errors.add :last_name, 'A person with the same street number, street name, last name, and first name is already in the system.'
   end
 
   def likely_matches?
@@ -176,6 +176,7 @@ class CensusRecord < ApplicationRecord
 
   def match_to_person
     return if person_id.present?
+
     match = Person.probable_match_for(self)
     if match
       self.person = match

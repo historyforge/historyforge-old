@@ -156,7 +156,7 @@ class People::CensusRecordsController < ApplicationController
   private
 
   def check_access
-    access_denied unless can_census?(year)
+    permission_denied unless can_census?(year)
   end
 
   def page_title

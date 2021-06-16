@@ -18,23 +18,32 @@ a {
   clear:both;
 }
 
+.pills {
+  @include media('>=desktop') {
+    float: right;
+  }
+  @include media('<=tablet') {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.125rem;
+  }
+}
+
 .container {
   position: relative;
-  width: calc(100% - 80px);
+  width: 100%;
   max-width: 1366px;
   margin: 0 auto;
-  padding: 0 40px;
 }
 
 body > header {
   nav.navbar.navbar-static {
-    height: auto !important;
-    //height: 80px;
-    box-shadow: 0px 30px 30px 2px rgba(0, 0, 0, 0.05);
-    margin-bottom: 0px;
+    //height: auto !important;
+    box-shadow: 0 30px 30px 2px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0;
     background: white;
     img {
-      height: 50px;
+      height: 40px;
       & + img {
         height: 30px;
         margin-left: 20px;
@@ -42,13 +51,15 @@ body > header {
     }
   }
   & + .container-fluid {
+    padding: 0 40px 40px;
     margin-top: 110px;
-    height: calc(100% - 110px);
+    //height: calc(100% - 110px);
   }
 
   & + .container {
+    padding: 0 40px 40px;
     margin-top: 110px;
-    height: calc(100% - 110px);
+    //height: calc(100% - 110px);
   }
 
 }
@@ -57,19 +68,25 @@ body > header {
   margin-left: 8px;
 }
 
-dl {
-  overflow:hidden;
-  dt {
-    float:left;
-    width:150px;
-  }
-  dd {
-    margin-left:160px;
-  }
-}
+//@include media('>=desktop') {
+//  dl {
+//    overflow:hidden;
+//    dt {
+//      float:left;
+//      width:150px;
+//    }
+//    dd {
+//      margin-left:160px;
+//    }
+//  }
+//}
 
 p {
   margin:1em 0;
+}
+
+.autocomplete-suggestion {
+  padding: 0.25rem 0.875rem;
 }
 
 .boolean, .check_boxes {
@@ -226,7 +243,7 @@ div.date {
 
 #grid {
   width: 100%;
-  height: calc(100% - 150px);
+  height: calc(100vh - 250px);
   font-size:11px;
   span.badge {
     margin-left: 10px;

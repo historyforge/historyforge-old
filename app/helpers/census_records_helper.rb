@@ -74,19 +74,19 @@ module CensusRecordsHelper
 
   def sheet_hint
     html = content_tag(:p, "The <u>Sheet</u> or page number is in the upper right corner in the header.".html_safe)
-    html << image_tag('1900/sheet-side.png') if is_1900?
-    html << image_tag('1910/sheet-side.png') if is_1910?
-    html << image_tag('1920/sheet-side.png') if is_1920?
-    html << image_tag('1940/sheet-side.png') if is_1940?
+    html << image_pack_tag('media/images/1900/sheet-side.png') if is_1900?
+    html << image_pack_tag('media/images/1910/sheet-side.png') if is_1910?
+    html << image_pack_tag('media/images/1920/sheet-side.png') if is_1920?
+    html << image_pack_tag('media/images/1940/sheet-side.png') if is_1940?
     raw html
   end
 
   def side_hint
     html = content_tag(:p, "Each census sheet has side <u>A</u> and <u>B</u>.".html_safe)
-    html << image_tag('1900/sheet-side.png') if is_1900?
-    html << image_tag('1910/sheet-side.png') if is_1910?
-    html << image_tag('1920/sheet-side.png') if is_1920?
-    html << image_tag('1940/sheet-side.png') if is_1940?
+    html << image_pack_tag('media/images/1900/sheet-side.png') if is_1900?
+    html << image_pack_tag('media/images/1910/sheet-side.png') if is_1910?
+    html << image_pack_tag('media/images/1920/sheet-side.png') if is_1920?
+    html << image_pack_tag('media/images/1940/sheet-side.png') if is_1940?
     raw html
   end
 
@@ -106,19 +106,19 @@ module CensusRecordsHelper
   def ward_hint
     if is_1900?
       html = content_tag(:p, "The <u>Ward</u> is in the upper right corner of the sheet underneath the Sheet Number. Enter as a number (4).")
-      html << image_tag('1900/ward.png')
+      html << image_pack_tag('media/images/1900/ward.png')
       raw html
     elsif is_1910?
       html = content_tag :p, "The ward is in the upper right corner in the header underneath the Enumeration District. Enter ward as a number (4).".html_safe
-      html << image_tag('1910/sheet-side.png')
+      html << image_pack_tag('media/images/1910/sheet-side.png')
       raw html
     elsif is_1920?
       html = content_tag :p, "The ward is in the upper right corner in the header underneath the Enumeration District. Enter ward as a number (2).".html_safe
-      html << image_tag('1920/sheet-side.png')
+      html << image_pack_tag('media/images/1920/sheet-side.png')
       raw html
     elsif is_1940?
       html = content_tag :p, "The ward is to the left of the center title \"Sixteenth Census of the United States: 1940\". Enter ward as a number (2).".html_safe
-      html << image_tag('1940/ward.png')
+      html << image_pack_tag('media/images/1940/ward.png')
       raw html
     end
   end
@@ -126,19 +126,19 @@ module CensusRecordsHelper
   def enumeration_district_hint
     if is_1900?
       html = content_tag :p, "The <u>Enumeration District</u> is in the upper right corner in the header. Enter as a number (156).".html_safe
-      html << image_tag('1900/ed.png')
+      html << image_pack_tag('media/images/1900/ed.png')
       raw html
     elsif is_1910?
       html = content_tag :p, "The Enumeration District is in the upper right corner in the header. Enter as a number (185).".html_safe
-      html << image_tag('1910/sheet-side.png')
+      html << image_pack_tag('media/images/1910/sheet-side.png')
       raw html
     elsif is_1920?
       html = content_tag :p, "The Enumeration District is in the upper right corner in the header underneath the Supervisor's District. Enter as a number (185).".html_safe
-      html << image_tag('1920/sheet-side.png')
+      html << image_pack_tag('media/images/1920/sheet-side.png')
       raw html
     elsif is_1940?
       html = content_tag :p, "The Enumeration District (ED) is in the upper right corner in the header next to the sheet number. Enter the last 2 digits only.".html_safe
-      html << image_tag('1940/sheet-side.png')
+      html << image_pack_tag('media/images/1940/sheet-side.png')
       raw html
     end
   end
@@ -243,20 +243,20 @@ module CensusRecordsHelper
       html = content_tag(:p, '<u>Column 3.</u>'.html_safe)
       html << content_tag(:p, "Names are listed in the following order: Last, First, Middle.".html_safe)
       html << content_tag(:p, "The last name will be listed in the first record only, with a line or a blank space in the following records indicating it is to be repeated.".html_safe)
-      html << image_tag('1910/names.png')
+      html << image_pack_tag('media/images/1910/names.png')
       html << content_tag(:p, '<u>If the line is written over with a new last name, enter that as the last name.</u>'.html_safe)
       html << content_tag(:p, '<b>* Note:</b> If the record is in the same household as the previous record, the last name will be automatically populated after saving the previous record in this family. If the new record contains a different last name, highlight the last name and type in the correct one.'.html_safe)
     elsif is_1910?
       html = content_tag(:p, '<u>Column 3.</u>'.html_safe)
       html << content_tag(:p, "Names are listed in the following order: Last, First, Middle.".html_safe)
       html << content_tag(:p, "The last name will be listed in the first record only, with a line or a blank space in the following records indicating it is to be repeated.".html_safe)
-      html << image_tag('1910/names.png')
+      html << image_pack_tag('media/images/1910/names.png')
       html << content_tag(:p, 'Sometimes that line will be written over with a new last name, indicating that a member of the family/household had a different last name which should be entered.'.html_safe)
       html << content_tag(:p, '<b>* Note:</b> If the record is in the same household as the previous record, the last name will be automatically populated after saving the previous record in this family. If the new record contains a different last name, highlight the last name and type in the correct one.'.html_safe)
     else
       html = content_tag(:p, '<u>Column 7.</u>'.html_safe)
       html << content_tag(:p, "Names are listed Last, First, Middle. If several members of a family have the same last name, the last name will be listed in the first record and in following records it usually will be replaced by a line. Enter the last name for each individual. If there is no middle name or initial, leave the field blank.".html_safe)
-      html << image_tag('1940/names.png')
+      html << image_pack_tag('media/images/1940/names.png')
     end
     raw html
   end
@@ -269,11 +269,11 @@ module CensusRecordsHelper
     html << content_tag(:p, "If several members of a family have the same last name, the last name will be listed in the first record and in following records it will be replaced by a line.".html_safe)
     html << content_tag(:p, "Enter the last name for each individual.".html_safe)
     if is_1920?
-      html << image_tag('1920/names.png')
+      html << image_pack_tag('media/images/1920/names.png')
     elsif is_1940?
-      html << image_tag('1940/names.png')
+      html << image_pack_tag('media/images/1940/names.png')
     else
-      html << image_tag('1910/names.png')
+      html << image_pack_tag('media/images/1910/names.png')
     end
     raw html
   end
@@ -285,11 +285,11 @@ module CensusRecordsHelper
     html << content_tag(:p, "Names are listed Last, First, Middle.".html_safe)
     html << content_tag(:p, "If there is no middle name or initial leave the field blank.".html_safe)
     if is_1920?
-      html << image_tag('1920/names.png')
+      html << image_pack_tag('media/images/1920/names.png')
     elsif is_1940?
-      html << image_tag('1940/names.png')
+      html << image_pack_tag('media/images/1940/names.png')
     else
-      html << image_tag('1910/names.png')
+      html << image_pack_tag('media/images/1910/names.png')
     end
     raw html
   end
@@ -300,11 +300,11 @@ module CensusRecordsHelper
     html << content_tag(:p, '<u>Column 5.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "Names are listed Last, First, Middle.".html_safe)
     if is_1920?
-      html << image_tag('1920/names.png')
+      html << image_pack_tag('media/images/1920/names.png')
     elsif is_1940?
-      html << image_tag('1940/names.png')
+      html << image_pack_tag('media/images/1940/names.png')
     else
-      html << image_tag('1910/names.png')
+      html << image_pack_tag('media/images/1910/names.png')
     end
     raw html
   end
@@ -363,14 +363,14 @@ module CensusRecordsHelper
     html << content_tag(:p, "<u>Column #{col}.</u>".html_safe) if col
     html << content_tag(:p, "Enter once for the family in the record in which it appears.".html_safe)
     html << content_tag(:p, "Select the option that corresponds to the answer indicated. If un (unknown), see image below, choose <u>Unknown</u>.".html_safe)
-    html << image_tag('1920/unknown-scribble.png')
+    html << image_pack_tag('media/images/1920/unknown-scribble.png')
     raw html
   end
 
   def home_value_hint
     html = content_tag(:p, '<u>Column 5.</u>'.html_safe)
     html << content_tag(:p, "For head of household only. Enter as written. If the response is Un (see image below), enter as 999.".html_safe)
-    html << image_tag('1920/unknown-scribble.png')
+    html << image_pack_tag('media/images/1920/unknown-scribble.png')
     raw html
   end
 
@@ -391,7 +391,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, '<u>Column 8.</u>'.html_safe) if is_1920?
     html << content_tag(:p, "For head of household only.  Enter as written, generally M-Mortgage, F-Free of Mortgage.  If the response is Un (see image below), enter as Unknown.".html_safe)
-    html << image_tag('1920/unknown-scribble.png')
+    html << image_pack_tag('media/images/1920/unknown-scribble.png')
     raw html
   end
 
@@ -432,7 +432,7 @@ module CensusRecordsHelper
 
     if is_1910?
       html << content_tag(:p, "Enter as written. If the response is un (unknown), see image below, enter <u>999</u> in the <u>Age</u> field.".html_safe)
-      html << image_tag('1910/unknown-scribble.png')
+      html << image_pack_tag('media/images/1910/unknown-scribble.png')
     else
       html << content_tag(:p, "Enter 999 for unknown or leave blank if taker left empty".html_safe)
       if is_1940?
@@ -473,7 +473,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "<u>Column 9.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Enter as written. If the answer is un (unknown), see image below, enter <u>999</u>. If blank, leave blank.".html_safe)
-    html << image_tag('1910/unknown-scribble.png')
+    html << image_pack_tag('media/images/1910/unknown-scribble.png')
     raw html
   end
 
@@ -507,7 +507,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "<u>Column 15.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Enter as written. If blank, leave blank. If the response is un (unknown), see image below, choose <u>Unknown</u>.".html_safe)
-    html << image_tag('1910/unknown-scribble.png')
+    html << image_pack_tag('media/images/1910/unknown-scribble.png')
     raw html
   end
 
@@ -515,7 +515,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "<u>Column 16.</u>".html_safe) if is_1910?
     html << content_tag(:p, "Select the option that corresponds to the answer indicated. If the response is un (unknown), see image below, choose <u>Unknown</u>.".html_safe)
-    html << image_tag('1910/unknown-scribble.png')
+    html << image_pack_tag('media/images/1910/unknown-scribble.png')
     html << content_tag(:p, "<u>* Enter naturalization status if it was recorded for a native-born woman.</u> From 1907 to 1922, native-born women who married foreign-born men acquired the citizenship status of their husband.".html_safe)
     raw html
   end
@@ -538,7 +538,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "<u>Column #{col}.</u>".html_safe) if col
     html << content_tag(:p, "Enter as written, leave blank if blank.  If the response is Un (see image below), enter as Unknown.".html_safe)
-    html << image_tag('1920/unknown-scribble.png')
+    html << image_pack_tag('media/images/1920/unknown-scribble.png')
     raw html
   end
 
@@ -553,7 +553,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "<u>Column #{col}.</u>".html_safe) if col
     html << content_tag(:p, "Generally, for foreign born only.  Enter as written, leave blank if blank.  If the enumerator wrote un (see below) or don’t know enter Unknown.".html_safe)
-    html << image_tag('1920/unknown-scribble.png')
+    html << image_pack_tag('media/images/1920/unknown-scribble.png')
     raw html
   end
 
@@ -614,7 +614,7 @@ module CensusRecordsHelper
     html = ''
     html << content_tag(:p, "<u>Column #{column}.</u>".html_safe)
     html << content_tag(:p, "Generally for foreign born only. Spell out in full if abbreviated. If blank, leave blank. If the enumerator wrote un (unknown) or <u>Don't Know</u>, enter <u>Unknown</u>.".html_safe)
-    html << image_tag('1910/unknown-scribble.png')
+    html << image_pack_tag('media/images/1910/unknown-scribble.png')
     raw html
   end
 
@@ -638,7 +638,7 @@ module CensusRecordsHelper
 
   def grade_completed_hint
     html = content_tag(:p, '<u>Column 14.</u>'.html_safe)
-    html << image_tag('1940/grade-completed.png')
+    html << image_pack_tag('media/images/1940/grade-completed.png')
     raw html
   end
 
@@ -650,7 +650,7 @@ module CensusRecordsHelper
   def citizenship_hint
     html = content_tag(:p, '<u>Column 16.</u>'.html_safe)
     html << content_tag(:p, 'The number 4 is a code for "Unknown".')
-    html << image_tag('1940/citizenship.png')
+    html << image_pack_tag('media/images/1940/citizenship.png')
     raw html
   end
 
@@ -668,16 +668,16 @@ module CensusRecordsHelper
     html << content_tag(:p, 'The <b>occupation</b> code can contain a <b>"V"</b> or an <b>"X"</b> as well as numbers.'.html_safe)
     html << content_tag(:p, 'The <b>industry</b> code can contain a <b>"V"</b> or an <b>"X"</b> as well as numbers.'.html_safe)
     html << content_tag(:p, 'The <b>worker class</b> code is a number from 1 to 6.'.html_safe)
-    html << image_tag('1940/occupation-codes.png')
+    html << image_pack_tag('media/images/1940/occupation-codes.png')
     raw html
   end
 
   def civil_war_hint
     html = content_tag(:p, "<u>Column 30.</u>".html_safe)
     html << content_tag(:p, "Select the option that corresponds to the answer indicated. If un (unknown) choose <u>Unknown</u>.".html_safe)
-    html << image_tag('1910/unknown-scribble.png')
+    html << image_pack_tag('media/images/1910/unknown-scribble.png')
     html << content_tag(:p, "* If columns 30-32 contain a code (see image below) rather than answers to the questions, <u>leave the corresponding fields blank.</u>".html_safe)
-    html << image_tag('1910/punch-card-symbols.png')
+    html << image_pack_tag('media/images/1910/punch-card-symbols.png')
     html << content_tag(:p, "These annotations were key-punch symbols used for post-enumeration processing of the census.".html_safe)
     raw html
   end

@@ -2,8 +2,8 @@ header
   nav.navbar.navbar-light.navbar-expand-lg.navbar-static.top role="navigation"
     .container
       = link_to root_path, class: 'navbar-brand' do
-        = image_tag 'logo-hf.png'
-        = image_tag 'logo-text.png'
+        = image_pack_tag 'media/images/logo-hf.png'
+        = image_pack_tag 'media/images/logo-text.png'
 
       button.navbar-toggler type="button" data-toggle="collapse" data-target="#navbar-nav"
         span.navbar-toggler-icon
@@ -45,11 +45,11 @@ header
           - unless user_signed_in?
             li.nav-item= link_to 'Log In', '/u/sign_in', class: 'nav-link'
           li.nav-item= link_to 'The Forge', '/forge', class: 'nav-link'
-          li.nav-item= link_to 'Buildings', '/buildings', class: 'nav-link'
           li.nav-item.dropdown
             a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"
-              | People
+              | Data
             .dropdown-menu
+              = link_to 'Buildings', '/buildings', class: 'dropdown-item'
               = link_to '1900 US Census', '/census/1900', class: 'dropdown-item' if can_census?(1900)
               = link_to '1910 US Census', '/census/1910', class: 'dropdown-item' if can_census?(1910)
               = link_to '1920 US Census', '/census/1920', class: 'dropdown-item' if can_census?(1920)

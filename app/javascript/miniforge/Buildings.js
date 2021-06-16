@@ -10,7 +10,7 @@ class Building extends React.PureComponent {
                 <p>
                     <a href={`/buildings/${ id }`} target="_blank"
                        title="Open building record in new tab">
-                        <SimpleFormat text={street_address} />
+                        {street_address}
                     </a>
                 </p>
             </div>
