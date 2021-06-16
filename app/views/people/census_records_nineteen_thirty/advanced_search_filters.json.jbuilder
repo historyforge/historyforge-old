@@ -11,7 +11,7 @@ json.filters do
   AttributeBuilder.text(json, :profession)
   AttributeBuilder.text(json, :industry)
 
-  AttributeBuilder.collection json, Census1930Record,:occupation1930_code_id, Occupation1930Code.select_options
+  AttributeBuilder.collection json, Census1930Record, :occupation1930_code_id, Occupation1930Code.select_options
   AttributeBuilder.collection json, Census1930Record, :industry1930_code_id, Industry1930Code.select_options
 
   AttributeBuilder.text   json, :first_name
@@ -51,7 +51,7 @@ json.filters do
   AttributeBuilder.number json, :year_immigrated
   AttributeBuilder.enumeration json, Census1930Record, :naturalized_alien
   AttributeBuilder.boolean json, :can_speak_english
-  AttributeBuilder.text json, :occupation_code
+  # AttributeBuilder.text json, :occupation_code, klass: Census1930Record
   AttributeBuilder.enumeration json, Census1930Record, :worker_class
   AttributeBuilder.boolean json, :worked_yesterday
   # AttributeBuilder.text json, :unemployment_line

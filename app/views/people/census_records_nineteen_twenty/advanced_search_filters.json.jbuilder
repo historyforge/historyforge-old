@@ -42,7 +42,7 @@ json.filters do
   AttributeBuilder.enumeration json, Census1920Record, :naturalized_alien
   AttributeBuilder.number json, :year_naturalized
   AttributeBuilder.enumeration json, Census1920Record, :employment
-  AttributeBuilder.text json, :employment_code
+  AttributeBuilder.text json, :employment_code, klass: Census1920Record
   AttributeBuilder.number json, :farm_schedule
   AttributeBuilder.enumeration json, Census1920Record, :owned_or_rented
   AttributeBuilder.enumeration json, Census1920Record, :mortgage
