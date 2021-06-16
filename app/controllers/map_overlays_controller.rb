@@ -1,5 +1,5 @@
 class MapOverlaysController < ApplicationController
-  before_action :check_super_user_role
+  before_action :check_administrator_role
 
   def index
     @map_overlays = MapOverlay.all

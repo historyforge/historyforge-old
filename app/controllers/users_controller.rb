@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!,
                 only: %i[show edit update]
 
-  before_action :check_super_user_role,
+  before_action :check_administrator_role,
                 only: %i[index new create destroy enable disable disable_and_reset resend_invitation]
 
   rescue_from ActiveRecord::RecordNotFound, with: :bad_record
@@ -72,7 +72,7 @@ class UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    unless @user.has_role?("administrator") ||  @user.has_role?("super user")
+    unless @user.has_role?("administrator")
       if @user.destroy
         flash[:notice] = "User successfully deleted"
       else
@@ -93,10 +93,10 @@ class UsersController < ApplicationController
       flash[:error] = "Sorry, users from other providers are not able to be reset"
       return redirect_to action: 'show'
     end
-    unless @user.has_role?("administrator") ||  @user.has_role?("super user")
+    unless @user.has_role?("administrator")
       generated_password = Devise.friendly_token.first(8)
-      @user.password=generated_password
-      @user.password_confirmation=generated_password
+      @user.password = generated_password
+      @user.password_confirmation = generated_password
 
       if @user.save
         UserMailer.disabled_change_password(@user).deliver_now

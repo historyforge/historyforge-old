@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
@@ -18,16 +16,13 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied, with: :permission_denied
 
-  def check_super_user_role
-    check_role('super user')
+  def can_census?(year)
+    Setting.can_view_public?(year) || (user_signed_in? && Setting.can_view_private?(year))
   end
+  helper_method :can_census?
 
   def check_administrator_role
     check_role("administrator")
-  end
-
-  def check_developer_role
-    check_role("developer")
   end
 
   def check_cms_for_page
@@ -35,26 +30,24 @@ class ApplicationController < ActionController::Base
     a = params[:action]
     a = 'new' if a == 'create'
     a = 'edit' if a == 'update'
-    @page = Cms::Page.where(controller: self.class.name, action: a).first
+    @page = Cms::Page.find_by(controller: self.class.name, action: a)
   end
-
-  def can_census?(year)
-    Setting.can_view_public?(year) || (user_signed_in? && Setting.can_view_private?(year))
-  end
-  helper_method :can_census?
 
   def cms_choose_layout
     @page.present? ? 'cms' : 'application'
   end
 
   def render_404
-    @page = Cms::Page.where(controller: 'pages', action: '404').first_or_initialize
+    @page = Cms::Page.find_or_initialize_by(controller: 'pages', action: '404')
+
+    # Ensure that we have a custom 404 page
     if @page.new_record?
       @page.title = '404 Page Not Found'
       @page.url_path = '/404_error'
       @page.template = "The page was not found :(\r\n\r\n{{content}}"
       @page.save!
     end
+
     # This weirdness is needed so that it doesn't render the xml template for html
     respond_to do |format|
       format.html { render('cms/pages/page_404', status: 404, layout: 'cms') }
@@ -75,9 +68,7 @@ class ApplicationController < ActionController::Base
   end
 
   def check_role(role)
-    unless user_signed_in? && @current_user.has_role?(role)
-      permission_denied
-    end
+    permission_denied unless user_signed_in? && @current_user.has_role?(role)
   end
 
   def permission_denied
@@ -90,5 +81,4 @@ class ApplicationController < ActionController::Base
   def after_invite_path_for(_user)
     users_path
   end
-
 end

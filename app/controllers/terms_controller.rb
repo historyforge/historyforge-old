@@ -1,6 +1,6 @@
 class TermsController < ApplicationController
   include RestoreSearch
-  before_action :check_super_user_role
+  before_action :check_administrator_role
   before_action :load_vocabulary
 
   def index

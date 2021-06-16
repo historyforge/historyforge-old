@@ -1,4 +1,6 @@
 class Census1910FormFields < CensusFormFields
+  divider "Name"
+
   input :last_name,
                input_html: { autocomplete: 'new-password' },
                hint: -> { name_hint }
@@ -19,9 +21,13 @@ class Census1910FormFields < CensusFormFields
                input_html: { autocomplete: 'new-password' },
                hint: -> { name_suffix_hint }
 
+  divider "Relation"
+
   input :relation_to_head,
                input_html: { autocomplete: 'new-password' },
                hint: -> { relation_to_head_hint }
+
+  divider "Personal Description"
 
   input :sex,
                as: :radio_buttons,
@@ -60,6 +66,8 @@ class Census1910FormFields < CensusFormFields
                input_html: { min: 0 },
                hint: -> { num_children_alive_hint }
 
+  divider "Place of Birth & Citizenship"
+
   input :pob,
                input_html: {autocomplete: 'new-password'},
                hint: -> { pob_1910_hint(12) }
@@ -88,19 +96,24 @@ class Census1910FormFields < CensusFormFields
                as: :boolean,
                label: 'This person is foreign born.',
                inline_label: 'Yes',
-               hint: -> { foreign_born_1910_hint }
+               hint: -> { foreign_born_1910_hint },
+               wrapper_html: { data: { dependents: 'true' } }
 
   input :year_immigrated,
                as: :integer,
-               hint: -> { year_immigrated_hint }
+               hint: -> { year_immigrated_hint },
+               wrapper_html: { data: { depends_on: :foreign_born } }
 
   input :naturalized_alien,
                as: :radio_buttons,
                collection: Census1910Record.naturalized_alien_choices,
                coded: true,
-               hint: -> { naturalization_hint }
+               hint: -> { naturalization_hint },
+               wrapper_html: { data: { depends_on: :foreign_born } }
 
   input :language_spoken, hint: -> { language_spoken_hint }
+
+  divider "Occupation, Industry, Education and Employment Status"
 
   input :profession,
                hint: -> { profession_hint },
@@ -143,6 +156,8 @@ class Census1910FormFields < CensusFormFields
                inline_label: 'Yes',
                hint: -> { boolean_hint(25) }
 
+  divider "Household Data"
+
   input :owned_or_rented,
                as: :radio_buttons,
                collection: Census1910Record.owned_or_rented_choices,
@@ -164,6 +179,8 @@ class Census1910FormFields < CensusFormFields
   input :num_farm_sched,
                as: :integer,
                hint: -> { num_farm_sched_hint }
+
+  divider "More Personal Data"
 
   input :civil_war_vet,
                as: :radio_buttons,

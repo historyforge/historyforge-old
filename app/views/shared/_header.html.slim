@@ -11,7 +11,7 @@ header
       .collapse.navbar-collapse#navbar-nav
         ul.nav.navbar-nav.ml-auto
           - if user_signed_in?
-            - if current_user.has_role?("administrator") || current_user.has_role?("super user")
+            - if current_user.has_role?("administrator")
               - flags_count = Flag.unresolved.count
               li.dropdown.nav-item
                 a.nav-link.dropdown-toggle data-toggle='dropdown' href="#"

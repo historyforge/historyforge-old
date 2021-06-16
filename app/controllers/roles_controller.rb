@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
   layout 'application'
-  before_action :check_super_user_role
+  before_action :check_administrator_role
 
   def index
     @user = User.find(params[:user_id])

@@ -1,4 +1,6 @@
 class Census1900FormFields < CensusFormFields
+  divider "Name"
+
   input :last_name,
         input_html: { autocomplete: 'new-password' },
         hint: -> { name_hint }
@@ -19,9 +21,13 @@ class Census1900FormFields < CensusFormFields
         input_html: { autocomplete: 'new-password' },
         hint: -> { name_suffix_hint }
 
+  divider "Relation"
+
   input :relation_to_head,
         input_html: { autocomplete: 'new-password' },
         hint: -> { relation_to_head_hint }
+
+  divider "Personal Description"
 
   input :race,
         as: :radio_buttons,
@@ -35,8 +41,6 @@ class Census1900FormFields < CensusFormFields
         coded: true,
         hint: -> { sex_hint }
 
-  # birth year
-  # birth month
   input :birth_month,
         as: :radio_buttons,
         collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] },
@@ -69,8 +73,8 @@ class Census1900FormFields < CensusFormFields
         input_html: { min: 0 },
         hint: -> { num_children_alive_hint }
 
+  divider "Place of Birth & Citizenship"
 
-  # Original starts here
   input :pob, input_html: { autocomplete: 'new-password' }
   input :pob_father, input_html: { autocomplete: 'new-password' }
   input :pob_mother, input_html: { autocomplete: 'new-password' }
@@ -96,6 +100,8 @@ class Census1900FormFields < CensusFormFields
                wrapper_html: { data: { depends_on: :foreign_born } },
                hint: -> { citizenship_hint }
 
+  divider "Occupation, Industry, Education and Employment Status"
+
   input :profession, hint: 'Enter "None" if empty', input_html: { autocomplete: 'new-password' }
   input :industry, input_html: { autocomplete: 'new-password' }
   input :unemployed_months, as: :integer
@@ -103,9 +109,11 @@ class Census1900FormFields < CensusFormFields
   input :can_read, as: :boolean, label: 'Can Read?', inline_label: 'Yes'
   input :can_write, as: :boolean, label: 'Can Write?', inline_label: 'Yes'
   input :can_speak_english, as: :boolean, label: 'Can speak English?', inline_label: 'Yes'
+
+  divider "Household Data"
+
   input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, coded: true
   input :mortgage, as: :radio_buttons, collection: Census1910Record.mortgage_choices, coded: true
   input :farm_or_house, as: :radio_buttons, collection: Census1910Record.farm_or_house_choices, coded: true
   input :farm_schedule, as: :integer
-
 end

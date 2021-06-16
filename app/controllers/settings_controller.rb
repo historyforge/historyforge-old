@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SettingsController < ApplicationController
-  before_action :check_super_user_role
+  before_action :check_administrator_role
 
   def index
     @settings = Setting.order(:group, :name).where.not(name: 'Test mode')
