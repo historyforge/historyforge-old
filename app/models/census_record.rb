@@ -137,10 +137,9 @@ class CensusRecord < ApplicationRecord
     return @fellows if defined?(@fellows)
 
     options = {
-      street_house_number_eq: street_house_number,
-      street_prefix_eq: street_prefix,
-      street_name_eq: street_name,
-      family_id_eq: family_id
+      family_id_eq: family_id,
+      page_number_gteq: page_number - 1,
+      page_number_lteq: page_number + 1
     }
 
     if building_id.present?
