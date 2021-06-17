@@ -12,7 +12,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
       dt Address
       dd= @source.full_street_address
 
-    - @source.census_records.each do |row|
+    - @source.residents.each do |row|
       .card.mb-3
         .card-header #{row.year} Census Record
         .card-body
@@ -48,7 +48,7 @@ p.lead You propose to merge building ##{@source.id} #{@source.name} into buildin
       dd= @target.id
       dt Address
       dd= @target.full_street_address
-    - @target.census_records.each do |row|
+    - @target.residents.each do |row|
       .card.mb-3
         .card-header #{row.year} Census Record
         .card-body

@@ -16,7 +16,7 @@ class MergeBuilding
 
   def merge_addresses
     @source.addresses.each do |address|
-      next if target.addresses.any? { |addr| addr.equals?(address) }
+      next if @target.addresses.any? { |addr| addr.equals?(address) }
 
       address.is_primary = false
       address.building = @target
