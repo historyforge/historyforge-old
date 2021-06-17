@@ -1,6 +1,6 @@
 module People
   class MainController < ApplicationController
-    before_action :check_access
+    # before_action :check_access
 
     def index
       load_people
