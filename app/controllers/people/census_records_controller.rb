@@ -180,21 +180,28 @@ class People::CensusRecordsController < ApplicationController
       attrs = []
       attrs +=  case params[:then]
                 when 'street'
-                  %w{page_number page_side county city ward enum_dist street_prefix street_suffix street_name locality_id}
+                  %w{page_number county city ward enum_dist street_prefix street_suffix street_name locality_id}
                 when 'enumeration'
-                  %w{page_number page_side county city ward enum_dist locality_id}
+                  %w{page_number county city ward enum_dist locality_id}
                 when 'page'
-                  %w{page_number page_side county city ward enum_dist locality_id}
+                  %w{page_number county city ward enum_dist locality_id}
                 when 'dwelling'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name building_id locality_id}
+                  %w{page_number county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name building_id locality_id}
                 when 'family'
-                  %w{page_number page_side county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id last_name locality_id}
+                  %w{page_number county city ward enum_dist dwelling_number street_house_number street_prefix street_suffix street_name family_id building_id last_name locality_id}
                 end
       attributes = attrs.inject({}) {|hash, item|
         hash[item] = @record.public_send(item)
         hash
       }
-      attributes[:line_number] = @record.next_line_number
+      if @record.line_number == 100
+        attributes[:line_number] = 1
+        attributes[:page_number] = @record.page_number + 1
+      else
+        attributes[:line_number] = (@record.line_number || 0) + 1
+      end
+      attributes[:page_side] = attributes[:line_number] <= 50 ? 'A' : 'B'
+
       redirect_to action: :new, attributes: attributes
     else
       redirect_to @record

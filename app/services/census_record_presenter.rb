@@ -32,6 +32,10 @@ class CensusRecordPresenter < Struct.new(:model, :user)
     model.race && I18n.t("census_codes.race.#{model.race.downcase}", default: model.race) || 'left blank'
   end
 
+  def marital_status
+    model.marital_status && I18n.t("census_codes.marital_status.#{model.marital_status.downcase}", default: model.marital_status) || 'left blank'
+  end
+
   def locality
     model.locality.name
   end

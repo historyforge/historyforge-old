@@ -168,16 +168,6 @@ class CensusRecord < ApplicationRecord
     raise 'Need a year!'
   end
 
-  def next_line_number
-    return unless line_number.present?
-
-    if line_number < 50 || (line_number < 100 && line_number > 50)
-      line_number + 1
-    else
-      nil
-    end
-  end
-
   def match_to_person!
     match_to_person
     update_column :person_id, person.id if person

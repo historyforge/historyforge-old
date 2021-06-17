@@ -57,6 +57,8 @@ en:
       wd: 'Widowed'
       d: 'Divorced'
       m7: 'Married spouse not present'
+      m_or_m1: '1st marriage'
+      m2_or_m3: '2nd or subsequent marriage'
     farm_or_house:
       f: 'Farm'
       h: 'House'
