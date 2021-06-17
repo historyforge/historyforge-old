@@ -43,4 +43,12 @@ class Setting < ApplicationRecord
   def self.can_view_private?(year)
     value_of "enabled_private_#{year}"
   end
+
+  def self.can_people_public?
+    value_of 'people_public'
+  end
+
+  def self.can_people_private?
+    value_of 'people_private'
+  end
 end

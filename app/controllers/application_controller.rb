@@ -19,7 +19,11 @@ class ApplicationController < ActionController::Base
   def can_census?(year)
     Setting.can_view_public?(year) || (user_signed_in? && Setting.can_view_private?(year))
   end
-  helper_method :can_census?
+
+  def can_people?
+    Setting.can_people_public? || (user_signed_in? && Setting.can_people_private?)
+  end
+  helper_method :can_census?, :can_people?
 
   def check_administrator_role
     check_role("administrator")
