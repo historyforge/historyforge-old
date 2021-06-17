@@ -19,6 +19,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
         option_label(value)
       end
     else
+      Rails.logger.info collection.inspect
       super
     end
   end
@@ -57,7 +58,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
   end
 
   def translated_option(item)
-    I18n.t("#{attribute_name}.#{item.downcase.gsub(/\W/, '')}", scope: options[:scope] || 'census_codes', default: item)
+    I18n.t("#{attribute_name}.#{item.downcase.gsub(/\W/, '')}", scope: options[:scope] || 'census_codes', default: item).presence
   end
 
   def with_extra_items(items)

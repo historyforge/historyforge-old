@@ -5,36 +5,17 @@ class RadioButtonsOtherInput < CollectionRadioButtonsInput
     fields.sub('{{OTHER}}', other_input.html_safe).html_safe
   end
 
-  def input_type
-    :radio_buttons
-  end
-
-  def value
-    @value ||= @builder.object.public_send(attribute_name)
-  end
-
-  def collection
-    @collection || begin
-      options[:collection] = extract_collection_from_choices if !options[:collection] && !options[:original_collection]
-      options[:original_collection] ||= options[:collection]
-      items = options[:original_collection].dup
-      keys = items.map &:last
-      items << ['{{OTHER}}', (keys.include?(value) ? 'other' : value)]
-      @collection = items
-    end
+  def with_extra_items(items)
+    keys = items.map(&:last)
+    items = add_blanks(items) unless keys.include?(nil)
+    items << ['{{OTHER}}', (keys.include?(value) || value.blank? ? 'other' : value)]
+    items
   end
 
   def other_input
-    if @builder.is_a?(FormViewBuilder)
-      if value.is_a?(Array)
-        values.present? ? values.to_sentence : ''
-      else
-        value || ''
-      end
-    else
-      other_value = options[:original_collection].map(&:last).include?(value) ? nil : value
-      "<input type=\"text\" value=\"#{other_value}\" data-type=\"other-radio-button\">"
-    end
+    items = options[:original_collection].first.is_a?(String) ? options[:original_collection] : options[:original_collection].map(&:last)
+    other_value = value.blank? || items.include?(value) ? nil : value
+    other_label = options[:other_label] || 'Other'
+    "#{other_label}: <input type=\"text\" value=\"#{other_value}\" data-type=\"other-radio-button\">"
   end
-
 end

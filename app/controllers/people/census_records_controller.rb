@@ -194,13 +194,13 @@ class People::CensusRecordsController < ApplicationController
         hash[item] = @record.public_send(item)
         hash
       }
-      if @record.line_number == 100
+      if @record.line_number == @record.per_page
         attributes[:line_number] = 1
         attributes[:page_number] = @record.page_number + 1
       else
         attributes[:line_number] = (@record.line_number || 0) + 1
       end
-      attributes[:page_side] = attributes[:line_number] <= 50 ? 'A' : 'B'
+      attributes[:page_side] = attributes[:line_number] <= @record.per_page ? 'A' : 'B'
 
       redirect_to action: :new, attributes: attributes
     else

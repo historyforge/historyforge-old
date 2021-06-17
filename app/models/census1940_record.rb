@@ -24,6 +24,14 @@ class Census1940Record < CensusRecord
     1940
   end
 
+  def per_side
+    50
+  end
+
+  def per_page
+    100
+  end
+
   def self.folder_name
     'census_records_nineteen_forty'
   end

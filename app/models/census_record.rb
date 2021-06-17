@@ -83,6 +83,14 @@ class CensusRecord < ApplicationRecord
   scope :unhoused, -> { where(building_id: nil) }
   scope :unmatched, -> { where(person_id: nil) }
 
+  def per_side
+    50
+  end
+
+  def per_page
+    100
+  end
+
   def field_for(field)
     respond_to?(field) ? public_send(field) : '?'
   end
