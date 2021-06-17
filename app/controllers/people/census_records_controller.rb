@@ -132,6 +132,7 @@ class People::CensusRecordsController < ApplicationController
   def bulk_review
     authorize! :review, resource_class
     load_census_records
+
     @search.scoped.to_a.each do |record|
       next if record.reviewed?
 

@@ -13,7 +13,7 @@
     - if can?(:review, resource_class)
       - count = @search.scoped.to_a.select { |rec| !rec.reviewed? }.length
       - if count > 0
-        = link_to "Mark #{count} Reviewed", url_for(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
+        = link_to "Mark #{count} Reviewed", request.params.merge(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
     = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
   .dropdown
     button.btn.btn-sm.btn-light type="button" data-toggle="dropdown" = pluralize @search.columns.size, 'Field'

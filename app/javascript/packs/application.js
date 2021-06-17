@@ -34,7 +34,7 @@ import '../js/photographs'
 import '../js/terms'
 
 import Rails from '@rails/ujs'
-Rails.start();
+Rails.start()
 
 import Cart from './../js/cart'
 import "controllers"
