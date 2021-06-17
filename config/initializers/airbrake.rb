@@ -1,5 +1,4 @@
 if defined?(Airbrake) && ENV['AIRBRAKE_ID']
-
   Airbrake.configure do |config|
     config.project_id = ENV['AIRBRAKE_ID'] || 1
     config.project_key = ENV['AIRBRAKE_KEY']

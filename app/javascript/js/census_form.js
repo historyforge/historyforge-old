@@ -138,7 +138,7 @@ $(document).ready(function() {
         slider.mousewheel(censusRecordScroller)
 
     $('.hint-bubble').each(function () {
-        const label = $(this).closest('.form-group').children('label')
+        const label = $(this).closest('.form-group').children('label, .col-form-label')
         const title = $(`<span>${label.html()}<i class='fa fa-close float-right' /></span>`)
         const icon = $('<i class="fa fa-question-circle float-right" data-toggle="popover" />')
         label.prepend(icon)

@@ -27,7 +27,8 @@ class CensusFormFields
     if config[:as] == :divider
       "<h3>#{config[:label]}</h3>".html_safe
     else
-      form.input(field, config).html_safe
+      output = form.input(field, config)
+      output ? output.html_safe : ''
     end
   end
 

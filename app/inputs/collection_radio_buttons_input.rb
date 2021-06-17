@@ -1,7 +1,26 @@
 class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsInput
-
   def input_type
     :radio_buttons
+  end
+
+  def input(wrapper_options={})
+    if @builder.is_a?(FormViewBuilder)
+      values = @builder.object.send(attribute_name)
+      if values.is_a?(String)
+        values = values.starts_with?('[') ? JSON.parse(values) : [values]
+      end
+
+      return 'blank' if values.blank?
+
+      if value.respond_to?(:map)
+        values = values.map { |v| option_label(v) } || []
+        values.select(&:present?).join("<br>").html_safe
+      else
+        option_label(value)
+      end
+    else
+      super
+    end
   end
 
   def value
@@ -24,6 +43,9 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
   end
 
   def option_label(item)
+    return item unless item.kind_of?(String)
+    return 'blank' if item.blank?
+
     if options[:coded]
       code = item.downcase == item ? item.capitalize : item
       code = code.gsub('_', ' ')
@@ -35,7 +57,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
   end
 
   def translated_option(item)
-    I18n.t("#{attribute_name}.#{item.downcase.gsub(/\W/, '')}", scope: options[:scope] || 'census_codes', default: item).presence
+    I18n.t("#{attribute_name}.#{item.downcase.gsub(/\W/, '')}", scope: options[:scope] || 'census_codes', default: item)
   end
 
   def with_extra_items(items)
@@ -51,7 +73,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
 
   def extract_collection_from_choices
     collection_method_name = attribute_name.to_s.sub(/\_key\Z/, '') << '_choices'
-    @builder.object.class.send(collection_method_name) if @builder.object.class.respond_to?(collection_method_name)
+    @builder.object.class.respond_to?(collection_method_name) ? @builder.object.class.send(collection_method_name) : []
   end
-
 end
+

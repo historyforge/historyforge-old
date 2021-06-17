@@ -1,4 +1,18 @@
-.row
+= view_for @model do |form|
+  .form-horizontal
+    h3 Location
+    .form-group.row
+      .col-6.col-form-label Address
+      .col-6= link_to_building @record.building
+    .form-group.row
+      .col-6.col-form-label Locality
+      .col-6= @record.locality
+
+    = Census1920FormFields.new(form).render
+    - if @model.notes.present?
+      = form.input :notes, as: :text
+
+/.row
   .col-sm-4
     dl
       dt Address

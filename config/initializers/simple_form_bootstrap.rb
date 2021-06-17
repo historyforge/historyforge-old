@@ -149,11 +149,11 @@ SimpleForm.setup do |config|
     b.optional :pattern
     b.optional :min_max
     b.optional :readonly
-    b.use :label, class: 'col-sm-3 col-form-label'
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |ba|
+    b.use :label, class: 'col-sm-6 col-form-label'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |ba|
       ba.use :input, class: 'form-control', error_class: 'is-invalid'
       ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'hint-bubble' }
     end
   end
 
@@ -161,13 +161,12 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_boolean, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid' do |b|
     b.use :html5
     b.optional :readonly
-    b.wrapper tag: 'label', class: 'col-sm-3' do |ba|
+    b.wrapper tag: 'label', class: 'col-sm-6' do |ba|
       ba.use :label_text
     end
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |wr|
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |wr|
       wr.wrapper :form_check_wrapper, tag: 'div', class: 'form-check' do |bb|
         bb.use :input, class: 'form-check-input', error_class: 'is-invalid'
-        bb.use :label, class: 'form-check-label'
         bb.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
         bb.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
       end
@@ -178,11 +177,11 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_collection, item_wrapper_class: 'form-check', item_label_class: 'form-check-label', tag: 'div', class: 'form-group row', error_class: 'form-group-invalid' do |b|
     b.use :html5
     b.optional :readonly
-    b.use :label, class: 'col-sm-3 col-form-label pt-0'
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |ba|
+    b.use :label, class: 'col-sm-6 col-form-label pt-0'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |ba|
       ba.use :input, class: 'form-check-input', error_class: 'is-invalid'
       ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'hint-bubble' }
     end
   end
 
@@ -190,11 +189,11 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_collection_inline, item_wrapper_class: 'form-check form-check-inline', item_label_class: 'form-check-label', tag: 'div', class: 'form-group row', error_class: 'form-group-invalid' do |b|
     b.use :html5
     b.optional :readonly
-    b.use :label, class: 'col-sm-3 col-form-label pt-0'
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |ba|
+    b.use :label, class: 'col-sm-6 col-form-label pt-0'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |ba|
       ba.use :input, class: 'form-check-input', error_class: 'is-invalid'
       ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'hint-bubble' }
     end
   end
 
@@ -205,11 +204,11 @@ SimpleForm.setup do |config|
     b.optional :maxlength
     b.optional :minlength
     b.optional :readonly
-    b.use :label, class: 'col-sm-3 col-form-label'
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |ba|
+    b.use :label, class: 'col-sm-6 col-form-label'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |ba|
       ba.use :input, error_class: 'is-invalid'
       ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'hint-bubble' }
     end
   end
 
@@ -217,13 +216,13 @@ SimpleForm.setup do |config|
   config.wrappers :horizontal_multi_select, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid' do |b|
     b.use :html5
     b.optional :readonly
-    b.use :label, class: 'col-sm-3 col-form-label'
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |ba|
+    b.use :label, class: 'col-sm-6 col-form-label'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |ba|
       ba.wrapper tag: 'div', class: 'd-flex flex-row justify-content-between align-items-center' do |bb|
         bb.use :input, class: 'form-control mx-1', error_class: 'is-invalid'
       end
       ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'hint-bubble' }
     end
   end
 
@@ -233,11 +232,11 @@ SimpleForm.setup do |config|
     b.use :placeholder
     b.optional :readonly
     b.optional :step
-    b.use :label, class: 'col-sm-3 col-form-label'
-    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-9' do |ba|
+    b.use :label, class: 'col-sm-6 col-form-label'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-6' do |ba|
       ba.use :input, class: 'form-control-range', error_class: 'is-invalid'
       ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'hint-bubble' }
     end
   end
 
@@ -269,147 +268,6 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
     b.optional :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
-
-
-  # bootstrap custom forms
-  #
-  # custom input for boolean
-  config.wrappers :custom_boolean, tag: 'fieldset', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.optional :readonly
-    b.wrapper :form_check_wrapper, tag: 'div', class: 'custom-control custom-checkbox' do |bb|
-      bb.use :input, class: 'custom-control-input', error_class: 'is-invalid'
-      bb.use :label, class: 'custom-control-label'
-      bb.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-      bb.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-    end
-  end
-
-  # custom input switch for boolean
-  config.wrappers :custom_boolean_switch, tag: 'fieldset', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.optional :readonly
-    b.wrapper :form_check_wrapper, tag: 'div', class: 'custom-control custom-switch' do |bb|
-      bb.use :input, class: 'custom-control-input', error_class: 'is-invalid'
-      bb.use :label, class: 'custom-control-label'
-      bb.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-      bb.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-    end
-  end
-
-  # custom input for radio buttons and check boxes
-  config.wrappers :custom_collection, item_wrapper_class: 'custom-control', item_label_class: 'custom-control-label', tag: 'fieldset', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.optional :readonly
-    b.wrapper :legend_tag, tag: 'legend', class: 'col-form-label pt-0' do |ba|
-      ba.use :label_text
-    end
-    b.use :input, class: 'custom-control-input', error_class: 'is-invalid'
-    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
-  # custom input for inline radio buttons and check boxes
-  config.wrappers :custom_collection_inline, item_wrapper_class: 'custom-control custom-control-inline', item_label_class: 'custom-control-label', tag: 'fieldset', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.optional :readonly
-    b.wrapper :legend_tag, tag: 'legend', class: 'col-form-label pt-0' do |ba|
-      ba.use :label_text
-    end
-    b.use :input, class: 'custom-control-input', error_class: 'is-invalid'
-    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
-  # custom file input
-  config.wrappers :custom_file, tag: 'div', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.use :placeholder
-    b.optional :maxlength
-    b.optional :minlength
-    b.optional :readonly
-    b.use :label
-    b.wrapper :custom_file_wrapper, tag: 'div', class: 'custom-file' do |ba|
-      ba.use :input, class: 'custom-file-input', error_class: 'is-invalid'
-      ba.use :label, class: 'custom-file-label'
-      ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-    end
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
-  # custom multi select
-  config.wrappers :custom_multi_select, tag: 'div', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.optional :readonly
-    b.use :label
-    b.wrapper tag: 'div', class: 'd-flex flex-row justify-content-between align-items-center' do |ba|
-      ba.use :input, class: 'custom-select mx-1', error_class: 'is-invalid'
-    end
-    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
-  # custom range input
-  config.wrappers :custom_range, tag: 'div', class: 'form-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.use :placeholder
-    b.optional :readonly
-    b.optional :step
-    b.use :label
-    b.use :input, class: 'custom-range', error_class: 'is-invalid'
-    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
-
-  # Input Group - custom component
-  # see example app and config at https://github.com/rafaelfranca/simple_form-bootstrap
-  # config.wrappers :input_group, tag: 'div', class: 'form-group', error_class: 'form-group-invalid' do |b|
-  #   b.use :html5
-  #   b.use :placeholder
-  #   b.optional :maxlength
-  #   b.optional :minlength
-  #   b.optional :pattern
-  #   b.optional :min_max
-  #   b.optional :readonly
-  #   b.use :label
-  #   b.wrapper :input_group_tag, tag: 'div', class: 'input-group' do |ba|
-  #     ba.optional :prepend
-  #     ba.use :input, class: 'form-control', error_class: 'is-invalid'
-  #     ba.optional :append
-  #   end
-  #   b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
-  #   b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  # end
-
-
-  # Floating Labels form
-  #
-  # floating labels default_wrapper
-  config.wrappers :floating_labels_form, tag: 'div', class: 'form-label-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.use :placeholder
-    b.optional :maxlength
-    b.optional :minlength
-    b.optional :pattern
-    b.optional :min_max
-    b.optional :readonly
-    b.use :input, class: 'form-control', error_class: 'is-invalid'
-    b.use :label
-    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
-  # custom multi select
-  config.wrappers :floating_labels_select, tag: 'div', class: 'form-label-group', error_class: 'form-group-invalid' do |b|
-    b.use :html5
-    b.optional :readonly
-    b.use :input, class: 'custom-select', error_class: 'is-invalid'
-    b.use :label
-    b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
-    b.use :hint, wrap_with: { tag: 'div', class: 'hint-bubble' }
-  end
-
 
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :vertical_form
@@ -460,11 +318,6 @@ SimpleForm::Inputs::Base.class_eval do
     model_names = lookup_model_names.dup
     lookups     = []
 
-    model_names.each do |name|
-      lookups << :"#{name}.#{lookup_action}.#{reflection_or_attribute_name}"
-      lookups << :"#{name}.#{reflection_or_attribute_name}"
-    end
-
     while !model_names.empty?
       joined_model_names = model_names.join(".")
       model_names.shift
@@ -472,9 +325,37 @@ SimpleForm::Inputs::Base.class_eval do
       lookups << :"#{joined_model_names}.#{lookup_action}.#{reflection_or_attribute_name}"
       lookups << :"#{joined_model_names}.#{reflection_or_attribute_name}"
     end
+
+    if object.kind_of?(CensusRecord)
+      lookups << :"census_record.#{reflection_or_attribute_name}"
+    end
+
     lookups << :"defaults.#{lookup_action}.#{reflection_or_attribute_name}"
     lookups << :"defaults.#{reflection_or_attribute_name}"
     lookups << default
+
     I18n.t(lookups.shift, scope: :"#{i18n_scope}.#{namespace}", default: lookups).presence
   end
+
+  # def translate_from_namespace(namespace, default = '')
+  #   model_names = lookup_model_names.dup
+  #   lookups     = []
+  #
+  #   model_names.each do |name|
+  #     lookups << :"#{name}.#{lookup_action}.#{reflection_or_attribute_name}"
+  #     lookups << :"#{name}.#{reflection_or_attribute_name}"
+  #   end
+  #
+  #   while !model_names.empty?
+  #     joined_model_names = model_names.join(".")
+  #     model_names.shift
+  #
+  #     lookups << :"#{joined_model_names}.#{lookup_action}.#{reflection_or_attribute_name}"
+  #     lookups << :"#{joined_model_names}.#{reflection_or_attribute_name}"
+  #   end
+  #   lookups << :"defaults.#{lookup_action}.#{reflection_or_attribute_name}"
+  #   lookups << :"defaults.#{reflection_or_attribute_name}"
+  #   lookups << default
+  #   I18n.t(lookups.shift, scope: :"#{i18n_scope}.#{namespace}", default: lookups).presence
+  # end
 end

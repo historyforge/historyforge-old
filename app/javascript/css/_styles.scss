@@ -314,6 +314,10 @@ div.date {
   }
 }
 
+.card > .table {
+  margin-bottom: 0;
+}
+
 form table {
   th, td {
     vertical-align: top;
@@ -407,6 +411,34 @@ form table {
 
 .hint-bubble {
   display: none;
+}
+
+.readonly-form {
+  //@include media('>=desktop') {
+  //  column-count: 2;
+  //  column-gap: 50px;
+  //  h3 {
+  //    margin: 0 -1.25rem;
+  //  }
+  //}
+
+  h3 {
+    border-bottom: 1px solid $border-color;
+    margin: 1rem -1.25rem;
+    padding: 1rem 1.25rem;
+    break-inside: avoid-column;
+  }
+  .form-group {
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 1rem;
+    break-inside: avoid-column;
+  }
+  i.float-right {
+    display: none;
+  }
+  .form-check {
+    padding-left: 0;
+  }
 }
 
 label .fa.fa-question-circle {
