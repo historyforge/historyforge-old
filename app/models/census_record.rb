@@ -134,12 +134,22 @@ class CensusRecord < ApplicationRecord
   end
 
   def fellows
-    @fellows ||= self.class.where('id<>?', id)
-                     .ransack(street_house_number_eq: street_house_number,
-                              street_prefix_eq: street_prefix,
-                              street_name_eq: street_name,
-                              dwelling_number_eq: dwelling_number,
-                              family_id_eq: family_id).result
+    return @fellows if defined?(@fellows)
+
+    options = {
+      street_house_number_eq: street_house_number,
+      street_prefix_eq: street_prefix,
+      street_name_eq: street_name,
+      family_id_eq: family_id
+    }
+
+    if building_id.present?
+      options[:building_id_eq] = building_id
+    elsif dwelling_number.present?
+      options[:dwelling_number_eq] = dwelling_number
+    end
+
+    @fellows = self.class.where('id<>?', id).ransack(options).result
   end
 
   def buildings_on_street
