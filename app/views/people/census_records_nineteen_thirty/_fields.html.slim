@@ -5,18 +5,5 @@
 = hidden_field_tag 'census_record[naturalized_alien]', nil, id: 'chf5'
 = hidden_field_tag 'census_record[war_fought]', nil, id: 'chf6'
 
-.census-hint-wrapper style="display: none"
-  .census-hint
-
-- content_for :extra_buttons do
-  button.btn.btn-default.float-right.hint-toggle-btn type="button"
-
-.card.mb-1
-  .card-header
-    | Census Record
-
-  .card-body
-    .census-slider-wrapper
-      .census-slider.hidden
-        = Census1930FormFields.new(form).render
+= Census1930FormFields.new(form).render
 

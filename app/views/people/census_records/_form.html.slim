@@ -3,15 +3,10 @@
   .card.mb-3
     .card-header
       | Census Scope
-      .btn-group.float-right#toggle-census-slider
-        button.btn type="button" data-orientation="horizontal"
-          i.fa.fa-arrows-h
-        button.btn type="button" data-orientation="vertical"
-          i.fa.fa-arrows-v
 
     .card-body
       .census-slider-wrapper
-        .census-slider.hidden
+        .census-slider.vertical
           = form.input :page_number,
                   as: :integer,
                   input_html: { min: 0, max: 10_000 },

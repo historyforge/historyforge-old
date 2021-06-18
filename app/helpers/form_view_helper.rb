@@ -31,13 +31,6 @@ class FormViewBuilder < SimpleForm::FormBuilder
   end
 
   def input(attribute_name, options = {}, &block)
-
-    value = @object.public_send(attribute_name)
-    # if value.respond_to?(:compact)
-    #   return if value.reject(&:blank?).blank?
-    # end
-    # return if value.blank?
-
     options = @defaults.deep_dup.deep_merge(options) if @defaults
     options[:required] = false
     input = find_input(attribute_name, options, &block)
@@ -63,19 +56,11 @@ class FormViewBuilder < SimpleForm::FormBuilder
     @template.content_tag(:div, text, class: 'col-sm-6 col-form-label')
   end
 
-  def hidden_field(method, options = {})
-  end
+  def hidden_field(method, options = {}); end
 
-  def file_field(method, options = {})
-    # self.multipart = true
-    # @template.file_field(@object_name, method, objectify_options(options))
-  end
+  def file_field(method, options = {}); end
 
-  def submit(value=nil, options={})
-    # value, options = nil, value if value.is_a?(Hash)
-    # value ||= submit_default_value
-    # @template.submit_tag(value, options)
-  end
+  def submit(value=nil, options={}); end
 
   def format_text(text)
     text =~ /\n/m ? "<br>".html_safe + @template.simple_format(text) : text
@@ -85,4 +70,14 @@ class FormViewBuilder < SimpleForm::FormBuilder
     @template.content_tag *args
   end
 
+
+  def card(options)
+    @template.census_card_show options
+  end
+end
+
+SimpleForm::FormBuilder.class_eval do
+  def card(options)
+    @template.census_card_edit options
+  end
 end

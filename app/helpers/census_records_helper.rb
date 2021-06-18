@@ -1,4 +1,7 @@
 module CensusRecordsHelper
+  def census_form_renderer
+    "Census#{controller.year}FormFields".constantize
+  end
 
   def translated_label(klass, key)
     I18n.t("simple_form.labels.#{klass ? klass.name.underscore : nil}.#{key}", default:

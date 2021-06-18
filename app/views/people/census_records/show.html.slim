@@ -66,11 +66,29 @@
           td= @record.dwelling_number
           td= @record.family_id
 
-.card.mb-3
-  .card-header
-    | Personal Details
-  .card-body
-    = render 'details'
+= view_for @model do |form|
+  .form-horizontal
+    .card.mb-3
+      .card-header Location
+      ul.list-group.list-group-flush
+        li.list-group-item
+          .form-group.row
+            .col-6.col-form-label Address
+            .col-6= link_to_building @record.building
+        li.list-group-item
+          .form-group.row
+            .col-6.col-form-label Locality
+            .col-6= @record.locality
+
+    = census_form_renderer.new(form).render
+
+    - if controller.year == 1940 && @model.supplemental?
+      = Census1940SupplementalFormFields.new(form).render
+
+    - if @model.notes.present?
+      = card(title: 'Notes') do
+        = simple_format @model.notes
+
 
 - if @record.notes.present?
   .card.mb-3

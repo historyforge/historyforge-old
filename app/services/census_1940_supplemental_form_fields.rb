@@ -1,4 +1,6 @@
 class Census1940SupplementalFormFields < CensusFormFields
+  divider "Supplemental Questions"
+
   input :pob_father,
                input_html: { autocomplete: 'new-password' },
                hint: -> { pob_1940_hint(36) }

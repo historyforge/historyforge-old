@@ -422,22 +422,25 @@ form table {
   //  }
   //}
 
-  h3 {
-    border-bottom: 1px solid $border-color;
-    margin: 1rem -1.25rem;
-    padding: 1rem 1.25rem;
-    break-inside: avoid-column;
-  }
-  .form-group {
-    border-bottom: 1px solid $border-color;
-    padding-bottom: 1rem;
-    break-inside: avoid-column;
-  }
+  //h3 {
+  //  border-bottom: 1px solid $border-color;
+  //  margin: 1rem -1.25rem;
+  //  padding: 1rem 1.25rem;
+  //  break-inside: avoid-column;
+  //}
+  //.form-group {
+  //  border-bottom: 1px solid $border-color;
+  //  padding-bottom: 1rem;
+  //  break-inside: avoid-column;
+  //}
   i.float-right {
     display: none;
   }
   .form-check {
     padding-left: 0;
+  }
+  .form-group {
+    margin-bottom: 0;
   }
 }
 

@@ -1,22 +1,3 @@
-- content_for :extra_buttons do
-  button.btn.btn-default.float-right.hint-toggle-btn type="button"
-
-.census-hint-wrapper style="display: none"
-  .census-hint
-
-.card.mb-1
-  .card-header
-    | Census Record
-  .card-body
-    .census-slider-wrapper
-      .census-slider.hidden
-        = Census1940FormFields.new(form).render
-
-.card.mb-1
-  .card-header
-    | Supplemental Record
-  .card-body
-    .census-slider-wrapper
-      .census-slider.hidden
-        = Census1940SupplementalFormFields.new(form).render
+= Census1940FormFields.new(form).render
+= Census1940SupplementalFormFields.new(form).render
 

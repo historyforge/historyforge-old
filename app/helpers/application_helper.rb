@@ -102,7 +102,7 @@ module ApplicationHelper
            checked: checked
   end
 
-  def panel title=nil, *args, &block
+  def panel(title=nil, *args, &block)
     options = args.extract_options!
     options.reverse_merge! open: true, removable: false
     form = options[:form]
@@ -145,6 +145,25 @@ module ApplicationHelper
     end
     body    = content_tag(:div, extra_body + capture(&block), panel_body_options)
     content_tag :div, heading + body, class: "card #{panel_class} mb-3"
+  end
+
+  def census_card_edit(title: nil, list: nil)
+    header = title && content_tag(:div, title, class: 'card-header')
+
+    slider = content_tag :div, list.join('').html_safe, class: 'census-slider vertical'
+    wrapped_slider = content_tag :div, slider, class: 'census-slider-wrapper'
+    body = content_tag :div, wrapped_slider, class: 'card-body'
+    content_tag(:div, header + body, class: 'card mb-3')
+  end
+
+  def census_card_show(title: nil, list: nil)
+    header = title && content_tag(:div, title, class: 'card-header')
+    body = content_tag(
+      :ul,
+      list.map { |item| content_tag(:li, item, class: 'list-group-item')}.join('').html_safe,
+      class: 'list-group list-group-flush'
+    )
+    content_tag(:div, header + body, class: 'card mb-3')
   end
 
   def table(attrs={}, &block)

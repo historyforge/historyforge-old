@@ -22,14 +22,10 @@ class CensusFormFields
     @form = form
   end
 
-  def render_field(field)
-    config = field_config(field)
-    if config[:as] == :divider
-      "<h3>#{config[:label]}</h3>".html_safe
-    else
-      output = form.input(field, config)
-      output ? output.html_safe : ''
-    end
+  def render_field(field, config=nil)
+    config ||= field_config(field)
+    output = form.input(field, config)
+    output ? output.html_safe : ''
   end
 
   def field_config(field)
@@ -43,7 +39,39 @@ class CensusFormFields
     raise error
   end
 
+  class Card
+    def initialize(title)
+      @title = title
+      @list = []
+    end
+    attr_accessor :title, :list
+
+    def to_h
+      { title: title, list: list }
+    end
+
+    def <<(item)
+      list << item
+    end
+  end
+
   def render
-    fields.map { |field| render_field(field) }.join("\n").html_safe
+    html = ''
+    card = nil
+    fields.each do |field|
+      config = field_config(field)
+      if config[:as] == :divider
+        if card
+          html << form.card(card.to_h)
+          card = nil
+          next
+        end
+        card = Card.new config[:label]
+      elsif card
+        card << render_field(field, config)
+      end
+    end
+    html << form.card(card.to_h) if card
+    html.html_safe
   end
 end

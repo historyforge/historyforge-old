@@ -1,8 +1,3 @@
-const censusRecordScroller = function(evt, chg) {
-  this.scrollLeft += (chg * 25)
-  evt.preventDefault()
-}
-
 $.fn.extend({
     disableWrapper: function () {
         return this.each(function () {
@@ -28,29 +23,9 @@ $.fn.extend({
     }
 })
 
-let showHints = window.localStorage.getItem('hints')
-if (typeof showHints === 'string')
-    showHints = eval(showHints)
-
-const toggleHints = function() {
-    showHints = !showHints
-    window.localStorage.setItem('hints', showHints)
-    setHints()
-}
-
-const setHints = function() {
-  $('.hint-toggle-btn').text(showHints ? 'Showing hints' : 'Hiding hints')
-    if (!showHints) {
-        $('.census-hint-wrapper').hide()
-    }
-}
-
-
 $(document).ready(function() {
     const $forms = $('#new_census_record, #edit_census_record')
 
-    setHints()
-    $('.hint-toggle-btn').on('click', toggleHints)
     $forms.on("keypress", function (e) {
         const code = e.keyCode || e.which
         if (code === 13) {
@@ -108,35 +83,6 @@ $(document).ready(function() {
         $('#census_record_veteran').attr('checked', war_fought.length && war_fought !== 'on')
     })
 
-    const slider = $('.census-slider')
-
-    $('#toggle-census-slider button').on('click', function () {
-        orientation = $(this).data('orientation')
-        window.localStorage.setItem('census-orientation', orientation)
-
-        const horz = $('button[data-orientation=vertical]')
-        const vert = $('button[data-orientation=vertical]')
-
-        $('.census-slider').removeClass('hidden')
-
-        if (orientation === 'vertical') {
-            vert.removeClass('btn-secondary').addClass('btn-primary')
-            horz.removeClass('btn-primary').addClass('btn-secondary')
-            slider.removeClass('horizontal').addClass('vertical').unmousewheel(censusRecordScroller)
-        } else {
-            horz.removeClass('btn-secondary').addClass('btn-primary')
-            vert.removeClass('btn-primary').addClass('btn-secondary')
-            slider.addClass('horizontal').removeClass('vertical').mousewheel(censusRecordScroller)
-        }
-
-    })
-
-    let orientation = window.localStorage.getItem('census-orientation') || 'vertical'
-    $('button[data-orientation=' + orientation + ']').trigger('click')
-
-    if (slider.hasClass('horizontal'))
-        slider.mousewheel(censusRecordScroller)
-
     $('.hint-bubble').each(function () {
         const label = $(this).closest('.form-group').children('label, .col-form-label')
         const title = $(`<span>${label.html()}<i class='fa fa-close float-right' /></span>`)
@@ -164,25 +110,6 @@ jQuery(document).on('change', '#census_record_page_side', function() {
         $line.attr('max', 100)
     }
 })
-
-$('.census-slider input')
-    .on('focusout', function() {
-        $(this).closest('.form-group').removeClass('focused')
-        $('.census-hint-wrapper').hide()
-    })
-    .on('focusin', function() {
-        $(this).closest('.form-group').addClass('focused')
-        const type = this.getAttribute('type')
-        const $hint = $('.census-hint')
-        const hints = ['TAB moves to next field.', 'Shift-TAB moves to previous field.']
-        if (type === 'radio')
-            hints.push('Arrow keys move between choices.')
-        if (type === 'radio' || type === 'checkbox')
-            hints.push('SPACE to check the box.')
-        hints.push('ENTER selects a choice.')
-        $hint.html(`"<b>HINT:</b> ${hints.join(' ')}`)
-        if (showHints) $('.census-hint-wrapper').show()
-    })
 
 jQuery(document).on('change', '#census_record_sex', function() {
     const value = jQuery(this).val()
