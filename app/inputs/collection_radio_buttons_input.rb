@@ -19,7 +19,6 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
         option_label(value)
       end
     else
-      Rails.logger.info collection.inspect
       super
     end
   end
@@ -29,10 +28,8 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
   end
 
   def collection
-    @collection ||= base_collection
-  end
+    return @collection if defined?(@collection)
 
-  def base_collection
     options[:collection] = extract_collection_from_choices if !options[:collection] && !options[:original_collection]
     options[:original_collection] ||= options[:collection]
     items = options[:original_collection].dup
@@ -40,7 +37,10 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionRadioButtonsIn
       items = items.map { |item| [option_label(item), item]}
     end
     items = with_extra_items(items) unless options[:bare]
-    items
+    @collection = items
+  end
+
+  def base_collection
   end
 
   def option_label(item)
