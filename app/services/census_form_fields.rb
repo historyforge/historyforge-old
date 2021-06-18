@@ -55,23 +55,36 @@ class CensusFormFields
     end
   end
 
+  class Builder
+    def initialize(form)
+      @form = form
+      @cards = []
+    end
+    attr_accessor :form
+
+    def start_card(title)
+      @cards << Card.new(title)
+    end
+
+    def add_field(field, config)
+      @cards.last << form.input(field, config).html_safe
+    end
+
+    def to_html
+      @cards.map { |card| form.card(card.to_h).html_safe }.join().html_safe
+    end
+  end
+
   def render
-    html = ''
-    card = nil
+    builder = Builder.new(form)
     fields.each do |field|
       config = field_config(field)
       if config[:as] == :divider
-        if card
-          html << form.card(card.to_h)
-          card = nil
-          next
-        end
-        card = Card.new config[:label]
-      elsif card
-        card << render_field(field, config)
+        builder.start_card(config[:label])
+      else
+        builder.add_field(field, config)
       end
     end
-    html << form.card(card.to_h) if card
-    html.html_safe
+    builder.to_html
   end
 end
