@@ -25,11 +25,11 @@ class Census1940Record < CensusRecord
   end
 
   def per_side
-    50
+    40
   end
 
   def per_page
-    100
+    80
   end
 
   def self.folder_name
