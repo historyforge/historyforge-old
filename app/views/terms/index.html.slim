@@ -22,6 +22,7 @@ table.table.table-condensed.table-striped
   thead
     tr
       th Term
+      th IPUMS
       th 1900
       th 1910
       th 1920
@@ -31,6 +32,7 @@ table.table.table-condensed.table-striped
     - @terms.each do |term|
       tr
         td= term.name
+        td= term.ipums
         td= term.count_records_for(1900)
         td= term.count_records_for(1910)
         td= term.count_records_for(1920)

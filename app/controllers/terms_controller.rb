@@ -95,6 +95,6 @@ class TermsController < ApplicationController
   end
 
   def resource_params
-    params.require(:term).permit(:name)
+    params.require(:term).permit(:name, :ipums)
   end
 end

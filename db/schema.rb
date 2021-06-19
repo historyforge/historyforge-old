@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_17_171815) do
+ActiveRecord::Schema.define(version: 2021_06_19_135540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -681,6 +681,15 @@ ActiveRecord::Schema.define(version: 2021_06_17_171815) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "ipums_records", primary_key: "histid", id: :uuid, default: nil, force: :cascade do |t|
+    t.integer "serial"
+    t.integer "year"
+    t.jsonb "data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["histid"], name: "index_ipums_records_on_histid"
+  end
+
   create_table "localities", force: :cascade do |t|
     t.string "name"
     t.decimal "latitude"
@@ -893,6 +902,7 @@ ActiveRecord::Schema.define(version: 2021_06_17_171815) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "ipums"
     t.index ["name"], name: "index_terms_on_name"
     t.index ["vocabulary_id"], name: "index_terms_on_vocabulary_id"
   end

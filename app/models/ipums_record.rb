@@ -1,0 +1,2 @@
+class IpumsRecord < ApplicationRecord
+end
