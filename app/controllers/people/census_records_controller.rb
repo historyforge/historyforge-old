@@ -196,11 +196,16 @@ class People::CensusRecordsController < ApplicationController
       }
       if @record.line_number == @record.per_page
         attributes[:line_number] = 1
-        attributes[:page_number] = @record.page_number + 1
+        if @record.page_side == 'A'
+          attributes[:page_side] = 'B'
+        else
+          attributes[:page_side] = 'A'
+          attributes[:page_number] = @record.page_number + 1
+        end
       else
         attributes[:line_number] = (@record.line_number || 0) + 1
       end
-      attributes[:page_side] = attributes[:line_number] <= @record.per_page ? 'A' : 'B'
+      # attributes[:page_side] = attributes[:line_number] <= @record.per_page ? 'A' : 'B'
 
       redirect_to action: :new, attributes: attributes
     else
