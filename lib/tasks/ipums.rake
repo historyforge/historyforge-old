@@ -32,4 +32,17 @@ namespace :ipums do
       file.write dict.to_json
     end
   end
+
+  task dict_terms: :environment do
+    Term.update_all ipums: nil
+    dict = JSON.parse File.open(Rails.root.join('db', 'ipums.json')).read
+    %w{RELATE BPL LANGUAGE}.each do |vocab|
+      dict[vocab].each do |key, value|
+        term = Term.find_by(name: value)
+        if term
+          term.update_column :ipums, key
+        end
+      end
+    end
+  end
 end

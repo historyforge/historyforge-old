@@ -17,11 +17,7 @@ class People::CensusRecordsController < ApplicationController
     authorize! :create, resource_class
     @record = resource_class.new
     @record.set_defaults
-    if params[:attributes]
-      params[:attributes].each do |key, value|
-        @record.public_send "#{key}=", value
-      end
-    end
+    @record.attributes = params.require(:attributes).permit! if params[:attributes]
   end
 
   def building_autocomplete
@@ -198,12 +194,15 @@ class People::CensusRecordsController < ApplicationController
         attributes[:line_number] = 1
         if @record.page_side == 'A'
           attributes[:page_side] = 'B'
+          attributes[:page_number] = @record.page_number
         else
           attributes[:page_side] = 'A'
           attributes[:page_number] = @record.page_number + 1
         end
       else
         attributes[:line_number] = (@record.line_number || 0) + 1
+        attributes[:page_side] = @record.page_side
+        attributes[:page_number] = @record.page_number
       end
       # attributes[:page_side] = attributes[:line_number] <= @record.per_page ? 'A' : 'B'
 
