@@ -1,5 +1,6 @@
 class Buildings::MainController < ApplicationController
   include AdvancedRestoreSearch
+  include RenderCsv
 
   wrap_parameters format: []
   respond_to :json, only: %i[index show update]
@@ -134,24 +135,23 @@ class Buildings::MainController < ApplicationController
       when 'tablet'  then 1024
       when 'phone'   then 740
       else 1278
-    end
+      end
 
     if params[:style] != 'full'
-      case params[:style]
-      when 'half'
-        width = (width.to_f * 0.50).ceil
-      when 'third'
-        width = (width.to_f * 0.33).ceil
-      when 'quarter'
-        width = (width.to_f * 0.25).ceil
-      else
-        width = (width.to_f * (params[:style].to_f / 100.to_f)).ceil
-      end
+      width = case params[:style]
+              when 'half'
+                (width.to_f * 0.50).ceil
+              when 'third'
+                (width.to_f * 0.33).ceil
+              when 'quarter'
+                (width.to_f * 0.25).ceil
+              else
+                (width.to_f * (params[:style].to_f / 100.to_f)).ceil
+              end
     end
 
     redirect_to @photo.file.variant(resize_to_fit: [width, width * 3])
   end
-
 
   def new_resource_path
     new_building_path
@@ -183,16 +183,7 @@ class Buildings::MainController < ApplicationController
     if request.format.html?
       render action: :index
     elsif request.format.csv?
-      filename = "historyforge-buildings.csv"
-      headers["X-Accel-Buffering"] = "no"
-      headers["Cache-Control"] = "no-cache"
-      headers["Content-Type"] = "text/csv; charset=utf-8"
-      headers["Content-Disposition"] =
-          %(attachment; filename="#{filename}")
-      headers["Last-Modified"] = Time.zone.now.ctime.to_s
-      self.response_body = Enumerator.new do |output|
-        @search.to_csv(output)
-      end
+      render_csv
     else
       if request.format.json? && !params[:from]
         @search.expanded = true

@@ -2,12 +2,12 @@ module AdvancedRestoreSearch
   extend ActiveSupport::Concern
 
   included do
-    before_action :restore_search, only: %i[index], unless: :is_json_request?
+    before_action :restore_search, only: %i[index], unless: :json_request?
   end
 
   private
 
-  def is_json_request?
+  def json_request?
     request.format.json?
   end
 
