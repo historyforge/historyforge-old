@@ -6,7 +6,10 @@ namespace :ipums do
 
       while row = csv.shift
         record = IpumsRecord.find_or_initialize_by(histid: row['HISTID'])
-        record.data = row
+        record.data = {}
+        row.each do |key, value|
+          record.data[key] = value
+        end
         record.serial = row['SERIAL'].to_i
         record.year = row['YEAR'].to_i
         record.save
@@ -14,6 +17,49 @@ namespace :ipums do
     end
   end
 
+  def find_person(person)
+    where = {
+      sex: person.sex,
+      age: person.age,
+      marital_status: person.marital_status,
+      race: person.race
+    }
+    where[:relation_to_head] = 'Head' if person.head?
+
+    pob_vocab = Vocabulary.find 2
+    bpl = pob_vocab.terms.find_by(ipums: person.data['BPL'])
+    fbpl = pob_vocab.terms.find_by(ipums: person.data['FBPL'])
+    mbpl = pob_vocab.terms.find_by(ipums: person.data['MBPL'])
+    where[:pob] = bpl.name if bpl
+    where[:pob_father] = fbpl.name if fbpl
+    where[:pob_mother] = mbpl.name if mbpl
+
+    Census1910Record.where(where)
+  end
+
+  task match_1910: :environment do
+    records = IpumsRecord.where(year: 1910).to_a.group_by(&:serial)
+    records.each do |_serial, members|
+      head_member = find_person members.first
+
+      puts "*** FOUND #{head_member.count} matches! ***"
+      next if head_member.count == 0
+
+      member_size = members.size
+      puts "Looking for a family with #{member_size} members."
+
+      families = []
+      head_member.each do |member|
+        f = Census1910Record.where(
+          dwelling_number: member.dwelling_number,
+          family_id: member.family_id
+        )
+        families << f if f.size == member_size
+      end
+
+      puts "Found #{families.size} families with #{member_size} members."
+    end
+  end
 
   task dictionary: :environment do
     dict = {}

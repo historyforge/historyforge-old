@@ -26,7 +26,7 @@ class CensusRecord < ApplicationRecord
   validate :dont_add_same_person, on: :create
   validates :relation_to_head, vocabulary: { allow_blank: true }
   validates :pob, :pob_father, :pob_mother, vocabulary: { name: :pob, allow_blank: true }
-  validates :person_id, uniqueness: { allow_blank: true }
+  # validates :person_id, uniqueness: { allow_nil: true }
 
   after_initialize :set_defaults
 
