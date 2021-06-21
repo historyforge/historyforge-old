@@ -9,6 +9,10 @@ module CensusRecordsHelper
         I18n.t("simple_form.labels.defaults.#{key}", default: (klass ? klass : CensusRecord).human_attribute_name(key))))
   end
 
+  def translated_option(attribute_name, item)
+    I18n.t("#{attribute_name}.#{item.downcase.gsub(/\W/, '')}", scope: 'census_codes', default: item).presence
+  end
+
   def census_fields_select
     year = controller.year
     fields = if year == 1940

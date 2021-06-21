@@ -53,11 +53,11 @@ $(document).ready(function() {
     })
     const tempBU = $('#bulk_update_field').val()
     const isBulkUpdate = tempBU && tempBU.length
+
     $forms.find('input[autocomplete=new-password]').each(function () {
         const attribute_name = isBulkUpdate ? $('#bulk_update_field').val() : this.getAttribute('name').match(/census_record\[(\w+)]/)[1]
         const urlParts = document.location.pathname.split('/');
         const url = `/census/${urlParts[2]}/autocomplete?attribute=${attribute_name}`
-        // TODO: fix this autocomplete!
         $(this).autoComplete({
             source: function(term, response) {
                 $.getJSON(url, { term }, function(json) {

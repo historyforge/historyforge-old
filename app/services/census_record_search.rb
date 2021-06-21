@@ -18,13 +18,15 @@ class CensusRecordSearch
 
   def ransack_params
     @s = @s.to_unsafe_hash if @s.respond_to?(:to_unsafe_hash)
+    @s = @s.reject { |_k, v| v == '' }
     p = Hash.new
     @s.each do |key, value|
       if value.is_a?(Array) && value.include?('blank')
         p[:g] ||= []
-        if key =~ /_not_in$/
+        case key
+        when /_not_in$/
           p[:g] << { m: 'and', key.to_sym => value, key.sub(/not_in$/, 'present').to_sym => true }
-        elsif key =~ /_in$/
+        when /_in$/
           p[:g] << { m: 'or', key.to_sym => value, key.sub(/in$/, 'present').to_sym => true }
         end
       else

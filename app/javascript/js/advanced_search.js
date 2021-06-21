@@ -49,6 +49,9 @@ const addAttributeFilter = function(scope, scopeValue) {
         return;
     }
     field_config = getFieldConfigFromScope(scope);
+    if (!field_config)
+        field_config = getFieldConfigFromScope(scope.replace(/_eq/, '_in'))
+
     if (field_config == null) {
         return;
     }
@@ -172,8 +175,15 @@ const addAttributeFilter = function(scope, scopeValue) {
 };
 
 jQuery(document).on('click', '.attribute-filter button.close', function() {
-    $(this).closest('.attribute-filter').remove();
-    return $('#new_s').submit();
+    const $filter = $(this).closest('.attribute-filter')
+    const name = $filter.find('input:first').attr('name')
+
+    $(`[name="${name}"]`).val(null)
+    $(`[name="${name.replace('[]', '')}"]`).val(null)
+    $(`[name="${name.replace('_in', '_eq')}"]`).val(null)
+
+    $filter.remove();
+    $('#new_s').submit();
 });
 
 $(document).on('click', '#new_s .btn-group-toggle label', function() {
@@ -494,6 +504,7 @@ jQuery.fn.advancedSearch = function(options) {
             }
             return results;
         });
+
     });
 };
 
