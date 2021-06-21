@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_19_135540) do
+ActiveRecord::Schema.define(version: 2021_06_20_020601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "fuzzystrmatch"
@@ -214,6 +214,7 @@ ActiveRecord::Schema.define(version: 2021_06_19_135540) do
     t.string "apartment_number"
     t.integer "age_months"
     t.bigint "locality_id"
+    t.uuid "histid"
     t.index ["building_id"], name: "index_census_1900_records_on_building_id"
     t.index ["data"], name: "index_census_1900_records_on_data", using: :gin
     t.index ["locality_id"], name: "index_census_1900_records_on_locality_id"
@@ -291,6 +292,7 @@ ActiveRecord::Schema.define(version: 2021_06_19_135540) do
     t.string "mother_tongue_father"
     t.string "mother_tongue_mother"
     t.bigint "locality_id"
+    t.uuid "histid"
     t.index ["building_id"], name: "index_census_1910_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1910_records_on_created_by_id"
     t.index ["data"], name: "index_census_1910_records_on_data", using: :gin
@@ -361,6 +363,7 @@ ActiveRecord::Schema.define(version: 2021_06_19_135540) do
     t.integer "age_months"
     t.string "employment_code"
     t.bigint "locality_id"
+    t.uuid "histid"
     t.index ["building_id"], name: "index_census_1920_records_on_building_id"
     t.index ["locality_id"], name: "index_census_1920_records_on_locality_id"
     t.index ["person_id"], name: "index_census_1920_records_on_person_id"
@@ -445,6 +448,7 @@ ActiveRecord::Schema.define(version: 2021_06_19_135540) do
     t.bigint "industry1930_code_id"
     t.bigint "occupation1930_code_id"
     t.bigint "locality_id"
+    t.uuid "histid"
     t.index ["building_id"], name: "index_census_1930_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1930_records_on_created_by_id"
     t.index ["industry1930_code_id"], name: "index_census_1930_records_on_industry1930_code_id"
@@ -541,6 +545,7 @@ ActiveRecord::Schema.define(version: 2021_06_19_135540) do
     t.string "worker_class_code"
     t.string "industry_code"
     t.bigint "locality_id"
+    t.uuid "histid"
     t.index ["building_id"], name: "index_census_1940_records_on_building_id"
     t.index ["created_by_id"], name: "index_census_1940_records_on_created_by_id"
     t.index ["locality_id"], name: "index_census_1940_records_on_locality_id"

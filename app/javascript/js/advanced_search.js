@@ -1,6 +1,4 @@
-var addAttributeFilter, getFieldConfig, getFieldConfigFromScope, getSortableFields;
-
-getFieldConfig = function(attribute) {
+const getFieldConfig = function(attribute) {
     var key, ref, value;
     ref = window.attributeFilters["filters"];
     for (key in ref) {
@@ -11,7 +9,7 @@ getFieldConfig = function(attribute) {
     }
 };
 
-getFieldConfigFromScope = function(scope) {
+const getFieldConfigFromScope = function(scope) {
     var attribute, ref, ref1, value;
     ref = window.attributeFilters["filters"];
     for (attribute in ref) {
@@ -22,20 +20,17 @@ getFieldConfigFromScope = function(scope) {
     }
 };
 
-getSortableFields = function() {
-    var fields, key, ref, value;
-    fields = {};
-    ref = window.attributeFilters["filters"];
-    for (key in ref) {
-        value = ref[key];
-        if (value.sortable) {
-            fields[value.sortable] = value.label;
+const getSortableFields = function() {
+    const fields = {};
+    window.attributeFilters.filters.forEach((filter) => {
+        if (filter.sortable) {
+            fields[filter.sortable] = filter.label
         }
-    }
+    })
     return fields;
 };
 
-addAttributeFilter = function(scope, scopeValue) {
+const addAttributeFilter = function(scope, scopeValue) {
     var choice, closeButton, desc, field_config, html, i, input, input1, input2, j, k, key, label, len, len1, len2, otherScope, otherValue, ref, ref1, ref2, sentence, singleScopeValue, value, values;
     if (scope === 'reviewed_at_null') {
         html = document.createElement('DIV');
@@ -61,8 +56,9 @@ addAttributeFilter = function(scope, scopeValue) {
         return;
     }
     html = document.createElement('DIV');
-    html.classList.add('attribute-filter');
-    html.classList.add('dropdown-item');
+    ['attribute-filter', 'btn', 'btn-sm', 'btn-light'].forEach((text) => {
+        html.classList.add(text)
+    })
     sentence = [field_config.label];
     ref = field_config.scopes;
     for (key in ref) {
@@ -229,7 +225,7 @@ jQuery(document).on('change', 'select.scope', function() {
 jQuery(document).on('change', 'select.attribute', function() {
     var appendToValueBox, attribute, checkbox, choice, choices, div, endDate, field_config, form, from, i, id, input, j, key, label, labelText, len, len1, name, null_choice, option, ref, ref1, scopeSelect, scopeSelectContainer, startDate, to, value, valueBox;
     attribute = jQuery(this).val();
-    form = jQuery(this).closest('.modal-body');
+    form = jQuery(this).closest('.card-body');
     field_config = getFieldConfig(attribute);
     if (field_config) {
         scopeSelectContainer = form.find('.scope-selection-container');
@@ -322,7 +318,7 @@ jQuery(document).on('change', 'select.attribute', function() {
                     checkbox.appendChild(label);
                     valueBox.append(checkbox);
                 }
-                valueBox.show();
+                valueBox.css('display', 'inline');
                 break;
             case 'text':
                 name = "s[" + (scopeSelect.val()) + "]";
@@ -423,7 +419,7 @@ jQuery.fn.advancedSearch = function(options) {
                 });
             }
             if (Object.entries(filters).length) {
-                $('#attribute-filters').empty();
+                $('#attribute-filters').addClass('mb-3').empty();
                 for (scope in filters) {
                     value = filters[scope];
                     addAttributeFilter(scope, value);
@@ -479,7 +475,7 @@ jQuery.fn.advancedSearch = function(options) {
                 return attributeFiltersCallback(json);
             });
         }
-        jQuery(document).on('shown.bs.modal', '#newAttributeFilter', function() {
+        jQuery(document).on('shown.bs.collapse', '#newAttributeFilter', function() {
             var attrSelect, i, key, len, ref, results, value;
             jQuery(this).find('select.scope').hide();
             jQuery(this).find('.value-input-container').empty();

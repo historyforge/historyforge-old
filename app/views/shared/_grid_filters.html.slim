@@ -1,3 +1,14 @@
+- content_for :pills do
+  - if can?(:create, resource_class)
+    = link_to 'Add New', new_resource_path, class: 'btn btn-sm btn-light'
+  - if can?(:bulk_update, resource_class) && controller.respond_to?(:year)
+    = link_to 'Bulk Update', "/census/#{controller.year}/bulk", class: 'btn btn-sm btn-light'
+  - if can?(:review, resource_class)
+    - count = @search.scoped.to_a.select { |rec| !rec.reviewed? }.length
+    - if count > 0
+      = link_to "Mark #{count} Reviewed", request.params.merge(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
+  = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
+
 = simple_form_for @search, url: url_for(), method: :get, as: :s do |form|
   .float-right
     = form.submit 'Submit', style: 'display: none'
@@ -6,50 +17,43 @@
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map', data: {year: controller.year}
     - elsif params[:controller] == 'buildings/main'
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
-    - if can?(:create, resource_class)
-      = link_to 'Add New', new_resource_path, class: 'btn btn-sm btn-light'
-    - if can?(:bulk_update, resource_class) && controller.respond_to?(:year)
-      = link_to 'Bulk Update', "/census/#{controller.year}/bulk", class: 'btn btn-sm btn-light'
-    - if can?(:review, resource_class)
-      - count = @search.scoped.to_a.select { |rec| !rec.reviewed? }.length
-      - if count > 0
-        = link_to "Mark #{count} Reviewed", request.params.merge(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
-    = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
-  .dropdown
-    button.btn.btn-sm.btn-light type="button" data-toggle="dropdown" = pluralize @search.columns.size, 'Field'
-    .dropdown-menu
-      .value-input-container.column-count-3.checkboxes#fields
-        - @search.all_fieldsets.each do |field|
-          label.dropdown-item.checkbox for="fs_#{field}"
-            = check_box_tag 'fs[]', field, @search.fieldsets.include?(field), id: "fs_#{field}", data: { default: @search.is_default_field?(field) }
-            = translated_label resource_class, field
-        - @search.all_fields.each do |field|
-          label.dropdown-item.checkbox for="f_#{field}"
-            = check_box_tag 'f[]', field, @search.f.include?(field), id: "f_#{field}", data: { default: @search.is_default_field?(field) }
-            = translated_label resource_class, field
-      .form-actions
-        = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary mr-auto'
-        button.btn.btn-light.ml-auto.checkall data-scope="#fields" type="button" Check all
-  .dropdown
-    button.btn.btn-sm.btn-light type="button" data-toggle="dropdown" = pluralize @search.s.keys.size, 'Filter'
-    .dropdown-menu
-      #attribute-filters
-        em.dropdown-item No filters have been applied.
-      .form-actions
-        button.btn.btn-light type="button" data-target="#newAttributeFilter" data-toggle="modal" Add Filter
+  button.btn.btn-sm.btn-light type="button" data-toggle="collapse" data-target="#fieldSelector" = pluralize @search.columns.size, 'Field'
+  button.btn.btn-sm.btn-light.mr-3 type="button" data-toggle="collapse" data-target="#newAttributeFilter" Add Filter
 
   = yield :filter_buttons
 
-  .modal.fade id="newAttributeFilter"
-    .modal-dialog.modal-lg
-      .modal-content
-        .modal-header
-          h5.modal-title Add Filter
-          button.close(type="button" data-dismiss="modal") &times;
-        .modal-body
-          .row.pl-3
-            select.attribute.form-control.col-3
-            .scope-selection-container.col-3
-            .value-input-container.col-6
-        .modal-footer
-          = form.submit 'Submit', data: {:disable_with => 'Sending...'}, :class => 'btn btn-primary'
+  #attribute-filters
+
+  .collapse.fade#fieldSelector
+    .card.mb-3
+      .card-header
+        button.float-right.close(type="button" data-toggle="collapse" data-target="#fieldSelector") &times;
+        span Add Filter
+
+      .card-body
+        .value-input-container.column-count-3.checkboxes#fields
+          - @search.all_fieldsets.each do |field|
+            label.dropdown-item.checkbox for="fs_#{field}"
+              = check_box_tag 'fs[]', field, @search.fieldsets.include?(field), id: "fs_#{field}", data: { default: @search.is_default_field?(field) }
+              = translated_label resource_class, field
+          - @search.all_fields.each do |field|
+            label.dropdown-item.checkbox for="f_#{field}"
+              = check_box_tag 'f[]', field, @search.f.include?(field), id: "f_#{field}", data: { default: @search.is_default_field?(field) }
+              = translated_label resource_class, field
+      .card-footer
+        = form.submit 'Submit', data: { :disable_with => 'Sending...' }, :class => 'btn btn-primary mr-auto'
+        button.btn.btn-light.ml-auto.checkall data-scope="#fields" type="button" Check all
+
+  .collapse.fade#newAttributeFilter
+    .card.mb-3
+      .card-header
+        button.float-right.close(type="button" data-toggle="collapse" data-target="#newAttributeFilter") &times;
+        span Add Filter
+      .card-body
+        .row
+          .col-3
+            select.attribute.form-control
+          .scope-selection-container.col-3
+          .value-input-container.col-6
+      .card-footer
+        = form.submit 'Submit', data: { disable_with: 'Sending...' }, class: 'btn btn-primary'

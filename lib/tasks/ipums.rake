@@ -58,6 +58,19 @@ namespace :ipums do
       end
 
       puts "Found #{families.size} families with #{member_size} members."
+
+      next if families.size == 0
+
+      if member_size == 1
+        if families.size == 1
+          head_member.first.update_column :histid, members.first.histid
+          next
+        end
+      else
+        ages = members.map(&:age).sort
+        families = families.select { |f| f.map(&:age).compact.sort == ages }
+        puts "#{families.size} of those families have matching aged members."
+      end
     end
   end
 

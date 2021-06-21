@@ -187,8 +187,8 @@ div.date {
 
   &.column-count-2 {
     column-count: 2;
-    flex: 0 0 100%;
-    max-width: 100%;
+    //flex: 0 0 100%;
+    //max-width: 100%;
   }
   &.column-count-3 {
     column-count: 3;
@@ -200,6 +200,10 @@ div.date {
     flex: 0 0 100%;
     max-width: 100%;
   }
+}
+
+#attribute-filters {
+  clear: both;
 }
 
 #grid-filters {
