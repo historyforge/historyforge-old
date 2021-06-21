@@ -17,8 +17,19 @@ class HomeController < ApplicationController
   end
 
   def search_buildings
-    @buildings = Building.joins(:addresses).includes(:addresses).ransack(street_address_cont: params[:term]).result.limit(10)
-    render json: @buildings.map { |b| { url: url_for(b), name: b.full_street_address } }
+    @buildings = Building.joins(:addresses).includes(:addresses).ransack(street_address_cont: params[:term]).result
+    @buildings = @buildings.limit(10) unless params[:unpaged]
+    if params[:unpaged] && params[:term].size > 3
+      @names = PgSearch::Document.ransack(content_cont: params[:term])
+                                 .result.includes(searchable: { building: :addresses })
+                                 .map(&:searchable)
+                                 .map(&:building)
+                                 .compact
+                                 .uniq
+      Rails.logger.info @names
+      @buildings = @buildings.to_a.concat(@names)
+    end
+    render json: @buildings.map { |b| { url: url_for(b), id: b.id, name: b.full_street_address, lat: b.latitude, lon: b.longitude } }
   end
 
   private

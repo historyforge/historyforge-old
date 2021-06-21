@@ -1,6 +1,7 @@
 import React from 'react'
 import Layers from "./Layers"
 import Map from './Map'
+import Search from './Search'
 import Building from './Building'
 import ErrorBoundary from "./ErrorBoundary";
 
@@ -24,6 +25,7 @@ export default class App extends React.PureComponent {
                         <Map />
                         <div id={'forge-right-col'}>
                             <Layers />
+                            <Search />
                             <Building />
                         </div>
                     </div>
