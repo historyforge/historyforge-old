@@ -47,6 +47,9 @@ class Map extends React.PureComponent {
         if (prevProps.highlighted && prevProps.highlighted !== this.props.highlighted) {
             this.unhighlightMarker(prevProps.highlighted)
         }
+        if ((!prevProps.heatmapOpacityAt && this.props.heatmapOpacityAt) || (prevProps.heatmapOpacityAt !== this.props.heatmapOpacityAt)) {
+            this.doHeatmapOpacity()
+        }
         if (this.props.highlighted) {
             this.highlightMarker(this.props.highlighted)
             if (this.props.building) {
@@ -90,6 +93,13 @@ class Map extends React.PureComponent {
     }
 
     addMarkers() {
+        this.addMarkerCluster()
+        this.addHeatMap()
+    }
+
+    addMarkerCluster() {
+        if (this.state.heatmap) this.state.heatmap.setMap(null)
+
         const clusterer = this.state.clusterer || new MarkerClusterer(this.state.map, [], {
             imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m',
             minimumClusterSize: 10,
@@ -102,6 +112,28 @@ class Map extends React.PureComponent {
             clusterer.addMarkers(markers)
 
         this.setState({ clusterer, markers })
+    }
+
+    addHeatMap() {
+        if (this.state.clusterer) this.state.clusterer.clearMarkers()
+
+        const points = this.props.buildings && this.props.buildings.map(building => {
+            return {
+                location: new google.maps.LatLng(building.lat, building.lon),
+                weight: building.weight || 5
+            }
+        })
+
+        const heatmap = this.state.heatmap || new google.maps.visualization.HeatmapLayer({
+            data: points,
+            map: this.state.map,
+            radius: 50,
+            opacity: 0
+        })
+
+        this.setState({ heatmap }, () => {
+            this.doHeatmapOpacity()
+        })
     }
 
     get markers() {
@@ -153,8 +185,16 @@ class Map extends React.PureComponent {
             if (typeof(opacity) === 'number')
                 layer.setOpacity(opacity / 100)
             else
-                layer.setOpacity(100)
+                layer.setOpacity(1)
         })
+    }
+
+    doHeatmapOpacity() {
+        const { heatmapOpacity } = this.props
+        if (typeof(heatmapOpacity) === 'number')
+            this.state.heatmap.set('opacity', heatmapOpacity / 100)
+        else
+            this.state.heatmap.set('opacity', 100)
     }
 }
 
