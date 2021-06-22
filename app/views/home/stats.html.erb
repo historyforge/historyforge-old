@@ -13,7 +13,7 @@
       </tr>
       </thead>
       <tbody>
-        <% @recent_census_summaries.each do |row| %>
+        <% @stats.recent_census_summaries.each do |row| %>
         <tr>
           <th><%= row[:year] %></th>
           <th><%= number_with_delimiter row[:total] %></th>
@@ -34,7 +34,7 @@
       </tr>
       </thead>
       <tbody>
-        <% @census_summaries.each do |row| %>
+        <% @stats.census_summaries.each do |row| %>
         <tr>
           <th><%= row[:year] %></th>
           <th><%= number_with_delimiter row[:total] %></th>
@@ -58,7 +58,7 @@
       </tr>
       </thead>
       <tbody>
-        <% @recent_heroes.each do |row| %>
+        <% @stats.recent_heroes.each do |row| %>
         <tr>
           <th><%= row.login %></th>
           <td><%= number_with_delimiter row.total %></td>
@@ -78,7 +78,7 @@
       </tr>
       </thead>
       <tbody>
-      <% @overall_heroes.each do |row| %>
+      <% @stats.overall_heroes.each do |row| %>
         <tr>
           <th><%= row.login %></th>
           <td><%= number_with_delimiter row.total %></td>

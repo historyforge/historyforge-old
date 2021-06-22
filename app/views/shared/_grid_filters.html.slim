@@ -1,13 +1,17 @@
 - content_for :pills do
   - if can?(:create, resource_class)
-    = link_to 'Add New', new_resource_path, class: 'btn btn-sm btn-light'
+    = link_to 'Add New Record', new_resource_path, class: 'btn btn-sm btn-light'
   - if can?(:bulk_update, resource_class) && controller.respond_to?(:year)
     = link_to 'Bulk Update', "/census/#{controller.year}/bulk", class: 'btn btn-sm btn-light'
   - if can?(:review, resource_class)
     - count = @search.scoped.to_a.select { |rec| !rec.reviewed? }.length
     - if count > 0
       = link_to "Mark #{count} Reviewed", request.params.merge(action: :bulk_review), class: 'btn btn-sm btn-light', data: { remote: false, method: :post, confirm: "Are you sure? Undoing this action may be painful." }
-  = link_to 'Reset', url_for(reset: true), class: 'btn btn-sm btn-light'
+  - if @search.active?
+    = link_to 'Start New Search', url_for(reset: true), class: 'btn btn-sm btn-light'
+  .dropdown.ml-2 data-controller="load-saved-search"
+    a.dropdown-toggle.btn.btn-sm.btn-light data-toggle="dropdown" Load Search
+    .dropdown-menu
 
 = simple_form_for @search, url: url_for(), method: :get, as: :s do |form|
   .float-right
@@ -17,6 +21,8 @@
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map', data: {year: controller.year}
     - elsif params[:controller] == 'buildings/main'
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
+    - if @search.active?
+      button.btn.btn-sm.btn-primary type="button" data-controller="save-search" Save It
   button.btn.btn-sm.btn-light type="button" data-toggle="collapse" data-target="#fieldSelector" = pluralize @search.columns.size, 'Field'
   button.btn.btn-sm.btn-light.mr-3 type="button" data-toggle="collapse" data-target="#newAttributeFilter" Filter
 

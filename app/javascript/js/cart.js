@@ -3,7 +3,6 @@ class Cart {
     this.load()
   }
 
-
   addItem(id) {
     if (!this.contains(id)) {
       this.items.push(id)

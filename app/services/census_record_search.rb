@@ -12,6 +12,10 @@ class CensusRecordSearch
 
   validates :t, presence: true
 
+  def active?
+    @active
+  end
+
   def to_a
     @results ||= scoped.to_a.map {|row| CensusRecordPresenter.new(row, user) }
   end
@@ -39,6 +43,7 @@ class CensusRecordSearch
   def scoped
     @scoped || begin
       rp = ransack_params
+      @active = rp.keys.any?
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.ransack(rp).result
       if from && to

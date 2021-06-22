@@ -11,18 +11,24 @@ class PersonSearch
 
   validates :t, presence: true
 
+  def active?
+    @active
+  end
+
   def to_a
     @results ||= scoped.to_a.map {|row| PersonPresenter.new(row, user) }
   end
 
   def ransack_params
     @s = @s.to_unsafe_hash if @s.respond_to?(:to_unsafe_hash)
-    @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
+    @s = @s.reject { |_k, v| v == '' }
+    @s.each_with_object({}) { |value, hash| hash[value[0].to_sym] = value[1] }
   end
 
   def scoped
     @scoped || begin
                  rp = ransack_params
+                 @active = rp.keys.any?
                  rp[:reviewed_at_not_null] = 1 unless user
                  @scoped = Person.ransack(rp).result
                  if from && to
@@ -30,8 +36,6 @@ class PersonSearch
                  elsif paged?
                    @scoped = @scoped.page(page).per(per)
                  end
-                 # @scoped = @scoped.unreviewed if unreviewed?
-
                  add_sorts
                end
 
@@ -42,11 +46,11 @@ class PersonSearch
     sort&.each do |_key, sort_unit|
       col = sort_unit['colId']
       dir = sort_unit['sort']
-      if col == 'name'
-        order << name_order_clause(dir)
-      else
-        order << "#{col} #{dir}"
-      end
+      order << if col == 'name'
+                 name_order_clause(dir)
+               else
+                 "#{col} #{dir}"
+               end
     end
     order << name_order_clause('asc') if sort.blank?
     @scoped = @scoped.order Person.send(:sanitize_sql, order.join(', '))
@@ -153,13 +157,12 @@ class PersonSearch
 
   def row_data(records)
     records.map do |record|
-      columns.inject({id: record.id}) do |hash, column|
+      columns.each_with_object({id: record.id}) do |column, hash|
         value = record.field_for(column)
         if column == 'name'
           value = { name: value, reviewed: record.reviewed? }
         end
         hash[column] = value
-        hash
       end
     end
   end

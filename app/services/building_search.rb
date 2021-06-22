@@ -12,6 +12,10 @@ class BuildingSearch
 
   validates :t, presence: true
 
+  def active?
+    @active
+  end
+
   def to_a
     return @results if defined?(@results)
     @results = scoped.to_a
@@ -32,9 +36,7 @@ class BuildingSearch
   end
 
   def ransack_params
-    if @s.is_a?(String)
-      @s = JSON.parse(@s)
-    end
+    @s = JSON.parse(@s) if @s.is_a?(String)
     @s = @s.to_unsafe_hash if @s.respond_to?(:to_unsafe_hash)
     params = @s.inject({}) { |hash, value| hash[value[0].to_sym] = value[1]; hash }
     params
@@ -48,6 +50,7 @@ class BuildingSearch
     @scoped || begin
       @f << 'investigate_reason' if uninvestigated?
       rp = ransack_params
+      @active = rp.keys.any?
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.includes(:addresses).left_outer_joins(:addresses).ransack(rp).result #.includes(:building_type, :architects).ransack(rp).result
       add_order_clause
