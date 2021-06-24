@@ -5,6 +5,17 @@ class Address < ApplicationRecord
 
   auto_strip_attributes :city, :house_number, :name, :prefix, :suffix
 
+  ransacker :street_address, formatter: proc { |v| v.mb_chars.downcase.to_s } do |parent|
+    Arel::Nodes::NamedFunction.new('LOWER',
+                                   [Arel::Nodes::NamedFunction.new('concat_ws',
+                                                                   [Arel::Nodes::Quoted.new(' '),
+                                                                    parent.table[:house_number],
+                                                                    parent.table[:prefix],
+                                                                    parent.table[:name],
+                                                                    parent.table[:suffix]
+                                                                   ])])
+  end
+
   def address
     [house_number, prefix, name, suffix].join(' ')
   end
