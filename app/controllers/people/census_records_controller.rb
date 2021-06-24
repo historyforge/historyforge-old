@@ -44,8 +44,8 @@ module People
                                          'house_number'
                                        end
                   Address.ransack(:"#{building_attribute}_start" => term).result.distinct.limit(15).pluck(building_attribute)
-                elsif attribute == 'street_name'
-                  Address.ransack(street_address_start: term).result.distinct.limit(15).map(&:address)
+                elsif attribute == 'street_address'
+                  Address.ransack(street_address_cont: term).result.distinct.limit(15).map(&:address)
                 elsif %w[first_name middle_name last_name].include?(attribute)
                   Person.ransack(:"#{attribute}_start" => term).result.distinct.limit(15).pluck(attribute)
                 else
