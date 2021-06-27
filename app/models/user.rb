@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :permissions, dependent: :destroy
   has_many :roles, through: :permissions
 
+  has_many :search_params, dependent: :destroy
+
   has_many :census1900_records, dependent: :nullify, foreign_key: :created_by_id
   has_many :census1910_records, dependent: :nullify, foreign_key: :created_by_id
   has_many :census1920_records, dependent: :nullify, foreign_key: :created_by_id

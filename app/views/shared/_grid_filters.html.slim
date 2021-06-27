@@ -23,8 +23,9 @@
       => form.submit 'Map It', class: 'btn btn-sm btn-primary', id: 'search-map'
     - if @search.active?
       button.btn.btn-sm.btn-primary type="button" data-controller="save-search" Save It
-  button.btn.btn-sm.btn-light type="button" data-toggle="collapse" data-target="#fieldSelector" = pluralize @search.columns.size, 'Field'
-  button.btn.btn-sm.btn-light.mr-3 type="button" data-toggle="collapse" data-target="#newAttributeFilter" Filter
+  .mb-3
+    button.btn.btn-sm.btn-light type="button" data-toggle="collapse" data-target="#fieldSelector" = pluralize @search.columns.size, 'Field'
+    button.btn.btn-sm.btn-light.mr-3 type="button" data-toggle="collapse" data-target="#newAttributeFilter" Filter
 
   = yield :filter_buttons
 
