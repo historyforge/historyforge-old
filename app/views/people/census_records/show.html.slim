@@ -75,8 +75,14 @@
       ul.list-group.list-group-flush
         li.list-group-item
           .form-group.row
-            .col-6.col-form-label Address
+            .col-6.col-form-label Census Address
+            .col-6= @record.street_address
+
+        li.list-group-item
+          .form-group.row
+            .col-6.col-form-label Building Record
             .col-6= link_to_building @record.building
+
         li.list-group-item
           .form-group.row
             .col-6.col-form-label Locality

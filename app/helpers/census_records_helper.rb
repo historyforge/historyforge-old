@@ -24,9 +24,9 @@ module CensusRecordsHelper
   end
 
   def bulk_update_field_for(field, form)
-    "Census#{year}FormFields".safe_constantize.new(form).field_config(field.intern).dup
+    "Census#{year}FormFields".safe_constantize.new(form).config_for(field.intern).dup
   rescue
-    "Census#{year}SupplementalFormFields".safe_constantize.new(form).field_config(field.intern).dup
+    "Census#{year}SupplementalFormFields".safe_constantize.new(form).config_for(field.intern).dup
   end
 
   def select_options_for(collection)

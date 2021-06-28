@@ -22,21 +22,34 @@ class CensusFormFields
     @form = form
   end
 
-  def render_field(field, config=nil)
-    config ||= field_config(field)
-    output = form.input(field, config)
-    output ? output.html_safe : ''
-  end
+  def config_for(field)
+    return unless form
 
-  def field_config(field)
-    options = inputs[field]
-    if options[:hint] && options[:hint].respond_to?(:call)
-      options[:hint] = form.template.instance_exec &options[:hint]
-    end
-    options
+    inputs[field]
   rescue StandardError => error
     Rails.logger.error "*** Field Config Missing for #{field}! ***"
     raise error
+  end
+
+  def render
+    builder = if form.respond_to?(:supercrazy)
+                JSONBuilder.new(form, resource_class)
+              else
+                FormBuilder.new(form)
+              end
+    fields.each do |field|
+      config = config_for(field)
+      if config[:as] == :divider
+        builder.start_card(config[:label])
+      else
+        builder.add_field(field, config)
+      end
+    end
+    builder.to_html
+  end
+
+  def resource_class
+    @resource_class ||= self.class.to_s.sub(/FormFields/, 'Record').sub('Supplemental', '').constantize
   end
 
   class Card
@@ -55,7 +68,7 @@ class CensusFormFields
     end
   end
 
-  class Builder
+  class FormBuilder
     def initialize(form)
       @form = form
       @cards = []
@@ -67,6 +80,10 @@ class CensusFormFields
     end
 
     def add_field(field, config)
+      if config[:hint] && config[:hint].respond_to?(:call)
+        config[:hint] = form.template.instance_exec &config[:hint]
+      end
+
       @cards.last << form.input(field, config).html_safe
     end
 
@@ -75,16 +92,80 @@ class CensusFormFields
     end
   end
 
-  def render
-    builder = Builder.new(form)
-    fields.each do |field|
-      config = field_config(field)
-      if config[:as] == :divider
-        builder.start_card(config[:label])
+  class JSONBuilder
+    def initialize(json, klass)
+      @json = json
+      @klass = klass
+      @card = nil
+      # add name and address fields to start
+      AttributeBuilder.collection json, klass,:locality_id, Locality.select_options
+      AttributeBuilder.text(json, :name, klass: klass)
+      AttributeBuilder.text   json, :first_name, klass: klass
+      AttributeBuilder.text   json, :middle_name, klass: klass
+      AttributeBuilder.text   json, :last_name, klass: klass
+      json.census_scope do
+        json.label 'Census Schedule'
+        json.sortable 'census_scope'
+      end
+
+      AttributeBuilder.number json, :page_number, klass: klass
+      AttributeBuilder.enumeration json, klass, :page_side
+      AttributeBuilder.number json, :line_number, sortable: false, klass: klass
+      AttributeBuilder.text   json, :county, klass: klass
+      AttributeBuilder.text   json, :city, klass: klass
+      AttributeBuilder.number json, :ward, klass: klass
+      AttributeBuilder.number json, :enum_dist, klass: klass
+      AttributeBuilder.text   json, :street_address, klass: klass
+      AttributeBuilder.text   json, :dwelling_number, klass: klass unless klass == Census1940Record
+      AttributeBuilder.text   json, :family_id, klass: klass
+
+      AttributeBuilder.boolean json, :foreign_born, klass: klass
+    end
+
+    attr_accessor :json, :card, :klass
+
+    def start_card(title)
+      @card = title
+    end
+
+    def add_field(field, config)
+      return if card == 'Name'
+
+      if config[:collection]
+        collection = if config[:coded]
+                       config[:collection].map do |item|
+                         code = item.downcase == item ? item.capitalize : item
+                         code = code.gsub('_', ' ')
+                         label = translated_option item, field
+                         code == label ? label : "#{code} - #{translated_option(item, field)}"
+                       end
+                     else
+                       config[:collection]
+                     end
+        AttributeBuilder.collection json, klass, field, collection
+        return
+      end
+
+      case config[:as]
+      when :number, :integer
+        AttributeBuilder.number json, field, klass: klass
+      when :boolean
+        AttributeBuilder.boolean json, field, klass: klass
+      when :radio_buttons
+        AttributeBuilder.enumeration json, klass, field
       else
-        builder.add_field(field, config)
+        AttributeBuilder.text json, field, klass: klass
       end
     end
-    builder.to_html
+
+    def to_html
+      json
+    end
+
+    private
+
+    def translated_option(item, field)
+      I18n.t("#{field}.#{item.downcase.gsub(/\W/, '')}", scope: 'census_codes', default: item)
+    end
   end
 end

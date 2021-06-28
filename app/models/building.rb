@@ -143,7 +143,11 @@ class Building < ApplicationRecord
   end
 
   def street_address
-    addresses.map(&:address).join("\n")
+    addresses.sort_by(&:is_primary).map(&:address).join("\n")
+  end
+
+  def primary_street_address
+    (addresses.detect(&:is_primary) || addresses.first || OpenStruct.new(address: 'No address')).address
   end
 
   def neighbors

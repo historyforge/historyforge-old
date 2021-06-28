@@ -1,7 +1,7 @@
 class AttributeBuilder
 
-  def self.boolean(json, key)
-    AttributeBuilder::Boolean.new(json: json, key: key).to_json
+  def self.boolean(json, key, *args)
+    AttributeBuilder::Boolean.new(json: json, key: key, extras: args.extract_options!).to_json
   end
 
   def self.collection(json, klass, key, choices, cols=2, sortable=true)
@@ -36,7 +36,7 @@ class AttributeBuilder::BaseAttribute
   def initialize(key: nil, json: nil, type: nil, klass: nil, choices: nil, columns: nil, extras: nil)
     @key, @json, @type, @klass, @choices, @columns, @extras = key, json, type, klass, choices, columns, extras
     @klass = @extras.delete(:klass) if @klass.nil? && @extras&.key?(:klass)
-    @sortable = @extras && @extras.delete(:sortable)
+    @sortable = @extras&.delete(:sortable)
   end
 
   def to_json

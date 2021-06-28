@@ -2,8 +2,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
   $('#new_s').advancedSearch({
     url: '/buildings/advanced_search_filters.json',
-    cache: true,
-    timestamp: <%== AdvancedSearchFilterTimestamp.call(Building) -%>,
     fields: <%== @search.f.to_json.html_safe -%>,
     filters: <%== @search.s.to_json.html_safe -%>
   });

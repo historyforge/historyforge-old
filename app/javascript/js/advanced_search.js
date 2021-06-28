@@ -408,10 +408,8 @@ jQuery.fn.advancedSearch = function(options) {
         options = {};
     }
     return this.each(function() {
-        var attributeFiltersCallback, fields, filters, json, last_load, sorts, timestamp, url, useCached;
+        var attributeFiltersCallback, fields, filters, json, last_load, sorts, url;
         url = options.url;
-        timestamp = options.timestamp;
-        useCached = options.cache;
         fields = options.fields;
         filters = options.filters;
         sorts = options.sorts;
@@ -462,29 +460,29 @@ jQuery.fn.advancedSearch = function(options) {
                 });
             }
         };
-        if (window.localStorage && useCached) {
-            json = null;
-            last_load = window.localStorage.getItem(url + '_last_load') || 0;
-            if (last_load != null) {
-                last_load = parseInt(last_load);
-            }
-            if (last_load && timestamp < last_load) {
-                json = window.localStorage.getItem(url);
-            }
-            if (json) {
-                attributeFiltersCallback(JSON.parse(json));
-            } else {
-                jQuery.getJSON(url, function(json) {
-                    window.localStorage.setItem(url, JSON.stringify(json));
-                    window.localStorage.setItem('attributes_last_load', (new Date).getTime() / 1000);
-                    return attributeFiltersCallback(json);
-                });
-            }
-        } else {
+        // if (window.localStorage && useCached) {
+        //     json = null;
+        //     last_load = window.localStorage.getItem(url + '_last_load') || 0;
+        //     if (last_load != null) {
+        //         last_load = parseInt(last_load);
+        //     }
+        //     if (last_load && timestamp < last_load) {
+        //         json = window.localStorage.getItem(url);
+        //     }
+        //     if (json) {
+        //         attributeFiltersCallback(JSON.parse(json));
+        //     } else {
+        //         jQuery.getJSON(url, function(json) {
+        //             window.localStorage.setItem(url, JSON.stringify(json));
+        //             window.localStorage.setItem('attributes_last_load', (new Date).getTime() / 1000);
+        //             return attributeFiltersCallback(json);
+        //         });
+        //     }
+        // } else {
             jQuery.getJSON(url, function(json) {
                 return attributeFiltersCallback(json);
             });
-        }
+        // }
         jQuery(document).on('shown.bs.collapse', '#newAttributeFilter', function() {
             var attrSelect, i, key, len, ref, results, value;
             jQuery(this).find('select.scope').hide();
