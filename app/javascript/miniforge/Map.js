@@ -11,6 +11,7 @@ class Map extends React.PureComponent {
         zoomControl: true,
         mapTypeControl: false,
         streetViewControl: true,
+        fullscreenControl: true,
         styles: [{ featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }]}]
     }
 
