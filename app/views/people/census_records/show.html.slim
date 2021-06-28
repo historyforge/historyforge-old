@@ -52,8 +52,9 @@
           th Enum Dist
           th Page
           th Line
-          th Dwelling
-          th Family ID
+          - unless controller.year == 1940
+            th Dwelling
+          th= translated_label(Census1940Record, :family_id)
       tbody
         tr
           td= controller.year
@@ -63,7 +64,8 @@
           td= @record.enum_dist
           td= "#{@record.page_number}#{@record.page_side}"
           td= @record.line_number
-          td= @record.dwelling_number
+          - unless controller.year == 1940
+            td= @record.dwelling_number
           td= @record.family_id
 
 = view_for @model do |form|

@@ -22,8 +22,7 @@ json.filters do
   AttributeBuilder.number json, :ward
   AttributeBuilder.number json, :enum_dist
   AttributeBuilder.text   json, :street_address
-  AttributeBuilder.number json, :dwelling_number
-  AttributeBuilder.number json, :family_id
+  AttributeBuilder.text   json, :family_id
   AttributeBuilder.text   json, :relation_to_head
   AttributeBuilder.enumeration json, Census1940Record, :owned_or_rented
   AttributeBuilder.number json, :home_value
@@ -32,27 +31,13 @@ json.filters do
   AttributeBuilder.enumeration json, Census1940Record, :race
   AttributeBuilder.age json, :age
   AttributeBuilder.enumeration json, Census1930Record, :marital_status
-  # AttributeBuilder.age json, :age_married
-  # AttributeBuilder.boolean json, :attended_school
-  # AttributeBuilder.boolean json, :can_read_write
   AttributeBuilder.text json, :pob
-
-  # AttributeBuilder.text json, :pob_father
-  # AttributeBuilder.text json, :pob_mother
-  # AttributeBuilder.text json, :mother_tongue
-
   AttributeBuilder.boolean json, :foreign_born
   AttributeBuilder.number json, :year_immigrated
-  # AttributeBuilder.boolean json, :can_speak_english
   AttributeBuilder.text json, :occupation_code
   AttributeBuilder.text json, :industry_code
   AttributeBuilder.text json, :worker_class_code
-
   AttributeBuilder.enumeration json, Census1940Record, :worker_class
-  # AttributeBuilder.boolean json, :worked_yesterday
-  # AttributeBuilder.text json, :unemployment_line
-  # AttributeBuilder.boolean json, :veteran
-  # AttributeBuilder.enumeration json, Census1940Record, :war_fought
   AttributeBuilder.text json, :farm_schedule
 
   json.notes do

@@ -57,8 +57,8 @@ json.filters do
   AttributeBuilder.number json, :ward
   AttributeBuilder.number json, :enum_dist
   AttributeBuilder.text   json, :street_address
-  AttributeBuilder.number json, :dwelling_number
-  AttributeBuilder.number json, :family_id
+  AttributeBuilder.text json, :dwelling_number
+  AttributeBuilder.text json, :family_id
   AttributeBuilder.text   json, :relation_to_head
   AttributeBuilder.enumeration json, Census1900Record, :sex
   AttributeBuilder.enumeration json, Census1900Record, :race
