@@ -48,13 +48,16 @@ class Buildings::MainController < ApplicationController
     @building = Building.includes(:architects, :building_types).find params[:id]
     authorize! :read, @building
     @building.with_filtered_residents params[:people], params[:peopleParams]
-    if request.format.html?
-      @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
-      # TODO: layer selector for miniforge
-      @layer = MapOverlay.where(active: true, year_depicted: 1910).first
-    elsif request.format.json?
-      serializer = BuildingSerializer.new(@building) #, { params: { condensed: params.key?(:condensed) } })
-      render json: serializer
+    respond_to do |format|
+      format.html do
+        @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
+        # TODO: layer selector for miniforge
+        @layer = MapOverlay.where(active: true, year_depicted: 1910).first
+      end
+      format.json do
+        serializer = BuildingSerializer.new(@building)
+        render json: serializer
+      end
     end
   end
 

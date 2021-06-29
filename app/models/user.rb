@@ -23,7 +23,8 @@ class User < ApplicationRecord
   end
 
   def has_role?(name)
-    roles.find_by_name(name) ? true : false
+    @roles ||= roles.pluck('name') || []
+    @roles.include?(name)
   end
 
   #Called by Devise

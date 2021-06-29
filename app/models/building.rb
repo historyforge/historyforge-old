@@ -143,7 +143,7 @@ class Building < ApplicationRecord
   end
 
   def street_address
-    addresses.sort_by(&:is_primary).map(&:address).join("\n")
+    addresses.sort_by { |b| b.is_primary? ? -1 : 1 }.map(&:address).join("\n")
   end
 
   def primary_street_address
