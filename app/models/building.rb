@@ -3,6 +3,7 @@ class Building < ApplicationRecord
   include Moderation
   include DefineEnumeration
   include Flaggable
+  include Reviewable
 
   define_enumeration :address_street_prefix, %w{N S E W}
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
@@ -206,7 +207,7 @@ class Building < ApplicationRecord
 
   private
 
-  # This doesn't work
+  # FIXME: This doesn't work
   def validate_primary_address
     primary_addresses = addresses.select(&:is_primary)
     if primary_addresses.blank?

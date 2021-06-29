@@ -51,7 +51,6 @@ class Buildings::MainController < ApplicationController
     respond_to do |format|
       format.html do
         @neighbors = @building.neighbors.map { |building| BuildingListingSerializer.new(building) }
-        # TODO: layer selector for miniforge
         @layer = MapOverlay.where(active: true, year_depicted: 1910).first
       end
       format.json do
@@ -103,10 +102,9 @@ class Buildings::MainController < ApplicationController
   def review
     @building = Building.find params[:id]
     authorize! :review, @building
-    @building.reviewed_by = current_user
-    @building.reviewed_at = Time.now
     @building.investigate = false
-    if @building.save
+    @building.review! current_user
+    if @building.reviewed?
       flash[:notice] = 'Building reviewed.'
       redirect_to @building
     else
@@ -121,9 +119,8 @@ class Buildings::MainController < ApplicationController
     @search.scoped.to_a.each do |record|
       next if record.reviewed?
 
-      record.reviewed_by ||= current_user
-      record.reviewed_at ||= Time.now
-      record.save
+      record.investigate = false
+      record.review! current_user
     end
 
     flash[:notice] = 'The census records are marked as reviewed and available for public view.'

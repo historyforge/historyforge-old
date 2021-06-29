@@ -120,9 +120,7 @@ module People
     def reviewed
       @record = resource_class.find params[:id]
       authorize! :review, @record
-      @record.reviewed_by ||= current_user
-      @record.reviewed_at ||= Time.now
-      @record.save
+      @record.review! current_user
       flash[:notice] = 'The census record is marked as reviewed and available for public view.'
       redirect_back fallback_location: { action: :index }
     end
@@ -134,9 +132,7 @@ module People
       @search.scoped.to_a.each do |record|
         next if record.reviewed?
 
-        record.reviewed_by ||= current_user
-        record.reviewed_at ||= Time.now
-        record.save
+        record.review! current_user
       end
 
       flash[:notice] = 'The census records are marked as reviewed and available for public view.'

@@ -8,6 +8,7 @@ class CensusRecord < ApplicationRecord
   include PersonNames
   include PgSearch::Model
   include Flaggable
+  include Reviewable
 
   belongs_to :building, optional: true
   belongs_to :person, optional: true
@@ -79,7 +80,7 @@ class CensusRecord < ApplicationRecord
                                                                    ])])
   end
 
-  scope :unreviewed, -> { where(reviewed_at: nil) }
+  # scope :unreviewed, -> { where(reviewed_at: nil) }
   scope :unhoused, -> { where(building_id: nil) }
   scope :unmatched, -> { where(person_id: nil) }
 

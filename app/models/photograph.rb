@@ -1,9 +1,9 @@
 class Photograph < ApplicationRecord
   include PgSearch::Model
   include Flaggable
+  include Reviewable
 
   belongs_to :created_by, class_name: 'User'
-  belongs_to :reviewed_by, class_name: 'User', optional: true
   has_and_belongs_to_many :buildings
   has_and_belongs_to_many :people
   belongs_to :physical_type, optional: true
@@ -11,7 +11,6 @@ class Photograph < ApplicationRecord
   belongs_to :rights_statement, optional: true
   has_one_attached :file
 
-  # alias_attribute :caption, :description
   alias_attribute :name, :title
 
   attr_writer :date_year, :date_month, :date_day
@@ -23,9 +22,6 @@ class Photograph < ApplicationRecord
   validates :title, :description, :physical_type_id, :physical_format_id, :rights_statement_id, presence: true, if: :reviewed?
   validates :file, attached: true, content_type: ['image/jpg', 'image/jpeg', 'image/png']
 
-  scope :reviewed, -> { where.not(reviewed_at: nil) }
-  scope :unreviewed, -> { where(reviewed_at: nil) }
-
   pg_search_scope :full_text_search,
                   against: %i[title description creator subject location physical_description notes],
                   using: {
@@ -34,28 +30,6 @@ class Photograph < ApplicationRecord
 
   def self.ransackable_scopes(auth_object=nil)
     %i{full_text_search unreviewed}
-  end
-
-  def review!(reviewer)
-    return if reviewed?
-    self.reviewed_at = Time.now
-    self.reviewed_by = reviewer
-    unless save
-      self.reviewed_at = nil
-      self.reviewed_by = nil
-    end
-    self
-  end
-
-  def prepare_for_review
-    return if reviewed?
-    self.reviewed_at = Time.now
-    validate
-    self.reviewed_at = nil
-  end
-
-  def reviewed?
-    reviewed_at.present?
   end
 
   def full_caption
