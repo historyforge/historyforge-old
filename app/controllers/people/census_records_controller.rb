@@ -63,10 +63,6 @@ module People
       @record = resource_class.new resource_params
       authorize! :create, @record
       @record.created_by = current_user
-      if can?(:review, @record)
-        @record.reviewed_by = current_user
-        @record.reviewed_at = Time.now
-      end
       if @record.save
         flash[:notice] = 'Census Record created.'
         after_saved

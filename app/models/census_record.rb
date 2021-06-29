@@ -80,7 +80,6 @@ class CensusRecord < ApplicationRecord
                                                                    ])])
   end
 
-  # scope :unreviewed, -> { where(reviewed_at: nil) }
   scope :unhoused, -> { where(building_id: nil) }
   scope :unmatched, -> { where(person_id: nil) }
 
@@ -123,11 +122,11 @@ class CensusRecord < ApplicationRecord
 
   def likely_matches?
     self.class.ransack(
-        street_house_number_eq: street_house_number,
-        street_name_eq: street_name,
-        last_name_eq: last_name,
-        first_name_eq: first_name,
-        age_eq: age || 0
+      street_house_number_eq: street_house_number,
+      street_name_eq: street_name,
+      last_name_eq: last_name,
+      first_name_eq: first_name,
+      age_eq: age || 0
     ).result.count > 0
   end
 
@@ -190,7 +189,7 @@ class CensusRecord < ApplicationRecord
     if match
       self.person = match
     else
-      generate_person_record! #unless unmarried_female?
+      generate_person_record!
     end
   end
 
