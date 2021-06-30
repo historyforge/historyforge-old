@@ -90,16 +90,13 @@ class Census1940FormFields < CensusFormFields
   input :foreign_born,
                as: :boolean,
                label: 'This person is foreign born',
-               inline_label: 'Yes',
-               wrapper_html: { data: { dependents: 'true' } }
+               inline_label: 'Yes'
 
   input :naturalized_alien,
                as: :radio_buttons,
                collection: Census1940Record.naturalized_alien_choices,
                coded: true,
-               wrapper_html: { data: { depends_on: :foreign_born } },
-               hint: -> { citizenship_hint },
-        unknown: "4 - Unknown"
+               hint: -> { citizenship_hint }
 
   divider "Residence, April 1, 1935"
 
