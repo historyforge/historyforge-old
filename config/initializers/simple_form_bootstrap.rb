@@ -319,11 +319,12 @@ SimpleForm::Inputs::Base.class_eval do
     lookups     = []
 
     while !model_names.empty?
-      joined_model_names = model_names.join(".")
-      model_names.shift
+      # joined_model_names = model_names.join(".")
+      name = model_names.shift
 
-      lookups << :"#{joined_model_names}.#{lookup_action}.#{reflection_or_attribute_name}"
-      lookups << :"#{joined_model_names}.#{reflection_or_attribute_name}"
+      lookups << :"#{name}.#{reflection_or_attribute_name}"
+      # lookups << :"#{joined_model_names}.#{lookup_action}.#{reflection_or_attribute_name}"
+      # lookups << :"#{joined_model_names}.#{reflection_or_attribute_name}"
     end
 
     if object.kind_of?(CensusRecord)
@@ -334,6 +335,7 @@ SimpleForm::Inputs::Base.class_eval do
     lookups << :"defaults.#{reflection_or_attribute_name}"
     lookups << default
 
+    puts lookups.inspect
     I18n.t(lookups.shift, scope: :"#{i18n_scope}.#{namespace}", default: lookups).presence
   end
 end

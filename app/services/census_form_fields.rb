@@ -80,7 +80,7 @@ class CensusFormFields
     end
 
     def add_field(field, config)
-      if config[:hint] && config[:hint].respond_to?(:call)
+      if config[:hint]&.respond_to?(:call)
         config[:hint] = form.template.instance_exec &config[:hint]
       end
 
@@ -88,7 +88,7 @@ class CensusFormFields
     end
 
     def to_html
-      @cards.map { |card| form.card(card.to_h).html_safe }.join().html_safe
+      @cards.map { |card| form.card(card.to_h).html_safe }.join.html_safe
     end
   end
 
