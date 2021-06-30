@@ -95,7 +95,8 @@ class Census1920FormFields < CensusFormFields
 
   input :attended_school,
         as: :boolean,
-        inline_label: 'Attended School?',
+        label: 'Attended School?',
+        inline_label: 'Yes',
         hint: -> { attended_school_hint }
 
   input :can_read,
