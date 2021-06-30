@@ -194,7 +194,7 @@ en:
         race: 'Color or Race'
         age: 'Age at Last Birthday'
         grade_completed: 'Highest grade of school completed'
-        private_work: 'Private/Non-emergency Gov\'t Work'
+        private_work: 'Private/Non-emergency Government Work'
         public_work: 'Public Emergency Work'
         seeking_work: 'Seeking Work?'
         had_job: 'Employed but Temporarily Absent'
