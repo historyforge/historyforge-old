@@ -212,7 +212,7 @@ jQuery(document).on('change', 'select.scope', function() {
     var form, inputs, name, scope;
     scope = jQuery(this).val();
     name = 's[' + scope + ']';
-    form = jQuery(this).closest('.modal-body').find('.value-input-container');
+    form = jQuery(this).closest('.card-body').find('.value-input-container');
     inputs = form.find('input, select');
     if (scope.match(/null$/)) {
         if (form.find('input.null-choice').size() > 0) {
