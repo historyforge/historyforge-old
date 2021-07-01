@@ -12,17 +12,17 @@ class Census1930FormFields < CensusFormFields
   divider "Household Data"
   input :homemaker, as: :boolean, inline_label: 'Yes'
   input :owned_or_rented, as: :radio_buttons, collection: Census1910Record.owned_or_rented_choices, label: 'Home owned or rented', coded: true
-  input :home_value, label: 'Value of home or monthly payment', hint: 'Enter 999 for unknown or leave blank if taker left empty'
+  input :home_value, as: :integer, label: 'Value of home or monthly payment', hint: 'Enter 999 for unknown or leave blank if taker left empty'
   input :has_radio, as: :boolean, label: 'Radio Set', inline_label: 'Yes'
   input :lives_on_farm, as: :boolean, label: 'Live on Farm?', inline_label: 'Yes'
 
   divider "Personal Description"
   input :sex, as: :radio_buttons, collection: CensusRecord.sex_choices, coded: true
   input :race, as: :radio_buttons_other, collection: Census1930Record.race_choices, coded: true
-  input :age, hint: 'Enter 999 for unknown or leave blank if taker left empty'
-  input :age_months, hint: 'Only for children less than 5 years old'
+  input :age, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
+  input :age_months, as: :integer, hint: 'Only for children less than 5 years old'
   input :marital_status, as: :radio_buttons, collection: Census1930Record.marital_status_choices, coded: true
-  input :age_married, hint: 'Enter 999 for unknown or leave blank if taker left empty'
+  input :age_married, as: :integer, hint: 'Enter 999 for unknown or leave blank if taker left empty'
   input :attended_school, as: :boolean, label: 'Attended school?', inline_label: 'Yes'
   input :can_read_write, as: :boolean, label: 'Able to read and write?', inline_label: 'Yes'
 

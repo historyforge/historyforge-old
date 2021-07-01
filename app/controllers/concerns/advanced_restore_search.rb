@@ -2,6 +2,7 @@ module AdvancedRestoreSearch
   extend ActiveSupport::Concern
 
   included do
+    rescue_from PG::UndefinedFunction, with: :reset_search
     before_action :restore_search, only: %i[index], unless: :json_request?
   end
 
@@ -15,6 +16,16 @@ module AdvancedRestoreSearch
   # made available to them from the HTML page.
   def json_request?
     request.format.json?
+  end
+
+  def reset_search
+    if current_user
+      search = current_user.search_params.find_or_initialize_by(model: controller_name)
+      search&.destroy
+    else
+      session.delete :search
+    end
+    redirect_to action: params[:action]
   end
 
   # For logged-in user we save filters for each search page to the database so as to

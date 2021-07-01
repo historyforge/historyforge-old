@@ -8,7 +8,7 @@ class Census1940FormFields < CensusFormFields
                coded: true,
                hint: -> {owned_or_rented_hint}
 
-  input :home_value,
+  input :home_value, as: :integer,
                label: 'Value of home or monthly payment',
                hint: -> {home_value_hint}
 
@@ -58,10 +58,10 @@ class Census1940FormFields < CensusFormFields
                coded: true,
                hint: -> {race_hint}
 
-  input :age,
+  input :age, as: :integer,
                hint: -> {age_hint}
 
-  input :age_months,
+  input :age_months, as: :integer,
                hint: -> {age_hint}
 
   input :marital_status,

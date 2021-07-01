@@ -55,10 +55,10 @@ class Census1920FormFields < CensusFormFields
         coded: true,
         hint: -> { race_hint }
 
-  input :age,
+  input :age, as: :integer,
         hint: -> { age_hint }
 
-  input :age_months,
+  input :age_months, as: :integer,
         hint: 'Only for children less than 5 years old'
 
   input :marital_status,

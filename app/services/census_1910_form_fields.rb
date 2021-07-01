@@ -41,9 +41,9 @@ class Census1910FormFields < CensusFormFields
                coded: true,
                hint: -> { race_hint }
 
-  input :age, hint: -> { age_hint }
+  input :age, as: :integer, hint: -> { age_hint }
 
-  input :age_months, hint: -> { age_months_hint }
+  input :age_months, as: :integer, hint: -> { age_months_hint }
 
   input :marital_status,
                as: :radio_buttons,

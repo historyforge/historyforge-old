@@ -46,11 +46,11 @@ class Census1900FormFields < CensusFormFields
         collection: (1..12).map { |m| ["#{m} - #{Date::MONTHNAMES[m]}", m] },
         include_blank: true
 
-  input :birth_year
+  input :birth_year, as: :integer
 
-  input :age, hint: -> { age_hint }
+  input :age, as: :integer, hint: -> { age_hint }
 
-  input :age_months, hint: -> { age_months_hint }
+  input :age_months, as: :integer, hint: -> { age_months_hint }
 
   input :marital_status,
         as: :radio_buttons,
