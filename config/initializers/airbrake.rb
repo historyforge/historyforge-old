@@ -2,37 +2,34 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
   Airbrake.configure do |config|
     config.project_id = ENV['AIRBRAKE_ID'] || 1
     config.project_key = ENV['AIRBRAKE_KEY']
-    config.host    = ENV['AIRBRAKE_URL']
-    # config.port    = 80
-    # config.secure  = config.port == 443
+    config.host = ENV['AIRBRAKE_URL']
     config.environment = Rails.env
-    config.ignore_environments = %w(development test)
-    # config.ignore << 'Net::ReadTimeout' << 'Net::OpenTimeout'
+    config.ignore_environments = %w[development test]
   end
 
-  IGNORED_ERRORS = %w{
+  IGNORED_ERRORS = %w[
     ActionController::InvalidAuthenticityToken
     ActiveRecord::RecordNotFound
     AbstractController::ActionNotFound
     SIGTERM
     SIGQUIT
-  }
+  ].freeze
   Airbrake.add_filter do |notice|
     notice.ignore! if notice[:errors].any? { |error| IGNORED_ERRORS.include? error[:type] }
   end
 
   if Airbrake.const_defined?('SENSITIVE_RACK_VARS')
-    %w{
+    %w[
       SENSITIVE_RACK_VARS
       RACK_VARS_CONTAINING_INSTANCES
       SENSITIVE_ENV_VARS
-      FILTERED_RACK_VARS}.each do |name|
+      FILTERED_RACK_VARS].each do |name|
       Airbrake.send :remove_const, name.to_sym
     end
   end
 
   module Airbrake
-    SENSITIVE_RACK_VARS = %w(
+    SENSITIVE_RACK_VARS = %w[
       HTTP_X_CSRF_TOKEN
       HTTP_COOKIE
 
@@ -52,9 +49,9 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
 
       rack.session
       rack.session.options
-  )
+  ].freeze
 
-    RACK_VARS_CONTAINING_INSTANCES = %w(
+    RACK_VARS_CONTAINING_INSTANCES = %w[
       action_controller.instance
 
       action_dispatch.backtrace_cleaner
@@ -66,7 +63,7 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
 
       rack.errors
       rack.input
-  )
+  ].freeze
 
     SENSITIVE_ENV_VARS = [
         /database_url/i,
@@ -79,7 +76,7 @@ if defined?(Airbrake) && ENV['AIRBRAKE_ID']
         /twitter/i,
         /token/i,
         /api/i
-    ]
+    ].freeze
 
     FILTERED_RACK_VARS = SENSITIVE_RACK_VARS + SENSITIVE_ENV_VARS + RACK_VARS_CONTAINING_INSTANCES
   end

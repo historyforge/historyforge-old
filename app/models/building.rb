@@ -151,6 +151,11 @@ class Building < ApplicationRecord
     (addresses.detect(&:is_primary) || addresses.first || OpenStruct.new(address: 'No address')).address
   end
 
+  def ensure_primary_address
+    addresses.build(is_primary: true) if new_record?
+  end
+  after_initialize :ensure_primary_address
+
   def neighbors
     lat? ? Building.near([lat, lon], 0.1).where('id<>?', id).limit(4) : []
   end
