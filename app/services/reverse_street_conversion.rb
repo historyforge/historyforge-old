@@ -49,15 +49,17 @@ class ReverseStreetConversion
     bits = address_str.split(' ')
     number = bits.shift if bits.first.to_i > 0
     start = bits.shift
-    start = 'N' if start.downcase == 'north'
-    start = 'S' if start.downcase == 'south'
-    start = 'E' if start.downcase == 'east'
-    start = 'W' if start.downcase == 'west'
-    if start.size == 1
-      address.street_prefix = start
-      address.street_name = bits.shift
-    else
-      address.street_name = start
+    if start
+      start = 'N' if start.downcase == 'north'
+      start = 'S' if start.downcase == 'south'
+      start = 'E' if start.downcase == 'east'
+      start = 'W' if start.downcase == 'west'
+      if start.size == 1
+        address.street_prefix = start
+        address.street_name = bits.shift
+      else
+        address.street_name = start
+      end
     end
     address.street_suffix = bits.shift if bits.any?
     [number, address]
