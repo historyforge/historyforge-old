@@ -17,13 +17,11 @@ class Buildings::MainController < ApplicationController
 
   def autocomplete
     @buildings = Building.ransack(street_address_cont: params[:term]).result.limit(5).by_street_address
-    render json: @buildings.map { |building| {
-        id: building.id,
-        name: building.name,
-        address: building.full_street_address,
-        lat: building.lat,
-        lon: building.lon
-    }}
+    render json: @buildings.map { |building| { id: building.id,
+                                               name: building.name,
+                                               address: building.full_street_address,
+                                               lat: building.lat,
+                                               lon: building.lon } }
   end
 
   def new
@@ -132,10 +130,10 @@ class Buildings::MainController < ApplicationController
 
     # from style, how wide should it be? as % of 1278px
     width = case params[:device]
-      when 'tablet'  then 1024
-      when 'phone'   then 740
-      else 1278
-      end
+            when 'tablet'  then 1024
+            when 'phone'   then 740
+            else 1278
+            end
 
     if params[:style] != 'full'
       width = case params[:style]
@@ -146,7 +144,7 @@ class Buildings::MainController < ApplicationController
               when 'quarter'
                 (width.to_f * 0.25).ceil
               else
-                (width.to_f * (params[:style].to_f / 100.to_f)).ceil
+                (width.to_f * (params[:style].to_f / 100)).ceil
               end
     end
 
@@ -163,11 +161,12 @@ class Buildings::MainController < ApplicationController
   def building_params
     params.require(:building).permit :name, :description, :annotations, :stories, :block_number,
                                      :year_earliest, :year_latest, :year_latest_circa, :year_earliest_circa,
-                                     { :building_type_ids => [] }, :lining_type_id, :frame_type_id,
+                                     :lining_type_id, :frame_type_id,
                                      :lat, :lon, :city, :state, :postal_code, :architects_list,
                                      :investigate, :investigate_reason, :notes,
-                                     { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] },
-                                     { addresses_attributes: [:_destroy, :id, :is_primary, :house_number, :prefix, :name, :suffix, :city, :postal_code] }
+                                     { building_type_ids: [],
+                                       photos_attributes: %i[_destroy id photo year_taken caption],
+                                       addresses_attributes: %i[_destroy id is_primary house_number prefix name suffix city postal_code] }
   end
 
   def load_buildings
