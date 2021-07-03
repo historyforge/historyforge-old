@@ -164,7 +164,7 @@ class Buildings::MainController < ApplicationController
     params.require(:building).permit :name, :description, :annotations, :stories, :block_number,
                                      :year_earliest, :year_latest, :year_latest_circa, :year_earliest_circa,
                                      { :building_type_ids => [] }, :lining_type_id, :frame_type_id,
-                                     :lat, :lon, :state, :postal_code, :architects_list,
+                                     :lat, :lon, :city, :state, :postal_code, :architects_list,
                                      :investigate, :investigate_reason, :notes,
                                      { photos_attributes: [:_destroy, :id, :photo, :year_taken, :caption] },
                                      { addresses_attributes: [:_destroy, :id, :is_primary, :house_number, :prefix, :name, :suffix, :city, :postal_code] }

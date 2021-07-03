@@ -156,6 +156,13 @@ class Building < ApplicationRecord
   end
   after_initialize :ensure_primary_address
 
+  def name_the_house
+    return if name.present?
+
+    self.name = primary_street_address
+  end
+  before_validation :name_the_house
+
   def neighbors
     lat? ? Building.near([lat, lon], 0.1).where('id<>?', id).limit(4) : []
   end
@@ -214,7 +221,7 @@ class Building < ApplicationRecord
 
   # FIXME: This doesn't work
   def validate_primary_address
-    primary_addresses = addresses.select(&:is_primary)
+    primary_addresses = addresses.to_a.select(&:is_primary)
     if primary_addresses.blank?
       errors.add(:base, 'Primary address missing.')
     elsif primary_addresses.size > 1
