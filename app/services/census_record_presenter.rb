@@ -54,6 +54,8 @@ class CensusRecordPresenter < Struct.new(:model, :user)
   end
 
   def census_code(value, method)
+    return '' if value.blank?
+
     I18n.t("#{method}.#{value.downcase.gsub(/\W/, '')}", scope: 'census_codes', default: value)
   end
 end
