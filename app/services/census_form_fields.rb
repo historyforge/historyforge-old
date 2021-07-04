@@ -137,7 +137,7 @@ class CensusFormFields
                          code = item.downcase == item ? item.capitalize : item
                          code = code.gsub('_', ' ')
                          label = translated_option item, field
-                         code == label ? label : "#{code} - #{translated_option(item, field)}"
+                         code == label ? label : ["#{code} - #{translated_option(item, field)}", code]
                        end
                      else
                        config[:collection]

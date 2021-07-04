@@ -33,12 +33,12 @@ class Layers extends React.PureComponent {
             <div>
                 <h3>Map Layers</h3>
                 {layers.map(layer => <Layer key={layer.id} {...layer} toggle={() => toggle(layer.id)} setOpacity={setOpacity} />)}
-                <span>Heatmap Intensity: </span>
-                <input type="range"
-                       min={0}
-                       max={100}
-                       value={heatmapOpacity}
-                       onChange={(e) => setHeatmapOpacity(e.target.value)} />
+                {/*<span>Heatmap Intensity: </span>*/}
+                {/*<input type="range"*/}
+                {/*       min={0}*/}
+                {/*       max={100}*/}
+                {/*       value={heatmapOpacity}*/}
+                {/*       onChange={(e) => setHeatmapOpacity(e.target.value)} />*/}
             </div>
         )
     }

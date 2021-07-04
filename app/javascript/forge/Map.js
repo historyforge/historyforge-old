@@ -94,7 +94,7 @@ class Map extends React.PureComponent {
 
     addMarkers() {
         this.addMarkerCluster()
-        this.addHeatMap()
+        // this.addHeatMap()
     }
 
     addMarkerCluster() {
