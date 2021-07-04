@@ -46,11 +46,13 @@ class CensusRecordSearch
       @active = rp.keys.any?
       rp[:reviewed_at_not_null] = 1 unless user
       @scoped = entity_class.ransack(rp).result
-      if from && to
-        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i)
-      elsif paged?
+
+      if paged?
         @scoped = @scoped.page(page).per(per)
+      elsif from && to
+        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i)
       end
+
       @scoped = @scoped.includes(:locality)
       @scoped = @scoped.includes(:building) if f.include?('latitude') || f.include?('longitude')
       @scoped = @scoped.unhoused if unhoused?

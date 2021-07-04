@@ -31,10 +31,10 @@ class PersonSearch
                  @active = rp.keys.any?
                  rp[:reviewed_at_not_null] = 1 unless user
                  @scoped = Person.ransack(rp).result
-                 if from && to
-                   @scoped = @scoped.offset(from).limit(to.to_i - from.to_i)
-                 elsif paged?
+                 if paged?
                    @scoped = @scoped.page(page).per(per)
+                 elsif from && to
+                   @scoped = @scoped.offset(from).limit(to.to_i - from.to_i)
                  end
                  add_sorts
                end

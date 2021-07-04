@@ -58,10 +58,10 @@ class BuildingSearch
       @scoped = @scoped.where(reviewed_at: nil) if unreviewed?
       @scoped = @scoped.where(investigate: true) if uninvestigated?
 
-      if from && to
-        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i).includes(:building_types)
-      elsif paged?
+      if paged?
         @scoped = @scoped.page(page).per(per).includes(:building_types)
+      elsif from && to
+        @scoped = @scoped.offset(from).limit(to.to_i - from.to_i).includes(:building_types)
       end
 
       if expanded
