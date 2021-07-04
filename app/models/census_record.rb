@@ -8,7 +8,6 @@ class CensusRecord < ApplicationRecord
   include PersonNames
   include PgSearch::Model
   include Flaggable
-  include Reviewable
 
   belongs_to :building, optional: true
   belongs_to :person, optional: true
