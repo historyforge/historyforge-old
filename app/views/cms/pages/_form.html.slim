@@ -29,8 +29,6 @@
         a.nav-link href="#metadata" data-toggle="tab" = t('cms.tabs.meta')
       li.nav-item
         a.nav-link.active href="#template" data-toggle="tab" = t('cms.tabs.template')
-      li.nav-item
-        a.nav-link href="#css" data-toggle="tab" = t('cms.tabs.css')
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle href='#' data-toggle='dropdown' Media
         .dropdown-menu
@@ -91,9 +89,6 @@
         = form.text_area :notes, style: 'width:100%;height:60px'
         br
         br
-
-      .tab-pane#css
-        = form.text_area :css, class: 'codemirror', data: {mode: 'css'}
 
       = form.simple_fields_for :widgets, wrapper: :horizontal_form do |widget_form|
         = render widget_form.object.class.to_s.sub(/Cms\:\:/, '').downcase, form: widget_form

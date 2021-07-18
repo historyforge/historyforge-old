@@ -27,10 +27,10 @@ module Cms
       html_options['id'] = css_id
       html_options['class'] = css_class
 
-      html = template.content_tag :div, guts.html_safe, html_options
-      html = template.content_tag(:style, page.css_compiled.html_safe, type: 'text/css') + html if page.css_compiled.present?
+      template.content_tag :div, guts.html_safe, html_options
+      # html = template.content_tag(:style, page.css_compiled.html_safe, type: 'text/css') + html if page.css_compiled.present?
 
-      html
+      # html
     end
 
     def self.expire(page)

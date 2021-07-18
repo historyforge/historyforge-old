@@ -34,7 +34,7 @@ module Cms
     before_validation :set_url_path, if: :is_app_page?
     after_validation :add_slash_to_url_path
     before_save :set_visibility
-    before_save :compile_css
+    # before_save :compile_css
     after_update :expire #, if: :template_changed?
     after_destroy :expire
 
@@ -69,13 +69,13 @@ module Cms
       Cms::PageRenderer.expire(self)
     end
 
-    def compile_css
-      if css?
-        self.css_compiled = Cms::PageCssCompiler.run(self)
-      elsif css_compiled?
-        self.css_compiled = nil
-      end
-    end
+    # def compile_css
+    #   if css?
+    #     self.css_compiled = Cms::PageCssCompiler.run(self)
+    #   elsif css_compiled?
+    #     self.css_compiled = nil
+    #   end
+    # end
 
     attr_reader :clear_dummy_vars
     def clear_dummy_vars=(value)
