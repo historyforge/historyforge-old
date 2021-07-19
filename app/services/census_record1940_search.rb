@@ -9,7 +9,7 @@ class CensusRecord1940Search < CensusRecordSearch
       attended_school grade_completed pob foreign_born naturalized_alien
       residence_1935_town residence_1935_county residence_1935_state residence_1935_farm
       private_work public_work seeking_work had_job
-      no_work_reason no_work_code private_hours_worked unemployed_weeks
+      no_work_reason private_hours_worked unemployed_weeks
       occupation industry worker_class occupation_code industry_code worker_class_code
       full_time_weeks income had_unearned_income farm_schedule
       pob_father pob_mother mother_tongue veteran veteran_dead war_fought
