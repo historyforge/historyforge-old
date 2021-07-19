@@ -14,8 +14,6 @@ class Census1940FormFields < CensusFormFields
 
   input :lives_on_farm,
                as: :boolean,
-               label: 'Live on Farm?',
-               inline_label: 'Yes',
                hint: -> {lives_on_farm_hint}
 
   divider "Name"
@@ -72,8 +70,6 @@ class Census1940FormFields < CensusFormFields
 
   input :attended_school,
                as: :boolean,
-               label: 'Attended school or college?',
-               inline_label: 'Yes',
                hint: -> {attended_school_hint}
 
   input :grade_completed,
@@ -88,9 +84,7 @@ class Census1940FormFields < CensusFormFields
                hint: -> { pob_1940_hint(15) }
 
   input :foreign_born,
-               as: :boolean,
-               label: 'This person is foreign born',
-               inline_label: 'Yes'
+               as: :boolean
 
   input :naturalized_alien,
                as: :radio_buttons,
@@ -121,22 +115,18 @@ class Census1940FormFields < CensusFormFields
 
   input :private_work,
                as: :boolean,
-               inline_label: 'Yes',
                hint: "Column 21. Check if the response is yes."
 
   input :public_work,
                as: :boolean,
-               inline_label: 'Yes',
                hint: "Column 22. Check if the response is yes."
 
   input :seeking_work,
                as: :boolean,
-               inline_label: 'Yes',
                hint: "Column 23. Check if the response is yes."
 
   input :had_job,
                as: :boolean,
-               inline_label: 'Yes',
                hint: "Column 24. Check if the response is yes."
 
   divider 'For Persons Answering "No" to the Above Questions'
@@ -199,7 +189,6 @@ class Census1940FormFields < CensusFormFields
 
   input :had_unearned_income,
                as: :boolean,
-               inline_label: 'Yes',
                hint: 'Column 33. Check box if the response is yes.'
 
   input :farm_schedule,

@@ -106,9 +106,9 @@ class Census1900FormFields < CensusFormFields
   input :industry, input_html: { autocomplete: 'new-password' }
   input :unemployed_months, as: :integer
   input :attended_school, as: :integer, inline_label: 'Attended School?', hint: 'No. of months'
-  input :can_read, as: :boolean, label: 'Can Read?', inline_label: 'Yes'
-  input :can_write, as: :boolean, label: 'Can Write?', inline_label: 'Yes'
-  input :can_speak_english, as: :boolean, label: 'Can speak English?', inline_label: 'Yes'
+  input :can_read, as: :boolean
+  input :can_write, as: :boolean
+  input :can_speak_english, as: :boolean
 
   divider "Household Data"
 

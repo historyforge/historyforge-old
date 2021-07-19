@@ -94,8 +94,6 @@ class Census1910FormFields < CensusFormFields
 
   input :foreign_born,
                as: :boolean,
-               label: 'This person is foreign born.',
-               inline_label: 'Yes',
                hint: -> { foreign_born_1910_hint },
                wrapper_html: { data: { dependents: 'true' } }
 
@@ -131,8 +129,6 @@ class Census1910FormFields < CensusFormFields
 
   input :unemployed,
                as: :boolean,
-               label: 'Without work?',
-               inline_label: 'Yes',
                hint: -> { boolean_hint(21) }
 
   input :unemployed_weeks_1909,
@@ -140,20 +136,14 @@ class Census1910FormFields < CensusFormFields
 
   input :can_read,
                as: :boolean,
-               label: 'Read',
-               inline_label: 'Yes',
                hint: -> { boolean_hint(23) }
 
   input :can_write,
                as: :boolean,
-               label: 'Write',
-               inline_label: 'Yes',
                hint: -> { boolean_hint(24) }
 
   input :attended_school,
                as: :boolean,
-               label: 'Attended School',
-               inline_label: 'Yes',
                hint: -> { boolean_hint(25) }
 
   divider "Household Data"
@@ -191,14 +181,10 @@ class Census1910FormFields < CensusFormFields
 
   input :blind,
                as: :boolean,
-               label: 'Blind',
-               inline_label: 'Yes',
                hint: -> { boolean_hint(31) }
 
   input :deaf_dumb,
                as: :boolean,
-               label: 'Deaf and Dumb',
-               inline_label: 'Yes',
                hint: -> { boolean_hint(32) }
 
 end

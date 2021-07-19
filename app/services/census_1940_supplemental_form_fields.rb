@@ -15,14 +15,11 @@ class Census1940SupplementalFormFields < CensusFormFields
 
   input :veteran,
                as: :boolean,
-               label: 'Veteran or veteran-related?',
-               inline_label: 'Yes',
                wrapper_html: { data: { dependents: 'true' } },
                hint: 'Column 39. Check box if the response is yes.'
 
   input :veteran_dead,
                as: :boolean,
-               inline_label: 'Yes',
                wrapper_html: { data: { dependents: 'true' } },
                hint: 'Column 40. Check box if the answer is yes.'
 
@@ -37,12 +34,10 @@ class Census1940SupplementalFormFields < CensusFormFields
 
   input :soc_sec,
                as: :boolean,
-               inline_label: 'Yes',
                hint: 'Column 42. Check box if the answer is yes.'
 
   input :deductions,
                as: :boolean,
-               inline_label: 'Yes',
                hint: 'Column 43. Check box if the answer is yes.'
 
   input :deduction_rate,
@@ -79,7 +74,6 @@ class Census1940SupplementalFormFields < CensusFormFields
 
   input :multi_marriage,
                as: :boolean,
-               inline_label: 'Yes',
                hint: 'Column 48. Enter as written. Women only please!'
 
   input :first_marriage_age,

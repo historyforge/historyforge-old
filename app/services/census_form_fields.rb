@@ -6,6 +6,7 @@ class CensusFormFields
     self.fields ||= []
     self.inputs ||= {}
     fields << field
+    options[:inline_label] = 'Yes' if options[:as] == :boolean
     inputs[field] = options
   end
 

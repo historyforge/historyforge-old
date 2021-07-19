@@ -71,8 +71,6 @@ class Census1920FormFields < CensusFormFields
 
   input :foreign_born,
         as: :boolean,
-        label: 'This person is foreign born',
-        inline_label: 'Yes',
         hint: -> { foreign_born_hint },
         wrapper_html: { data: { dependents: 'true' } }
 
@@ -95,20 +93,14 @@ class Census1920FormFields < CensusFormFields
 
   input :attended_school,
         as: :boolean,
-        label: 'Attended School?',
-        inline_label: 'Yes',
         hint: -> { attended_school_hint }
 
   input :can_read,
         as: :boolean,
-        inline_label: 'Yes',
-        label: 'Can Read?',
         hint: -> { boolean_hint(17) }
 
   input :can_write,
         as: :boolean,
-        inline_label: 'Yes',
-        label: 'Can Write?',
         hint: -> { boolean_hint(18) }
 
   input :pob,
@@ -136,8 +128,7 @@ class Census1920FormFields < CensusFormFields
         hint: -> { mother_tongue_hint(23) }
 
   input :can_speak_english,
-        as: :boolean, inline_label: 'Yes',
-        label: 'Speaks English?',
+        as: :boolean,
         hint: -> { boolean_hint(25) }
 
   divider "Occupation, Industry, and Class of Worker"
