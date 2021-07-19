@@ -1,9 +1,4 @@
-class BuildingPresenter < Struct.new(:model, :user)
-
-  def initialize(model, user)
-    self.model, self.user = model, user
-  end
-
+class BuildingPresenter < ApplicationPresenter
   def building_type
     model.building_type_name.andand.capitalize || 'Unknown'
   end
@@ -50,13 +45,4 @@ class BuildingPresenter < Struct.new(:model, :user)
     return model.public_send(field) if model.respond_to?(field)
     '?'
   end
-
-  def method_missing(method, *args)
-    model.public_send(method, *args)
-  end
-
-  def respond_to_missing?(method_name, include_private = false)
-    model.send :respond_to_missing?, method_name, include_private
-  end
-
 end

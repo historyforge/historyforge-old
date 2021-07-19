@@ -1,16 +1,10 @@
-class PersonPresenter < Struct.new(:model, :user)
-
+class ApplicationPresenter
   def initialize(model, user)
-    self.model, self.user = model, user
+    @model = model
+    @user = user
   end
 
-  def name
-    "#{last_name}, #{first_name} #{middle_name}".strip
-  end
-
-  def reviewed?
-    true
-  end
+  attr_reader :model, :user
 
   def field_for(field)
     return public_send(field) if respond_to?(field)

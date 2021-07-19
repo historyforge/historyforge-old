@@ -1,9 +1,4 @@
-class CensusRecordPresenter < Struct.new(:model, :user)
-
-  def initialize(model, user)
-    self.model, self.user = model, user
-  end
-
+class CensusRecordPresenter < ApplicationPresenter
   def name
     "#{last_name}, #{first_name} #{middle_name}".strip
   end
@@ -50,14 +45,6 @@ class CensusRecordPresenter < Struct.new(:model, :user)
 
   def yes_or_blank(value)
     value && 'Yes' || nil
-  end
-
-  def method_missing(method, *args)
-    model.public_send(method, *args)
-  end
-
-  def respond_to_missing?(method_name, include_private = false)
-    model.send :respond_to_missing?, method_name, include_private
   end
 
   def census_code(value, method)
