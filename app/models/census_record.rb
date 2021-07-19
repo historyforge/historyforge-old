@@ -20,7 +20,7 @@ class CensusRecord < ApplicationRecord
 
   before_validation :clean_enum_dist
   validates :first_name, :last_name, :family_id, :relation_to_head, :profession,
-            :page_number, :page_side, :line_number, :county, :city, :state, :ward, :enum_dist,
+            :page_number, :page_side, :line_number, :county, :city, :state, :enum_dist,
             presence: true
   validates :age, numericality: {greater_than_or_equal_to: -1, allow_nil: true}
   validate :dont_add_same_person, on: :create

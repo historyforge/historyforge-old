@@ -55,5 +55,8 @@ class BuildingPresenter < Struct.new(:model, :user)
     model.public_send(method, *args)
   end
 
+  def respond_to_missing?(method_name, include_private = false)
+    model.send :respond_to_missing?, method_name, include_private
+  end
 
 end

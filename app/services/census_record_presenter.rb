@@ -35,7 +35,10 @@ class CensusRecordPresenter < Struct.new(:model, :user)
   end
 
   def census_scope
-    "W #{model.ward} ED #{model.enum_dist} p. #{model.page_number}#{model.page_side} # #{model.line_number}"
+    str = ''
+    str << "Ward #{model.ward} " if model.ward.present?
+    str << "ED #{model.enum_dist} p. #{model.page_number}#{model.page_side} # #{model.line_number}"
+    str
   end
 
   def field_for(field)
@@ -51,6 +54,10 @@ class CensusRecordPresenter < Struct.new(:model, :user)
 
   def method_missing(method, *args)
     model.public_send(method, *args)
+  end
+
+  def respond_to_missing?(method_name, include_private = false)
+    model.send :respond_to_missing?, method_name, include_private
   end
 
   def census_code(value, method)
