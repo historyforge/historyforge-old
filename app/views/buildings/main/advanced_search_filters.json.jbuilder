@@ -1,6 +1,7 @@
 json.filters do
 
   AttributeBuilder.text       json, :street_address
+  AttributeBuilder.text       json, :name, label: 'Building Name'
 
   json.city do
     json.type 'text'
@@ -13,9 +14,14 @@ json.filters do
     json.sortable 'city'
   end
 
-  AttributeBuilder.collection json, Building, :building_types_id, BuildingType.order(:name).map {|item| [ item.name.capitalize, item.id ]}
-  AttributeBuilder.collection json, Building, :lining_type_id, ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
-  AttributeBuilder.collection json, Building, :frame_type_id, ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
+  building_types = BuildingType.order(:name).map {|item| [ item.name.capitalize, item.id ]}
+  AttributeBuilder.collection json, Building, :building_types_id, building_types
+
+  lining_types = ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
+  AttributeBuilder.collection json, Building, :lining_type_id, lining_types
+
+  frame_types = ConstructionMaterial.order(:name).map {|item| [ item.name.capitalize, item.id ]}
+  AttributeBuilder.collection json, Building, :frame_type_id, frame_types
   AttributeBuilder.text       json, :block_number
   json.as_of_year do
     json.type 'number'
@@ -30,6 +36,8 @@ json.filters do
   AttributeBuilder.number     json, :stories
   AttributeBuilder.text       json, :description
   AttributeBuilder.text       json, :annotations
-  AttributeBuilder.collection json, Architect, :architects_id, Architect.order(:name).map {|item| [item.name, item.id] }
+
+  architects = Architect.order(:name).map {|item| [item.name, item.id] }
+  AttributeBuilder.collection json, Architect, :architects_id, architects
 
 end
