@@ -17,16 +17,21 @@ class Buildings::MainController < ApplicationController
 
   def autocomplete
     @buildings = Building.ransack(street_address_cont: params[:term]).result.limit(5).by_street_address
-    render json: @buildings.map { |building| { id: building.id,
-                                               name: building.name,
-                                               address: building.full_street_address,
-                                               lat: building.lat,
-                                               lon: building.lon } }
+    render json: @buildings.map { |building|
+      {
+        id: building.id,
+        name: building.name,
+        address: building.full_street_address,
+        lat: building.lat,
+        lon: building.lon
+      }
+    }
   end
 
   def new
     authorize! :create, Building
     @building = Building.new
+    @building.ensure_primary_address
   end
 
   def create
@@ -38,6 +43,7 @@ class Buildings::MainController < ApplicationController
       redirect_to @building
     else
       flash[:errors] = 'Building not saved.'
+      @building.ensure_primary_address
       render action: :new
     end
   end

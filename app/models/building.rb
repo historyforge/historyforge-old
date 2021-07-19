@@ -8,7 +8,7 @@ class Building < ApplicationRecord
   define_enumeration :address_street_suffix, %w{St Rd Ave Blvd Pl Terr Ct Pk Tr Dr Hill Ln Way}.sort
 
   has_many :addresses, dependent: :destroy, autosave: true
-  accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :addresses, allow_destroy: true, reject_if: proc { |p| p['name'].blank? }
 
   has_and_belongs_to_many :architects
   has_and_belongs_to_many :building_types, join_table: :buildings_building_types
@@ -151,9 +151,9 @@ class Building < ApplicationRecord
   end
 
   def ensure_primary_address
-    addresses.build(is_primary: true) if new_record?
+    addresses.build(is_primary: true) if new_record? && addresses.blank?
   end
-  after_initialize :ensure_primary_address
+  # after_initialize :ensure_primary_address
 
   def name_the_house
     return if name.present?
