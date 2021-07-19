@@ -120,6 +120,7 @@ class CensusFormFields
       AttributeBuilder.text   json, :family_id, klass: klass
 
       AttributeBuilder.boolean json, :foreign_born, klass: klass
+      AttributeBuilder.text json, :notes, klass: klass
     end
 
     attr_accessor :json, :card, :klass
