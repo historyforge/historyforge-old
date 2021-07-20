@@ -41,14 +41,19 @@ gem 'slim'
 gem 'webpacker'
 
 group :development do
-  # gem 'better_errors'
-  # gem 'binding_of_caller'
   gem "byebug"
   gem "letter_opener"
   gem "letter_opener_web"
   gem "pry"
-  # gem "rubocop", require: false
   gem "rubocop-rails"
   gem "spring"
   gem "web-console" #, "~> 2.0"
+end
+
+group :development, :test do
+  gem 'capybara'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'rspec-rails'
+  gem 'webdrivers'
 end

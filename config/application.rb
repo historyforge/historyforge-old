@@ -53,5 +53,7 @@ module HistoryForge
 
     config.active_storage.variant_processor = :vips
     config.active_storage.service = :local
+
+    config.generators.test_framework :rspec
   end
 end
