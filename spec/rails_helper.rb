@@ -30,8 +30,11 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+
+  DatabaseCleaner[:active_record].strategy = :transaction
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false

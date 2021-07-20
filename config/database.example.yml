@@ -21,6 +21,7 @@ development:
 test:
   <<: *default
   database: historyforge_test
+  min_messages: WARNING
 
 production:
     <% if ENV['DEPLOYING'] %>

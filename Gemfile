@@ -53,7 +53,11 @@ end
 group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'rspec-rails'
   gem 'webdrivers'
+end
+
+group :test do
+  gem 'database_cleaner-active_record'
+  gem 'faker'
 end
