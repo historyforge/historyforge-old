@@ -39,6 +39,8 @@ module HistoryForge
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.action_mailer.default_url_options = { host: ENV['BASE_URL'] }
+
     config.quiet_assets = true
 
     config.active_storage.variant_processor = :vips

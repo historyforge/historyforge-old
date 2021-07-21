@@ -5,10 +5,7 @@ RSpec.describe '1900 US Census' do
     user = create(:census_taker)
     locality = create(:locality)
 
-    visit new_user_session_path
-    fill_in 'Email', with: user.email
-    fill_in 'Password', with: 'b1g_sekrit'
-    click_on 'Log in'
+    sign_in user
 
     visit new_census1900_record_path
     expect(page).to have_content('New 1900 Census Record')
@@ -66,6 +63,7 @@ RSpec.describe '1900 US Census' do
     record = Census1900Record.first
     expect(record.last_name).to eq('Squarepants')
     expect(record.reviewed?).to be_falsey
+    expect(record.created_by).to eq user
 
     building = Building.first
     expect(building).to_not be_nil
