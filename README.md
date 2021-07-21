@@ -1,5 +1,5 @@
-# Obsolete Repo. Please go here:
-[https://github.com/historyforge/historyforge, https://github.com/historyforge/historyforge]
+# Obsolete and unmaintained repository. Please go here:
+https://github.com/historyforge/historyforge
 
 # HistoryForge
 
