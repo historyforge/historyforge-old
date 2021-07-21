@@ -335,7 +335,6 @@ SimpleForm::Inputs::Base.class_eval do
     lookups << :"defaults.#{reflection_or_attribute_name}"
     lookups << default
 
-    puts lookups.inspect
     I18n.t(lookups.shift, scope: :"#{i18n_scope}.#{namespace}", default: lookups).presence
   end
 end

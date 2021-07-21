@@ -1,5 +1,11 @@
 window.GridDataSource = {
   getRows: (options) => {
+    if (window.initialGridState && !window.initialGridState.initialized) {
+      window.initialGridState.initialized = true;
+      const { data } = window.initialGridState;
+      options.successCallback(data, data.length);
+      return;
+    }
     const params = {
       from: options.startRow,
       to: options.endRow,

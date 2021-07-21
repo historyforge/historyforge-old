@@ -38,18 +38,8 @@ module HistoryForge
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    config.filter_parameters += [:password, :password_confirmation]
 
     config.quiet_assets = true
-    config.logger = Logger.new(STDOUT)
-
-    config.action_mailer.default_url_options = { host: ENV['BASE_URL'] }
-    config.action_mailer.smtp_settings = {
-        address:        ENV['SMTP_HOST'],
-        port:           ENV['SMTP_PORT'],
-        user_name:      ENV['SMTP_USERNAME'],
-        password:       ENV['SMTP_PASSWORD']
-    }
 
     config.active_storage.variant_processor = :vips
     config.active_storage.service = :local

@@ -6,7 +6,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <% if Rails.env.production? %><link rel="manifest" href="/site.webmanifest"><% end %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
     <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
@@ -57,13 +57,13 @@
   <%= yield :body_end %>
   </body>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" data-turbolinks-track="true"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" data-turbolinks-track="true"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/alertify.js/0.3.7/alertify.min.js" crossorigin="anonymous" data-turbolinks-track="true"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js" integrity="sha512-TToQDr91fBeG4RE5RjMl/tqNAo35hSRR4cbIFasiV2AAMQ6yKXXYhdSdEpUcRE6bqsTiB+FPLPls4ZAFMoK5WA==" crossorigin="anonymous" referrerpolicy="no-referrer" data-turbolinks-track="true"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" data-turbolinks-track="true"></script>
-  <script src="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" type="text/javascript" crossorigin="anonymous" data-turbolinks-track="true"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js" type="text/javascript" crossorigin="anonymous" data-turbolinks-track="true"></script>
-  <script src="//unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js" crossorigin="anonymous" data-turbolinks-track="true"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.js" integrity="sha512-TToQDr91fBeG4RE5RjMl/tqNAo35hSRR4cbIFasiV2AAMQ6yKXXYhdSdEpUcRE6bqsTiB+FPLPls4ZAFMoK5WA==" crossorigin="anonymous" referrerpolicy="no-referrer" data-turbolinks-track="true"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" data-turbolinks-track="true"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" type="text/javascript" crossorigin="anonymous" data-turbolinks-track="true"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js" type="text/javascript" crossorigin="anonymous" data-turbolinks-track="true"></script>
+  <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js" crossorigin="anonymous" data-turbolinks-track="true"></script>
   <%= javascript_pack_tag 'application' %>
   <% if can?(:update, Cms::Page) %>
   <%= javascript_pack_tag 'cms' %>

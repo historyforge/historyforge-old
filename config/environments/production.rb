@@ -57,12 +57,15 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  logger           = ActiveSupport::Logger.new(STDOUT)
-  logger.formatter = config.log_formatter
-  config.logger = ActiveSupport::TaggedLogging.new(logger)
+  # logger           = ActiveSupport::Logger.new(STDOUT)
+  # logger.formatter = config.log_formatter
+  # config.logger = ActiveSupport::TaggedLogging.new(logger)
+  config.logger = Logger.new(STDOUT)
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.filter_parameters += %i[password password_confirmation]
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { host: ENV['BASE_URL'] }

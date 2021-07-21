@@ -23,8 +23,7 @@ RSpec.describe 'Checking for life support' do
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'b1g_sekrit'
     click_on 'Log in'
-    visit root_path
-    expect(page).not_to have_content('Log in')
+    expect(page).to have_no_content('Log in')
     expect(page).to have_content(user.login)
   end
 end

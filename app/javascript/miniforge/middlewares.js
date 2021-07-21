@@ -1,8 +1,11 @@
 import axios from 'axios'
 
-let token = document.getElementsByName('csrf-token')[0].getAttribute('content')
-axios.defaults.headers.common['X-CSRF-Token'] = token
-axios.defaults.headers.common['Accept'] = 'application/json'
+const csrfMetaTag = document.getElementsByName('csrf-token')[0]
+const token = csrfMetaTag ? csrfMetaTag.getAttribute('content') : null
+if (token) {
+    axios.defaults.headers.common['X-CSRF-Token'] = token
+    axios.defaults.headers.common['Accept'] = 'application/json'
+}
 
 export const forgeMiddleware = store => next => (incomingAction) => {
     if (incomingAction.type === 'BUILDING_MOVE') {

@@ -11,16 +11,19 @@ import { Provider } from 'react-redux'
 import { layers, buildings, buildingTypes, search } from "./reducers"
 import { forgeMiddleware } from "./middlewares";
 
-const loggerMiddleware = createLogger({collapsed: true})
-const reducers = combineReducers({ layers, buildings, buildingTypes, search })
-const store = createStore(reducers, window.initialState, applyMiddleware(loggerMiddleware, forgeMiddleware))
+const buildStore = () => {
+    const loggerMiddleware = createLogger({collapsed: true})
+    const reducers = combineReducers({ layers, buildings, buildingTypes, search })
+    return createStore(reducers, window.initialState, applyMiddleware(loggerMiddleware, forgeMiddleware))
+}
 
 export default class App extends React.PureComponent {
     mapRef = React.createRef()
+    store = buildStore()
     render() {
         return (
             <ErrorBoundary>
-                <Provider store={store}>
+                <Provider store={this.store}>
                     <div className={'map-wrap'}>
                         <Map />
                         <div id={'forge-right-col'}>
