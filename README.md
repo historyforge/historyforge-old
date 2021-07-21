@@ -1,3 +1,6 @@
+# Obsolete Repo. Please go here:
+[https://github.com/historyforge/historyforge, https://github.com/historyforge/historyforge]
+
 # HistoryForge
 
 This is HistoryForge. It is a basic Rails application.
